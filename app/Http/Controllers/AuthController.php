@@ -39,9 +39,11 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
+
         if ($token = $this->guard()->attemp($credentials)) {
             return response()->json(['status' => 'success'], 200);
         }
+        dd('hello');
         return response()->json(['error' => 'login_error'], 401);
     }
 
