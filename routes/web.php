@@ -12,5 +12,13 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('role.index');
+});
+
+Route::get('/stores', function () {
+    return view('store.index');
+});
+
+Route::get('/users', function () {
+    return view('user.index');
 });
