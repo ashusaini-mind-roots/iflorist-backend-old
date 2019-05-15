@@ -1,7 +1,7 @@
 app.controller('usersController', function($scope,API_URL,$resource,$http) {
 
     console.log('users.js load success');
-
+//comment
     $scope.users = {};
 
     $scope.stores = {};
