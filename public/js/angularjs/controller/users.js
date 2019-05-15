@@ -1,7 +1,7 @@
 app.controller('usersController', function($scope,API_URL,$resource,$http) {
 
     console.log('users.js load success');
-//comment
+
     $scope.users = {};
 
     $scope.stores = {};
@@ -30,6 +30,8 @@ app.controller('usersController', function($scope,API_URL,$resource,$http) {
             console.log($scope.roles);
         }
     );
+
+
 
     $scope.confirmDelete = function(id) {
         var isConfirmDelete = confirm('Are you sure you want this record?');

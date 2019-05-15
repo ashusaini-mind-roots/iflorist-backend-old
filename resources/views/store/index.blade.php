@@ -18,7 +18,7 @@
                                 <th>Contact Phone</th>
                                 <th>Zip Code</th>
                                 <th>Address</th>
-                                <th ng-show="rsRole == 'Admin'">Actions</th>
+                                <th ng-show="rsRole=='Admin' || rsRole=='Manager'">Actions</th>
                             </tr>
                             </thead>
                             <tbody ng-cloak>
@@ -29,7 +29,7 @@
                                 <td>@{{ store.contact_phone }}</td>
                                 <td>@{{ store.zip_code }}</td>
                                 <td>@{{ store.address }}</td>
-                                <td ng-show="rsRole == 'Admin'">
+                                <td ng-show="rsRole=='Admin' || rsRole=='Manager'">
                                     <button class="btn btn-default btn-xs btn-detail" ng-click="toggle('edit', store.id)">Editar</button>
                                     <button class="btn btn-danger btn-xs btn-delete" ng-click="confirmDelete(store.id)">Eliminar</button>
                                 </td>

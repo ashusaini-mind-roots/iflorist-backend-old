@@ -26,6 +26,11 @@ class StoresController extends Controller
         }
     }
 
+    public function all()
+    {
+        return response()->json(['stores' => Store::all()], 200);
+    }
+
     public function getById($id)
     {
         return response()->json(['store' => Store::find($id)], 200);
