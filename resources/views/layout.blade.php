@@ -43,7 +43,7 @@
             <div class="left_col scroll-view">
                 <div class="navbar nav_title" style="border: 0;">
                     <a href="#"></a>
-                    @{{rsRole}}
+                    {{--@{{rsRole}}--}}
                 </div>
 
                 <div class="clearfix"></div>
