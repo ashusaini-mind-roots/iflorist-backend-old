@@ -9,8 +9,8 @@ app.controller('storesController', function($scope,API_URL,$resource,$http,$loca
     if($localStorage.currentUser) {console.log({user_id: $localStorage.currentUser.user.id, rol_name: $localStorage.currentUser.user.role_name});
         $http({
             method: 'GET',
-            url: API_URL + 'store/all/',
-            params: {user_id: $localStorage.currentUser.user.id, rol_name: $localStorage.currentUser.user.role_name},
+            url: API_URL + 'store/all/' + $localStorage.currentUser.user.id + '/' + $localStorage.currentUser.user.role_name ,
+           // params: {user_id: $localStorage.currentUser.user.id, rol_name: $localStorage.currentUser.user.role_name},
         }).then(
             function successCallback(response) {
                 $scope.stores = response.data.stores;
@@ -18,9 +18,9 @@ app.controller('storesController', function($scope,API_URL,$resource,$http,$loca
             }
         );
     }
-    console.log("pepe");
+
     $scope.confirmDelete = function(id) {
-        var isConfirmDelete = confirm('Are you sure you want this record?');
+        var isConfirmDelete = confirm('Are you sure you want to delete this record?');
         console.log(id);
         if (isConfirmDelete) {
             $http({
@@ -37,7 +37,7 @@ app.controller('storesController', function($scope,API_URL,$resource,$http,$loca
 
             }
             , function errorCallback(response){
-                alert('This is embarassing. An error has occured. Please check the log for details');
+                alert('This is embarassing. An error has occured.');
 
             }
             );
@@ -70,8 +70,7 @@ app.controller('storesController', function($scope,API_URL,$resource,$http,$loca
                         //location.reload();
                     }, function errorCallback(response){
                         $('#storeModal').modal('hide');
-                        alert('This is embarassing. An error has occured. Please check the log for details');
-
+                        alert('This is embarassing. An error has occured.');
                     }
 
                 );
@@ -120,7 +119,7 @@ app.controller('storesController', function($scope,API_URL,$resource,$http,$loca
             );
         }, function errorCallback(response){
             $('#storeModal').modal('hide');
-            alert('This is embarassing. An error has occured. Please check the log for details');
+            alert('This is embarassing. An error has occured.');
 
             }
 
