@@ -43,7 +43,6 @@
             <div class="left_col scroll-view">
                 <div class="navbar nav_title" style="border: 0;">
                     <a href="#"></a>
-                    @{{rsRole}}
                 </div>
 
                 <div class="clearfix"></div>
@@ -67,7 +66,7 @@
                     <div class="menu_section">
                         <h3>Options</h3>
                         <ul class="nav side-menu">
-                            <li class="active"><a><i class="fa fa-table"></i> Admin Roles <span class="fa fa-chevron-down"></span></a>
+                            <li ng-show="rsRole=='Admin'" class="active"><a><i class="fa fa-table"></i> Admin Roles <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu" style="display: block">
                                     <li class="current-page"><a href="{{url('/')}}">All Roles</a></li>
                                     <!--<li><a href="index2.html">Dashboard2</a></li>
@@ -82,7 +81,7 @@
                                     <li><a href="index3.html">Dashboard3</a></li>-->
                                 </ul>
                             </li>
-                            <li class="active"><a><i class="fa fa-table"></i> Admin Users <span class="fa fa-chevron-down"></span></a>
+                            <li ng-show="rsRole=='Admin'" class="active"><a><i class="fa fa-table"></i> Admin Users <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu" style="display: block">
                                     <li class="current-page"><a href="{{url('/users')}}">All Users</a></li>
                                     <!--<li><a href="index2.html">Dashboard2</a></li>
