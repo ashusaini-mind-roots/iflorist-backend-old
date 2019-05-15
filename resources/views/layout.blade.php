@@ -43,6 +43,7 @@
             <div class="left_col scroll-view">
                 <div class="navbar nav_title" style="border: 0;">
                     <a href="#"></a>
+                    @{{rsRole}}
                 </div>
 
                 <div class="clearfix"></div>
@@ -73,6 +74,7 @@
                                     <li><a href="index3.html">Dashboard3</a></li>-->
                                 </ul>
                             </li>
+
                             <li class="active"><a><i class="fa fa-table"></i> Admin Stores <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu" style="display: block">
                                     <li class="current-page"><a href="{{url('/stores')}}">All Stores</a></li>
@@ -207,19 +209,19 @@
                     </div>
 
                     <ul class="nav navbar-nav navbar-right">
-                        <!--<li class="">
+                    <!--<li class="">
                             <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                                 <strong>
                                     @if(Session::has('empresa'))
-                                        {{ Session::get('empresa')  }}
-                                    @else
-                                        Usuario desconocido
-                                    @endif
-                                </strong>
-                                <span class=" fa fa-angle-down"></span>
-                            </a>
-                            <ul class="dropdown-menu dropdown-usermenu pull-right">
-                                <li><a href="{!! url('/logout'); !!}"><i class="fa fa-sign-out pull-right"></i> Salir</a></li>
+                        {{ Session::get('empresa')  }}
+                    @else
+                        Usuario desconocido
+                    @endif
+                            </strong>
+                            <span class=" fa fa-angle-down"></span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-usermenu pull-right">
+                            <li><a href="{!! url('/logout'); !!}"><i class="fa fa-sign-out pull-right"></i> Salir</a></li>
                             </ul>
                         </li>-->
 
@@ -365,6 +367,7 @@
 <script src="{{asset('gentella/build/js/custom.min.js')}}"></script>
 <script src="{{asset('js/angularjs/angular.min.js')}}"></script>
 <script src="{{asset('js/angularjs/angular-resource.min.js')}}"></script>
+<script src="{{asset('js/angularjs/ngStorage.min.js')}}"></script>
 <script src="{{asset('js/angularjs/app.js')}}"></script>
 
 @yield('js')

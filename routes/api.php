@@ -27,6 +27,8 @@ Route::prefix('auth')->group(function () {
     Route::group(['middleware' => 'auth:api'], function () {
         /*Route::get('user', 'AuthController@user');*/
         Route::get('logout', 'AuthController@logout');
+        Route::get('me', 'AuthController@me');
+        Route::post('user_rol', 'AuthController@user_rol');
     });
 });
 
@@ -39,7 +41,7 @@ Route::prefix('role')->group(function () {
 });
 
 Route::prefix('store')->group(function () {
-    Route::get('all', 'StoresController@index');
+    Route::get('all/{user_id}/{rol_name}', 'StoresController@index');
     Route::post('create', 'StoresController@create');
     Route::get('getById/{id}', 'StoresController@getById');
     Route::delete('delete/{id}', 'StoresController@delete');

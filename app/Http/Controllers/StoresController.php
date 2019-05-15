@@ -3,14 +3,27 @@
 namespace App\Http\Controllers;
 
 use App\Store;
+use App\Role;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 class StoresController extends Controller
 {
-    public function index()
+    public function index($user_id,$role_name)
     {
-        return response()->json(['stores' => Store::all()], 200);
+        if($role_name=="Admin")
+            return response()->json(['stores' => Store::all()], 200);
+        else
+        {
+            $stores = DB::table('users')
+                ->leftjoin('stores','users.store_id','=','stores.id')
+                ->select('stores.*')
+                ->where('users.id',$user_id)
+                ->get();
+            return response()->json(['stores' => $stores], 200);
+        }
     }
 
     public function getById($id)

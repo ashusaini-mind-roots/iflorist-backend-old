@@ -1,4 +1,4 @@
-app.controller('storesController', function($scope,API_URL,$resource,$http) {
+app.controller('storesController', function($scope,API_URL,$resource,$http,$localStorage) {
 
     console.log('stores.js load success');
 
@@ -6,13 +6,19 @@ app.controller('storesController', function($scope,API_URL,$resource,$http) {
 
     $scope.store = {};
 
-    $http.get(API_URL+'store/all').then(
-        function successCallback(response) {
-            $scope.stores = response.data.stores;
-            console.log($scope.stores);
-        }
-    );
-
+    if($localStorage.currentUser) {console.log({user_id: $localStorage.currentUser.user.id, rol_name: $localStorage.currentUser.user.role_name});
+        $http({
+            method: 'GET',
+            url: API_URL + 'store/all/',
+            params: {user_id: $localStorage.currentUser.user.id, rol_name: $localStorage.currentUser.user.role_name},
+        }).then(
+            function successCallback(response) {
+                $scope.stores = response.data.stores;
+                console.log($scope.stores);
+            }
+        );
+    }
+    console.log("pepe");
     $scope.confirmDelete = function(id) {
         var isConfirmDelete = confirm('Are you sure you want this record?');
         console.log(id);

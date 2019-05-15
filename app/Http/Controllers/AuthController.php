@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use App\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+
+
 
 class AuthController extends Controller
 {
@@ -54,15 +57,57 @@ class AuthController extends Controller
         return response()->json(['status' => 'success'], 200);
     }
 
-    public function login(Request $request)
+    /*public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
 
+        //if ($token = $this->guard()->attemp($credentials)) {
         if ($token = $this->guard()->check($credentials)) {
             return response()->json(['status' => 'success'], 200);
         }
         //dd('hello');
         return response()->json(['error' => 'login_error'], 401);
+    }*/
+
+    public function login()
+    {
+        $credentials = request(['email', 'password']);
+        if(!$token = auth()->attempt($credentials))
+        {
+            return response()->json(['error'=>'Unauthorized'],401);
+
+        }
+
+        //return $this->respondWithToken($token);
+        return $this->resposeWithToken($token);
+    }
+
+    public function me()
+    {
+        $users = DB::table('users')
+            ->leftjoin('roles','users.role_id','=','roles.id')
+            ->select('users.*','roles.name as role_name')
+            ->where('users.id',auth()->user()->id)
+            ->first();
+
+        return response()->json($users);
+    }
+
+    public function user_rol()
+    {
+        $rol_id = auth()->user()->role_id;
+        return response()->json(['role' => Role::findOrFail($rol_id)],200);
+    }
+
+    protected function resposeWithToken($token)
+    {
+        return response()->json([
+            'access_token' => $token,
+            'token_type' => 'bearer',
+            'expires_in' => auth()->factory()->getTTL() * 60,
+            'user' => auth()->user(),
+
+        ]);
     }
 
     public function logout()

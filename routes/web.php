@@ -11,8 +11,13 @@
 |
 */
 
+
 Route::get('/', function () {
     return view('role.index');
+});
+
+Route::get('/welcome', function () {
+    return view('index');
 });
 
 Route::get('/stores', function () {
@@ -22,3 +27,9 @@ Route::get('/stores', function () {
 Route::get('/users', function () {
     return view('user.index');
 });
+
+/*Route::get('/', function () {
+    return view('login');
+});*/
+
+
