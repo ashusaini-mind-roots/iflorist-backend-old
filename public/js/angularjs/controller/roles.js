@@ -1,6 +1,6 @@
 app.controller('rolesController', function($scope,API_URL,$resource,$http) {
 
-    console.log('roles.js load success');
+    console.log('roles.js load successssss');
 
     $scope.roles = {};
 
