@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
 
-    <title>Tienda!</title>
+    <title>Cost of Good</title>
 
     <!-- Bootstrap -->
     <link href="{{asset('gentella/vendors/bootstrap/dist/css/bootstrap.min.css')}}" rel="stylesheet">
@@ -97,20 +97,20 @@
                 <!-- /sidebar menu -->
 
                 <!-- /menu footer buttons -->
-                <!--<div class="sidebar-footer hidden-small">
-                  <a data-toggle="tooltip" data-placement="top" title="Settings">
-                    <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                <div ng-controller="logoutController" class="sidebar-footer hidden-small">
+                  {{--<a data-toggle="tooltip" data-placement="top" title="Settings">--}}
+                    {{--<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>--}}
+                  {{--</a>--}}
+                  {{--<a data-toggle="tooltip" data-placement="top" title="FullScreen">--}}
+                    {{--<span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>--}}
+                  {{--</a>--}}
+                  {{--<a data-toggle="tooltip" data-placement="top" title="Lock">--}}
+                    {{--<span class="glyphicon glyphicon-eye-close" aria-hidden="true">Admin</span>--}}
+                  {{--</a>--}}
+                  <a data-toggle="tooltip" data-placement="top" title="Logout" ng-click="logout()">
+                    <span class="glyphicon glyphicon-off" aria-hidden="true" ></span>
                   </a>
-                  <a data-toggle="tooltip" data-placement="top" title="FullScreen">
-                    <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
-                  </a>
-                  <a data-toggle="tooltip" data-placement="top" title="Lock">
-                    <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
-                  </a>
-                  <a data-toggle="tooltip" data-placement="top" title="Logout" href="login.html">
-                    <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
-                  </a>
-                </div>-->
+                </div>
                 <!-- /menu footer buttons -->
             </div>
         </div>
@@ -284,6 +284,8 @@
 <script src="{{asset('js/angularjs/angular-resource.min.js')}}"></script>
 <script src="{{asset('js/angularjs/ngStorage.min.js')}}"></script>
 <script src="{{asset('js/angularjs/app.js')}}"></script>
+<script src="{{asset('js/angularjs/services/authentication.service.js')}}"></script>
+<script src="{{asset('js/angularjs/controller/logout.js')}}"></script>
 
 @yield('js')
 

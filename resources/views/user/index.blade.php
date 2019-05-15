@@ -27,8 +27,8 @@
                                 <td ng-if="user.role_id == 1">All Store</td>
                                 <td ng-if="user.role_id != 1">@{{ user.store_name }}</td>
                                 <td ng-show="rsRole == 'Admin'">
-                                    <button class="btn btn-default btn-xs btn-detail" ng-click="toggle('edit', user.id)">Editar</button>
-                                    <button class="btn btn-danger btn-xs btn-delete" ng-click="confirmDelete(user.id)">Eliminar</button>
+                                    <button class="btn btn-default btn-xs btn-detail" ng-click="toggle('edit', user.id)">Edit</button>
+                                    <button class="btn btn-danger btn-xs btn-delete" ng-click="confirmDelete(user.id)">Delete</button>
                                 </td>
                             </tr>
                             </tbody>

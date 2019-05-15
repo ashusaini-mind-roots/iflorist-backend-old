@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
 
-    <title>Tienda!</title>
+    <title>Cost of Good</title>
 
     <!-- Bootstrap -->
     <link href="{{asset('gentella/vendors/bootstrap/dist/css/bootstrap.min.css')}}" rel="stylesheet">
@@ -92,8 +92,8 @@
         }
         .profile-img
         {
-            width: 96px;
-            height: 96px;
+            /*width: 96px;*/
+            /*height: 96px;*/
             margin: 0 auto 10px;
             display: block;
             -moz-border-radius: 50%;

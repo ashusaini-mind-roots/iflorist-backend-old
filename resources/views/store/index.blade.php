@@ -30,8 +30,8 @@
                                 <td>@{{ store.zip_code }}</td>
                                 <td>@{{ store.address }}</td>
                                 <td ng-show="rsRole=='Admin' || rsRole=='Manager'">
-                                    <button class="btn btn-default btn-xs btn-detail" ng-click="toggle('edit', store.id)">Editar</button>
-                                    <button class="btn btn-danger btn-xs btn-delete" ng-click="confirmDelete(store.id)">Eliminar</button>
+                                    <button class="btn btn-default btn-xs btn-detail" ng-click="toggle('edit', store.id)">Edit</button>
+                                    <button ng-show="rsRole == 'Admin'" class="btn btn-danger btn-xs btn-delete" ng-click="confirmDelete(store.id)">Delete</button>
                                 </td>
                             </tr>
                             </tbody>

@@ -12,11 +12,11 @@
 */
 
 
-Route::get('/', function () {
+Route::get('/role', function () {
     return view('role.index');
 });
 
-Route::get('/welcome', function () {
+Route::get('/', function () {
     return view('index');
 });
 
