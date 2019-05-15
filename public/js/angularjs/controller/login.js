@@ -14,7 +14,7 @@ app.controller('loginController', function($scope,$location, AuthenticationServi
         AuthenticationService.Login($scope.username, $scope.password, function (result) {
             if (result == true) {
                 console.log("authenticated ok");
-                $scope.error = "login ok";
+                //$scope.error = "login ok";
                 $window.location.href = "/stores";
             } else {
                 $scope.error = 'Username or password is incorrect';
