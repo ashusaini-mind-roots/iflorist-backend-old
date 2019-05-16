@@ -58,7 +58,6 @@ function Service($http, $localStorage, API_URL) {
 
     function Logout(callback) {
         // remove user from local storage and clear http auth header
-        $http.defaults.headers.common.Authorization = 'Bearer ' + $localStorage.currentUser.token;
         $http({
             method: 'POST',
             url: API_URL + 'auth/logout',
