@@ -5,7 +5,7 @@ app.controller('loginController', function($scope,$location, AuthenticationServi
     $scope.initController = function(){
 
     // reset login status
-        AuthenticationService.Logout();
+        //AuthenticationService.Logout();
         // console.log("initController")
     };
 

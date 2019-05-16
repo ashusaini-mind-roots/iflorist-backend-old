@@ -56,9 +56,22 @@ function Service($http, $localStorage, API_URL) {
         //     });
     }
 
-    function Logout() {
+    function Logout(callback) {
         // remove user from local storage and clear http auth header
-        delete $localStorage.currentUser;
-        $http.defaults.headers.common.Authorization = '';
+        $http.defaults.headers.common.Authorization = 'Bearer ' + $localStorage.currentUser.token;
+        $http({
+            method: 'POST',
+            url: API_URL + 'auth/logout',
+        }).
+        then(function successCallback(response) {
+                // add jwt token to auth header for all requests made by the $http service
+                delete $localStorage.currentUser;
+                $http.defaults.headers.common.Authorization = '';
+                callback(true);
+
+            }, function errorCallback(response){
+                callback(false);
+            }
+        );
     }
 }

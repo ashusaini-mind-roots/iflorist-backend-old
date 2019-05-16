@@ -3,7 +3,15 @@ app.controller('logoutController', function($scope,$location, AuthenticationServ
     console.log('logout.js load success');
 
     $scope.logout = function () {
-        AuthenticationService.Logout();
-        $window.location.href = "/";
+        AuthenticationService.Logout(function (result) {
+            if (result == true) {
+                $window.location.href = "/";
+            } else {
+                //$scope.error = 'Error al cerrar la sesión';
+                console.log('Error al cerrar la sesión');
+                //$scope.loading = false;
+            }
+        });
+
     }
 });
