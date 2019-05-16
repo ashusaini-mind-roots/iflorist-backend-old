@@ -12,7 +12,7 @@
                         <table id="datatablePedidos" class="table table-striped table-bordered">
                             <thead>
                             <tr>
-                                <th><button id="btn-add" class="btn btn-primary btn-xs" ng-click="toggle('add', 0)">New Store</button></th>
+                                <th><button ng-show="rsRole == 'Admin'" id="btn-add" class="btn btn-primary btn-xs" ng-click="toggle('add', 0)">New Store</button></th>
                                 <th>Store Name</th>
                                 <th>Contact Email</th>
                                 <th>Contact Phone</th>
@@ -30,8 +30,8 @@
                                 <td>@{{ store.zip_code }}</td>
                                 <td>@{{ store.address }}</td>
                                 <td ng-show="rsRole=='Admin' || rsRole=='Manager'">
-                                    <button class="btn btn-default btn-xs btn-detail" ng-click="toggle('edit', store.id)">Editar</button>
-                                    <button class="btn btn-danger btn-xs btn-delete" ng-click="confirmDelete(store.id)">Eliminar</button>
+                                    <button class="btn btn-default btn-xs btn-detail" ng-click="toggle('edit', store.id)">Edit</button>
+                                    <button ng-show="rsRole == 'Admin'" class="btn btn-danger btn-xs btn-delete" ng-click="confirmDelete(store.id)">Delete</button>
                                 </td>
                             </tr>
                             </tbody>

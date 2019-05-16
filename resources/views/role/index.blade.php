@@ -24,8 +24,8 @@
                                 <td>@{{ role.name }}</td>
                                 <td>@{{ role.description }}</td>
                                 <td>
-                                    <button class="btn btn-default btn-xs btn-detail" ng-click="toggle('edit', role.id)">Editar</button>
-                                    <button class="btn btn-danger btn-xs btn-delete" ng-click="confirmDelete(role.id)">Eliminar</button>
+                                    <button class="btn btn-default btn-xs btn-detail" ng-click="toggle('edit', role.id)">Edit</button>
+                                    <button class="btn btn-danger btn-xs btn-delete" ng-click="confirmDelete(role.id)">Delete</button>
                                 </td>
                             </tr>
                             </tbody>

@@ -6,13 +6,11 @@ app.controller('storesController', function($scope,API_URL,$resource,$http,$loca
 
     $scope.store = {};
 
-    if($localStorage.currentUser) {console.log({user_id: $localStorage.currentUser.user.id, rol_name: $localStorage.currentUser.user.role_name});
-        var user_id = $localStorage.currentUser.user.id;
-        var rol_name = $localStorage.currentUser.user.role_name;
+    if($localStorage.currentUser) {
         $http({
             method: 'GET',
-            url: API_URL + 'store/all/'+user_id+'/'+rol_name,
-            params: {user_id: $localStorage.currentUser.user.id, rol_name: $localStorage.currentUser.user.role_name},
+            url: API_URL + 'store/all/' + $localStorage.currentUser.user.id + '/' + $localStorage.currentUser.user.role_name ,
+           // params: {user_id: $localStorage.currentUser.user.id, rol_name: $localStorage.currentUser.user.role_name},
         }).then(
             function successCallback(response) {
                 $scope.stores = response.data.stores;

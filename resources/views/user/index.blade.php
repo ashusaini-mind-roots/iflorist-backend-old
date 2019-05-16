@@ -12,11 +12,11 @@
                         <table id="datatablePedidos" class="table table-striped table-bordered">
                             <thead>
                             <tr>
-                                <th><button id="btn-add" class="btn btn-primary btn-xs" ng-click="toggle('add', 0)">New User</button></th>
+                                <th ><button ng-show="rsRole == 'Admin'" id="btn-add" class="btn btn-primary btn-xs" ng-click="toggle('add', 0)">New User</button></th>
                                 <th>User Name</th>
                                 <th>Role</th>
                                 <th>Store</th>
-                                <th>Actions</th>
+                                <th ng-show="rsRole == 'Admin'">Actions</th>
                             </tr>
                             </thead>
                             <tbody ng-cloak>
@@ -26,9 +26,9 @@
                                 <td>@{{ user.role_name }}</td>
                                 <td ng-if="user.role_id == 1">All Store</td>
                                 <td ng-if="user.role_id != 1">@{{ user.store_name }}</td>
-                                <td>
-                                    <button class="btn btn-default btn-xs btn-detail" ng-click="toggle('edit', user.id)">Editar</button>
-                                    <button class="btn btn-danger btn-xs btn-delete" ng-click="confirmDelete(user.id)">Eliminar</button>
+                                <td ng-show="rsRole == 'Admin'">
+                                    <button class="btn btn-default btn-xs btn-detail" ng-click="toggle('edit', user.id)">Edit</button>
+                                    <button class="btn btn-danger btn-xs btn-delete" ng-click="confirmDelete(user.id)">Delete</button>
                                 </td>
                             </tr>
                             </tbody>
