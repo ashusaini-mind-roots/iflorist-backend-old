@@ -14,8 +14,7 @@ class CreateDatesDimTable extends Migration
     public function up()
     {
         Schema::create('dates_dim', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->date('date');
+            $table->date('date')->primary();
             $table->bigInteger('timestamp');
             $table->char('weekend',10);
             $table->char('day_of_week',10);

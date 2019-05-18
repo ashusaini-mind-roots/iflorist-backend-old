@@ -15,9 +15,12 @@ class CreateStoreWeekTable extends Migration
     {
         Schema::create('store_week', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('store_id')->unsigned();
-            $table->integer('week_id')->unsigned();
+            $table->bigInteger('store_id')->unsigned();
+            $table->bigInteger('week_id')->unsigned();
             $table->timestamps();
+
+            $table->foreign('store_id')->references('id')->on('stores');
+            $table->foreign('week_id')->references('id')->on('weeks');
         });
     }
 

@@ -15,9 +15,11 @@ class CreateNotesTable extends Migration
     {
         Schema::create('notes', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('store_week_id')->unsigned();
+            $table->bigInteger('store_week_id')->unsigned();;
             $table->text('text');
             $table->timestamps();
+
+            $table->foreign('store_week_id')->references('id')->on('store_week');
         });
     }
 

@@ -15,9 +15,11 @@ class CreateWeeklyProjectionPercentTable extends Migration
     {
         Schema::create('weekly_projection_percent', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('store_week_id')->unsigned();
+            $table->bigInteger('store_week_id')->unsigned();;
             $table->decimal('target_cog',3,1);
             $table->timestamps();
+
+            $table->foreign('store_week_id')->references('id')->on('store_week');
         });
     }
 
