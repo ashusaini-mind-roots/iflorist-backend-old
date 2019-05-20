@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateStoreWeekTable extends Migration
+class CreateNotesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,13 @@ class CreateStoreWeekTable extends Migration
      */
     public function up()
     {
-        Schema::create('store_week', function (Blueprint $table) {
+        Schema::create('notes', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('store_id')->unsigned();
-            $table->integer('week_id')->unsigned();
+            $table->bigInteger('store_week_id')->unsigned();;
+            $table->text('text');
             $table->timestamps();
+
+            $table->foreign('store_week_id')->references('id')->on('store_week');
         });
     }
 
@@ -28,6 +30,6 @@ class CreateStoreWeekTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('store_week');
+        Schema::dropIfExists('notes');
     }
 }

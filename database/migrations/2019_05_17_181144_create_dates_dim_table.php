@@ -14,15 +14,14 @@ class CreateDatesDimTable extends Migration
     public function up()
     {
         Schema::create('dates_dim', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->date('date');
-            $table->bigInteger('timestamp')->default(0);
-            $table->char('weekend',10)->default(0);
-            $table->char('day_of_week',10)->default(0);
-            $table->char('month',10)->default(0);
-            $table->integer('month_day')->default(0);
-            $table->year('year')->default(0);
-            $table->char('week_starting_monday',2)->default(0);
+            $table->date('date')->primary();
+            $table->bigInteger('timestamp');
+            $table->char('weekend',10);
+            $table->char('day_of_week',10);
+            $table->char('month',10);
+            $table->integer('month_day');
+            $table->year('year');
+            $table->char('week_starting_monday',2);
             $table->timestamps();
         });
     }

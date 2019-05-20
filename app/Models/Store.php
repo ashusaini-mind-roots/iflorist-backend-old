@@ -13,4 +13,9 @@ class Store extends Model
         'contact_email',
         'address',
     ];
+
+    public function weeks()
+    {
+        return $this->belongsToMany('App\Week');
+    }
 }

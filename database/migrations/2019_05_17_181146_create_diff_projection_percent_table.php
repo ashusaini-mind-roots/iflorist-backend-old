@@ -15,12 +15,14 @@ class CreateDiffProjectionPercentTable extends Migration
     {
         Schema::create('dates_dimdiff_projection_percent', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('store_week_id')->unsigned();
+            $table->bigInteger('store_week_id')->unsigned();;
             $table->year('year_proyection');
             $table->year('year_reference');
             $table->decimal('percent',10,2);
             
             $table->timestamps();
+
+            $table->foreign('store_week_id')->references('id')->on('store_week');
         });
     }
 

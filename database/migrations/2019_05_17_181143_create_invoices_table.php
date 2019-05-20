@@ -15,11 +15,13 @@ class CreateInvoicesTable extends Migration
     {
         Schema::create('invoices', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('store_week_id')->unsigned();
+            $table->bigInteger('store_week_id')->unsigned();;
             $table->char('invoice_number',45);
             $table->char('invoice_name',145);
             $table->date('invoice_date');
             $table->timestamps();
+
+            $table->foreign('store_week_id')->references('id')->on('store_week');
         });
     }
 

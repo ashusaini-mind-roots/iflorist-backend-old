@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateDailyRevenuesTable extends Migration
+class CreateStoreWeekTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,14 @@ class CreateDailyRevenuesTable extends Migration
      */
     public function up()
     {
-        Schema::create('daily_revenues', function (Blueprint $table) {
+        Schema::create('store_week', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('store_week_id')->unsigned();
-            $table->integer('dates_dim_id')->unsigned();
-            $table->integer('user_id')->unsigned();
-            $table->decimal('amt',10,2);
-            $table->dateTime('entered_date');
+            $table->bigInteger('store_id')->unsigned();
+            $table->bigInteger('week_id')->unsigned();
             $table->timestamps();
+
+            $table->foreign('store_id')->references('id')->on('stores');
+            $table->foreign('week_id')->references('id')->on('weeks');
         });
     }
 
@@ -31,6 +31,6 @@ class CreateDailyRevenuesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('daily_revenue');
+        Schema::dropIfExists('store_week');
     }
 }
