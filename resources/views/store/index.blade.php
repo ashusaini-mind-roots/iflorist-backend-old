@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('contentlayout')
 @section('content')
     <div ng-controller="storesController" class="">
         <div class="row">

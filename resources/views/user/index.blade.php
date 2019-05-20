@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('contentlayout')
 @section('content')
     <div ng-controller="usersController" class="">
         <div class="row">
