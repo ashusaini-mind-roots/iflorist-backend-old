@@ -12,6 +12,7 @@ class DatesDimTableSeeder extends Seeder
      */
     public function run()
     {
+
         $from = '2016-01-01';
         $to = '2030-01-01';
         $sql = <<<EOT

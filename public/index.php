@@ -1,5 +1,16 @@
 <?php
 
+$from = 2016;
+$to = 2030;
+$sql = 'INSERT INTO `weeks` (`number`,`year`)values';
+for ($y = $from; $y <= $to; $y++) {
+    for ($w = 1; $w <= 52; $w++) {
+        $sql .= $y == $to && $w == 52 ? "($w,$y);" : "($w,$y),";
+    }
+}
+echo $sql;
+die();
+
 /**
  * Laravel - A PHP Framework For Web Artisans
  *
@@ -24,7 +35,7 @@ header('Access-Control-Allow-Methods: GET, PUT, DELETE, POST, OPTIONS');
 |
 */
 
-require __DIR__.'/../vendor/autoload.php';
+require __DIR__ . '/../vendor/autoload.php';
 
 /*
 |--------------------------------------------------------------------------
@@ -38,7 +49,7 @@ require __DIR__.'/../vendor/autoload.php';
 |
 */
 
-$app = require_once __DIR__.'/../bootstrap/app.php';
+$app = require_once __DIR__ . '/../bootstrap/app.php';
 
 /*
 |--------------------------------------------------------------------------
