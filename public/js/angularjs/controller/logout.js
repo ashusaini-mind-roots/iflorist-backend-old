@@ -8,7 +8,7 @@ app.controller('logoutController', function($scope,$location, AuthenticationServ
                 $window.location.href = "/";
             } else {
                 //$scope.error = 'Error al cerrar la sesión';
-                console.log('Error al cerrar la sesión');
+                console.log('Error to logout');
                 //$scope.loading = false;
             }
         });

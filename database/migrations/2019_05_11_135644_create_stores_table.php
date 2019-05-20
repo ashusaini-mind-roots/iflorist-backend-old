@@ -16,10 +16,14 @@ class CreateStoresTable extends Migration
         Schema::create('stores', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('store_name')->unique();
-            $table->string('contact_phone')->nullable();
-            $table->string('zip_code')->nullable();
-            $table->string('contact_email')->unique();
+            $table->string('contact_phone', 10)->nullable();
+            $table->string('contact_email')->nullable();
             $table->string('address')->nullable();
+            $table->string('address2')->nullable();
+            $table->string('city')->nullable();
+            $table->string('zip_code')->nullable();
+            $table->string('state', 2)->nullable();
+            $table->string('main_contact')->nullable();
             $table->timestamps();
         });
     }
