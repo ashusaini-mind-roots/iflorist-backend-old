@@ -14,7 +14,7 @@ class Week extends Model
 
     public function stores()
     {
-        return $this->belongsToMany('App\Store','store_week', 'week_id', 'store_id');
+        return $this->belongsToMany('App\Models\Store','store_week', 'week_id', 'store_id');
     }
 
 }
