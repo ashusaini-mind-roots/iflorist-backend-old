@@ -79,7 +79,7 @@
                             <div class="col">
                                 <div class="form-group">
                                     <label for="inputTotal">Total  </label>
-                                    <input type="number" min="0" class="form-control" id="inputTotal" ng-model="dailyRevenueTotal" value = @{{calDailyTotal()}} >
+                                    <input type="number" min="0" class="form-control" id="inputTotal" ng-model="dailyRevenueTotal" value = @{{calcDailyTotal()}} >
                                 </div>
                             </div>
                         </div>
