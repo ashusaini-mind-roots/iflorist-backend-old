@@ -51,7 +51,7 @@ app.controller('weekPanelController', function($scope,$http,$localStorage,API_UR
         if($localStorage.currentUser) {
             $http({
                 method: 'GET',
-                url: API_URL + 'week_by_year/' + $scope.selectedYearsList ,
+                url: API_URL + 'week/week_by_year/' + $scope.selectedYearsList ,
             }).then(
                 function successCallback(response) {
                     $scope.storesList = response.data.stores;
