@@ -44,8 +44,17 @@ Route::prefix('role')->group(function () {
 Route::prefix('store')->group(function () {
     Route::get('all/{user_id}/{rol_name}', 'StoresController@index');
     Route::get('all', 'StoresController@all');
+    Route::get('stores_by_user/{user_id}', 'StoresController@storesByUser');
     Route::post('create', 'StoresController@create');
     Route::get('getById/{id}', 'StoresController@getById');
     Route::delete('delete/{id}', 'StoresController@delete');
     Route::put('update/{id}', 'StoresController@update');
+});
+
+Route::prefix('week')->group(function () {
+    Route::get('week_by_year/{year}', 'WeeksController@weekByYear');
+});
+
+Route::prefix('daily_revenue')->group(function () {
+    Route::get('seven_days_week/{store_id}/{week_id}','DailyRevenuesController@sevenDaysWeek');
 });

@@ -26,6 +26,19 @@ class StoresController extends Controller
         }
     }
 
+    public function storesByUser($user_id)
+    {
+        $rol = User::find($user_id)->role;
+        $role_name = $rol['name'];
+        if($role_name=="Admin")
+            return response()->json(['stores' => Store::all()], 200);
+        else
+        {
+            $stores = User::find($user_id)->store;
+            return response()->json(['stores' => $stores], 200);
+        }
+    }
+
     public function all()
     {
         return response()->json(['stores' => Store::all()], 200);
