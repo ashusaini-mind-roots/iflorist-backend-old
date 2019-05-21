@@ -13,12 +13,13 @@
                             </div>
                             <div class="col-2">
                                 <label for="yearsid">Select year</label>
-                                <select id = "yearsid" class="form-control" ng-required="true" ng-model="selectedYearsList" ng-options="year for year in yearsList">
+                                <select id = "yearsid" class="form-control" ng-required="true" ng-model="selectedYearsItem" ng-options="year for year in yearsList" ng-change="getWeeks()">
                                 </select>
                             </div>
                             <div class="col-2">
                                 <label for="weeksid">Select week</label>
-                                <select id = "weeksid" class="form-control" ng-required="true" ng-model="selectedWeekList" ng-options="week for week in weekList">
+                                <select id = "weeksid" class="form-control" ng-required="true" ng-model="selectedWeekItem" ng-options="week.id as week.number for week in weekList" ng-change="getSevenDays()">
+
                                 </select>
                             </div>
                         </div>

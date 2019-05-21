@@ -6,11 +6,10 @@ app.controller('weekPanelController', function($scope,$http,$localStorage,API_UR
     $scope.selectedStoreItem = 2;
 
     $scope.yearsList = {};
-    $scope.selectedYearsList = "2018";
-
+    $scope.selectedYearsItem = "2018";
 
     $scope.weekList = {};
-    $scope.selectedWeekList = "02";
+    $scope.selectedWeekItem = "3";
 
     $scope.monday = 0;
     $scope.tuesday = 0;
@@ -31,6 +30,7 @@ app.controller('weekPanelController', function($scope,$http,$localStorage,API_UR
 
 
     $scope.getStores = function () {
+        console.log(API_URL + 'store/all/' + $localStorage.currentUser.user.id + '/' + $localStorage.currentUser.user.role_name)
         if($localStorage.currentUser) {
             $http({
                 method: 'GET',
@@ -51,14 +51,32 @@ app.controller('weekPanelController', function($scope,$http,$localStorage,API_UR
         if($localStorage.currentUser) {
             $http({
                 method: 'GET',
-                url: API_URL + 'week/week_by_year/' + $scope.selectedYearsList ,
+                url: API_URL + 'week/week_by_year/' + $scope.selectedYearsItem ,
             }).then(
                 function successCallback(response) {
-                    $scope.storesList = response.data.stores;
+                    $scope.weekList  = response.data.weeks;
+                    if(Array.isArray($scope.weekList) && $scope.weekList.length > 0)
+                        $scope.selectedWeekItem = $scope.weekList[0].id;
                 }
             );
         }
-        $scope.weekList = ["01","02","03"];
+    }
+
+    $scope.getSevenDays = function () {
+        console.log("storeId: " + $scope.selectedStoreItem + " , weekId: " + $scope.selectedWeekItem )
+        if($localStorage.currentUser) {
+            $http({
+                method: 'GET',
+                url: API_URL + 'daily_revenue/seven_days_week/' + $scope.selectedStoreItem + '/' + $scope.selectedWeekItem ,
+            }).then(
+                function successCallback(response) {
+                    console.log(response.data)
+                    // $scope.weekList  = response.data.weeks;
+                    // if(Array.isArray($scope.weekList) && $scope.weekList.length > 0)
+                    //     $scope.selectedWeekItem = $scope.weekList[0].id;
+                }
+            );
+        }
     }
 
     $scope.getStores();
