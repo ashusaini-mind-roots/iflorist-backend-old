@@ -12,6 +12,7 @@ class DatesDimTableSeeder extends Seeder
      */
     public function run()
     {
+
         $from = '2016-01-01';
         $to = '2030-01-01';
         $sql = <<<EOT
@@ -30,7 +31,7 @@ LIMIT 1000000;
 
 
 ###### populate it with days
-INSERT INTO dates_dim (date)
+INSERT INTO dates_dim (`date`)
 SELECT  DATE_ADD( '{$from}', INTERVAL number DAY )
   FROM numbers
   WHERE DATE_ADD( '{$from}', INTERVAL number DAY ) BETWEEN '{$from}' AND '{$to}'
@@ -46,6 +47,9 @@ UPDATE dates_dim SET
   month_day =   DATE_FORMAT( date, "%d" );
 
 UPDATE dates_dim SET week_starting_monday = DATE_FORMAT(date,'%v');
+
+DROP TABLE numbers;
+DROP TABLE numbers_small;
 EOT;
 
         DB::unprepared($sql);
