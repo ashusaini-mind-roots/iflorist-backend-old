@@ -47,6 +47,9 @@ UPDATE dates_dim SET
   month_day =   DATE_FORMAT( date, "%d" );
 
 UPDATE dates_dim SET week_starting_monday = DATE_FORMAT(date,'%v');
+
+DROP TABLE numbers;
+DROP TABLE numbers_small;
 EOT;
 
         DB::unprepared($sql);
