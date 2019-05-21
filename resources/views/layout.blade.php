@@ -26,7 +26,6 @@
     @yield('content_layout')
 </div>
 
-
 <script src="{{asset('js/external/jquery-3.4.1.min.js')}}"></script>
 <script src="{{asset('js/external/popper.min.js')}}"></script>
 <script src="{{asset('js/external/bootstrap.min.js')}}"></script>
@@ -47,7 +46,6 @@
     $(document).ready(function () {
         $('#sidebarCollapse').on('click', function () {
             $('#sidebar').toggleClass('active');
-
         });
     });
 </script>

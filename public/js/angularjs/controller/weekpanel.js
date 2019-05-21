@@ -23,7 +23,7 @@ app.controller('weekPanelController', function($scope,$http,$localStorage,API_UR
         $scope.friday + $scope.saturday + $scope.sunday;
 
 
-    $scope.calDailyTotal = function()
+    $scope.calcDailyTotal = function()
     {
         return $scope.dailyRevenueTotal = $scope.monday + $scope.tuesday + $scope.wednesday + $scope.thursday +
             $scope.friday + $scope.saturday + $scope.sunday;
@@ -48,6 +48,16 @@ app.controller('weekPanelController', function($scope,$http,$localStorage,API_UR
     }
 
     $scope.getWeeks = function () {
+        if($localStorage.currentUser) {
+            $http({
+                method: 'GET',
+                url: API_URL + 'week_by_year/' + $scope.selectedYearsList ,
+            }).then(
+                function successCallback(response) {
+                    $scope.storesList = response.data.stores;
+                }
+            );
+        }
         $scope.weekList = ["01","02","03"];
     }
 
