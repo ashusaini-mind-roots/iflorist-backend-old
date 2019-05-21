@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
-use App\Week;
+use App\Models\Week;
 
 class WeeksController extends Controller
 {

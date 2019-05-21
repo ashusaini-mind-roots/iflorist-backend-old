@@ -55,12 +55,12 @@ class User extends Authenticatable implements JWTSubject
 
     public function Role()
     {
-        return $this->belongsTo('App\Role');
+        return $this->belongsTo('App\Models\Role');
     }
 
     public function Store()
     {
-        return $this->belongsTo('App\Store');
+        return $this->belongsTo('App\Models\Store');
     }
 
     public function getJWTIdentifier()
