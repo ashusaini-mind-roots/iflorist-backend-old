@@ -9,7 +9,7 @@ function Service($http, $localStorage, API_URL) {
     return service;
 
     function Login(username, password, callback) {
-        console.log(API_URL + 'auth/login');
+      //  console.log(API_URL + 'auth/login');
         $http({
             method: 'POST',
             url: API_URL + 'auth/login',
@@ -35,8 +35,6 @@ function Service($http, $localStorage, API_URL) {
         );
 
 
-
-
         // $http.post(API_URL+'/api/auth/login', { username: username, password: password })
         //     .success(function (response) {
         //         // login successful if there's a token in the response
@@ -57,13 +55,15 @@ function Service($http, $localStorage, API_URL) {
     }
 
     function Logout(callback) {
-        // remove user from local storage and clear http auth header
+
+
         $http({
             method: 'POST',
             url: API_URL + 'auth/logout',
         }).
         then(function successCallback(response) {
-                // add jwt token to auth header for all requests made by the $http service
+            console.log("pepelogout")
+            // remove user from local storage and clear http auth header
                 delete $localStorage.currentUser;
                 $http.defaults.headers.common.Authorization = '';
                 callback(true);

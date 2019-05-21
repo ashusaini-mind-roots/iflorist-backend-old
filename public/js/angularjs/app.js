@@ -1,5 +1,5 @@
 //var app = angular.module('employeeRecords', [])/*.constant('API_URL', 'http://localhost/angulara/public/api/v1/')*/;
-var app = angular.module("app", ['ngResource','ngStorage'])/*.
+var app = angular.module("app", ['ngResource','ngStorage'/*,'money-mask'*/])/*.
  config(function($routeProvider){
  $routeProvider
  .when("/recepciones",{
@@ -13,7 +13,7 @@ var app = angular.module("app", ['ngResource','ngStorage'])/*.
             $http.defaults.headers.common.Authorization = 'Bearer ' + $localStorage.currentUser.token;
             $rootScope.rsCurrentUser = $localStorage.currentUser;
             $rootScope.rsRole = $rootScope.rsCurrentUser.user.role_name;
-            //console.log($rootScope.currentUser);
+            //console.log($http.defaults.headers.common.Authorization);
         }
     })
-    .constant('API_URL', 'http://localhost:8000/api/');
+    .constant('API_URL', 'http://127.0.0.1:8000/api/');

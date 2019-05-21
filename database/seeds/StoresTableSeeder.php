@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Store;
+use App\Models\Store;
 
 class StoresTableSeeder extends Seeder
 {
@@ -12,7 +12,7 @@ class StoresTableSeeder extends Seeder
      */
     public function run()
     {
-        Store::truncate();
+       // Store::truncate();
 
         Store::create(['store_name' => 'Design Center']);
         Store::create(['store_name' => 'Miami Gardens Florist']);
