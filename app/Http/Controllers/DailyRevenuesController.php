@@ -21,27 +21,21 @@ class DailyRevenuesController extends Controller
         return response()->json(['seven_days_week' => $seven_days_week], 200);
     }
 
-    public function update(Request $request,$id)
+    public function updateAllAmt(Request $request)
     {
-        $v = Validator::make($request->all(), [
-            'amt' => 'required',
-            'user_id' => 'required',
-            'entered_date' => 'required'
+        $daily_revenues = $request->daily_revenues;
+        $user_id = $request->user_id;
+        $entered_date = date('Y-m-d H:i:s');
 
-        ]);
-
-        if ($v->fails()) {
-            return response()->json([
-                'status' => 'error',
-                'errors' => $v->errors()
-            ], 422);
+        foreach($daily_revenues as $dr)
+        {
+            $daily_revenue = DailyRevenue::findOrFail($dr['id']);
+            $daily_revenue->amt = $dr['amt'];
+            $daily_revenue->user_id = $user_id;
+            $daily_revenue->entered_date = $entered_date;
+            $daily_revenue->update();
         }
 
-        $daily_revenue = DailyRevenue::findOrFail($id);
-        $daily_revenue->amt = $request->amt;
-        $daily_revenue->user_id = $request->user_id;
-        $daily_revenue->entered_date = $request->entered_date;
-        $daily_revenue->update();
         return response()->json(['status' => 'success'], 200);
     }
 }
