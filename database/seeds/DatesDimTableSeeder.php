@@ -31,7 +31,7 @@ LIMIT 1000000;
 
 
 ###### populate it with days
-INSERT INTO dates_dim (date)
+INSERT INTO dates_dim (`date`)
 SELECT  DATE_ADD( '{$from}', INTERVAL number DAY )
   FROM numbers
   WHERE DATE_ADD( '{$from}', INTERVAL number DAY ) BETWEEN '{$from}' AND '{$to}'

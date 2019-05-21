@@ -12,7 +12,7 @@ class StoresTableSeeder extends Seeder
      */
     public function run()
     {
-        Store::truncate();
+       // Store::truncate();
 
         Store::create(['store_name' => 'Design Center']);
         Store::create(['store_name' => 'Miami Gardens Florist']);
