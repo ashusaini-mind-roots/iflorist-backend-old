@@ -1,6 +1,6 @@
 <?php
 
-$from = 2016;
+/*$from = 2016;
 $to = 2030;
 $sql = 'INSERT INTO `weeks` (`number`,`year`)values';
 for ($y = $from; $y <= $to; $y++) {
@@ -9,7 +9,7 @@ for ($y = $from; $y <= $to; $y++) {
     }
 }
 echo $sql;
-die();
+die();*/
 
 /**
  * Laravel - A PHP Framework For Web Artisans
@@ -21,6 +21,7 @@ die();
 define('LARAVEL_START', microtime(true));
 
 header('Access-Control-Allow-Origin: *');
+header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
 header('Access-Control-Allow-Methods: GET, PUT, DELETE, POST, OPTIONS');
 
 /*

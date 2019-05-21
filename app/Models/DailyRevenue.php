@@ -8,6 +8,6 @@ class DailyRevenue extends Model
 {
     public function post()
     {
-        return $this->belongsTo('App\StoreWeek');
+        return $this->belongsTo('App\Models\StoreWeek');
     }
 }

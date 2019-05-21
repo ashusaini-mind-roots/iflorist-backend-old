@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\StoreWeek;
-use App\DailyRevenue;
+use App\Models\StoreWeek;
+use App\Models\DailyRevenue;
 
 class DailyRevenuesController extends Controller
 {
