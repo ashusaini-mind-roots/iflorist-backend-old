@@ -27,7 +27,8 @@ class InvoicesController extends Controller
     {
         $v = Validator::make($request->all(), [
             'invoice_number' => 'required',
-            'invoice_name' => 'required'
+            'invoice_name' => 'required',
+            'total' => 'required'
         ]);
 
         if ($v->fails()) {
@@ -48,6 +49,7 @@ class InvoicesController extends Controller
         $invoice = new Invoice();
         $invoice->invoice_number = $request->invoice_number;
         $invoice->invoice_name = $request->invoice_name;
+        $invoice->total = $request->total;
         $invoice->invoice_date = date('Y-m-d');
         $invoice->store_week_id = $store_week->id;
 
