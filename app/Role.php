@@ -10,4 +10,9 @@ class Role extends Model
         'name',
         'description'
     ];
+
+    /*public function User()
+    {
+        return $this->hasOne('App\User');
+    }*/
 }
