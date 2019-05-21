@@ -1,6 +1,6 @@
 <?php
 
-$from = 2016;
+/*$from = 2016;
 $to = 2030;
 $sql = 'INSERT INTO `weeks` (`number`,`year`)values';
 for ($y = $from; $y <= $to; $y++) {
@@ -9,7 +9,7 @@ for ($y = $from; $y <= $to; $y++) {
     }
 }
 echo $sql;
-die();
+die();*/
 
 /**
  * Laravel - A PHP Framework For Web Artisans
