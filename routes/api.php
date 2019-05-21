@@ -59,3 +59,8 @@ Route::prefix('daily_revenue')->group(function () {
     Route::get('seven_days_week/{store_id}/{week_id}','DailyRevenuesController@sevenDaysWeek');
     Route::put('update_all_amt','DailyRevenuesController@updateAllAmt');
 });
+
+Route::prefix('invoice')->group(function () {
+    Route::get('all/{store_id}/{week_id}', 'InvoicesController@all');
+    Route::post('create', 'InvoicesController@create');
+});
