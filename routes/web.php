@@ -28,6 +28,9 @@ Route::get('/users', function () {
     return view('user.index');
 });
 
+Route::get('/weekpanel', function () {
+    return view('weekpanel.index');
+});
 /*Route::get('/', function () {
     return view('login');
 });*/

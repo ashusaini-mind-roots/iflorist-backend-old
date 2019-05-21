@@ -33,7 +33,9 @@
 
 <script src="{{asset('js/angularjs/angular.min.js')}}"></script>
 <script src="{{asset('js/angularjs/angular-resource.min.js')}}"></script>
+{{--<script src="{{asset('js/angularjs/angular-money-mask.js')}}"></script>--}}
 <script src="{{asset('js/angularjs/ngStorage.min.js')}}"></script>
+
 <script src="{{asset('js/angularjs/app.js')}}"></script>
 <script src="{{asset('js/angularjs/services/authentication.service.js')}}"></script>
 <script src="{{asset('js/angularjs/controller/logout.js')}}"></script>
