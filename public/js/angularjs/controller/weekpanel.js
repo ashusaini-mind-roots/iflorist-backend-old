@@ -8,6 +8,7 @@ app.controller('weekPanelController', function($scope,$http,$localStorage,API_UR
     $scope.yearsList = {};
     $scope.selectedYearsList = "2018";
 
+
     $scope.weekList = {};
     $scope.selectedWeekList = "02";
 
