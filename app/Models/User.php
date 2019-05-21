@@ -48,14 +48,19 @@ class User extends Authenticatable implements JWTSubject
         'email_verified_at' => 'datetime',
     ];
 
-    public function Role()
+    /*public function Role()
     {
         return $this->belongsTo('Role');
+    }*/
+
+    public function Role()
+    {
+        return $this->belongsTo('App\Role');
     }
 
     public function Store()
     {
-        return $this->belongsTo('Store');
+        return $this->belongsTo('App\Store');
     }
 
     public function getJWTIdentifier()
