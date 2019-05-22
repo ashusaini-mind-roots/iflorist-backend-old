@@ -13,12 +13,13 @@
                             </div>
                             <div class="col-2">
                                 <label for="yearsid">Select year</label>
-                                <select id = "yearsid" class="form-control" ng-required="true" ng-model="selectedYearsList" ng-options="year for year in yearsList">
+                                <select id = "yearsid" class="form-control" ng-required="true" ng-model="selectedYearsItem" ng-options="year for year in yearsList" ng-change="getWeeks()">
                                 </select>
                             </div>
                             <div class="col-2">
                                 <label for="weeksid">Select week</label>
-                                <select id = "weeksid" class="form-control" ng-required="true" ng-model="selectedWeekList" ng-options="week for week in weekList">
+                                <select id = "weeksid" class="form-control" ng-required="true" ng-model="selectedWeekItem" ng-options="week.id as week.number for week in weekList" ng-change="getWeekDataFromServer()">
+
                                 </select>
                             </div>
                         </div>
@@ -37,56 +38,63 @@
                             <div class="col">
                                 <div class="form-group">
                                     <label for="inputMonday">Monday</label>
-                                    <input  type="number" min="0" class="form-control form-control-plaintext" id="inputMonday" ng-model="monday" >
+                                    <input  type="text"  class="form-control form-control-plaintext" id="inputMonday" ng-model="monday.amt" >
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-group">
                                     <label for="inputTuesday">Tuesday</label>
-                                    <input type="number" min="0" class="form-control form-control-plaintext" id="inputTuesday" ng-model="tuesday" >
+                                    <input type="text" class="form-control form-control-plaintext" id="inputTuesday" ng-model="tuesday.amt" >
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-group">
                                     <label for="inputWednesday">Wednesday </label>
-                                    <input type="number" min="0" class="form-control form-control-plaintext" id="inputWednesday" ng-model="wednesday" >
+                                    <input type="text" class="form-control form-control-plaintext" id="inputWednesday" ng-model="wednesday.amt" >
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-group">
                                     <label for="inputThursday">Thursday  </label>
-                                    <input type="number" min="0" class="form-control form-control-plaintext" id="inputThursday" ng-model="thursday" >
+                                    <input type="text" class="form-control form-control-plaintext" id="inputThursday" ng-model="thursday.amt" >
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-group">
                                     <label for="inputFriday">Friday  </label>
-                                    <input type="number" min="0" class="form-control form-control-plaintext" id="inputFriday" ng-model="friday" >
+                                    <input type="text" class="form-control form-control-plaintext" id="inputFriday" ng-model="friday.amt" >
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-group">
                                     <label for="inputSaturday">Saturday  </label>
-                                    <input type="number" min="0" class="form-control form-control-plaintext" id="inputSaturday" ng-model="saturday" >
+                                    <input type="text" class="form-control form-control-plaintext" id="inputSaturday" ng-model="saturday.amt" >
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-group">
                                     <label for="inputSunday">Sunday  </label>
-                                    <input type="number" min="0" class="form-control form-control-plaintext" id="inputSunday" ng-model="sunday" >
+                                    <input type="text" class="form-control form-control-plaintext" id="inputSunday" ng-model="sunday.amt" >
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-group">
                                     <label for="inputTotal">Total  </label>
-                                    <input type="number" min="0" class="form-control" id="inputTotal" ng-model="dailyRevenueTotal" value = @{{calcDailyTotal()}} >
+                                    {{--<input hidden type="text" class="form-control" id="inputTotal" ng-model="dailyRevenueTotal" value = @{{calcDailyTotal()}} >--}}
+                                    <div>@{{calcDailyTotal()|currency}}</div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="card-footer text-right">
-                        <a href="#" class="btn btn-primary ">Save changes</a>
+                        <button type="button" class="btn btn-primary" ng-click="updateDaysAmtValues()" ng-disabled="saveDays_btnDisable">Save changes</button>
+                        {{--<a href="#" class="btn btn-primary" ng-click="updateDaysAmtValues()">Save changes</a>--}}
+
                     </div>
+
+                </div>
+                <div class="spinner-border" role="status">
+                    <span class="sr-only">Loading...</span>
                 </div>
             </div>
         </div>
@@ -116,20 +124,11 @@
 
                                         <!--Table body-->
                                         <tbody>
-                                        <tr>
-                                            <td>Lorem ipsum dolor</td>
-                                            <td>Lorem ipsum dolor</td>
-                                            <td>Lorem ipsum dolor</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Lorem ipsum dolor</td>
-                                            <td>Lorem ipsum dolor</td>
-                                            <td>Lorem ipsum dolor</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Lorem ipsum dolor</td>
-                                            <td>Lorem ipsum dolor</td>
-                                            <td>Lorem ipsum dolor</td>
+                                        <tr ng-repeat="invoice in invoices">
+                                            <td>@{{invoice.invoice_number}}</td>
+                                            <td>@{{invoice.invoice_name}}</td>
+                                            <td>@{{invoice.total}}</td>
+
                                         </tr>
                                         </tbody>
                                         <!--Table body-->
@@ -143,11 +142,11 @@
                     </div>
                     <div class="card-footer text-right">
                         <form class="form-inline">
-                            <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="inlineFormInput" placeholder="Number">
-                            <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="inlineFormInputGroup" placeholder="Name">
-                            <input type="number" class="form-control mb-2 mr-sm-2 mb-sm-0" id="inlineFormInputGroup" placeholder="Value">
+                            <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" placeholder="Number" ng-model="invoiceNumber_add">
+                            <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" placeholder="Name" ng-model="invoiceName_add">
+                            <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" placeholder="Value" ng-model="invoiceTotal_add">
 
-                            <button type="submit" class="btn btn-primary">Add invoise</button>
+                            <button type="submit" class="btn btn-primary" ng-click="createInvoice()">Add invoise</button>
                         </form>
                     </div>
                 </div>
