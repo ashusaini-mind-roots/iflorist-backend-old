@@ -24,6 +24,7 @@ class DailyRevenuesController extends Controller
     public function updateAllAmt(Request $request)
     {
         $daily_revenues = $request->daily_revenues;
+
         $user_id = $request->user_id;
         $entered_date = date('Y-m-d H:i:s');
 

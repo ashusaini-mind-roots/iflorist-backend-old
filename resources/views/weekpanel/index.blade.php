@@ -38,56 +38,62 @@
                             <div class="col">
                                 <div class="form-group">
                                     <label for="inputMonday">Monday</label>
-                                    <input  type="number" min="0" class="form-control form-control-plaintext" id="inputMonday" ng-model="monday" >
+                                    <input  type="text"  class="form-control form-control-plaintext" id="inputMonday" ng-model="monday.amt" >
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-group">
                                     <label for="inputTuesday">Tuesday</label>
-                                    <input type="number" min="0" class="form-control form-control-plaintext" id="inputTuesday" ng-model="tuesday" >
+                                    <input type="text" class="form-control form-control-plaintext" id="inputTuesday" ng-model="tuesday.amt" >
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-group">
                                     <label for="inputWednesday">Wednesday </label>
-                                    <input type="number" min="0" class="form-control form-control-plaintext" id="inputWednesday" ng-model="wednesday" >
+                                    <input type="text" class="form-control form-control-plaintext" id="inputWednesday" ng-model="wednesday.amt" >
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-group">
                                     <label for="inputThursday">Thursday  </label>
-                                    <input type="number" min="0" class="form-control form-control-plaintext" id="inputThursday" ng-model="thursday" >
+                                    <input type="text" class="form-control form-control-plaintext" id="inputThursday" ng-model="thursday.amt" >
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-group">
                                     <label for="inputFriday">Friday  </label>
-                                    <input type="number" min="0" class="form-control form-control-plaintext" id="inputFriday" ng-model="friday" >
+                                    <input type="text" class="form-control form-control-plaintext" id="inputFriday" ng-model="friday.amt" >
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-group">
                                     <label for="inputSaturday">Saturday  </label>
-                                    <input type="number" min="0" class="form-control form-control-plaintext" id="inputSaturday" ng-model="saturday" >
+                                    <input type="text" class="form-control form-control-plaintext" id="inputSaturday" ng-model="saturday.amt" >
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-group">
                                     <label for="inputSunday">Sunday  </label>
-                                    <input type="number" min="0" class="form-control form-control-plaintext" id="inputSunday" ng-model="sunday" >
+                                    <input type="text" class="form-control form-control-plaintext" id="inputSunday" ng-model="sunday.amt" >
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-group">
                                     <label for="inputTotal">Total  </label>
-                                    <input type="number" min="0" class="form-control" id="inputTotal" ng-model="dailyRevenueTotal" value = @{{calcDailyTotal()}} >
+                                    {{--<input hidden type="text" class="form-control" id="inputTotal" ng-model="dailyRevenueTotal" value = @{{calcDailyTotal()}} >--}}
+                                    <div>@{{calcDailyTotal()|currency}}</div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="card-footer text-right">
-                        <a href="#" class="btn btn-primary ">Save changes</a>
+                        <a href="#" class="btn btn-primary" ng-click="updateDaysAmtValues()">Save changes</a>
+
                     </div>
+
+                </div>
+                <div class="spinner-border" role="status">
+                    <span class="sr-only">Loading...</span>
                 </div>
             </div>
         </div>

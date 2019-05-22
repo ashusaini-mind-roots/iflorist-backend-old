@@ -11,21 +11,28 @@ app.controller('weekPanelController', function($scope,$http,$localStorage,API_UR
     $scope.weekList = {};
     $scope.selectedWeekItem = "3";
 
-    $scope.monday = 0;
-    $scope.tuesday = 0;
-    $scope.wednesday = 0;
-    $scope.thursday = 0;
-    $scope.friday = 0;
-    $scope.saturday = 0;
-    $scope.sunday = 0;
-    $scope.dailyRevenueTotal = $scope.monday + $scope.tuesday + $scope.wednesday + $scope.thursday +
-        $scope.friday + $scope.saturday + $scope.sunday;
+    $scope.monday = {'id':-1, 'amt': 0.00};
+    $scope.tuesday = {'id':-1, 'amt': 0.00};
+    $scope.wednesday = {'id':-1, 'amt': 0.00};
+    $scope.thursday = {'id':-1, 'amt': 0.00};
+    $scope.friday = {'id':-1, 'amt': 0.00};
+    $scope.saturday = {'id':-1, 'amt': 0.00};
+    $scope.sunday = {'id':-1, 'amt': 0.00};
+    $scope.dailyRevenueTotal = 0.00;
+
 
 
     $scope.calcDailyTotal = function()
     {
-        return $scope.dailyRevenueTotal = $scope.monday + $scope.tuesday + $scope.wednesday + $scope.thursday +
-            $scope.friday + $scope.saturday + $scope.sunday;
+         $scope.dailyRevenueTotal =
+            parseFloat($scope.monday.amt) +
+            parseFloat($scope.tuesday.amt) +
+            parseFloat($scope.wednesday.amt) +
+            parseFloat($scope.thursday.amt) +
+            parseFloat($scope.friday.amt) +
+            parseFloat($scope.saturday.amt) +
+            parseFloat($scope.sunday.amt);
+        return $scope.dailyRevenueTotal;
     }
 
 
@@ -63,20 +70,59 @@ app.controller('weekPanelController', function($scope,$http,$localStorage,API_UR
     }
 
     $scope.getSevenDays = function () {
-        console.log("storeId: " + $scope.selectedStoreItem + " , weekId: " + $scope.selectedWeekItem )
+       // console.log("storeId: " + $scope.selectedStoreItem + " , weekId: " + $scope.selectedWeekItem )
         if($localStorage.currentUser) {
             $http({
                 method: 'GET',
                 url: API_URL + 'daily_revenue/seven_days_week/' + $scope.selectedStoreItem + '/' + $scope.selectedWeekItem ,
             }).then(
                 function successCallback(response) {
-                    console.log(response.data)
-                    // $scope.weekList  = response.data.weeks;
-                    // if(Array.isArray($scope.weekList) && $scope.weekList.length > 0)
-                    //     $scope.selectedWeekItem = $scope.weekList[0].id;
+                    var seven_d_w = response.data.seven_days_week;
+                    if(Array.isArray(seven_d_w) && seven_d_w.length > 0){
+                        $scope.monday = {'id':seven_d_w[0].id, 'amt': parseFloat(seven_d_w[0].amt)};
+                        $scope.tuesday = {'id':seven_d_w[1].id, 'amt': parseFloat(seven_d_w[1].amt)};
+                        $scope.wednesday = {'id':seven_d_w[2].id, 'amt': parseFloat(seven_d_w[2].amt)};
+                        $scope.thursday = {'id':seven_d_w[3].id, 'amt': parseFloat(seven_d_w[3].amt)};
+                        $scope.friday = {'id':seven_d_w[4].id, 'amt': parseFloat(seven_d_w[4].amt)};
+                        $scope.saturday = {'id':seven_d_w[5].id, 'amt': parseFloat(seven_d_w[5].amt)};
+                        $scope.sunday = {'id':seven_d_w[6].id, 'amt': parseFloat(seven_d_w[6].amt)};
+                        $scope.calcDailyTotal();
+                    }
                 }
             );
         }
+    }
+
+    $scope.updateDaysAmtValues = function () {
+        console.log({daily_revenues:[$scope.monday, $scope.tuesday, $scope.wednesday, $scope.thursday, $scope.friday, $scope.saturday, $scope.sunday],
+            user_id:1})
+        $http({
+                method: 'PUT',
+                url: API_URL + 'daily_revenue/update_all_amt/',
+                params: {daily_revenues:[$scope.monday, $scope.tuesday, $scope.wednesday, $scope.thursday, $scope.friday, $scope.saturday, $scope.sunday],
+                    user_id:1},
+            }).
+            then(function successCallback(response) {
+               // console.log(response);
+            },
+            function errorCallback(response){
+                console.log(response)
+            }
+        );
+    }
+
+    $scope.getInvoices = function () {
+        $http({
+            method: 'GET',
+            url: API_URL + 'invoice/all/' + $scope.selectedStoreItem + '/' + $scope.selectedWeekItem ,
+        }).then(
+            function successCallback(response) {
+                console.log(response)
+                // $scope.weekList  = response.data.weeks;
+                // if(Array.isArray($scope.weekList) && $scope.weekList.length > 0)
+                //     $scope.selectedWeekItem = $scope.weekList[0].id;
+            }
+        );
     }
 
     $scope.getStores();
