@@ -21,7 +21,8 @@ class CreateDatesDimTable extends Migration
             $table->char('month',10)->default(0);;
             $table->integer('month_day')->default(0);;
             $table->year('year')->default(0);;
-            $table->char('week_starting_monday',2)->default(0);;
+            $table->char('week_starting_monday',2)->default(0);
+            $table->char('week_year',4)->default(0);
             $table->timestamps();
         });
     }

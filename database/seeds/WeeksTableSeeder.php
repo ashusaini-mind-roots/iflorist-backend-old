@@ -17,7 +17,8 @@ class WeeksTableSeeder extends Seeder
         $sql = 'INSERT INTO `weeks` (`number`,`year`,created_at,updated_at)values';
         for ($y = $from; $y <= $to; $y++) {
             for ($w = 1; $w <= 52; $w++) {
-                $sql .= $y == $to && $w == 52 ? "($w,$y,now(),now());" : "($w,$y,now(),now()),";
+                $w = $w < 10 ? '0' . $w : $w;
+                $sql .= $y == $to && $w == 52 ? "('$w',$y,now(),now());" : "('$w',$y,now(),now()),";
             }
         }
         DB::unprepared($sql);

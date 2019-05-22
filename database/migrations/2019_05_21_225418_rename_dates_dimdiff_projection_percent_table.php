@@ -13,7 +13,7 @@ class RenameDatesDimdiffProjectionPercentTable extends Migration
      */
     public function up()
     {
-        Schema::rename('dates_dimdiff_projection_percent', 'diff_projection_percent');
+      //  Schema::rename('dates_dimdiff_projection_percent', 'diff_projection_percent');
     }
 
     /**
