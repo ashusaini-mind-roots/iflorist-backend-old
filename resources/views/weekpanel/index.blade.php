@@ -123,20 +123,11 @@
 
                                         <!--Table body-->
                                         <tbody>
-                                        <tr>
-                                            <td>Lorem ipsum dolor</td>
-                                            <td>Lorem ipsum dolor</td>
-                                            <td>Lorem ipsum dolor</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Lorem ipsum dolor</td>
-                                            <td>Lorem ipsum dolor</td>
-                                            <td>Lorem ipsum dolor</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Lorem ipsum dolor</td>
-                                            <td>Lorem ipsum dolor</td>
-                                            <td>Lorem ipsum dolor</td>
+                                        <tr ng-repeat="invoice in invoices">
+                                            <td>{{invoice.invoice_number}}</td>
+                                            <td>{{invoice.invoice_name}}</td>
+                                            <td>{{invoice.total}}</td>
+                                            <td>{{user.hobby}}</td>
                                         </tr>
                                         </tbody>
                                         <!--Table body-->

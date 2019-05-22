@@ -20,6 +20,8 @@ app.controller('weekPanelController', function($scope,$http,$localStorage,API_UR
     $scope.sunday = {'id':-1, 'amt': 0.00};
     $scope.dailyRevenueTotal = 0.00;
 
+    //invoices section
+    $scope.invoices = [];
 
 
     $scope.calcDailyTotal = function()
@@ -118,6 +120,7 @@ app.controller('weekPanelController', function($scope,$http,$localStorage,API_UR
             url: API_URL + 'invoice/all/' + $scope.selectedStoreItem + '/' + $scope.selectedWeekItem ,
         }).then(
             function successCallback(response) {
+                $scope.invoices = response.data.invoices;
                 console.log(response)
                 // $scope.weekList  = response.data.weeks;
                 // if(Array.isArray($scope.weekList) && $scope.weekList.length > 0)
