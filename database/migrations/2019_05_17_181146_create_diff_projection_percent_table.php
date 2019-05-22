@@ -13,7 +13,7 @@ class CreateDiffProjectionPercentTable extends Migration
      */
     public function up()
     {
-        Schema::create('dates_dimdiff_projection_percent', function (Blueprint $table) {
+        Schema::create('diff_projection_percent', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('store_week_id')->unsigned();;
             $table->year('year_proyection');
@@ -33,6 +33,6 @@ class CreateDiffProjectionPercentTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('dates_dimdiff_projection_percent');
+        Schema::dropIfExists('diff_projection_percent');
     }
 }
