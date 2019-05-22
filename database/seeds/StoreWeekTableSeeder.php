@@ -17,7 +17,7 @@ class StoreWeekTableSeeder extends Seeder
             SELECT 
                 s.id,w.id,now(),now()
             FROM
-                costofgood.weeks w
+                weeks w
                 cross join stores s ;
     ";
 
