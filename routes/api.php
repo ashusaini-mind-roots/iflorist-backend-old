@@ -64,3 +64,9 @@ Route::prefix('invoice')->group(function () {
     Route::get('all/{store_id}/{week_id}', 'InvoicesController@all');
     Route::post('create', 'InvoicesController@create');
 });
+
+Route::prefix('diff_projection_percent')->group(function () {
+    Route::get('{store_id}/{week_id}/{year}', 'DiffProjectionsPercentController@diffProjectionPercent');
+    Route::post('create', 'InvoicesController@create');
+});
+
