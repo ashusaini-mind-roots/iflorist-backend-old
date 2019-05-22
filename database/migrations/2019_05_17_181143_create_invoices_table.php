@@ -17,7 +17,6 @@ class CreateInvoicesTable extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('store_week_id')->unsigned();;
             $table->char('invoice_number', 45);
-            $table->decimal('invoice_amt', 10, 2)->default(0);
             $table->char('invoice_name', 145);
             $table->date('invoice_date');
             $table->timestamps();

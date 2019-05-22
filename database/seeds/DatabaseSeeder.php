@@ -19,5 +19,6 @@ class DatabaseSeeder extends Seeder
         $this->call(StoreWeekTableSeeder::class);
         $this->call(DailyRevenuesTableSeeder::class);
         $this->call(DiffProjectionPercentTableSeeder::class);
+        $this->call(InvoiceTableSeeder::class);
     }
 }
