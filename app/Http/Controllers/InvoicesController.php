@@ -18,7 +18,9 @@ class InvoicesController extends Controller
             ->where('week_id',$week_id)
             ->first();
 
-        $invoices = Invoice::where('store_week_id',$store_week->id);
+        $invoices = DB::table('invoices')
+            ->where('store_week_id',$store_week->id)
+            ->get();
 
         return response()->json(['invoices' => $invoices], 200);
     }
