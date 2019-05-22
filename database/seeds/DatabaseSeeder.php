@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
         $this->call(StoresTableSeeder::class);
         $this->call(DatesDimTableSeeder::class);
         $this->call(WeeksTableSeeder::class);
+        $this->call(StoreWeekTableSeeder::class);
         $this->call(DailyRevenuesTableSeeder::class);
     }
 }

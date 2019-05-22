@@ -27,18 +27,19 @@ class InvoicesController extends Controller
 
     public function create(Request $request)
     {
-        $v = Validator::make($request->all(), [
-            'invoice_number' => 'required',
-            'invoice_name' => 'required',
-            'total' => 'required'
-        ]);
-
-        if ($v->fails()) {
-            return response()->json([
-                'status' => 'error',
-                'errors' => $v->errors()
-            ], 422);
-        }
+        //El validator da error,dice k no lo puede encontrar.
+//        $v = Validator::make($request->all(), [
+//            'invoice_number' => 'required',
+//            'invoice_name' => 'required',
+//            'total' => 'required'
+//        ]);
+//
+//        if ($v->fails()) {
+//            return response()->json([
+//                'status' => 'error',
+//                'errors' => $v->errors()
+//            ], 422);
+//        }
 
         $store_id = $request->store_id;
         $week_id = $request->week_id;
