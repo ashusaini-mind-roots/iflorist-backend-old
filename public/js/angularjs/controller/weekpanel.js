@@ -99,7 +99,7 @@ app.controller('weekPanelController', function($scope,$http,$localStorage,API_UR
         $http({
                 method: 'PUT',
                 url: API_URL + 'daily_revenue/update_all_amt/',
-                params: {daily_revenues:[$scope.monday, $scope.tuesday, $scope.wednesday, $scope.thursday, $scope.friday, $scope.saturday, $scope.sunday],
+                params: {monday:$scope.monday, tuesday:$scope.tuesday, wednesday: $scope.wednesday, thursday:$scope.thursday, friday:$scope.friday, saturday:$scope.saturday, sunday:$scope.sunday,
                     user_id:1},
             }).
             then(function successCallback(response) {

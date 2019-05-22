@@ -23,18 +23,21 @@ class DailyRevenuesController extends Controller
 
     public function updateAllAmt(Request $request)
     {
-        $daily_revenues = $request->input('daily_revenues');
+        $daily_revenues [] = json_decode($request->monday);
+        $daily_revenues [] = json_decode($request->tuesday);
+        $daily_revenues [] = json_decode($request->wednesday);
+        $daily_revenues [] = json_decode($request->thursday);
+        $daily_revenues [] = json_decode($request->friday);
+        $daily_revenues [] = json_decode($request->saturday);
+        $daily_revenues [] = json_decode($request->sunday);
 
-        $user_id = $request->all();
+        $user_id = $request->user_id;
         $entered_date = date('Y-m-d H:i:s');
-
-        return response()->json(['status' => $daily_revenues], 200);
 
         foreach($daily_revenues as $dr)
         {
-
-            $daily_revenue = DailyRevenue::findOrFail($dr['id']);
-            $daily_revenue->amt = $dr['amt'];
+            $daily_revenue = DailyRevenue::findOrFail($dr->id);
+            $daily_revenue->amt = $dr->amt;
             $daily_revenue->user_id = $user_id;
             $daily_revenue->entered_date = $entered_date;
             $daily_revenue->update();
