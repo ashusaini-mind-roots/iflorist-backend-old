@@ -87,7 +87,8 @@
                         </div>
                     </div>
                     <div class="card-footer text-right">
-                        <a href="#" class="btn btn-primary" ng-click="updateDaysAmtValues()">Save changes</a>
+                        <button type="button" class="btn btn-primary" ng-click="updateDaysAmtValues()" ng-disabled="saveDays_btnDisable">Save changes</button>
+                        {{--<a href="#" class="btn btn-primary" ng-click="updateDaysAmtValues()">Save changes</a>--}}
 
                     </div>
 
@@ -124,10 +125,10 @@
                                         <!--Table body-->
                                         <tbody>
                                         <tr ng-repeat="invoice in invoices">
-                                            <td>{{invoice.invoice_number}}</td>
-                                            <td>{{invoice.invoice_name}}</td>
-                                            <td>{{invoice.total}}</td>
-                                            <td>{{user.hobby}}</td>
+                                            <td>@{{invoice.invoice_number}}</td>
+                                            <td>@{{invoice.invoice_name}}</td>
+                                            <td>@{{invoice.total}}</td>
+
                                         </tr>
                                         </tbody>
                                         <!--Table body-->
@@ -141,11 +142,11 @@
                     </div>
                     <div class="card-footer text-right">
                         <form class="form-inline">
-                            <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="inlineFormInput" placeholder="Number">
-                            <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="inlineFormInputGroup" placeholder="Name">
-                            <input type="number" class="form-control mb-2 mr-sm-2 mb-sm-0" id="inlineFormInputGroup" placeholder="Value">
+                            <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" placeholder="Number" ng-model="invoiceNumber_add">
+                            <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" placeholder="Name" ng-model="invoiceName_add">
+                            <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" placeholder="Value" ng-model="invoiceTotal_add">
 
-                            <button type="submit" class="btn btn-primary">Add invoise</button>
+                            <button type="submit" class="btn btn-primary" ng-click="createInvoice()">Add invoise</button>
                         </form>
                     </div>
                 </div>
