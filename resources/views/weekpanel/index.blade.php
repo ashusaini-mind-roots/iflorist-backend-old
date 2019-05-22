@@ -18,7 +18,7 @@
                             </div>
                             <div class="col-2">
                                 <label for="weeksid">Select week</label>
-                                <select id = "weeksid" class="form-control" ng-required="true" ng-model="selectedWeekItem" ng-options="week.id as week.number for week in weekList" ng-change="getSevenDays()">
+                                <select id = "weeksid" class="form-control" ng-required="true" ng-model="selectedWeekItem" ng-options="week.id as week.number for week in weekList" ng-change="getWeekDataFromServer()">
 
                                 </select>
                             </div>

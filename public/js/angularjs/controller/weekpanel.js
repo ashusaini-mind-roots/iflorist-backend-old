@@ -125,6 +125,11 @@ app.controller('weekPanelController', function($scope,$http,$localStorage,API_UR
         );
     }
 
+    $scope.getWeekDataFromServer = function () {
+        $scope.getSevenDays();
+        $scope.getInvoices();
+    }
+
     $scope.getStores();
     $scope.getYears();
     $scope.getWeeks();
