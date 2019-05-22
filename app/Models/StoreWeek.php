@@ -11,7 +11,7 @@ class StoreWeek extends Model
 
     public function DailyRevenues()
     {
-        return $this->hasMany('App\DailyRevenue');
+        return $this->hasMany('App\Models\DailyRevenue');
     }
 
     static function storeWeekId($store_id,$week_id)
