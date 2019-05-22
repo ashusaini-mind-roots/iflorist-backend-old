@@ -10,7 +10,7 @@ class StoreWeek extends Model
 
     public function DailyRevenues()
     {
-        return $this->hasMany('App\DailyRevenue');
+        return $this->hasMany('App\Models\DailyRevenue');
     }
 
 }
