@@ -78,6 +78,7 @@ app.controller('weekPanelController', function($scope,$http,$localStorage,API_UR
             }).then(
                 function successCallback(response) {
                     var seven_d_w = response.data.seven_days_week;
+                    console.log(seven_d_w);
                     if(Array.isArray(seven_d_w) && seven_d_w.length > 0){
                         $scope.monday = {'id':seven_d_w[0].id, 'amt': parseFloat(seven_d_w[0].amt)};
                         $scope.tuesday = {'id':seven_d_w[1].id, 'amt': parseFloat(seven_d_w[1].amt)};
