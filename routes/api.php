@@ -70,3 +70,10 @@ Route::prefix('diff_projection_percent')->group(function () {
     Route::post('create', 'InvoicesController@create');
 });
 
+Route::prefix('weekly_projection_percent_costs')->group(function () {
+    Route::get('target_cog/{store_id}/{week_id}', 'WeeklyProjectionPercentCostsController@targetCog');
+});
+
+
+
+

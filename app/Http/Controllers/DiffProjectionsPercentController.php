@@ -20,7 +20,7 @@ class DiffProjectionsPercentController extends Controller
 
         $percent = $diff_projection_percent->percent;
 
-        return response()->json(['diff_projection_percent' => $percent], 200);
+        return response()->json(['diff_projection_percent' => $store_week_id], 200);
 
     }
 }
