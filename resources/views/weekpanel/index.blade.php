@@ -19,7 +19,6 @@
                             <div class="col-2">
                                 <label for="weeksid">Select week</label>
                                 <select id = "weeksid" class="form-control" ng-required="true" ng-model="selectedWeekItem" ng-options="week.id as week.number for week in weekList" ng-change="getWeekDataFromServer()">
-
                                 </select>
                             </div>
                         </div>
@@ -121,7 +120,7 @@
             <div class="col">
                 <div class="card" style="width: 18rem;">
                     <div class="card-body">
-                        <h5 class="card-title">20%</h5>
+                        <h5 class="card-title">@{{targetCOG | number:2}} %</h5>
                         <h6 class="card-subtitle mb-2 text-muted">Target COG's.</h6>
                     </div>
                 </div>
@@ -130,14 +129,14 @@
                 <div class="card" style="width: 18rem;">
                     <div class="card-body">
                         <h5 class="card-title">@{{calcRunningCOG() | number:2}} %</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">Running COG's %</h6>
+                        <h6 class="card-subtitle mb-2 text-muted">Running COG's</h6>
                     </div>
                 </div>
             </div>
             <div class="col">
                 <div class="card" style="width: 18rem;">
                     <div class="card-body">
-                        <h5 class="card-title">7%</h5>
+                        <h5 class="card-title">@{{calcCostDifference() | number:2}}%</h5>
                         <h6 class="card-subtitle mb-2 text-muted">Difference</h6>
                     </div>
                 </div>

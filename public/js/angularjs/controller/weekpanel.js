@@ -31,7 +31,8 @@ app.controller('weekPanelController', function($scope,$http,$localStorage,API_UR
     $scope.invoiceTotal = 0.00;
 
     //------week resume
-    $scope.runningCOG = 0;
+    $scope.runningCOG = 0.00;
+    $scope.targetCOG = 0.00;
 
     $scope.calcDailyTotal = function()
     {
@@ -157,12 +158,9 @@ app.controller('weekPanelController', function($scope,$http,$localStorage,API_UR
 
     $scope.calcInvoiceTotal = function () {
         $scope.invoiceTotal = 0.00;
-         console.log("------"+$scope.invoices.length)
         for (var i = 0; i < $scope.invoices.length; i++) {
             $scope.invoiceTotal += parseFloat($scope.invoices[i].total);
-            console.log($scope.invoices[i])
         }
-        console.log("--"+$scope.invoices.length)
         return $scope.invoiceTotal;
     }
 
@@ -181,6 +179,7 @@ app.controller('weekPanelController', function($scope,$http,$localStorage,API_UR
     $scope.getWeekDataFromServer = function () {
         $scope.getSevenDays();
         $scope.getInvoices();
+        $scope.getTargetCOG();
     }
 
     $scope.calcRunningCOG = function () {
@@ -190,8 +189,25 @@ app.controller('weekPanelController', function($scope,$http,$localStorage,API_UR
         return runningCosts;
     }
 
+    $scope.getTargetCOG = function () {
+        $http({
+            method: 'GET',
+            url: API_URL + 'weekly_projection_percent_costs/target_cog/' + $scope.selectedStoreItem + '/' + $scope.selectedWeekItem ,
+        }).then(
+            function successCallback(response) {
+                $scope.targetCOG = response.data.target_cog;
+                console.log($scope.targetCOG)
+            }
+        );
+    }
+
+    $scope.calcCostDifference = function () {
+        return Math.abs($scope.targetCOG - $scope.runningCOG);
+    }
+
     $scope.getStores();
     $scope.getYears();
     $scope.getWeeks();
+    $scope.getTargetCOG();
 
 });

@@ -17,4 +17,6 @@ class WeeklyProjectionPercentCostsController extends Controller
 
         return response()->json(['target_cog' => $target_cog], 200);
     }
+
+
 }
