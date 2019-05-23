@@ -7,6 +7,9 @@ use Illuminate\Support\Facades\DB;
 
 class Week extends Model
 {
+
+    protected $table = 'weeks';
+
     protected $fillable = [
         'number',
         'year'
