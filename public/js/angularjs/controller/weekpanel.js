@@ -28,6 +28,10 @@ app.controller('weekPanelController', function($scope,$http,$localStorage,API_UR
     $scope.invoiceName_add;
     $scope.invoiceTotal_add;
 
+    $scope.invoiceTotal = 0.00;
+
+    //------week resume
+    $scope.runningCOG = 0;
 
     $scope.calcDailyTotal = function()
     {
@@ -85,15 +89,15 @@ app.controller('weekPanelController', function($scope,$http,$localStorage,API_UR
             }).then(
                 function successCallback(response) {
                     var seven_d_w = response.data.seven_days_week;
-                    //console.log(seven_d_w);
+                    console.log(seven_d_w);
                     if(Array.isArray(seven_d_w) && seven_d_w.length > 0){
-                        $scope.monday = {'id':seven_d_w[0].id, 'amt': parseFloat(seven_d_w[0].amt)};
-                        $scope.tuesday = {'id':seven_d_w[1].id, 'amt': parseFloat(seven_d_w[1].amt)};
-                        $scope.wednesday = {'id':seven_d_w[2].id, 'amt': parseFloat(seven_d_w[2].amt)};
-                        $scope.thursday = {'id':seven_d_w[3].id, 'amt': parseFloat(seven_d_w[3].amt)};
-                        $scope.friday = {'id':seven_d_w[4].id, 'amt': parseFloat(seven_d_w[4].amt)};
-                        $scope.saturday = {'id':seven_d_w[5].id, 'amt': parseFloat(seven_d_w[5].amt)};
-                        $scope.sunday = {'id':seven_d_w[6].id, 'amt': parseFloat(seven_d_w[6].amt)};
+                        $scope.monday = {'id':seven_d_w[0].id, 'amt': parseFloat(seven_d_w[0].amt),'dates_dim_date':seven_d_w[0].dates_dim_date };
+                        $scope.tuesday = {'id':seven_d_w[1].id, 'amt': parseFloat(seven_d_w[1].amt),'dates_dim_date':seven_d_w[1].dates_dim_date};
+                        $scope.wednesday = {'id':seven_d_w[2].id, 'amt': parseFloat(seven_d_w[2].amt),'dates_dim_date':seven_d_w[2].dates_dim_date};
+                        $scope.thursday = {'id':seven_d_w[3].id, 'amt': parseFloat(seven_d_w[3].amt),'dates_dim_date':seven_d_w[3].dates_dim_date};
+                        $scope.friday = {'id':seven_d_w[4].id, 'amt': parseFloat(seven_d_w[4].amt),'dates_dim_date':seven_d_w[4].dates_dim_date};
+                        $scope.saturday = {'id':seven_d_w[5].id, 'amt': parseFloat(seven_d_w[5].amt),'dates_dim_date':seven_d_w[5].dates_dim_date};
+                        $scope.sunday = {'id':seven_d_w[6].id, 'amt': parseFloat(seven_d_w[6].amt),'dates_dim_date':seven_d_w[6].dates_dim_date};
                         $scope.calcDailyTotal();
                         $scope.saveDays_btnDisable = false;
                     }
@@ -111,7 +115,7 @@ app.controller('weekPanelController', function($scope,$http,$localStorage,API_UR
                 method: 'PUT',
                 url: API_URL + 'daily_revenue/update_all_amt/',
                 params: {monday:$scope.monday, tuesday:$scope.tuesday, wednesday: $scope.wednesday, thursday:$scope.thursday, friday:$scope.friday, saturday:$scope.saturday, sunday:$scope.sunday,
-                    user_id:1},
+                    user_id:$localStorage.currentUser.user.id},
             }).
             then(function successCallback(response) {
                // console.log(response);
@@ -129,6 +133,7 @@ app.controller('weekPanelController', function($scope,$http,$localStorage,API_UR
         }).then(
             function successCallback(response) {
                 $scope.invoices = response.data.invoices;
+                $scope.calcInvoiceTotal();
             }
         );
     }
@@ -141,7 +146,8 @@ app.controller('weekPanelController', function($scope,$http,$localStorage,API_UR
         }).
         then(function successCallback(response) {
                 $scope.getInvoices();
-                 console.log(response);
+                $scope.calcInvoiceTotal();
+                 //console.log(response);
             },
             function errorCallback(response){
                 console.log(response)
@@ -149,6 +155,16 @@ app.controller('weekPanelController', function($scope,$http,$localStorage,API_UR
         );
     }
 
+    $scope.calcInvoiceTotal = function () {
+        $scope.invoiceTotal = 0.00;
+         console.log("------"+$scope.invoices.length)
+        for (var i = 0; i < $scope.invoices.length; i++) {
+            $scope.invoiceTotal += parseFloat($scope.invoices[i].total);
+            console.log($scope.invoices[i])
+        }
+        console.log("--"+$scope.invoices.length)
+        return $scope.invoiceTotal;
+    }
 
     $scope.clearSevenDays = function () {
         $scope.monday = {'id':-1, 'amt': 0.00};
@@ -165,6 +181,13 @@ app.controller('weekPanelController', function($scope,$http,$localStorage,API_UR
     $scope.getWeekDataFromServer = function () {
         $scope.getSevenDays();
         $scope.getInvoices();
+    }
+
+    $scope.calcRunningCOG = function () {
+        var runningCosts = $scope.invoiceTotal * 100 / $scope.dailyRevenueTotal;
+        if(isNaN(runningCosts) )
+            runningCosts = 0;
+        return runningCosts;
     }
 
     $scope.getStores();

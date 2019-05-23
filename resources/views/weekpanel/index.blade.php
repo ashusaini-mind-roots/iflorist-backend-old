@@ -29,7 +29,7 @@
         </div>
 
         {{--daily revenues--}}
-        <div class="row">
+        <div class="row mb-5">
             <div class="col-12">
                 <div class="card mt-5 ">
                     <div class="card-body">
@@ -37,42 +37,49 @@
                         <div class="row">
                             <div class="col">
                                 <div class="form-group">
+                                    <span>@{{monday.dates_dim_date}}</span>
                                     <label for="inputMonday">Monday</label>
                                     <input  type="text"  class="form-control form-control-plaintext" id="inputMonday" ng-model="monday.amt" >
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-group">
+                                    <span>@{{tuesday.dates_dim_date}}</span>
                                     <label for="inputTuesday">Tuesday</label>
                                     <input type="text" class="form-control form-control-plaintext" id="inputTuesday" ng-model="tuesday.amt" >
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-group">
+                                    <span>@{{wednesday.dates_dim_date}}</span>
                                     <label for="inputWednesday">Wednesday </label>
                                     <input type="text" class="form-control form-control-plaintext" id="inputWednesday" ng-model="wednesday.amt" >
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-group">
+                                    <span>@{{thursday.dates_dim_date}}</span>
                                     <label for="inputThursday">Thursday  </label>
                                     <input type="text" class="form-control form-control-plaintext" id="inputThursday" ng-model="thursday.amt" >
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-group">
+                                    <span>@{{friday.dates_dim_date}}</span>
                                     <label for="inputFriday">Friday  </label>
                                     <input type="text" class="form-control form-control-plaintext" id="inputFriday" ng-model="friday.amt" >
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-group">
+                                    <span>@{{saturday.dates_dim_date}}</span>
                                     <label for="inputSaturday">Saturday  </label>
                                     <input type="text" class="form-control form-control-plaintext" id="inputSaturday" ng-model="saturday.amt" >
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-group">
+                                    <span>@{{sunday.dates_dim_date}}</span>
                                     <label for="inputSunday">Sunday  </label>
                                     <input type="text" class="form-control form-control-plaintext" id="inputSunday" ng-model="sunday.amt" >
                                 </div>
@@ -95,6 +102,44 @@
                 </div>
                 <div class="spinner-border" role="status">
                     <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">$8,539.00</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Proj. Weekly Rev.</h6>
+                        {{--<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>--}}
+                        {{--<a href="#" class="card-link">Card link</a>--}}
+                        {{--<a href="#" class="card-link">Another link</a>--}}
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">20%</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Target COG's.</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">@{{calcRunningCOG() | number:2}} %</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Running COG's %</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">7%</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Difference</h6>
+                    </div>
                 </div>
             </div>
         </div>
@@ -132,11 +177,19 @@
                                         </tr>
                                         </tbody>
                                         <!--Table body-->
-
                                     </table>
                                     <!--Table-->
-
                                 </div>
+                            </div>
+                        </div>
+                        <hr/>
+                        <div class="row">
+
+                            <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12 mt-2">
+
+                                <label>Total value</label>
+                                {{--<input type="text" class="form-control " placeholder="Value" ng-model="invoiceTotal_add">--}}
+                                <div>@{{invoiceTotal|currency}}</div>
                             </div>
                         </div>
                     </div>

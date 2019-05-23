@@ -18,6 +18,7 @@ class DailyRevenuesController extends Controller
             ->where('store_week.store_id',$store_id)
             ->where('store_week.week_id',$week_id)
             ->get();
+        //date_format($date, 'Y-m-d H:i:s');
         return response()->json(['seven_days_week' => $seven_days_week], 200);
     }
 
