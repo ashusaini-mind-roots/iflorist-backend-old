@@ -74,6 +74,8 @@ Route::prefix('weekly_projection_percent_costs')->group(function () {
     Route::get('target_cog/{store_id}/{week_id}', 'WeeklyProjectionPercentCostsController@targetCog');
 });
 
-
+Route::prefix('weekly_projection_percent_revenue')->group(function () {
+    Route::get('proj_weekly_revenue/', 'WeeklyProjectionPercentCostsRevenuesController@projWeeklyRevenue');
+});
 
 

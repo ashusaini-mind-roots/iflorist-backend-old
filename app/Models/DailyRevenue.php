@@ -12,7 +12,7 @@ class DailyRevenue extends Model
         return $this->belongsTo('App\Models\StoreWeek');
     }
 
-    static function sevenDaysWeek($store_week_id)
+    static function sevenDaysWeek($store_id,$week_id)
     {
         $seven_days_week = DB::table('daily_revenues')
             ->leftjoin('store_week','store_week.id','=','daily_revenues.store_week_id')
@@ -21,6 +21,6 @@ class DailyRevenue extends Model
             ->where('store_week.store_id',$store_id)
             ->where('store_week.week_id',$week_id)
             ->get();
-        return response()->json(['seven_days_week' => $seven_days_week], 200);
+        return  $seven_days_week;
     }
 }
