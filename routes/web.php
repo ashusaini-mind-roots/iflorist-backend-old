@@ -31,6 +31,10 @@ Route::get('/users', function () {
 Route::get('/weekpanel', function () {
     return view('weekpanel.index');
 });
+
+Route::get('/masteroverview', function () {
+    return view('masteroverview.index');
+});
 /*Route::get('/', function () {
     return view('login');
 });*/
