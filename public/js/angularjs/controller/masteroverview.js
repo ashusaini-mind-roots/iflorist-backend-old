@@ -46,9 +46,12 @@ app.controller('masterOverviewController', function($scope,$http,$localStorage,A
     }
 
     $scope.goToweekControlPage = function (week_id) {
-        $localStorage.weekOverview_selectedStoreId = $scope.selectedStoreItem;
-        $localStorage.weekOverview_selectedYear = $scope.selectedYearsItem;
-        $localStorage.weekOverview_selectedWeekId = week_id;
+        $localStorage.weekOverview = {
+            selectedStoreId : $scope.selectedStoreItem,
+            selectedYear : $scope.selectedYearsItem,
+            selectedWeekId : week_id
+        };
+        $localStorage.weekOverview
 
         $window.location.href = "/weekpanel";
     }
