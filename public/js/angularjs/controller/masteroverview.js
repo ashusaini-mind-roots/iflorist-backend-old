@@ -31,10 +31,10 @@ app.controller('masterOverviewController', function($scope,$http,$localStorage,A
         if($localStorage.currentUser) {
             $http({
                 method: 'GET',
-                url: API_URL + 'flowermar_master_weekly/flowermar_master_weekly_of_fresh/' + $scope.selectedStoreItem + '/' + $scope.selectedYearsItem ,
+                url: API_URL + 'master_overview_weekly/master_overview_weekly_of_fresh/' + $scope.selectedStoreItem + '/' + $scope.selectedYearsItem ,
             }).then(
                 function successCallback(response) {
-                    $scope.weeks = response.data.flowermar_master_weekly_of_fresh;
+                    $scope.weeks = response.data.master_overview_weekly;
                     console.log(response);
                 }
             );
@@ -45,10 +45,10 @@ app.controller('masterOverviewController', function($scope,$http,$localStorage,A
         $scope.getMasterOverviewWeekly();
     }
 
-    $scope.goToweekControlPage = function () {
+    $scope.goToweekControlPage = function (week_id) {
         $localStorage.weekOverview_selectedStoreId = $scope.selectedStoreItem;
         $localStorage.weekOverview_selectedYear = $scope.selectedYearsItem;
-        $localStorage.weekOverview_selectedWeekId = 106;
+        $localStorage.weekOverview_selectedWeekId = week_id;
 
         $window.location.href = "/weekpanel";
     }

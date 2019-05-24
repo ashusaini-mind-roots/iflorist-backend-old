@@ -55,13 +55,13 @@
                                         <tbody>
                                         <tr ng-repeat="week in weeks">
                                             <td>@{{week.week_ending}}</td>
-                                            <td></td>
+                                            <td>@{{week.projected_weekly_revenue}}</td>
                                             <td>@{{week.actual_weekly_revenue}}</td>
                                             <td>@{{week.weekly_cog_total}}</td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td><button type="button" class="btn btn-link btn-sm" ng-click="goToweekControlPage()" >View</button></td>
+                                            <td>@{{week.actual}}</td>
+                                            <td>@{{week.target}}</td>
+                                            <td>@{{week.difference}}</td>
+                                            <td><button type="button" class="btn btn-link btn-sm" ng-click="goToweekControlPage(week.week_id)" >View</button></td>
                                         </tr>
                                         </tbody>
                                         <!--Table body-->

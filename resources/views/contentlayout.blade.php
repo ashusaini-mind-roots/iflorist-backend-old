@@ -60,6 +60,12 @@
                         Users
                     </a>
                 </li>
+                <li>
+                    <a href="{{url('/masteroverview')}}">
+                        <i class="fas fa-question"></i>
+                        Overview
+                    </a>
+                </li>
                 {{--<li>--}}
                     {{--<a href="#">--}}
                         {{--<i class="fas fa-paper-plane"></i>--}}
