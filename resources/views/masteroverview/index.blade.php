@@ -8,12 +8,12 @@
                         <div class="row">
                             <div class="col-2">
                                 <label for="storesid">Select store</label>
-                                <select id = "storesid" class="form-control" ng-required="true" ng-model="selectedStoreItem" ng-options="store.id as store.store_name for store in storesList">
+                                <select id = "storesid" class="form-control" ng-required="true" ng-model="selectedStoreItem" ng-options="store.id as store.store_name for store in storesList" ng-change="getOverviewDataFromServer()">
                                 </select>
                             </div>
                             <div class="col-2">
                                 <label for="yearsid">Select year</label>
-                                <select id = "yearsid" class="form-control" ng-required="true" ng-model="selectedYearsItem" ng-options="year for year in yearsList" ng-change="getWeeks()">
+                                <select id = "yearsid" class="form-control" ng-required="true" ng-model="selectedYearsItem" ng-options="year for year in yearsList" ng-change="getOverviewDataFromServer()">
                                 </select>
                             </div>
 
@@ -40,12 +40,13 @@
                                         <thead>
                                         <tr>
                                             <th class="th-sm">Week Ending</th>
-                                            <th class="th-sm">Proj. Weekly Revenue</th>
-                                            <th class="th-sm">Actual Weekly Revenue</th>
+                                            <th class="th-sm">Proj. Weekly Rev.</th>
+                                            <th class="th-sm">Actual Weekly Rev.</th>
                                             <th class="th-sm">Weekly COG's Total</th>
                                             <th class="th-sm">Actual</th>
                                             <th class="th-sm">Target</th>
                                             <th class="th-sm">Difference</th>
+                                            <th class="th-sm">Actions</th>
                                         </tr>
                                         </thead>
                                         <!--Table head-->
@@ -60,7 +61,7 @@
                                             <td></td>
                                             <td></td>
                                             <td></td>
-
+                                            <td><button type="button" class="btn btn-link btn-sm" ng-click="goToweekControlPage()" >View</button></td>
                                         </tr>
                                         </tbody>
                                         <!--Table body-->

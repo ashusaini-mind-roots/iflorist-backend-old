@@ -1,4 +1,4 @@
-app.controller('masterOverviewController', function($scope,$http,$localStorage,API_URL,$resource) {
+app.controller('masterOverviewController', function($scope,$http,$localStorage,API_URL,$window) {
 
     console.log('masteroverview.js load success');
 
@@ -35,10 +35,22 @@ app.controller('masterOverviewController', function($scope,$http,$localStorage,A
             }).then(
                 function successCallback(response) {
                     $scope.weeks = response.data.flowermar_master_weekly_of_fresh;
-                    console.log($scope.weeks);
+                    console.log(response);
                 }
             );
         }
+    }
+
+    $scope.getOverviewDataFromServer = function () {
+        $scope.getMasterOverviewWeekly();
+    }
+
+    $scope.goToweekControlPage = function () {
+        $localStorage.weekOverview_selectedStoreId = $scope.selectedStoreItem;
+        $localStorage.weekOverview_selectedYear = $scope.selectedYearsItem;
+        $localStorage.weekOverview_selectedWeekId = 106;
+
+        $window.location.href = "/weekpanel";
     }
 
     $scope.getStores();
