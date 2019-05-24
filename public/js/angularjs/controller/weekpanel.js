@@ -68,6 +68,7 @@ app.controller('weekPanelController', function($scope,$http,$localStorage,API_UR
     }
 
     $scope.getWeeks = function () {
+        $scope.SetInitValuesToSelects();
         if($localStorage.currentUser) {
             $http({
                 method: 'GET',
@@ -236,6 +237,6 @@ app.controller('weekPanelController', function($scope,$http,$localStorage,API_UR
     $scope.getStores();
     $scope.getYears();
     $scope.getWeeks();
-    $scope.SetInitValuesToSelects();
+   // $scope.SetInitValuesToSelects();
     $scope.getWeekDataFromServer();
 });

@@ -61,7 +61,7 @@
                                             <td>@{{week.actual}}</td>
                                             <td>@{{week.target}}</td>
                                             <td>@{{week.difference}}</td>
-                                            <td><button type="button" class="btn btn-link btn-sm" ng-click="goToweekControlPage(week.week_id)" >View</button></td>
+                                            <td id="@{{week.week_id}}"><button type="button" class="btn btn-link btn-sm" ng-click="goToweekControlPage(week.week_id)" >View</button></td>
                                         </tr>
                                         </tbody>
                                         <!--Table body-->
