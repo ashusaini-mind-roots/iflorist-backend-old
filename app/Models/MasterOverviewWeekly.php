@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Week;
 
 
-class FlowermartMasterWeekly extends Model
+class MasterOverviewWeekly extends Model
 {
 
 }

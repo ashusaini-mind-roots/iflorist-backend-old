@@ -78,8 +78,8 @@ Route::prefix('weekly_projection_percent_revenue')->group(function () {
     Route::get('proj_weekly_revenue/', 'WeeklyProjectionPercentCostsRevenuesController@projWeeklyRevenue');
 });
 
-Route::prefix('flowermar_master_weekly')->group(function () {
-    Route::get('flowermar_master_weekly_of_fresh/{store_id}/{year}', 'FlowermartMasterWeeklyController@FlowermartMasterWeeklyOfFresh');
+Route::prefix('master_overview_weekly')->group(function () {
+    Route::get('master_overview_weekly_of_fresh/{store_id}/{year}', 'MasterOverviewWeeklyController@MasterOverviewWeeklyOfFresh');
 });
 
 
