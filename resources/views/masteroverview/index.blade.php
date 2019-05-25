@@ -75,17 +75,17 @@
                                 <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12 mt-2">
                                     <label>AVG Actual</label>
                                     {{--<input type="text" class="form-control " placeholder="Value" ng-model="invoiceTotal_add">--}}
-                                    <div>@{{avgActual }} %</div>
+                                    <div>@{{avgActual | number : 2 }} %</div>
                                 </div>
                             <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12 mt-2">
                                 <label>AVG Target</label>
                                 {{--<input type="text" class="form-control " placeholder="Value" ng-model="invoiceTotal_add">--}}
-                                <div>@{{avgTarget }} %</div>
+                                <div>@{{avgTarget | number : 2 }} %</div>
                             </div>
                             <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12 mt-2">
                                 <label>AVG Difference</label>
                                 {{--<input type="text" class="form-control " placeholder="Value" ng-model="invoiceTotal_add">--}}
-                                <div>@{{avgDifference }} %</div>
+                                <div>@{{avgDifference | number : 2 }} %</div>
                             </div>
                         </div>
                     </div>
