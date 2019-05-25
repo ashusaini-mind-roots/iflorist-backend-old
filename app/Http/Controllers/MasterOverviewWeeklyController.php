@@ -64,9 +64,9 @@ class MasterOverviewWeeklyController extends Controller
                 'projected_weekly_revenue' => number_format((float)$responseValue,2,'.',''),
                 'actual_weekly_revenue' => number_format((float)$actual_weekly_revenue,2,'.',''),
                 'weekly_cog_total' => number_format((float)$weekly_cog_total,2,'.',''),
-                'target' => WeeklyProjectionPercentCosts::target($store_id,$w->id),
+                'target' => number_format((float)WeeklyProjectionPercentCosts::target($store_id,$w->id),2,'.',''),
                 'actual' => number_format((float)$total,2,'.',''),
-                'difference' => number_format((int)WeeklyProjectionPercentCosts::target($store_id,$w->id) - $total,0,'.','')
+                'difference' => number_format((float)WeeklyProjectionPercentCosts::target($store_id,$w->id) - $total,2,'.','')
             );
 
             $master_overview_weekly [] = $arrayDatos;
