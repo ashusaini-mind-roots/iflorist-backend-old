@@ -38,7 +38,7 @@
                                 <div class="form-group">
                                     <span>@{{monday.dates_dim_date}}</span>
                                     <label for="inputMonday">Monday</label>
-                                    <input  type="text"  class="form-control form-control-plaintext" id="inputMonday" ng-model="monday.amt" >
+                                    <input  type="text"  class="form-control form-control-plaintext" id="inputMonday" ng-model="monday.amt">
                                 </div>
                             </div>
                             <div class="col">

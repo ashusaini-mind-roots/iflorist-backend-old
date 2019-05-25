@@ -55,9 +55,9 @@
                                         <tbody>
                                         <tr ng-repeat="week in weeks">
                                             <td>@{{week.week_ending}}</td>
-                                            <td>@{{week.projected_weekly_revenue}}</td>
-                                            <td>@{{week.actual_weekly_revenue}}</td>
-                                            <td>@{{week.weekly_cog_total}}</td>
+                                            <td>@{{week.projected_weekly_revenue | currency}}</td>
+                                            <td>@{{week.actual_weekly_revenue | currency}}</td>
+                                            <td>@{{week.weekly_cog_total | currency}}</td>
                                             <td>@{{week.actual}}</td>
                                             <td>@{{week.target}}</td>
                                             <td>@{{week.difference}}</td>

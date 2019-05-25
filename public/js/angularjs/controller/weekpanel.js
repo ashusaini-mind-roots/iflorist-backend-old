@@ -11,6 +11,8 @@ app.controller('weekPanelController', function($scope,$http,$localStorage,API_UR
     $scope.weekList = {};
     $scope.selectedWeekItem = "3";
 
+    $scope.allreadyInitedSelectValuesFromMasterOverview = false;
+
     $scope.monday = {'id':-1, 'amt': 0.00};
     $scope.tuesday = {'id':-1, 'amt': 0.00};
     $scope.wednesday = {'id':-1, 'amt': 0.00};
@@ -50,7 +52,7 @@ app.controller('weekPanelController', function($scope,$http,$localStorage,API_UR
 
 
     $scope.getStores = function () {
-        console.log(API_URL + 'store/all/' + $localStorage.currentUser.user.id + '/' + $localStorage.currentUser.user.role_name)
+       // console.log(API_URL + 'store/all/' + $localStorage.currentUser.user.id + '/' + $localStorage.currentUser.user.role_name)
         if($localStorage.currentUser) {
             $http({
                 method: 'GET',
@@ -68,7 +70,8 @@ app.controller('weekPanelController', function($scope,$http,$localStorage,API_UR
     }
 
     $scope.getWeeks = function () {
-        $scope.SetInitValuesToSelects();
+        if($localStorage.weekOverview != undefined)
+            $scope.selectedYearsItem = $localStorage.weekOverview.selectedYear;
         if($localStorage.currentUser) {
             $http({
                 method: 'GET',
@@ -76,10 +79,18 @@ app.controller('weekPanelController', function($scope,$http,$localStorage,API_UR
             }).then(
                 function successCallback(response) {
                     $scope.weekList = response.data.weeks;
+                    //console.log($scope.weekList);
+                    $scope.SetInitValuesToSelects();
                     if ($localStorage.weekOverview) {
-                        $scope.selectedWeekItem = $localStorage.weekOverview_selectedWeekId;
+                        {
+                            $scope.selectedWeekItem = $localStorage.weekOverview.selectedWeekId;
+                            $localStorage.weekOverview = undefined;
+                        }
                     } else if (Array.isArray($scope.weekList) && $scope.weekList.length > 0)
                         $scope.selectedWeekItem = $scope.weekList[0].id;
+                    $localStorage.weekOverview = undefined;
+
+                    $scope.getWeekDataFromServer();
                 }
             );
         }
@@ -94,7 +105,7 @@ app.controller('weekPanelController', function($scope,$http,$localStorage,API_UR
             }).then(
                 function successCallback(response) {
                     var seven_d_w = response.data.seven_days_week;
-                    console.log(seven_d_w);
+                   // console.log(seven_d_w);
                     if(Array.isArray(seven_d_w) && seven_d_w.length > 0){
                         $scope.monday = {'id':seven_d_w[0].id, 'amt': parseFloat(seven_d_w[0].amt),'dates_dim_date':seven_d_w[0].dates_dim_date };
                         $scope.tuesday = {'id':seven_d_w[1].id, 'amt': parseFloat(seven_d_w[1].amt),'dates_dim_date':seven_d_w[1].dates_dim_date};
@@ -202,7 +213,7 @@ app.controller('weekPanelController', function($scope,$http,$localStorage,API_UR
         }).then(
             function successCallback(response) {
                 $scope.targetCOG = response.data.target_cog;
-                console.log($scope.targetCOG)
+               // console.log($scope.targetCOG)
             }
         );
     }
@@ -218,7 +229,7 @@ app.controller('weekPanelController', function($scope,$http,$localStorage,API_UR
         }).then(
             function successCallback(response) {
                 $scope.projWeeklyRev = response.data.proj_weekly_rev;
-                console.log(response)
+                //console.log(response)
             },
             function errorCallback(response){
                 console.log(response)
@@ -227,16 +238,18 @@ app.controller('weekPanelController', function($scope,$http,$localStorage,API_UR
     }
 
     $scope.SetInitValuesToSelects = function () {
-        if($localStorage.weekOverview){
-            $scope.selectedStoreItem = $localStorage.weekOverview_selectedStoreId;
-            $scope.selectedYearsItem = $localStorage.weekOverview_selectedYear;
-            $scope.selectedWeekItem = $localStorage.weekOverview_selectedWeekId;
+        if($localStorage.weekOverview != undefined){
+            $scope.selectedStoreItem = $localStorage.weekOverview.selectedStoreId;
+            // $scope.selectedYearsItem = $localStorage.weekOverview.selectedYear;
+            $scope.selectedWeekItem = $localStorage.weekOverview.selectedWeekId;
+            //console.log($scope.selectedWeekItem)
         }
     }
+
 
     $scope.getStores();
     $scope.getYears();
     $scope.getWeeks();
-   // $scope.SetInitValuesToSelects();
-    $scope.getWeekDataFromServer();
+    // $scope.SetInitValuesToSelects();
+   // $scope.getWeekDataFromServer();
 });
