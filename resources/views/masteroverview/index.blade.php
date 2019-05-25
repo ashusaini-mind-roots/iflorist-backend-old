@@ -58,9 +58,9 @@
                                             <td>@{{week.projected_weekly_revenue | currency}}</td>
                                             <td>@{{week.actual_weekly_revenue | currency}}</td>
                                             <td>@{{week.weekly_cog_total | currency}}</td>
-                                            <td>@{{week.actual}}</td>
-                                            <td>@{{week.target}}</td>
-                                            <td>@{{week.difference}}</td>
+                                            <td>@{{week.actual}}%</td>
+                                            <td>@{{week.target}}%</td>
+                                            <td>@{{week.difference}}%</td>
                                             <td id="@{{week.week_id}}"><button type="button" class="btn btn-link btn-sm" ng-click="goToweekControlPage(week.week_id)" >View</button></td>
                                         </tr>
                                         </tbody>
@@ -72,16 +72,24 @@
                         </div>
                         <hr/>
                         <div class="row">
-
-                            {{--<div class="col-lg-3 col-md-6 col-sm-12 col-xs-12 mt-2">--}}
-
-                                {{--<label>Total value</label>--}}
+                                <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12 mt-2">
+                                    <label>AVG Actual</label>
+                                    {{--<input type="text" class="form-control " placeholder="Value" ng-model="invoiceTotal_add">--}}
+                                    <div>@{{avgActual }} %</div>
+                                </div>
+                            <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12 mt-2">
+                                <label>AVG Target</label>
                                 {{--<input type="text" class="form-control " placeholder="Value" ng-model="invoiceTotal_add">--}}
-                                {{--<div>@{{invoiceTotal|currency}}</div>--}}
-                            {{--</div>--}}
+                                <div>@{{avgTarget }} %</div>
+                            </div>
+                            <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12 mt-2">
+                                <label>AVG Difference</label>
+                                {{--<input type="text" class="form-control " placeholder="Value" ng-model="invoiceTotal_add">--}}
+                                <div>@{{avgDifference }} %</div>
+                            </div>
                         </div>
                     </div>
-                    <div class="card-footer text-right">
+                    {{--<div class="card-footer text-right">--}}
                         {{--<form class="form-inline">--}}
                             {{--<input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" placeholder="Number" ng-model="invoiceNumber_add">--}}
                             {{--<input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" placeholder="Name" ng-model="invoiceName_add">--}}
@@ -89,7 +97,7 @@
 
                             {{--<button type="submit" class="btn btn-primary" ng-click="createInvoice()">Add invoise</button>--}}
                         {{--</form>--}}
-                    </div>
+                    {{--</div>--}}
                 </div>
             </div>
         </div>

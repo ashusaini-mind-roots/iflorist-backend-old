@@ -10,6 +10,10 @@ app.controller('masterOverviewController', function($scope,$http,$localStorage,A
 
     $scope.weeks = [];
 
+    $scope.avgActual = 0.00;
+    $scope.avgTarget = 0.00;
+    $scope.avgDifference = 0.00;
+
     $scope.getStores = function () {
         if($localStorage.currentUser) {
             $http({
@@ -35,6 +39,7 @@ app.controller('masterOverviewController', function($scope,$http,$localStorage,A
             }).then(
                 function successCallback(response) {
                     $scope.weeks = response.data.master_overview_weekly;
+                    $scope.calcAVGs($scope.weeks);
                     console.log(response);
                 }
             );
@@ -54,6 +59,29 @@ app.controller('masterOverviewController', function($scope,$http,$localStorage,A
         $localStorage.weekOverview
 
         $window.location.href = "/weekpanel";
+    }
+
+    $scope.calcAVGs = function (master_overview_weekly) {
+        var sum = 0;
+        $scope.avgActual = 0.00;
+        $scope.avgTarget = 0.00;
+        $scope.avgDifference = 0.00;
+        var count = master_overview_weekly.length;
+        for (var i = 0; i < count; i++) {
+            $scope.avgActual = $scope.avgActual + parseFloat(master_overview_weekly[i].actual);
+            $scope.avgTarget = $scope.avgTarget +parseFloat( master_overview_weekly[i].target);
+            $scope.avgDifference = $scope.avgDifference + parseFloat(master_overview_weekly[i].difference);
+        }
+
+        console.log($scope.avgActual);
+        console.log($scope.avgTarget);
+        console.log($scope.avgDifference);
+
+        $scope.avgActual = $scope.avgActual / count;
+        $scope.avgTarget = $scope.avgTarget / count;
+        $scope.avgDifference = $scope.avgDifference / count;
+
+
     }
 
     $scope.getStores();
