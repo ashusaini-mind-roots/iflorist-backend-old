@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 
 class DailyRevenue extends Model
 {
-    protected $table = 'weeks';
+    protected $table = 'daily_revenues';
 
     public function post()
     {
