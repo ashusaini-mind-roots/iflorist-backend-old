@@ -9,6 +9,7 @@ use App\Models\Invoice;
 use App\Models\WeeklyProjectionPercentRevenues;
 use App\Models\StoreWeek;
 use App\Models\WeeklyProjectionPercentCosts;
+use Illuminate\Support\Carbon;
 use League\Flysystem\Exception;
 
 class MasterOverviewWeeklyController extends Controller
@@ -60,7 +61,7 @@ class MasterOverviewWeeklyController extends Controller
 
             $arrayDatos = array(
                 'week_id' => $w->id,
-                'week_ending' => $day->month.'-'.$day->month_day,
+                'week_ending' => Carbon::parse($day->date)->format('M-d'),//$day->month.'-'.$day->month_day,
                 'projected_weekly_revenue' => number_format((float)$responseValue,2,'.',''),
                 'actual_weekly_revenue' => number_format((float)$actual_weekly_revenue,2,'.',''),
                 'weekly_cog_total' => number_format((float)$weekly_cog_total,2,'.',''),
