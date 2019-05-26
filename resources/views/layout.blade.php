@@ -39,7 +39,7 @@
 <script src="{{asset('js/angularjs/services/authentication.service.js')}}"></script>
 <script src="{{asset('js/angularjs/controller/logout.js')}}"></script>
 <script src="{{asset('js/angularjs/controller/login.js')}}"></script>
-<script src="{{asset('js/external/JQ-Mask-Plugin/src/jquery.mask.js')}}"></script>
+<script src="{{asset('js/external/jQ-Mask-Plugin/src/jquery.mask.js')}}"></script>
 
 @yield('js')
 
