@@ -197,7 +197,7 @@ app.controller('weekPanelController', function ($scope, $http, $localStorage, AP
     $scope.createInvoice = function () {
         $http({
             method: 'POST',
-            url: API_URL + 'invoice/create/',
+            url: API_URL + 'invoice/create',
             params: {
                 invoice_number: $scope.invoiceNumber_add,
                 invoice_name: $scope.invoiceName_add,
