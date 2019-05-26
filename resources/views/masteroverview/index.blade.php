@@ -8,12 +8,17 @@
                         <div class="row">
                             <div class="col-2">
                                 <label for="storesid">Select store</label>
-                                <select id = "storesid" class="form-control" ng-required="true" ng-model="selectedStoreItem" ng-options="store.id as store.store_name for store in storesList" ng-change="getOverviewDataFromServer()">
+                                <select id="storesid" class="form-control" ng-required="true"
+                                        ng-model="selectedStoreItem"
+                                        ng-options="store.id as store.store_name for store in storesList"
+                                        ng-change="getOverviewDataFromServer()">
                                 </select>
                             </div>
                             <div class="col-2">
                                 <label for="yearsid">Select year</label>
-                                <select id = "yearsid" class="form-control" ng-required="true" ng-model="selectedYearsItem" ng-options="year for year in yearsList" ng-change="getOverviewDataFromServer()">
+                                <select id="yearsid" class="form-control" ng-required="true"
+                                        ng-model="selectedYearsItem" ng-options="year for year in yearsList"
+                                        ng-change="getOverviewDataFromServer()">
                                 </select>
                             </div>
 
@@ -53,15 +58,21 @@
 
                                         <!--Table body-->
                                         <tbody>
-                                        <tr ng-repeat="week in weeks">
+                                        <tr ng-repeat="week in weeks" ng-class="week.difference<0?'text-danger':''">
                                             <td>@{{week.week_ending}}</td>
                                             <td>@{{week.projected_weekly_revenue | currency}}</td>
                                             <td>@{{week.actual_weekly_revenue | currency}}</td>
-                                            <td>@{{week.weekly_cog_total | currency}}</td>
-                                            <td>@{{week.actual}}%</td>
+                                            <td ng-class="week.difference<0?'font-weight-bold':''">@{{week.weekly_cog_total | currency}}</td>
+                                            <td ng-class="week.difference<0?'font-weight-bold':''">@{{week.actual}}%</td>
                                             <td>@{{week.target}}%</td>
-                                            <td>@{{week.difference}}%</td>
-                                            <td id="@{{week.week_id}}"><button type="button" class="btn btn-link btn-sm" ng-click="goToweekControlPage(week.week_id)" >View</button></td>
+                                            <td ng-class="week.difference<0?'font-weight-bold':''">
+                                                @{{week.difference}}%
+                                            </td>
+                                            <td id="@{{week.week_id}}">
+                                                <button type="button" class="btn btn-link btn-sm"
+                                                        ng-click="goToweekControlPage(week.week_id)">View
+                                                </button>
+                                            </td>
                                         </tr>
                                         </tbody>
                                         <!--Table body-->
@@ -72,11 +83,11 @@
                         </div>
                         <hr/>
                         <div class="row">
-                                <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12 mt-2">
-                                    <label>AVG Actual</label>
-                                    {{--<input type="text" class="form-control " placeholder="Value" ng-model="invoiceTotal_add">--}}
-                                    <div>@{{avgActual | number : 2 }} %</div>
-                                </div>
+                            <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12 mt-2">
+                                <label>AVG Actual</label>
+                                {{--<input type="text" class="form-control " placeholder="Value" ng-model="invoiceTotal_add">--}}
+                                <div>@{{avgActual | number : 2 }} %</div>
+                            </div>
                             <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12 mt-2">
                                 <label>AVG Target</label>
                                 {{--<input type="text" class="form-control " placeholder="Value" ng-model="invoiceTotal_add">--}}
@@ -90,13 +101,13 @@
                         </div>
                     </div>
                     {{--<div class="card-footer text-right">--}}
-                        {{--<form class="form-inline">--}}
-                            {{--<input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" placeholder="Number" ng-model="invoiceNumber_add">--}}
-                            {{--<input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" placeholder="Name" ng-model="invoiceName_add">--}}
-                            {{--<input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" placeholder="Value" ng-model="invoiceTotal_add">--}}
+                    {{--<form class="form-inline">--}}
+                    {{--<input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" placeholder="Number" ng-model="invoiceNumber_add">--}}
+                    {{--<input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" placeholder="Name" ng-model="invoiceName_add">--}}
+                    {{--<input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" placeholder="Value" ng-model="invoiceTotal_add">--}}
 
-                            {{--<button type="submit" class="btn btn-primary" ng-click="createInvoice()">Add invoise</button>--}}
-                        {{--</form>--}}
+                    {{--<button type="submit" class="btn btn-primary" ng-click="createInvoice()">Add invoise</button>--}}
+                    {{--</form>--}}
                     {{--</div>--}}
                 </div>
             </div>
