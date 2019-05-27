@@ -8,7 +8,7 @@
                         <div class="row">
                             <div class="col-2">
                                 <label for="storesid">Select store</label>
-                                <select id = "storesid" class="form-control" ng-required="true" ng-model="selectedStoreItem" ng-options="store.id as store.store_name for store in storesList">
+                                <select id = "storesid" class="form-control" ng-required="true" ng-model="selectedStoreItem" ng-options="store.id as store.store_name for store in storesList"  >
                                 </select>
                             </div>
                             <div class="col-2">
