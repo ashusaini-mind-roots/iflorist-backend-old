@@ -45,42 +45,42 @@
                                 <div class="form-group">
                                     <span>@{{tuesday.dates_dim_date | date:'MM/dd/yyyy'}}</span><br>
                                     <label for="inputTuesday">Tuesday</label>
-                                    <input type="text" class="form-control form-control-plaintext" id="inputTuesday" ng-model="tuesday.amt_formatted" >
+                                    <input type="text" class="form-control form-control-plaintext money" id="inputTuesday" ng-model="tuesday.amt_formatted" >
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-group">
                                     <span>@{{wednesday.dates_dim_date | date:'MM/dd/yyyy'}}</span><br>
                                     <label for="inputWednesday">Wednesday </label>
-                                    <input type="text" class="form-control form-control-plaintext" id="inputWednesday" ng-model="wednesday.amt_formatted" >
+                                    <input type="text" class="form-control form-control-plaintext money" id="inputWednesday" ng-model="wednesday.amt_formatted" >
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-group">
                                     <span>@{{thursday.dates_dim_date | date:'MM/dd/yyyy'}}</span><br>
                                     <label for="inputThursday">Thursday  </label>
-                                    <input type="text" class="form-control form-control-plaintext" id="inputThursday" ng-model="thursday.amt_formatted" >
+                                    <input type="text" class="form-control form-control-plaintext money" id="inputThursday" ng-model="thursday.amt_formatted" >
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-group">
                                     <span>@{{friday.dates_dim_date | date:'MM/dd/yyyy'}}</span><br>
                                     <label for="inputFriday">Friday  </label>
-                                    <input type="text" class="form-control form-control-plaintext" id="inputFriday" ng-model="friday.amt_formatted" >
+                                    <input type="text" class="form-control form-control-plaintext money" id="inputFriday" ng-model="friday.amt_formatted" >
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-group">
                                     <span>@{{saturday.dates_dim_date | date:'MM/dd/yyyy'}}</span><br>
                                     <label for="inputSaturday">Saturday  </label>
-                                    <input type="text" class="form-control form-control-plaintext" id="inputSaturday" ng-model="saturday.amt_formatted" >
+                                    <input type="text" class="form-control form-control-plaintext money" id="inputSaturday" ng-model="saturday.amt_formatted" >
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-group">
                                     <span>@{{sunday.dates_dim_date | date:'MM/dd/yyyy'}}</span><br>
                                     <label for="inputSunday">Sunday</label>
-                                    <input type="text" class="form-control form-control-plaintext" id="inputSunday" ng-model="sunday.amt_formatted" >
+                                    <input type="text" class="form-control form-control-plaintext money" id="inputSunday" ng-model="sunday.amt_formatted" >
                                 </div>
                             </div>
                             <div class="col">
