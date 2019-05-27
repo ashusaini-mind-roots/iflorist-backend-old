@@ -162,17 +162,18 @@
                                             <th class="th-sm">Number</th>
                                             <th class="th-sm">Name</th>
                                             <th class="th-sm">Value</th>
+                                            <th class="th-sm">Actions</th>
                                         </tr>
                                         </thead>
                                         <!--Table head-->
 
                                         <!--Table body-->
-                                        <tbody>
+                                        <tbody ng-cloak>
                                         <tr ng-repeat="invoice in invoices">
                                             <td>@{{invoice.invoice_number}}</td>
                                             <td>@{{invoice.invoice_name}}</td>
                                             <td>@{{invoice.total | currency}}</td>
-
+                                            <td> <button class="btn btn-danger btn-xs btn-delete" ng-click="confirmDeleteInvoice(invoice.id)">Delete</button></td>
                                         </tr>
                                         </tbody>
                                         <!--Table body-->

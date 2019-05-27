@@ -291,6 +291,25 @@ app.controller('weekPanelController', function ($scope, $http, $localStorage, AP
         }
     }
 
+    $scope.confirmDeleteInvoice = function(id) {
+        var isConfirmDelete = confirm('Are you sure you want to delete this record?');
+        console.log(id);
+        if (isConfirmDelete) {
+            $http({
+                method: 'DELETE',
+                url: API_URL + 'invoice/delete/' + id
+            }).
+            then(function successCallback(data) {
+                    $scope.getInvoices();
+                }
+                , function errorCallback(response){
+                    alert('This is embarassing. An error has occured.');
+                }
+            );
+        } else {
+            return false;
+        }
+    }
 
     $scope.getStores();
     $scope.getYears();
