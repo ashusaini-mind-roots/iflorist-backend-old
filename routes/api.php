@@ -63,6 +63,7 @@ Route::prefix('daily_revenue')->group(function () {
 Route::prefix('invoice')->group(function () {
     Route::get('all/{store_id}/{week_id}', 'InvoicesController@all');
     Route::post('create', 'InvoicesController@create');
+    Route::delete('delete/{id}', 'InvoicesController@delete');
 });
 
 Route::prefix('diff_projection_percent')->group(function () {
