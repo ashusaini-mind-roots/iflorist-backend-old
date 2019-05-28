@@ -8,6 +8,7 @@ use App\Models\StoreWeek;
 use App\Models\Week;
 use App\Models\DailyRevenue;
 use League\Flysystem\Exception;
+use Illuminate\Support\Facades\Validator;
 
 class WeeklyProjectionPercentCostsRevenuesController extends Controller
 {
@@ -49,5 +50,31 @@ class WeeklyProjectionPercentCostsRevenuesController extends Controller
             $total += $day->amt;
         }
         return $total;
+    }
+
+    public function updateWeeklyProjection(Request $request,$store_id,$week_id)
+    {
+        $v = Validator::make($request->all(), [
+            'percent' => 'required',
+            'year_reference' => 'required',
+        ]);
+
+        if ($v->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'errors' => $v->errors()
+            ], 422);
+        }
+
+        $store_week_id = StoreWeek::storeWeekId($store_id,$week_id);
+
+        $weekly_projection = WeeklyProjectionPercentRevenues::where('store_week_id',$store_week_id)->first();
+
+        $weekly_projection->percent = $request->percent;
+        $weekly_projection->year_reference = $request->year_reference;
+        $weekly_projection->update();
+
+        return response()->json(['status' => 'success'], 200);
+
     }
 }
