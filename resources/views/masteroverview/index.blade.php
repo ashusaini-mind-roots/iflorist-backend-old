@@ -73,10 +73,10 @@
                                                         ng-click="goToweekControlPage(week.week_id)">View
                                                 </button>
                                                 <button type="button" class="btn btn-link btn-sm"
-                                                        ng-click="showEditTarget(week)">Edit target
+                                                        ng-click="showEditTarget(week,week.target)">Edit target
                                                 </button>
                                                 <button type="button" class="btn btn-link btn-sm"
-                                                        ng-click="goToweekControlPage(week.week_id)">Edit proj
+                                                        ng-click="showEditProjection(week)">Edit proj
                                                 </button>
                                             </td>
                                         </tr>
@@ -131,15 +131,49 @@
                             <div class="form-group error">
                                 <label for="inputEmail3" class="col-sm-4 control-label">% Target *</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control has-error" id="targetValue" name="targetValue" placeholder="Target value" value="@{{weekSelected.target}}"
-                                           ng-model="weekSelected.target" ng-required="true">
+                                    <input type="text" class="form-control has-error" id="targetValue" name="targetValue" placeholder="Target value" value="@{{targetSelected}}"
+                                           ng-model="targetSelected" ng-required="true">
                                     <span class="help-inline" ng-show="frmTarget.targetValue.$invalid && frmTarget.targetValue.$touched">Value Required</span>
                                 </div>
                             </div>
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" id="btn-save" ng-click="save(modalstate,id)" ng-disabled="frmTarget.$invalid">Save changes</button>
+                        <button type="button" class="btn btn-primary" id="btn-save" ng-click="editTarget()" ng-disabled="frmTarget.$invalid">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal" id="projectionModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content top-info">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">X</span></button>
+                        {{--<h4 class="modal-title" id="myModalLabel">@{{form_title}}</h4>--}}
+                    </div>
+                    <div class="modal-body">
+                        <form name="frmProjection" class="form-horizontal" novalidate="">
+                            <div class="form-group error">
+                                <label for="downValue" class="col-sm-4 control-label">% Down *</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control has-error" id="downValue" name="downValue" placeholder="Down value" value="@{{downPercentSelected}}"
+                                           ng-model="downPercentSelected" ng-required="true">
+                                    <span class="help-inline" ng-show="frmProjection.downValue.$invalid && frmProjection.downValue.$touched">Value Required</span>
+                                </div>
+                            </div>
+                            <div class="form-group error">
+                                <label for="downValue" class="col-sm-5 control-label">Year Reference *</label>
+                                <div class="col-sm-9">
+                                    <select id="yearReferenceProjectionSelectedId" class="form-control" ng-required="true"
+                                            ng-model="yearReferenceProjectionSelected" ng-options="year for year in yearsList" id="yearProjectionValue" name="yearProjectionValue">
+                                    </select>
+                                    <span class="help-inline" ng-show="frmProjection.yearProjectionValue.$invalid && frmProjection.yearProjectionValue.$touched">Value Required</span>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" id="btn-save" ng-click="editProjection()" ng-disabled="frmProjection.$invalid">Save changes</button>
                     </div>
                 </div>
             </div>

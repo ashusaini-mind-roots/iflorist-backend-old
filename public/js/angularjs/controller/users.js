@@ -85,8 +85,7 @@ app.controller('usersController', function($scope,API_URL,$resource,$http) {
                         $scope.$digest();
                     }, function errorCallback(response){
                         $('#userModal').modal('hide');
-                        alert('This is embarassing. An error has occured. Please check the log for details');
-
+                        alert('This is embarassing. An error has occured.');
                     }
 
                 );

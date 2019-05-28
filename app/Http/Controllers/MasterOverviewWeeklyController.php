@@ -22,7 +22,6 @@ class MasterOverviewWeeklyController extends Controller
 
         foreach ($weeks as $w)
         {
-
             $responseValue = 0.00;
             $amtTotal = 0.00;
             $week_number = -1;
@@ -67,7 +66,9 @@ class MasterOverviewWeeklyController extends Controller
                 'weekly_cog_total' => number_format((float)$weekly_cog_total,2,'.',''),
                 'target' => number_format((float)WeeklyProjectionPercentCosts::target($store_id,$w->id),2,'.',''),
                 'actual' => number_format((float)$total,2,'.',''),
-                'difference' => number_format((float)WeeklyProjectionPercentCosts::target($store_id,$w->id) - $total,2,'.','')
+                'difference' => number_format((float)WeeklyProjectionPercentCosts::target($store_id,$w->id) - $total,2,'.',''),
+                'down_percent' => $percent,
+                'year_reference' => $year_reference
             );
 
             $master_overview_weekly [] = $arrayDatos;
