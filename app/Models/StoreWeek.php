@@ -22,4 +22,12 @@ class StoreWeek extends Model
             ->first()->id;
     }
 
+    /*static function storeWeekId($store_id,$week_id)
+    {
+        return $store_week = DB::table('store_week')
+            ->where('store_id',$store_id)
+            ->where('week_id',$week_id)
+            ->first()->id;
+    }*/
+
 }

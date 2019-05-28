@@ -9,10 +9,18 @@ app.controller('masterOverviewController', function($scope,$http,$localStorage,A
     $scope.selectedYearsItem = "2018";
 
     $scope.weeks = [];
+    $scope.weekSelected = {};
+    $scope.targetSelected = 0.00;
+
+    $scope.downPercentSelected = 0.00;
+    $scope.yearsPojectionToEditList = [];
+    $scope.yearReferenceProjectionSelected = "2018";
 
     $scope.avgActual = 0.00;
     $scope.avgTarget = 0.00;
     $scope.avgDifference = 0.00;
+
+
 
     $scope.getStores = function () {
         if($localStorage.currentUser) {
@@ -84,7 +92,53 @@ app.controller('masterOverviewController', function($scope,$http,$localStorage,A
 
     }
 
+    $scope.showEditTarget = function(selectedWeek,target){
+        $scope.weekSelected = selectedWeek;
+        $scope.targetSelected = target;
+
+        $('#targetModal').modal('show');
+    }
+    $scope.editTarget = function () {
+        $http({
+            method: "PUT",
+            url: API_URL + 'weekly_projection_percent_costs/update_target_cog/' + $scope.selectedStoreItem + '/' + $scope.weekSelected.week_id ,
+            params: {target_cog : $scope.targetSelected }
+        }).then(function successCallback(response)  {
+                $scope.getMasterOverviewWeekly();
+                $('#targetModal').modal('hide');
+            }, function errorCallback(response){
+                $('#targetModal').modal('hide');
+                alert('This is embarassing. An error has occured.');
+            }
+        );
+    }
+    $scope.showEditProjection = function(selectedWeek){
+        $scope.weekSelected = selectedWeek;
+        console.log(String($scope.weekSelected.year_reference))
+        $scope.yearReferenceProjectionSelected = String($scope.weekSelected.year_reference);
+        $scope.downPercentSelected = $scope.weekSelected.down_percent;
+
+        $('#projectionModal').modal('show');
+    }
+    $scope.editProjection = function () {
+        console.log($scope.yearReferenceProjectionSelected)
+        $http({
+            method: "PUT",
+            url: API_URL + 'weekly_projection_percent_revenue/update_proj_weekly_revenue/' + $scope.selectedStoreItem + '/' + $scope.weekSelected.week_id ,
+            params: {percent : $scope.downPercentSelected , year_reference : $scope.yearReferenceProjectionSelected }
+        }).then(function successCallback(response)  {
+                $scope.getMasterOverviewWeekly();
+                $('#projectionModal').modal('hide');
+            }, function errorCallback(response){
+                console.log(response)
+                $('#projectionModal').modal('hide');
+                alert('This is embarassing. An error has occured.');
+            }
+        );
+    }
+
     $scope.getStores();
     $scope.getYears();
     $scope.getMasterOverviewWeekly();
 });
+

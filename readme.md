@@ -38,7 +38,11 @@
 
 ## Install PHP ##
 
+<<<<<<< .merge_file_a06124
     sudo apt install php libapache2-mod-php php-common php-mbstring php-xmlrpc php-soap php-gd php-xml php-mysql php-cli php-zip -y    
+=======
+    sudo apt install php libapache2-mod-php php-common php-mbstring php-xmlrpc php-soap php-gd php-xml php-mysql php-cli php-mcrypt php-zip -y    
+>>>>>>> .merge_file_a11688
 
 ## Composer ##
 
