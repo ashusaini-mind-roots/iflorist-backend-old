@@ -49,6 +49,7 @@
     sudo php composer-setup.php --install-dir=/usr/local/bin --filename=composer
     
 To test the installation run:
+
     composer
 
 ### Update ###
