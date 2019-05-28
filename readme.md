@@ -38,7 +38,7 @@
 
 ## Install PHP ##
 
-    sudo apt install php libapache2-mod-php php-common php-mbstring php-xmlrpc php-soap php-gd php-xml php-mysql php-cli php-mcrypt php-zip -y    
+    sudo apt install php libapache2-mod-php php-common php-mbstring php-xmlrpc php-soap php-gd php-xml php-mysql php-cli php-zip -y    
 
 ## Composer ##
 
