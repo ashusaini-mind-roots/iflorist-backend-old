@@ -51,7 +51,24 @@
 To test the installation run:
 
     composer
+    
+Reload Apache     
+    
+    sudo systemctl reload apache2
 
-### Update ###
+
+### Permissions ###
+
+    sudo chown -R www-data:www-data /var/www
+    sudo chmod -R 755 /var/www/{{FolderName}}/storage
+    
+    
+## Laravel ##
+
+    composer install
+    php artisan jwt:secret
+    php artisan key:generate
+
+    
 
     
