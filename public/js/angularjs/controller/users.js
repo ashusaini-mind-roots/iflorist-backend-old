@@ -34,7 +34,7 @@ app.controller('usersController', function($scope,API_URL,$resource,$http) {
 
 
     $scope.confirmDelete = function(id) {
-        var isConfirmDelete = confirm('Are you sure you want this record?');
+        var isConfirmDelete = confirm('Are you sure you want to delete this record?');
         console.log(id);
         if (isConfirmDelete) {
             $http({
