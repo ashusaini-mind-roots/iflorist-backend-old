@@ -9,10 +9,13 @@ app.controller('masterOverviewController', function($scope,$http,$localStorage,A
     $scope.selectedYearsItem = "2018";
 
     $scope.weeks = [];
+    $scope.weekSelected = {};
 
     $scope.avgActual = 0.00;
     $scope.avgTarget = 0.00;
     $scope.avgDifference = 0.00;
+
+
 
     $scope.getStores = function () {
         if($localStorage.currentUser) {
@@ -82,6 +85,36 @@ app.controller('masterOverviewController', function($scope,$http,$localStorage,A
         $scope.avgDifference = $scope.avgDifference / count;
 
 
+    }
+
+    $scope.showEditTarget = function(selectedWeek){
+        $scope.weekSelected = selectedWeek;
+        console.log($scope.weekSelected)
+        $('#targetModal').modal('show');
+    }
+    $scope.editTarget = function () {
+        $http({
+            method: PUT,
+            url: API_URL + 'weekly_projection_percent_costs/update_target_cog/' + $scope.selectedStoreItem + '/' + weekSelected.id ,
+            params: {target_cog:weekSelected.target }
+        }).then(function successCallback(response)  {
+                console.log(response);
+                //location.reload();
+                $('#targetModal').modal('hide');
+
+                // $http.get(API_URL+'auth/users').then(
+                //     function successCallback(response) {
+                //         $scope.users = response.data.users;
+                //         console.log($scope.users);
+                //     }
+                // );
+            }, function errorCallback(response){
+                $('#targetModal').modal('hide');
+                alert('This is embarassing. An error has occured.');
+
+            }
+
+        );
     }
 
     $scope.getStores();
