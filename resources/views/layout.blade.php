@@ -10,7 +10,7 @@
 
     <!-- Bootstrap CSS CDN -->
     <!--<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">-->
-    <!--<link rel="stylesheet" href="{{asset('css/external/bootstrap.min.css')}}">-->
+<!--<link rel="stylesheet" href="{{asset('css/external/bootstrap.min.css')}}">-->
     <link rel="stylesheet" href="{{asset('css/external/bootstrap4.3.min.css')}}">
     <!-- Our Custom CSS -->
     <link rel="stylesheet" href="{{asset('css/custom_css.css')}}">
@@ -21,12 +21,15 @@
 
 </head>
 
+
 <body ng-app="app">
 
 <div class="wrapper">
     @yield('content_layout')
 </div>
-
+<script>
+    AppURL="<?php echo $_SERVER['HTTP_HOST'];?>";
+</script>
 <script src="{{asset('js/external/jquery-3.4.1.min.js')}}"></script>
 <script src="{{asset('js/external/popper.min.js')}}"></script>
 <script src="{{asset('js/external/bootstrap.min.js')}}"></script>
@@ -51,7 +54,7 @@
         });
     });
 
-    $('.money').mask('#,##0.00', { reverse: true });
+    $('.money').mask('#,##0.00', {reverse: true});
 </script>
 </body>
 
