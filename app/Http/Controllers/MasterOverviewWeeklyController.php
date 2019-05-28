@@ -18,7 +18,7 @@ class MasterOverviewWeeklyController extends Controller
     {
         $weeks = Week::where('year',$year)->get();
 
-        $FlowermartMasterWeeklyOfFresh = array();
+        $master_overview_weekly = array();
 
         foreach ($weeks as $w)
         {
@@ -74,5 +74,49 @@ class MasterOverviewWeeklyController extends Controller
         }
 
         return response()->json(['master_overview_weekly' => $master_overview_weekly ], 200);
+    }
+
+    public function WeeklyProjections($store_id,$year)
+    {
+        $weeks = Week::where('year',$year)->get();
+
+        $master_overview_weekly = array();
+
+        foreach ($weeks as $w)
+        {
+            $day = DailyRevenue::lastDayWeek($store_id,$w->id);
+
+            $responseValue = 0.00;
+            $amtTotal = 0.00;
+            $week_number = -1;
+
+            $store_week_id = StoreWeek::storeWeekId($store_id,$w->id);
+
+            $wppRevenues = WeeklyProjectionPercentRevenues::where('store_week_id',$store_week_id)->first();
+            $year_reference = $wppRevenues->year_reference;
+            $percent = $wppRevenues->percent;
+            $weekly_projection_percent_revenues_id = $wppRevenues->id;
+
+            $week_number = week::find($w->id)->number;
+
+            $week_reference_id = Week::findByNumberYear($week_number, $year_reference)->id;
+
+            $amtTotal = DailyRevenue::totalAmtWeek($store_id, $week_reference_id);
+
+            $responseValue = $amtTotal - ($percent * $amtTotal / 100);
+
+            $arrayDatos = array(
+                'week_ending' => Carbon::parse($day->date)->format('M-d'),//$day->month.'-'.$day->month_day,
+                'gross_sales' => number_format((float)$amtTotal,2,'.',''),
+                'down' => number_format((float)$percent,2,'.',''),
+                'projection' => number_format((float)$responseValue,2,'.',''),
+                'target' => $year_reference,
+                'weekly_projection_percent_revenues_id' => $weekly_projection_percent_revenues_id
+            );
+
+            $master_overview_weekly [] = $arrayDatos;
+        }
+
+        return response()->json(['weekly_projections' => $master_overview_weekly ], 200);
     }
 }
