@@ -32,6 +32,9 @@ app.controller('weekPanelController', function ($scope, $http, $localStorage, AP
 
     $scope.invoiceTotal = 0.00;
 
+    //------notes section
+    $scope.notesText = '';
+
     //------week resume
     $scope.runningCOG = 0.00;
     $scope.targetCOG = 0.00;
@@ -194,6 +197,18 @@ app.controller('weekPanelController', function ($scope, $http, $localStorage, AP
         );
     }
 
+    $scope.getNotes = function () {
+        console.log('Selected week: '+$scope.selectedWeekItem);
+        $http({
+            method: 'GET',
+            url: API_URL + 'note/all/' + $scope.selectedStoreItem + '/' + $scope.selectedWeekItem,
+        }).then(
+            function successCallback(response) {
+                $scope.notesText = response.data.notes;
+            }
+        );
+    }
+
     $scope.createInvoice = function () {
         $http({
             method: 'POST',
@@ -209,6 +224,22 @@ app.controller('weekPanelController', function ($scope, $http, $localStorage, AP
                 $scope.getInvoices();
                 $scope.calcInvoiceTotal();
                 //console.log(response);
+            },
+            function errorCallback(response) {
+                console.log(response)
+            }
+        );
+    }
+
+    $scope.updateNotes = function () {
+        $http({
+            method: 'PUT',
+            url: API_URL + 'note/update/' + $scope.selectedStoreItem + '/' + $scope.selectedWeekItem,
+            params: {
+                text: $scope.notesText,
+            },
+        }).then(function successCallback(response) {
+                $scope.getNotes();
             },
             function errorCallback(response) {
                 console.log(response)
@@ -242,6 +273,7 @@ app.controller('weekPanelController', function ($scope, $http, $localStorage, AP
         $scope.getInvoices();
         $scope.getTargetCOG();
         $scope.calcCostDifference();
+        $scope.getNotes();
     }
 
     $scope.calcRunningCOG = function () {
