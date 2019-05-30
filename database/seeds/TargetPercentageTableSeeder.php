@@ -13,7 +13,7 @@ class TargetPercentageTableSeeder extends Seeder
     {
         $sql = <<<EOT
 insert into target_percentages(store_week_id,target_percentage,created_at,updated_at)
-SELECT id,20,now(),now() FROM store_week order by id;
+SELECT id,25,now(),now() FROM store_week order by id;
 EOT;
         DB::unprepared($sql);
     }
