@@ -21,6 +21,10 @@ class DatabaseSeeder extends Seeder
         $this->call(WeeklyProjectionPercentRevenueTableSeeder::class);
         $this->call(WeeklyProjectionPercentCostsTableSeeder::class);
         $this->call(InvoiceTableSeeder::class);
+        $this->call(TargetPercentageTableSeeder::class);
+        $this->call(CategoriesTableSeeder::class);
+        $this->call(WorkMansCombTableSeeder::class);
+        $this->call(TaxPercentCalculatorsTableSeeder::class);
         $this->command->info('****Vaya salvaje corrieron los migrations sin bateo :) !!!****');
     }
 }

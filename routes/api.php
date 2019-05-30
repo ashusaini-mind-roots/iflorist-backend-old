@@ -92,4 +92,8 @@ Route::prefix('master_overview_weekly')->group(function () {
 
 });
 
+Route::prefix('employee')->group(function () {
+    Route::post('create', 'EmployeesController@create');
+});
+
 
