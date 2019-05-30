@@ -18,4 +18,4 @@ var app = angular.module("app", ['ngResource','ngStorage'/*,'money-mask'*/])/*.
     })
       .constant('API_URL', 'http://'+AppURL+'/api/');
      //.constant('API_URL', 'http://127.0.0.1:8000/api/');
-console.log(AppURL);
+//console.log(AppURL);

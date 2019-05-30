@@ -35,6 +35,11 @@ Route::get('/weekpanel', function () {
 Route::get('/masteroverview', function () {
     return view('masteroverview.index');
 });
+
+Route::get('/schedule_col', function () {
+    return view('schedule_col.index');
+});
+
 /*Route::get('/', function () {
     return view('login');
 });*/
