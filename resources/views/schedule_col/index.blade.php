@@ -18,7 +18,7 @@
                             </div>
                             <div class="col-2">
                                 <label for="weeksid">Select week</label>
-                                <select id = "weeksid" class="form-control" ng-required="true" ng-model="selectedWeekItem" ng-options="week.id as week.number for week in weekList" ng-change="getWeekDataFromServer()">
+                                <select id = "weeksid" class="form-control" ng-required="true" ng-model="selectedWeekItem" ng-options="week.id as week.number for week in weekList" ng-change="getScheduleInformation()">
                                 </select>
                             </div>
                         </div>
@@ -32,52 +32,105 @@
                 <div class="card mt-5 ">
                     <div class="card-body">
                         <h5 class="card-title">Schedule</h5>
-                        <div class="row">
+                        <div ng-show="category.employees.length > 0" class="row" ng-repeat="category in employeesScheduleList">
                             <div class="col">
-                                <div class="table-responsive">
-
+                                <div class="table-responsive mb-5" >
+                                    <span>@{{category.category_name}}</span>
                                     <!--Table-->
                                     <table class="table">
-
                                         <!--Table head-->
                                         <thead>
                                         <tr>
-                                            <th class="th-sm">Week Ending</th>
-                                            <th class="th-sm">Proj. Weekly Rev.</th>
-                                            <th class="th-sm">Actual Weekly Rev.</th>
-                                            <th class="th-sm">Weekly COG's Total</th>
-                                            <th class="th-sm">Actual</th>
-                                            <th class="th-sm">Target</th>
-                                            <th class="th-sm">Difference</th>
-                                            <th class="th-sm">Actions</th>
+                                            <th class="th-sm"></th>
+                                            <th class="th-sm">Monday</th>
+                                            <th class="th-sm"></th>
+                                            <th class="th-sm"></th>
+                                            <th class="th-sm"></th>
+                                            <th class="th-sm">Tuesday</th>
+                                            <th class="th-sm"></th>
+                                            <th class="th-sm"></th>
+                                            <th class="th-sm"></th>
+                                            <th class="th-sm">Wednesday</th>
+                                            <th class="th-sm"></th>
+                                            <th class="th-sm"></th>
+                                            <th class="th-sm"></th>
+                                            <th class="th-sm">Thursday</th>
+                                            <th class="th-sm"></th>
+                                            <th class="th-sm"></th>
+                                            <th class="th-sm"></th>
+                                            <th class="th-sm">Friday</th>
+                                            <th class="th-sm"></th>
+                                            <th class="th-sm"></th>
+                                            <th class="th-sm"></th>
+                                            <th class="th-sm">Saturday</th>
+                                            <th class="th-sm"></th>
+                                            <th class="th-sm"></th>
+                                            <th class="th-sm"></th>
+                                            <th class="th-sm">Sunday</th>
+                                            <th class="th-sm"></th>
+                                            <th class="th-sm"></th>
+                                            <th class="th-sm"></th>
+                                        </tr>
+                                        <tr>
+                                            <th class="th-sm">Employee</th>
+                                            <th class="th-sm">Time In</th>
+                                            <th class="th-sm">Brake</th>
+                                            <th class="th-sm">Time Out</th>
+                                            <th class="th-sm">Total Hours</th>
+
+                                            <th class="th-sm">Time In</th>
+                                            <th class="th-sm">Brake</th>
+                                            <th class="th-sm">Time Out</th>
+                                            <th class="th-sm">Total Hours</th>
+
+                                            <th class="th-sm">Time In</th>
+                                            <th class="th-sm">Brake</th>
+                                            <th class="th-sm">Time Out</th>
+                                            <th class="th-sm">Total Hours</th>
+
+                                            <th class="th-sm">Time In</th>
+                                            <th class="th-sm">Brake</th>
+                                            <th class="th-sm">Time Out</th>
+                                            <th class="th-sm">Total Hours</th>
+
+                                            <th class="th-sm">Time In</th>
+                                            <th class="th-sm">Brake</th>
+                                            <th class="th-sm">Time Out</th>
+                                            <th class="th-sm">Total Hours</th>
+
+                                            <th class="th-sm">Time In</th>
+                                            <th class="th-sm">Brake</th>
+                                            <th class="th-sm">Time Out</th>
+                                            <th class="th-sm">Total Hours</th>
+
+                                            <th class="th-sm">Time In</th>
+                                            <th class="th-sm">Brake</th>
+                                            <th class="th-sm">Time Out</th>
+                                            <th class="th-sm">Total Hours</th>
                                         </tr>
                                         </thead>
                                         <!--Table head-->
 
                                         <!--Table body-->
                                         <tbody>
-                                        <tr ng-repeat="week in weeks" ng-class="week.difference<0?'text-danger':''">
-                                            <td>@{{week.week_ending}}</td>
-                                            <td>@{{week.projected_weekly_revenue | currency}}</td>
-                                            <td>@{{week.actual_weekly_revenue | currency}}</td>
-                                            <td ng-class="week.difference<0?'font-weight-bold':''">@{{week.weekly_cog_total | currency}}</td>
-                                            <td ng-class="week.difference<0?'font-weight-bold':''">@{{week.actual}}%</td>
-                                            <td>@{{week.target}}%</td>
-                                            <td ng-class="week.difference<0?'font-weight-bold':''">
-                                                @{{week.difference}}%
+                                        <tr ng-repeat="employee in category.employees">
+                                            <td>@{{employee.name}}</td>
+                                            <td ng-repeat-start="schedule_day in employee.schedule_days">
+                                                <input type="time" ng-model="schedule_day.time_in" placeholder="HH:mm" value="@{{schedule_day.time_in}}">
                                             </td>
-                                            <td id="@{{week.week_id}}">
-                                                <button type="button" class="btn btn-link btn-sm"
-                                                        ng-click="goToweekControlPage(week.week_id)">View
-                                                </button>
-                                                <button type="button" class="btn btn-link btn-sm"
-                                                        ng-click="showEditTarget(week,week.target)">Edit target
-                                                </button>
-                                                <button type="button" class="btn btn-link btn-sm"
-                                                        ng-click="showEditProjection(week)">Edit proj
-                                                </button>
+                                            <td>@{{schedule_day.break_time}}</td>
+                                            <td>
+                                                <input type="time" ng-model="schedule_day.time_out" placeholder="HH:mm" value="@{{schedule_day.time_out }}">
                                             </td>
+                                            <td ng-repeat-end>@{{calcTimesDifference(schedule_day.time_in | date: "HH:mm:ss",schedule_day.time_out | date: "HH:mm:ss",schedule_day.break_time)}}</td>
                                         </tr>
+                                        {{--<tr>--}}
+                                            {{--<td></td>--}}
+                                            {{--<td ng-repeat-start="schedule_day in employee.schedule_days"></td>--}}
+                                            {{--<td></td>--}}
+                                            {{--<td></td>--}}
+                                            {{--<td ng-repeat-end>25</td>--}}
+                                        {{--</tr>--}}
                                         </tbody>
                                         <!--Table body-->
                                     </table>
@@ -87,21 +140,21 @@
                         </div>
                         <hr/>
                         <div class="row">
-                            <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12 mt-2">
-                                <label>AVG Actual</label>
+                            {{--<div class="col-lg-3 col-md-6 col-sm-12 col-xs-12 mt-2">--}}
+                                {{--<label>AVG Actual</label>--}}
                                 {{--<input type="text" class="form-control " placeholder="Value" ng-model="invoiceTotal_add">--}}
-                                <div>@{{avgActual | number : 2 }} %</div>
-                            </div>
-                            <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12 mt-2">
-                                <label>AVG Target</label>
+                                {{--<div>@{{avgActual | number : 2 }} %</div>--}}
+                            {{--</div>--}}
+                            {{--<div class="col-lg-3 col-md-6 col-sm-12 col-xs-12 mt-2">--}}
+                                {{--<label>AVG Target</label>--}}
                                 {{--<input type="text" class="form-control " placeholder="Value" ng-model="invoiceTotal_add">--}}
-                                <div>@{{avgTarget | number : 2 }} %</div>
-                            </div>
-                            <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12 mt-2">
-                                <label>AVG Difference</label>
+                                {{--<div>@{{avgTarget | number : 2 }} %</div>--}}
+                            {{--</div>--}}
+                            {{--<div class="col-lg-3 col-md-6 col-sm-12 col-xs-12 mt-2">--}}
+                                {{--<label>AVG Difference</label>--}}
                                 {{--<input type="text" class="form-control " placeholder="Value" ng-model="invoiceTotal_add">--}}
-                                <div>@{{avgDifference | number : 2 }} %</div>
-                            </div>
+                                {{--<div>@{{avgDifference | number : 2 }} %</div>--}}
+                            {{--</div>--}}
                         </div>
                     </div>
                     {{--<div class="card-footer text-right">--}}

@@ -96,4 +96,6 @@ Route::prefix('employee')->group(function () {
     Route::post('create', 'EmployeesController@create');
 });
 
-
+Route::prefix('schedule')->group(function () {
+    Route::get('all/{store_id}/{week_id}', 'ScheduleController@schedule_week');
+});
