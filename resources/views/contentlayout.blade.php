@@ -60,6 +60,12 @@
                         Users
                     </a>
                 </li>
+                <li ng-show="rsRole == 'Admin'" >
+                    <a href="{{url('/employees')}}">
+                        <i class="fas fa-question"></i>
+                        Employees
+                    </a>
+                </li>
                 <li>
                     <a href="{{url('/masteroverview')}}">
                         <i class="fas fa-question"></i>
