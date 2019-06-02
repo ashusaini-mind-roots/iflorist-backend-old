@@ -107,4 +107,6 @@ Route::prefix('work_man_comp')->group(function () {
     Route::get('all', 'WorkMansCompController@index');
 });
 
-
+Route::prefix('schedule')->group(function () {
+    Route::get('all/{store_id}/{week_id}', 'ScheduleController@schedule_week');
+});
