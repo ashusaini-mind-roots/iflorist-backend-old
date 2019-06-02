@@ -28,6 +28,10 @@ Route::get('/users', function () {
     return view('user.index');
 });
 
+Route::get('/employees', function () {
+    return view('employee.index');
+});
+
 Route::get('/weekpanel', function () {
     return view('weekpanel.index');
 });
