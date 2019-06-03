@@ -37,9 +37,12 @@ class Schedule extends Model
         $schedules = DB::table('schedules')
             ->Join('employee_store_week','employee_store_week.id','=','schedules.employee_store_week_id')
             ->Join('store_week','store_week.id','=','employee_store_week.store_week_id')
+            ->Join('employees','employees.id','=','employee_store_week.employee_id')
+            ->Join('categories','categories.id','=','employees.category_id')
             ->Join('dates_dim','dates_dim.date','=','schedules.dates_dim_date')
             ->where('dates_dim.year',$year)
             ->where('store_week.id',$store_week_id)
+            ->where('categories.omit_col','0')
             ->get();
 
         return $schedules;
