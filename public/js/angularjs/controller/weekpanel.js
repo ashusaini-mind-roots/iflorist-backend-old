@@ -366,7 +366,7 @@ app.controller('weekPanelController', function ($scope, $http, $localStorage, AP
     function formatNumber(n) {
         // format number 1000000 to 1,234,567
         var number = n.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-        console.log(number);
+        //console.log(number);
         return number.replace(/^0+(?!\.|$)/, '');
     }
 

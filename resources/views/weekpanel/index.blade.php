@@ -268,7 +268,7 @@
                             <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" placeholder="Name"
                                    ng-model="invoiceName_add">
                             <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" placeholder="Value"
-                                   ng-model="invoiceTotal_add">
+                                   ng-model="invoiceTotal_add" data-type="currency">
 
                             <button type="submit" class="btn btn-primary" ng-click="createInvoice()">Add invoise
                             </button>
