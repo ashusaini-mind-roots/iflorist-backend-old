@@ -89,6 +89,7 @@ Route::prefix('weekly_projection_percent_revenue')->group(function () {
 Route::prefix('master_overview_weekly')->group(function () {
     Route::get('master_overview_weekly_of_fresh/{store_id}/{year}', 'MasterOverviewWeeklyController@MasterOverviewWeeklyOfFresh');
     Route::get('weekly_projections/{store_id}/{year}', 'MasterOverviewWeeklyController@WeeklyProjections');
+    Route::get('projection_col/{store_id}/{year}', 'MasterOverviewWeeklyController@ProjectionCol');
 
 });
 
@@ -109,4 +110,5 @@ Route::prefix('work_man_comp')->group(function () {
 
 Route::prefix('schedule')->group(function () {
     Route::get('all/{store_id}/{week_id}', 'ScheduleController@schedule_week');
+    Route::put('update', 'ScheduleController@update');
 });

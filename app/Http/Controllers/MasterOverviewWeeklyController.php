@@ -10,7 +10,10 @@ use App\Models\WeeklyProjectionPercentRevenues;
 use App\Models\StoreWeek;
 use App\Models\WeeklyProjectionPercentCosts;
 use Illuminate\Support\Carbon;
+use App\Models\TargetPercentage;
 use League\Flysystem\Exception;
+use App\Models\Schedule;
+use App\Models\EmployeeStoreWeek;
 
 class MasterOverviewWeeklyController extends Controller
 {
@@ -119,5 +122,67 @@ class MasterOverviewWeeklyController extends Controller
         }
 
         return response()->json(['weekly_projections' => $master_overview_weekly ], 200);
+    }
+
+    public function ProjectionCol($store_id,$year)
+    {
+        $weeks = Week::where('year',$year)->get();
+
+        $master_overview_weekly = array();
+
+        foreach ($weeks as $w)
+        {
+            $responseValue = 0.00;
+            $amtTotal = 0.00;
+            $week_number = -1;
+
+            $store_week_id = StoreWeek::storeWeekId($store_id,$w->id);
+
+            $wppRevenues = WeeklyProjectionPercentRevenues::where('store_week_id',$store_week_id)->first();
+            $year_reference = $wppRevenues->year_reference;
+            $percent = $wppRevenues->percent;
+
+            $week_number = week::find($w->id)->number;
+
+            //$week_reference = Week::findByNumberYear($week_number, $year_reference);
+
+            $week_reference_id = Week::findByNumberYear($week_number, $year_reference)->id;
+
+            $amtTotal = DailyRevenue::totalAmtWeek($store_id, $week_reference_id);
+
+            $responseValue = $amtTotal - ($percent * $amtTotal / 100);
+
+            $day = DailyRevenue::lastDayWeek($store_id,$w->id);
+
+            $target_percentage = TargetPercentage::where('store_week_id',$store_week_id)->first();
+
+            $projection_total_hours_allowed = number_format((float)$responseValue*$target_percentage->target_percentage/16,2,'.','');
+
+            $amtTotal = DailyRevenue::totalAmtWeek($store_id, $week_reference_id);
+
+            $schedules = Schedule::findScheduleByStoreWeekAndYear($store_week_id,$year);
+
+            $total_hours = 0.00;
+
+            foreach ($schedules as $sche)
+            {
+                $total_hours = $total_hours + Schedule::scheduleDiffHours($sche->id);
+            }
+
+            $arrayDatos = array(
+                'week_id' => $w->id,
+                'week_ending' => Carbon::parse($day->date)->format('M-d'),//$day->month.'-'.$day->month_day,
+                'projected_weekly_revenue' => number_format((float)$responseValue,2,'.',''),
+                'projection_total_hours_allowed' => $projection_total_hours_allowed,
+                'target_percentage' => $target_percentage->target_percentage,
+                'actual_sales' => number_format((float)$amtTotal,2,'.',''),
+                'total_cheduled_hours' => $total_hours,
+                'difference' => number_format((float)$projection_total_hours_allowed-$total_hours,'2','.','')
+            );
+
+            $master_overview_weekly [] = $arrayDatos;
+        }
+
+        return response()->json(['projection_col' => $master_overview_weekly ], 200);
     }
 }

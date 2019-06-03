@@ -37,4 +37,44 @@ class ScheduleController extends Controller
 
         return response()->json(['categories_schedules' => $response], 200);
     }
+
+    public function update(Request $request)
+    {
+        $employee_store_week = $request->employee_store_week;
+        $schedule_days = $request->schedule_days;
+
+        if(is_array($schedule_days))
+        {
+           foreach ($schedule_days as $sche)
+           {
+               if($sche['id']=='-1')
+               {
+                   $chedule = new Schedule();
+                   $chedule->employee_store_week_id =$employee_store_week;
+                   $chedule->time_in = $sche['time_in'];
+                   $chedule->time_out = $sche['time_out'];
+                   $chedule->break_time = $sche['break_time'];
+                   $chedule->dates_dim_date = date('Y-m-d');
+                   $chedule->save();
+               }
+               else
+               {
+                   $chedule = Schedule::findOrFail($sche['id']);
+                   $chedule->employee_store_week_id =$employee_store_week;
+                   $chedule->time_in = $sche['time_in'];
+                   $chedule->time_out = $sche['time_out'];
+                   $chedule->break_time = $sche['break_time'];
+                   $chedule->dates_dim_date = date('Y-m-d');
+                   $chedule->update();
+               }
+            }
+
+            return response()->json(['status' => 'success'], 200);
+        }
+
+        return response()->json([
+            'status' => 'error',
+            'errors' => 'Schedule array invalid'
+        ], 422);
+    }
 }
