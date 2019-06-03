@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 
 class StoreWeek extends Model
 {
-
+    protected $table = 'store_week';
 
     public function DailyRevenues()
     {

@@ -19,9 +19,12 @@ class NotesController extends Controller
 
         $notes = DB::table('notes')
             ->where('store_week_id',$store_week->id)
-            ->get();
+            ->first();
 
-        return response()->json(['invoices' => $notes], 200);
+        if($notes)
+            return response()->json(['notes' => $notes->text], 200);
+        else
+            return response()->json(['notes' => ''], 200);
     }
 
     public function update(Request $request,$store_id,$week_id)

@@ -32,6 +32,9 @@ app.controller('weekPanelController', function ($scope, $http, $localStorage, AP
 
     $scope.invoiceTotal = 0.00;
 
+    //------notes section
+    $scope.notesText = '';
+
     //------week resume
     $scope.runningCOG = 0.00;
     $scope.targetCOG = 0.00;
@@ -108,43 +111,43 @@ app.controller('weekPanelController', function ($scope, $http, $localStorage, AP
                     if (Array.isArray(seven_d_w) && seven_d_w.length > 0) {
                         $scope.monday = {
                             'id': seven_d_w[0].id,
-                            'amt_formatted': parseFloat(seven_d_w[0].amt).toLocaleString(),
+                            'amt_formatted': '$' + formatMoney(seven_d_w[0].amt),
                             'amt': parseFloat(seven_d_w[0].amt),
                             'dates_dim_date': seven_d_w[0].dates_dim_date
                         };
                         $scope.tuesday = {
                             'id': seven_d_w[1].id,
-                            'amt_formatted': parseFloat(seven_d_w[1].amt).toLocaleString(),
+                            'amt_formatted': '$' + formatMoney(seven_d_w[1].amt),
                             'amt': parseFloat(seven_d_w[1].amt),
                             'dates_dim_date': seven_d_w[1].dates_dim_date
                         };
                         $scope.wednesday = {
                             'id': seven_d_w[2].id,
-                            'amt_formatted': parseFloat(seven_d_w[2].amt).toLocaleString(),
+                            'amt_formatted': '$' + formatMoney(seven_d_w[2].amt),
                             'amt': parseFloat(seven_d_w[2].amt),
                             'dates_dim_date': seven_d_w[2].dates_dim_date
                         };
                         $scope.thursday = {
                             'id': seven_d_w[3].id,
-                            'amt_formatted': parseFloat(seven_d_w[3].amt).toLocaleString(),
+                            'amt_formatted': '$' + formatMoney(seven_d_w[3].amt),
                             'amt': parseFloat(seven_d_w[3].amt),
                             'dates_dim_date': seven_d_w[3].dates_dim_date
                         };
                         $scope.friday = {
                             'id': seven_d_w[4].id,
-                            'amt_formatted': parseFloat(seven_d_w[4].amt).toLocaleString(),
+                            'amt_formatted': '$' + formatMoney(seven_d_w[4].amt),
                             'amt': parseFloat(seven_d_w[4].amt),
                             'dates_dim_date': seven_d_w[4].dates_dim_date
                         };
                         $scope.saturday = {
                             'id': seven_d_w[5].id,
-                            'amt_formatted': parseFloat(seven_d_w[5].amt).toLocaleString(),
+                            'amt_formatted': '$' + formatMoney(seven_d_w[5].amt),
                             'amt': parseFloat(seven_d_w[5].amt),
                             'dates_dim_date': seven_d_w[5].dates_dim_date
                         };
                         $scope.sunday = {
                             'id': seven_d_w[6].id,
-                            'amt_formatted': parseFloat(seven_d_w[6].amt).toLocaleString(),
+                            'amt_formatted': '$' + formatMoney(seven_d_w[6].amt),
                             'amt': parseFloat(seven_d_w[6].amt),
                             'dates_dim_date': seven_d_w[6].dates_dim_date
                         };
@@ -194,6 +197,18 @@ app.controller('weekPanelController', function ($scope, $http, $localStorage, AP
         );
     }
 
+    $scope.getNotes = function () {
+        console.log('Selected week: ' + $scope.selectedWeekItem);
+        $http({
+            method: 'GET',
+            url: API_URL + 'note/all/' + $scope.selectedStoreItem + '/' + $scope.selectedWeekItem,
+        }).then(
+            function successCallback(response) {
+                $scope.notesText = response.data.notes;
+            }
+        );
+    }
+
     $scope.createInvoice = function () {
         $http({
             method: 'POST',
@@ -209,6 +224,22 @@ app.controller('weekPanelController', function ($scope, $http, $localStorage, AP
                 $scope.getInvoices();
                 $scope.calcInvoiceTotal();
                 //console.log(response);
+            },
+            function errorCallback(response) {
+                console.log(response)
+            }
+        );
+    }
+
+    $scope.updateNotes = function () {
+        $http({
+            method: 'PUT',
+            url: API_URL + 'note/update/' + $scope.selectedStoreItem + '/' + $scope.selectedWeekItem,
+            params: {
+                text: $scope.notesText,
+            },
+        }).then(function successCallback(response) {
+                $scope.getNotes();
             },
             function errorCallback(response) {
                 console.log(response)
@@ -242,6 +273,7 @@ app.controller('weekPanelController', function ($scope, $http, $localStorage, AP
         $scope.getInvoices();
         $scope.getTargetCOG();
         $scope.calcCostDifference();
+        $scope.getNotes();
     }
 
     $scope.calcRunningCOG = function () {
@@ -263,8 +295,12 @@ app.controller('weekPanelController', function ($scope, $http, $localStorage, AP
         );
     }
 
+    $scope.getTargetCOGInMoney = function () {
+        return $scope.calcDailyTotal() * ($scope.targetCOG / 100);
+    }
+
     $scope.calcCostDifference = function () {
-        return Math.abs($scope.targetCOG - $scope.runningCOG);
+        return $scope.targetCOG - $scope.runningCOG;
     }
 
     $scope.getProjWeeklyRev = function () {
@@ -291,18 +327,17 @@ app.controller('weekPanelController', function ($scope, $http, $localStorage, AP
         }
     }
 
-    $scope.confirmDeleteInvoice = function(id) {
+    $scope.confirmDeleteInvoice = function (id) {
         var isConfirmDelete = confirm('Are you sure you want to delete this record?');
         console.log(id);
         if (isConfirmDelete) {
             $http({
                 method: 'DELETE',
                 url: API_URL + 'invoice/delete/' + id
-            }).
-            then(function successCallback(data) {
+            }).then(function successCallback(data) {
                     $scope.getInvoices();
                 }
-                , function errorCallback(response){
+                , function errorCallback(response) {
                     alert('This is embarassing. An error has occured.');
                 }
             );
@@ -316,4 +351,108 @@ app.controller('weekPanelController', function ($scope, $http, $localStorage, AP
     $scope.getWeeks();
     // $scope.SetInitValuesToSelects();
     // $scope.getWeekDataFromServer();
+
+    $("input[data-type='currency']").on({
+
+        keyup: function () {
+            formatCurrency($(this));
+        },
+        blur: function () {
+            formatCurrency($(this), "blur");
+        }
+    });
+
+
+    function formatNumber(n) {
+        // format number 1000000 to 1,234,567
+        var number = n.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        console.log(number);
+        return number.replace(/^0+(?!\.|$)/, '');
+    }
+
+
+    function formatCurrency(input, blur) {
+        // appends $ to value, validates decimal side
+        // and puts cursor back in right position.
+
+        // get input value
+        var input_val = input.val();
+
+        // don't validate empty input
+        if (input_val === "") {
+            return;
+        }
+
+        // original length
+        var original_len = input_val.length;
+
+        // initial caret position
+        var caret_pos = input.prop("selectionStart");
+
+        // check for decimal
+        if (input_val.indexOf(".") >= 0) {
+
+            // get position of first decimal
+            // this prevents multiple decimals from
+            // being entered
+            var decimal_pos = input_val.indexOf(".");
+
+            // split number by decimal point
+            var left_side = input_val.substring(0, decimal_pos);
+            var right_side = input_val.substring(decimal_pos);
+
+            // add commas to left side of number
+            left_side = formatNumber(left_side);
+
+            // validate right side
+            right_side = formatNumber(right_side);
+
+            // On blur make sure 2 numbers after decimal
+            if (blur === "blur") {
+                right_side += "00";
+            }
+
+            // Limit decimal to only 2 digits
+            right_side = right_side.substring(0, 2);
+
+            // join number by .
+            input_val = "$" + left_side + "." + right_side;
+
+        } else {
+            // no decimal entered
+            // add commas to number
+            // remove all non-digits
+            input_val = formatNumber(input_val);
+            input_val = "$" + input_val;
+
+            // final formatting
+            if (blur === "blur") {
+                input_val += ".00";
+            }
+        }
+
+        // send updated string to input
+        input.val(input_val);
+
+        // put caret back in the right position
+        var updated_len = input_val.length;
+        caret_pos = updated_len - original_len + caret_pos;
+        input[0].setSelectionRange(caret_pos, caret_pos);
+    }
+
+    function formatMoney(amount, decimalCount = 2, decimal = ".", thousands = ",") {
+        try {
+            decimalCount = Math.abs(decimalCount);
+            decimalCount = isNaN(decimalCount) ? 2 : decimalCount;
+
+            const negativeSign = amount < 0 ? "-" : "";
+
+            let i = parseInt(amount = Math.abs(Number(amount) || 0).toFixed(decimalCount)).toString();
+            let j = (i.length > 3) ? i.length % 3 : 0;
+
+            return negativeSign + (j ? i.substr(0, j) + thousands : '') + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thousands) + (decimalCount ? decimal + Math.abs(amount - i).toFixed(decimalCount).slice(2) : "");
+        } catch (e) {
+            console.log(e)
+        }
+    };
 });
