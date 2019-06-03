@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Utils;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\StoreWeek;
@@ -37,7 +38,7 @@ class DailyRevenuesController extends Controller
         $search_replace = [',', '$'];
         foreach ($daily_revenues as $dr) {
             $daily_revenue = DailyRevenue::findOrFail($dr->id);
-            $daily_revenue->amt = str_replace($search_replace, '', $dr->amt_formatted);
+            $daily_revenue->amt = Utils::money2Float($dr->amt_formatted);
             $daily_revenue->user_id = $user_id;
             $daily_revenue->entered_date = $entered_date;
             $daily_revenue->update();
