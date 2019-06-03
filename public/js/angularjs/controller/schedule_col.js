@@ -83,23 +83,33 @@ app.controller('schedule_colController', function ($scope, $http, $localStorage,
                     schedul.time_in = new Date(schedul.time_in);
                     schedul.time_out = new Date(schedul.time_out);
                 }
+                if(categories_schedules[i].employees[j].schedule_days.length == 0){
+                    for(var l = 0 ; l < 7 ; l++){
+                        categories_schedules[i].employees[j].schedule_days.push({id: -1})
+                    }
+                }
             }
         }
         return $scope.employeesScheduleList = categories_schedules;
     }
 
     $scope.calcTimesDifference = function (time_in, time_out, break_time) {
-        var hours = (diffDateTime(time_in,time_out).totalmin - break_time) / 60;
-       // console.log(time_in + ' --- ' + time_out + " ---- " )
-        return hours.toFixed(2);
+        var h = m = "00";
+        if(time_in != undefined && time_out != undefined && break_time != undefined){
+            var minutesTotal = (diffDateTime(time_in,time_out).totalmin - break_time);
 
-        // var objDiff = diffDateTime('8:35:6', '8:55:34 AM');
-        // var dtdiff = objDiff.days+ ' days, '+ objDiff.hours+ ' hours, '+ objDiff.minutes+ ' minutes, '+ objDiff.seconds+ ' seconds';
-        // var total_hours = 'Total Hours: '+ objDiff.totalhours;
-        // var total_min = 'Total minutes: '+ objDiff.totalmin;
-        return 3;
+            var h = Math.floor(minutesTotal / 60);
+            var m = minutesTotal % 60;
+            h = h < 10 ? '0' + h : h;
+            m = m < 10 ? '0' + m : m;
+        }
+        console.log($scope.employeesScheduleList);
+        return h + ':' + m;
     }
 
+    $scope.updateSchedulesByCategory = function(){
+
+    }
 
     /* Function to calculate time difference between 2 datetimes (in Timestamp-milliseconds, or string English Date-Time)
      It can also be used the words: NOW for current date-time, and TOMORROW for the next day (the 0:0:1 time)

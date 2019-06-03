@@ -16,7 +16,7 @@ class ScheduleController extends Controller
     public function schedule_week($store_id,/*$year,*/$week_id)
     {
         $store_week_id = StoreWeek::storeWeekId($store_id,$week_id);
-//        $employee_store_week = EmployeeStoreWeek::findByStoreWeekId($store_week_id);
+        $employee_store_week = EmployeeStoreWeek::findByStoreWeekId($store_week_id);
 //        $schedules = Schedule::findByEmployeeStoreWeekId($employee_store_week->id);
 
         $categories = Category::all();
@@ -28,7 +28,8 @@ class ScheduleController extends Controller
             foreach ($employees as $employee) {
                 $employees_response[] = [
                     'name' => $employee->name,
-                    'schedule_days' => Schedule::findByEmployeeAndStoreWeekIds($employee->id,$store_week_id)//los 7 schedules days de este employee
+                    'schedule_days' => Schedule::findByEmployeeAndStoreWeekIds($employee->id,$store_week_id),//los 7 schedules days de este employee
+                    'employee_store_week_id' => $employee_store_week->id,
                 ];
             }
             $response[] = ['category_name' => $category->name,'employees' => $employees_response];
