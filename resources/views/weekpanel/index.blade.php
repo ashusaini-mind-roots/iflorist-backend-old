@@ -61,7 +61,9 @@
                                     <label for="inputTuesday">Tuesday</label>
                                     <input type="text"
                                            class="form-control form-control-plaintext text-center font-weight-bold"
-                                           id="inputTuesday" ng-model="tuesday.amt_formatted">
+                                           id="inputTuesday" ng-model="tuesday.amt_formatted"
+                                           data-type="currency"
+                                    >
                                 </div>
                             </div>
                             <div class="col">
@@ -70,7 +72,8 @@
                                     <label for="inputWednesday">Wednesday </label>
                                     <input type="text"
                                            class="form-control form-control-plaintext text-center font-weight-bold"
-                                           id="inputWednesday" ng-model="wednesday.amt_formatted">
+                                           id="inputWednesday" ng-model="wednesday.amt_formatted"
+                                           data-type="currency">
                                 </div>
                             </div>
                             <div class="col">
@@ -79,7 +82,9 @@
                                     <label for="inputThursday">Thursday </label>
                                     <input type="text"
                                            class="form-control form-control-plaintext text-center font-weight-bold"
-                                           id="inputThursday" ng-model="thursday.amt_formatted">
+                                           id="inputThursday" ng-model="thursday.amt_formatted"
+                                           data-type="currency"
+                                    >
                                 </div>
                             </div>
                             <div class="col">
@@ -88,7 +93,8 @@
                                     <label for="inputFriday">Friday </label>
                                     <input type="text"
                                            class="form-control form-control-plaintext text-center font-weight-bold"
-                                           id="inputFriday" ng-model="friday.amt_formatted">
+                                           id="inputFriday" ng-model="friday.amt_formatted"
+                                           data-type="currency">
                                 </div>
                             </div>
                             <div class="col">
@@ -97,7 +103,9 @@
                                     <label for="inputSaturday">Saturday </label>
                                     <input type="text"
                                            class="form-control form-control-plaintext text-center font-weight-bold"
-                                           id="inputSaturday" ng-model="saturday.amt_formatted">
+                                           id="inputSaturday" ng-model="saturday.amt_formatted"
+                                           data-type="currency"
+                                    >
                                 </div>
                             </div>
                             <div class="col">
@@ -106,7 +114,8 @@
                                     <label for="inputSunday">Sunday</label>
                                     <input type="text"
                                            class="form-control form-control-plaintext text-center font-weight-bold"
-                                           id="inputSunday" ng-model="sunday.amt_formatted">
+                                           id="inputSunday" ng-model="sunday.amt_formatted"
+                                           data-type="currency">
                                 </div>
                             </div>
                             <div class="col">
