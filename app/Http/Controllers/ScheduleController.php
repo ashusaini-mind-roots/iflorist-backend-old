@@ -43,6 +43,8 @@ class ScheduleController extends Controller
         $employee_store_week = $request->employee_store_week;
         $schedule_days = $request->schedule_days;
 
+        return response()->json(['schedule_days' => $schedule_days], 200);
+
         if(is_array($schedule_days))
         {
            foreach ($schedule_days as $sche)
