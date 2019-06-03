@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Faker\Provider\cs_CZ\DateTime;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
@@ -29,5 +30,28 @@ class Schedule extends Model
             ->get();
 
         return $schedules_return;
+    }
+
+    static public function findScheduleByStoreWeekAndYear($store_week_id,$year)
+    {
+        $schedules = DB::table('schedules')
+            ->Join('employee_store_week','employee_store_week.id','=','schedules.employee_store_week_id')
+            ->Join('store_week','store_week.id','=','employee_store_week.store_week_id')
+            ->Join('dates_dim','dates_dim.date','=','schedules.dates_dim_date')
+            ->where('dates_dim.year',$year)
+            ->where('store_week.id',$store_week_id)
+            ->get();
+
+        return $schedules;
+    }
+
+    static public function scheduleDiffHours($schedule_id)
+    {
+        $chedule = DB::table('schedules')
+            ->where('schedules.id',$schedule_id)->first();
+
+        $diff_seg = ((strtotime($chedule->time_out)-strtotime($chedule->time_in))/60)-$chedule->break_time;
+
+        return number_format((float)$diff_seg/60,'2','.','');
     }
 }
