@@ -41,9 +41,9 @@ class ScheduleController extends Controller
     public function update(Request $request)
     {
         $employee_store_week = $request->employee_store_week;
-        $schedule_days = $request->schedule_days;
+        $schedule_days = json_decode($request->schedule_days);
 
-        return response()->json(['schedule_days' => $schedule_days], 200);
+        //return response()->json(['schedule_days' => $employee_store_week], 200);
 
         if(is_array($schedule_days))
         {
