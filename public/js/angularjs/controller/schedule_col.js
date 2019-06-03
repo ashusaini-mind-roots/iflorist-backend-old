@@ -70,7 +70,7 @@ app.controller('schedule_colController', function ($scope, $http, $localStorage,
             function successCallback(response) {
                 $scope.parseScheduleInformationResponse(response.data.categories_schedules);
                 // $scope.employeesScheduleList = response.data.categories_schedules;
-                console.log(response.data.categories_schedules)
+               // console.log(response.data.categories_schedules)
             }
         );
     }
@@ -107,8 +107,28 @@ app.controller('schedule_colController', function ($scope, $http, $localStorage,
         return h + ':' + m;
     }
 
-    $scope.updateSchedulesByCategory = function(){
-
+    $scope.updateSchedulesByCategory = function(employees){
+        var esw_array = new Array();
+        var employee_store_week_id = -1;
+        for(var i = 0 ; i < employees.length ; i++){
+            esw_array = esw_array.concat(employees[i].schedule_days);
+            employee_store_week_id = employees[i].schedule_days[0].employee_store_week_id;
+        }
+        console.log(esw_array)
+        $http({
+            method: 'PUT',
+            url: API_URL + 'schedule/update/',
+            params: {
+                employee_store_week: employee_store_week_id,
+                schedule_days: esw_array,
+            },
+        }).then(function successCallback(response) {
+                // console.log(response);
+            },
+            function errorCallback(response) {
+                console.log(response)
+            }
+        );
     }
 
     /* Function to calculate time difference between 2 datetimes (in Timestamp-milliseconds, or string English Date-Time)
