@@ -120,7 +120,7 @@ app.controller('schedule_colController', function ($scope, $http, $localStorage,
             url: API_URL + 'schedule/update/',
             params: {
                 employee_store_week: employee_store_week_id,
-                schedule_days: esw_array,
+                schedule_days: JSON.stringify(esw_array),
             },
         }).then(function successCallback(response) {
                 // console.log(response);
