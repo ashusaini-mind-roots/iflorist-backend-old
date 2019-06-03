@@ -116,13 +116,15 @@
                                         <tr ng-repeat="employee in category.employees">
                                             <td>@{{employee.name}}</td>
                                             <td ng-repeat-start="schedule_day in employee.schedule_days">
-                                                <input type="time" ng-model="schedule_day.time_in" placeholder="HH:mm" value="@{{schedule_day.time_in}}">
+                                                <input type="time" ng-model="schedule_day.time_in" placeholder="HH:mm" >
                                             </td>
-                                            <td>@{{schedule_day.break_time}}</td>
                                             <td>
-                                                <input type="time" ng-model="schedule_day.time_out" placeholder="HH:mm" value="@{{schedule_day.time_out }}">
+                                                <input type="number" style="max-width:60px;" ng-model="schedule_day.break_time" placeholder="HH:mm" >
+                                                min</td>
+                                            <td>
+                                                <input type="time" ng-model="schedule_day.time_out" placeholder="HH:mm" >
                                             </td>
-                                            <td ng-repeat-end>@{{calcTimesDifference(schedule_day.time_in | date: "HH:mm:ss",schedule_day.time_out | date: "HH:mm:ss",schedule_day.break_time)}}</td>
+                                            <td ng-repeat-end>@{{calcTimesDifference(schedule_day.time_in | date: "HH:mm:ss",schedule_day.time_out|date:"HH:mm:ss",schedule_day.break_time)}}</td>
                                         </tr>
                                         {{--<tr>--}}
                                             {{--<td></td>--}}
@@ -137,6 +139,7 @@
                                     <!--Table-->
                                 </div>
                             </div>
+                            <button type="button" class="btn btn-primary" ng-click="updateDaysAmtValues()" ng-disabled="saveDays_btnDisable">Save changes</button>
                         </div>
                         <hr/>
                         <div class="row">

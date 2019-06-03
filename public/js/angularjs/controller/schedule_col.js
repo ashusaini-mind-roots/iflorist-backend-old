@@ -70,31 +70,28 @@ app.controller('schedule_colController', function ($scope, $http, $localStorage,
             function successCallback(response) {
                 $scope.parseScheduleInformationResponse(response.data.categories_schedules);
                 // $scope.employeesScheduleList = response.data.categories_schedules;
-                console.log(response.data)
+                console.log(response.data.categories_schedules)
             }
         );
     }
 
     $scope.parseScheduleInformationResponse = function(categories_schedules){
-        console.log(categories_schedules)
         for(var i = 0 ; i < categories_schedules.length ; i++){
             for(var j = 0 ; j < categories_schedules[i].employees.length ; j++){
-                console.log("pepe"+categories_schedules[i].employees)
-                for(var k = 0 ; k < categories_schedules.employees[j].schedule_days.length ; k++){
-                    categories_schedules.employees.schedule_days[k].time_in = new date(categories_schedules.employees.schedule_days[k].time_in);
-                    categories_schedules.employees.schedule_days[k].time_out = new date(categories_schedules.employees.schedule_days[k].time_out);
-                   // console.log(categories_schedules.employees.schedule_days[k].time_in)
+                for(var k = 0 ; k < categories_schedules[i].employees[j].schedule_days.length ; k++){
+                    var schedul = categories_schedules[i].employees[j].schedule_days[k];
+                    schedul.time_in = new Date(schedul.time_in);
+                    schedul.time_out = new Date(schedul.time_out);
                 }
             }
         }
-        $scope.employeesScheduleList = categories_schedules;
-       // console.log($scope.employeesScheduleList)
+        return $scope.employeesScheduleList = categories_schedules;
     }
 
     $scope.calcTimesDifference = function (time_in, time_out, break_time) {
-        //var hours = (diffDateTime(time_in,time_out).totalmin - break_time) / 60;
-        console.log(time_in + ' --- ' + time_out + " ---- " )
-        //return hours.toFixed(2);
+        var hours = (diffDateTime(time_in,time_out).totalmin - break_time) / 60;
+       // console.log(time_in + ' --- ' + time_out + " ---- " )
+        return hours.toFixed(2);
 
         // var objDiff = diffDateTime('8:35:6', '8:55:34 AM');
         // var dtdiff = objDiff.days+ ' days, '+ objDiff.hours+ ' hours, '+ objDiff.minutes+ ' minutes, '+ objDiff.seconds+ ' seconds';
