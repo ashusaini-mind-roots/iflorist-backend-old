@@ -32,7 +32,7 @@
                 <div class="card mt-5 ">
                     <div class="card-body">
                         <h5 class="card-title">Schedule</h5>
-                        <div ng-show="category.employees.length > 0" class="row" ng-repeat="category in employeesScheduleList">
+                        <div ng-show="category.employees.length > 0" class="row mb-5" ng-repeat="category in employeesScheduleList">
                             <div class="col">
                                 <div class="table-responsive mb-5" >
                                     <span>@{{category.category_name}}</span>
@@ -115,14 +115,17 @@
                                         <tbody>
                                         <tr ng-repeat="employee in category.employees">
                                             <td>@{{employee.name}}</td>
-                                            <td ng-repeat-start="schedule_day in employee.schedule_days">
-                                                <input type="time" ng-model="schedule_day.time_in" placeholder="HH:mm" value="@{{schedule_day.time_in}}">
+                                            {{--<td ng-repeat-start="schedule_day in employee.schedule_days">--}}
+                                            <td ng-repeat-start="x in [].constructor(7) track by $index" >
+                                                <input type="time" ng-model="employee.schedule_days[$index].time_in" placeholder="HH:mm" >
                                             </td>
-                                            <td>@{{schedule_day.break_time}}</td>
                                             <td>
-                                                <input type="time" ng-model="schedule_day.time_out" placeholder="HH:mm" value="@{{schedule_day.time_out }}">
+                                                <input type="number" style="max-width:60px;" ng-model="employee.schedule_days[$index].break_time" placeholder="min" >
+                                                min</td>
+                                            <td>
+                                                <input type="time" ng-model="employee.schedule_days[$index].time_out" placeholder="HH:mm" >
                                             </td>
-                                            <td ng-repeat-end>@{{calcTimesDifference(schedule_day.time_in | date: "HH:mm:ss",schedule_day.time_out | date: "HH:mm:ss",schedule_day.break_time)}}</td>
+                                            <td ng-repeat-end>@{{calcTimesDifference(employee.schedule_days[$index].time_in | date: "HH:mm:ss",employee.schedule_days[$index].time_out|date:"HH:mm:ss",employee.schedule_days[$index].break_time)}}</td>
                                         </tr>
                                         {{--<tr>--}}
                                             {{--<td></td>--}}
@@ -136,9 +139,11 @@
                                     </table>
                                     <!--Table-->
                                 </div>
+                                <button type="button" class="btn btn-primary" ng-click="updateSchedulesByCategory(category.employees)" ng-disabled="saveDays_btnDisable">Save changes</button>
+                                <hr>
                             </div>
                         </div>
-                        <hr/>
+
                         <div class="row">
                             {{--<div class="col-lg-3 col-md-6 col-sm-12 col-xs-12 mt-2">--}}
                                 {{--<label>AVG Actual</label>--}}

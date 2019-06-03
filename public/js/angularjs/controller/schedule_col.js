@@ -70,39 +70,66 @@ app.controller('schedule_colController', function ($scope, $http, $localStorage,
             function successCallback(response) {
                 $scope.parseScheduleInformationResponse(response.data.categories_schedules);
                 // $scope.employeesScheduleList = response.data.categories_schedules;
-                console.log(response.data)
+               // console.log(response.data.categories_schedules)
             }
         );
     }
 
     $scope.parseScheduleInformationResponse = function(categories_schedules){
-        console.log(categories_schedules)
         for(var i = 0 ; i < categories_schedules.length ; i++){
             for(var j = 0 ; j < categories_schedules[i].employees.length ; j++){
-                console.log("pepe"+categories_schedules[i].employees)
-                for(var k = 0 ; k < categories_schedules.employees[j].schedule_days.length ; k++){
-                    categories_schedules.employees.schedule_days[k].time_in = new date(categories_schedules.employees.schedule_days[k].time_in);
-                    categories_schedules.employees.schedule_days[k].time_out = new date(categories_schedules.employees.schedule_days[k].time_out);
-                   // console.log(categories_schedules.employees.schedule_days[k].time_in)
+                for(var k = 0 ; k < categories_schedules[i].employees[j].schedule_days.length ; k++){
+                    var schedul = categories_schedules[i].employees[j].schedule_days[k];
+                    schedul.time_in = new Date(schedul.time_in);
+                    schedul.time_out = new Date(schedul.time_out);
+                }
+                if(categories_schedules[i].employees[j].schedule_days.length == 0){
+                    for(var l = 0 ; l < 7 ; l++){
+                        categories_schedules[i].employees[j].schedule_days.push({id: -1})
+                    }
                 }
             }
         }
-        $scope.employeesScheduleList = categories_schedules;
-       // console.log($scope.employeesScheduleList)
+        return $scope.employeesScheduleList = categories_schedules;
     }
 
     $scope.calcTimesDifference = function (time_in, time_out, break_time) {
-        //var hours = (diffDateTime(time_in,time_out).totalmin - break_time) / 60;
-        console.log(time_in + ' --- ' + time_out + " ---- " )
-        //return hours.toFixed(2);
+        var h = m = "00";
+        if(time_in != undefined && time_out != undefined && break_time != undefined){
+            var minutesTotal = (diffDateTime(time_in,time_out).totalmin - break_time);
 
-        // var objDiff = diffDateTime('8:35:6', '8:55:34 AM');
-        // var dtdiff = objDiff.days+ ' days, '+ objDiff.hours+ ' hours, '+ objDiff.minutes+ ' minutes, '+ objDiff.seconds+ ' seconds';
-        // var total_hours = 'Total Hours: '+ objDiff.totalhours;
-        // var total_min = 'Total minutes: '+ objDiff.totalmin;
-        return 3;
+            var h = Math.floor(minutesTotal / 60);
+            var m = minutesTotal % 60;
+            h = h < 10 ? '0' + h : h;
+            m = m < 10 ? '0' + m : m;
+        }
+        console.log($scope.employeesScheduleList);
+        return h + ':' + m;
     }
 
+    $scope.updateSchedulesByCategory = function(employees){
+        var esw_array = new Array();
+        var employee_store_week_id = -1;
+        for(var i = 0 ; i < employees.length ; i++){
+            esw_array = esw_array.concat(employees[i].schedule_days);
+            employee_store_week_id = employees[i].schedule_days[0].employee_store_week_id;
+        }
+        console.log(esw_array)
+        $http({
+            method: 'PUT',
+            url: API_URL + 'schedule/update/',
+            params: {
+                employee_store_week: employee_store_week_id,
+                schedule_days: esw_array,
+            },
+        }).then(function successCallback(response) {
+                // console.log(response);
+            },
+            function errorCallback(response) {
+                console.log(response)
+            }
+        );
+    }
 
     /* Function to calculate time difference between 2 datetimes (in Timestamp-milliseconds, or string English Date-Time)
      It can also be used the words: NOW for current date-time, and TOMORROW for the next day (the 0:0:1 time)
