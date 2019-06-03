@@ -16,9 +16,9 @@ app.controller('schedule_colController', function ($scope, $http, $localStorage,
     $scope.selectedWeekItem = "1";
 
     $scope.employeesScheduleList = {};
+    $scope.employeeStoreWeekId = -1;
 
     $scope.getStores = function () {
-        // console.log(API_URL + 'store/all/' + $localStorage.currentUser.user.id + '/' + $localStorage.currentUser.user.role_name)
         if ($localStorage.currentUser) {
             $http({
                 method: 'GET',
@@ -68,9 +68,10 @@ app.controller('schedule_colController', function ($scope, $http, $localStorage,
             url: API_URL + 'schedule/all/' + $scope.selectedStoreItem + '/' + $scope.selectedWeekItem,
         }).then(
             function successCallback(response) {
+                $scope.employeeStoreWeekId = response.data.employee_store_week_id;
                 $scope.parseScheduleInformationResponse(response.data.categories_schedules);
                 // $scope.employeesScheduleList = response.data.categories_schedules;
-               // console.log(response.data.categories_schedules)
+
             }
         );
     }
@@ -103,23 +104,23 @@ app.controller('schedule_colController', function ($scope, $http, $localStorage,
             h = h < 10 ? '0' + h : h;
             m = m < 10 ? '0' + m : m;
         }
-        console.log($scope.employeesScheduleList);
         return h + ':' + m;
     }
 
     $scope.updateSchedulesByCategory = function(employees){
         var esw_array = new Array();
         var employee_store_week_id = -1;
+
         for(var i = 0 ; i < employees.length ; i++){
             esw_array = esw_array.concat(employees[i].schedule_days);
-            employee_store_week_id = employees[i].schedule_days[0].employee_store_week_id;
+            // employee_store_week_id = employees[i].schedule_days[0].employee_store_week_id;
         }
         console.log(esw_array)
         $http({
             method: 'PUT',
             url: API_URL + 'schedule/update/',
             params: {
-                employee_store_week: employee_store_week_id,
+                employee_store_week: $scope.employeeStoreWeekId,
                 schedule_days: JSON.stringify(esw_array),
             },
         }).then(function successCallback(response) {
