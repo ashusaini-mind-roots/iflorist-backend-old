@@ -157,7 +157,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h6 class="card-subtitle mb-2 text-muted">Proj. Purch. Budget.</h6>
-                        <h5 class="card-title">@{{projWeeklyRev * (targetCOG/100) | number:2}}</h5>
+                        <h5 class="card-title">@{{projWeeklyRev * (targetCOG/100) | currency}}</h5>
                     </div>
                 </div>
             </div>
