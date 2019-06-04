@@ -51,8 +51,9 @@ class ScheduleController extends Controller
         {
            foreach ($schedule_days as $sche)
            {
-               if($request->time_in && $request->time_out && $request->break_time)
+               if(isset($sche->time_in) && isset($sche->time_out) && isset($sche->break_time))
                {
+
                    if($sche->id==-1)
                    {
                        $chedule = new Schedule();
