@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\DB;
 
 class ScheduleController extends Controller
 {
-    public function schedule_week($store_id,/*$year,*/$week_id)
+    public function schedule_week($store_id, $week_id)
     {
         $store_week_id = StoreWeek::storeWeekId($store_id,$week_id);
         $employee_store_week = EmployeeStoreWeek::findByStoreWeekId($store_week_id);
@@ -37,7 +37,6 @@ class ScheduleController extends Controller
             }
             $response[] = ['category_name' => $category->name,'employees' => $employees_response];
         }
-
         return response()->json(['categories_schedules' => $response,'employee_store_week_id'=>$employee_store_week_id], 200);
     }
 

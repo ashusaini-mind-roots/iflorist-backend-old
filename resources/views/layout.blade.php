@@ -44,6 +44,7 @@
 <script src="{{asset('js/angularjs/controller/logout.js')}}"></script>
 <script src="{{asset('js/angularjs/controller/login.js')}}"></script>
 <script src="{{asset('js/external/jQ-Mask-Plugin/src/jquery.mask.js')}}"></script>
+<script src="{{asset('js/external/ui-bootstrap-custom-tpls-2.5.0.js')}}"></script>
 
 @yield('js')
 

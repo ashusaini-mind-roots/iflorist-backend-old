@@ -78,6 +78,12 @@
                         Schedule_COL
                     </a>
                 </li>
+                <li>
+                    <a href="{{url('/masteroverview_col')}}">
+                        <i class="fas fa-paper-plane"></i>
+                        Overview_COL
+                    </a>
+                </li>
             </ul>
         @show
 

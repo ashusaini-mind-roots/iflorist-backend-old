@@ -56,8 +56,8 @@ Route::prefix('week')->group(function () {
 });
 
 Route::prefix('daily_revenue')->group(function () {
-    Route::get('seven_days_week/{store_id}/{week_id}','DailyRevenuesController@sevenDaysWeek');
-    Route::put('update_all_amt','DailyRevenuesController@updateAllAmt');
+    Route::get('seven_days_week/{store_id}/{week_id}', 'DailyRevenuesController@sevenDaysWeek');
+    Route::put('update_all_amt', 'DailyRevenuesController@updateAllAmt');
 });
 
 Route::prefix('invoice')->group(function () {

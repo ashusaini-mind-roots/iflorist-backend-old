@@ -114,8 +114,8 @@ app.controller('masterOverviewController', function($scope,$http,$localStorage,A
     }
     $scope.showEditProjection = function(selectedWeek){
         $scope.weekSelected = selectedWeek;
-        console.log(String($scope.weekSelected.year_reference))
-        $scope.yearReferenceProjectionSelected = String($scope.weekSelected.year_reference);
+        console.log(String(x1)+$scope.weekSelected.year_reference)
+        $scope.yearReferenceProjectionSelected = /*$scope.weekSelected.year_reference*/"2017";
         $scope.downPercentSelected = $scope.weekSelected.down_percent;
 
         $('#projectionModal').modal('show');
