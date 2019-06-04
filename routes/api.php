@@ -109,8 +109,8 @@ Route::prefix('work_man_comp')->group(function () {
 });
 
 Route::prefix('schedule')->group(function () {
+    Route::post('update_or_add', 'ScheduleController@updateoradd');
     Route::get('all/{store_id}/{week_id}', 'ScheduleController@schedule_week');
-    Route::put('update', 'ScheduleController@update');
 });
 
 Route::prefix('target_percentage')->group(function () {

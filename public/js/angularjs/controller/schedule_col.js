@@ -18,6 +18,9 @@ app.controller('schedule_colController', function ($scope, $http, $localStorage,
     $scope.employeesScheduleList = {};
     $scope.employeeStoreWeekId = -1;
 
+    $scope.dayOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+
+
     $scope.getStores = function () {
         if ($localStorage.currentUser) {
             $http({
@@ -83,10 +86,13 @@ app.controller('schedule_colController', function ($scope, $http, $localStorage,
                     var schedul = categories_schedules[i].employees[j].schedule_days[k];
                     schedul.time_in = new Date(schedul.time_in);
                     schedul.time_out = new Date(schedul.time_out);
+                    schedul.employee_store_week_id = categories_schedules[i].employees[j].employee_store_week_id;
+                    schedul.day_of_week = $scope.dayOfWeek[k];
                 }
-                if(categories_schedules[i].employees[j].schedule_days.length == 0){
-                    for(var l = 0 ; l < 7 ; l++){
-                        categories_schedules[i].employees[j].schedule_days.push({id: -1})
+                if(categories_schedules[i].employees[j].schedule_days.length < 7){
+                    for(var l = categories_schedules[i].employees[j].schedule_days.length ; l < 7 ; l++){
+                        categories_schedules[i].employees[j].schedule_days.push({id: -1,employee_store_week_id: categories_schedules[i].employees[j].employee_store_week_id,
+                                                                                 day_of_week : $scope.dayOfWeek[l]})
                     }
                 }
             }
@@ -117,22 +123,23 @@ app.controller('schedule_colController', function ($scope, $http, $localStorage,
 
     $scope.updateSchedulesByCategory = function(employees){
         var esw_array = new Array();
-        var employee_store_week_id = -1;
 
         for(var i = 0 ; i < employees.length ; i++){
+            employees[i].schedule_days
             esw_array = esw_array.concat(employees[i].schedule_days);
-            // employee_store_week_id = employees[i].schedule_days[0].employee_store_week_id;
         }
+        console.log(API_URL + 'schedule/update_or_add/')
         console.log(esw_array)
         $http({
-            method: 'PUT',
-            url: API_URL + 'schedule/update/',
+            method: 'POST',
+            url: API_URL + 'schedule/update_or_add/',
             params: {
-                employee_store_week: $scope.employeeStoreWeekId,
                 schedule_days: JSON.stringify(esw_array),
+                year: $scope.selectedYearsItem,
+                week_id: $scope.selectedWeekItem
             },
         }).then(function successCallback(response) {
-                // console.log(response);
+                 console.log(response);
             },
             function errorCallback(response) {
                 console.log(response)
@@ -147,7 +154,8 @@ app.controller('schedule_colController', function ($scope, $http, $localStorage,
             {
                 for(var j = 0 ; j < $scope.employeesScheduleList[i].employees.length ; j++){
                     var schedule = $scope.employeesScheduleList[i].employees[j].schedule_days[dayofweek];
-                    returnTotal += $scope.calcTimesDifferenceMinutes_Util(schedule.time_in, schedule.time_out, schedule.break_time);
+                    if(schedule!= undefined && schedule.time_in != undefined && schedule.time_out != undefined && schedule.break_time != undefined)
+                        returnTotal += $scope.calcTimesDifferenceMinutes_Util(schedule.time_in, schedule.time_out, schedule.break_time);
                 }
             }
         }

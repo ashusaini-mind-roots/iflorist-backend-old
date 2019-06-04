@@ -15,4 +15,12 @@ class EmployeeStoreWeek extends Model
             ->where('store_week_id',$storeWeekId)
             ->first();
     }
+
+    static public function findByEmployeeANDStoreWeekId($employeeId, $storeWeekId)
+    {
+        return $employee_store_week = DB::table('employee_store_week')
+            ->where('store_week_id',$storeWeekId)
+            ->where('employee_id',$employeeId)
+            ->first();
+    }
 }
