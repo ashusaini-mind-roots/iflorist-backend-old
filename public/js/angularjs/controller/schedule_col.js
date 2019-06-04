@@ -74,7 +74,7 @@ app.controller('schedule_colController', function ($scope, $http, $localStorage,
                 $scope.employeeStoreWeekId = response.data.employee_store_week_id;
                 $scope.parseScheduleInformationResponse(response.data.categories_schedules);
                 // $scope.employeesScheduleList = response.data.categories_schedules;
-                console.log(response.data.categories_schedules)
+               // console.log(response.data.categories_schedules)
             }
         );
     }
@@ -128,15 +128,15 @@ app.controller('schedule_colController', function ($scope, $http, $localStorage,
             employees[i].schedule_days
             esw_array = esw_array.concat(employees[i].schedule_days);
         }
-        console.log(API_URL + 'schedule/update_or_add/')
-        console.log(esw_array)
+        //console.log(API_URL + 'schedule/update_or_add/')
+        console.log(JSON.stringify(esw_array))
         $http({
             method: 'POST',
             url: API_URL + 'schedule/update_or_add/',
             params: {
-                schedule_days: JSON.stringify(esw_array),
-                year: $scope.selectedYearsItem,
-                week_id: $scope.selectedWeekItem
+                 schedule_days: JSON.stringify(esw_array),
+                // year: $scope.selectedYearsItem,
+                // week_id: $scope.selectedWeekItem
             },
         }).then(function successCallback(response) {
                  console.log(response);
