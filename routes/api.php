@@ -112,3 +112,7 @@ Route::prefix('schedule')->group(function () {
     Route::get('all/{store_id}/{week_id}', 'ScheduleController@schedule_week');
     Route::put('update', 'ScheduleController@update');
 });
+
+Route::prefix('target_percentage')->group(function () {
+    Route::put('update_target_percentage/{store_id}/{week_id}', 'TargetPercentagesController@update_target_porcentage');
+});

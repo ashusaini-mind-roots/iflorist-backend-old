@@ -55,7 +55,7 @@ class EmployeesController extends Controller
         $employee->name = $request->name;
         $employee->overtimeelegible = $request->overtimeelegible;
         $employee->hourlypayrate = $request->hourlypayrate;
-        $employee->active = $request->active;
+        $employee->active = /*$request->active*/true;
 
         $employee->save();
 
@@ -87,6 +87,7 @@ class EmployeesController extends Controller
             'name' => 'required',
             'overtimeelegible' => 'required',
             'hourlypayrate' => 'required',
+            'active' => 'required',
         ]);
 
         if ($v->fails()) {
