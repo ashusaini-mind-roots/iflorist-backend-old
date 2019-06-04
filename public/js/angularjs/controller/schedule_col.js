@@ -71,7 +71,7 @@ app.controller('schedule_colController', function ($scope, $http, $localStorage,
                 $scope.employeeStoreWeekId = response.data.employee_store_week_id;
                 $scope.parseScheduleInformationResponse(response.data.categories_schedules);
                 // $scope.employeesScheduleList = response.data.categories_schedules;
-console.log(response.data.categories_schedules)
+                console.log(response.data.categories_schedules)
             }
         );
     }
