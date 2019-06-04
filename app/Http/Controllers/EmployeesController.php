@@ -74,8 +74,6 @@ class EmployeesController extends Controller
         }
 
         return response()->json(['status' => 'success'], 200);
-
-
     }
 
     public function update(Request $request, $id)

@@ -44,6 +44,9 @@ Route::get('/schedule_col', function () {
     return view('schedule_col.index');
 });
 
+Route::get('/masteroverview_col', function () {
+    return view('masteroverview_col.index');
+});
 /*Route::get('/', function () {
     return view('login');
 });*/

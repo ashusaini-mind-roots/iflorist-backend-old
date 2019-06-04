@@ -142,25 +142,60 @@
                                 <button type="button" class="btn btn-primary" ng-click="updateSchedulesByCategory(category.employees)" ng-disabled="saveDays_btnDisable">Save changes</button>
                                 <hr>
                             </div>
+                            <div class="row ml-1">
+                                <div class="col">
+                                    <div class="form-group text-center">
+                                        <label for="inputTotal">Monday </label>
+                                        {{--<input hidden type="text" class="form-control" id="inputTotal" ng-model="dailyRevenueTotal" value = @{{calcDailyTotal()}} >--}}
+                                        <div class="font-weight-bold text-center">@{{calcDailyTotalHours(category.category_name,0)}}</div>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group text-center">
+                                        <label for="inputTotal">Tuesday </label>
+                                        {{--<input hidden type="text" class="form-control" id="inputTotal" ng-model="dailyRevenueTotal" value = @{{calcDailyTotal()}} >--}}
+                                        <div class="font-weight-bold text-center">@{{calcDailyTotalHours(category.category_name,1)}}</div>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group text-center">
+                                        <label for="inputTotal">Wednesday </label>
+                                        {{--<input hidden type="text" class="form-control" id="inputTotal" ng-model="dailyRevenueTotal" value = @{{calcDailyTotal()}} >--}}
+                                        <div class="font-weight-bold text-center">@{{calcDailyTotalHours(category.category_name,2)}}</div>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group text-center">
+                                        <label for="inputTotal">Thursday </label>
+                                        {{--<input hidden type="text" class="form-control" id="inputTotal" ng-model="dailyRevenueTotal" value = @{{calcDailyTotal()}} >--}}
+                                        <div class="font-weight-bold text-center">@{{calcDailyTotalHours(category.category_name,3)}}</div>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group text-center">
+                                        <label for="inputTotal">Friday </label>
+                                        {{--<input hidden type="text" class="form-control" id="inputTotal" ng-model="dailyRevenueTotal" value = @{{calcDailyTotal()}} >--}}
+                                        <div class="font-weight-bold text-center">@{{calcDailyTotalHours(category.category_name,4)}}</div>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group text-center">
+                                        <label for="inputTotal">Saturday </label>
+                                        {{--<input hidden type="text" class="form-control" id="inputTotal" ng-model="dailyRevenueTotal" value = @{{calcDailyTotal()}} >--}}
+                                        <div class="font-weight-bold text-center">@{{calcDailyTotalHours(category.category_name,5)}}</div>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group text-center">
+                                        <label for="inputTotal">Sunday </label>
+                                        {{--<input hidden type="text" class="form-control" id="inputTotal" ng-model="dailyRevenueTotal" value = @{{calcDailyTotal()}} >--}}
+                                        <div class="font-weight-bold text-center">@{{calcDailyTotalHours(category.category_name,6)}}</div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="row">
-                            {{--<div class="col-lg-3 col-md-6 col-sm-12 col-xs-12 mt-2">--}}
-                                {{--<label>AVG Actual</label>--}}
-                                {{--<input type="text" class="form-control " placeholder="Value" ng-model="invoiceTotal_add">--}}
-                                {{--<div>@{{avgActual | number : 2 }} %</div>--}}
-                            {{--</div>--}}
-                            {{--<div class="col-lg-3 col-md-6 col-sm-12 col-xs-12 mt-2">--}}
-                                {{--<label>AVG Target</label>--}}
-                                {{--<input type="text" class="form-control " placeholder="Value" ng-model="invoiceTotal_add">--}}
-                                {{--<div>@{{avgTarget | number : 2 }} %</div>--}}
-                            {{--</div>--}}
-                            {{--<div class="col-lg-3 col-md-6 col-sm-12 col-xs-12 mt-2">--}}
-                                {{--<label>AVG Difference</label>--}}
-                                {{--<input type="text" class="form-control " placeholder="Value" ng-model="invoiceTotal_add">--}}
-                                {{--<div>@{{avgDifference | number : 2 }} %</div>--}}
-                            {{--</div>--}}
-                        </div>
+
                     </div>
                     {{--<div class="card-footer text-right">--}}
                     {{--<form class="form-inline">--}}
