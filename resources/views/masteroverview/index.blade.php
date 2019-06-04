@@ -1,6 +1,6 @@
 @extends('contentlayout')
 @section('content')
-    <div ng-controller="masterOverviewController" class="">
+    <div ng-controller="masterOverviewController" class="" ng-init="init()">
         <div class="row">
             <div class="col-12">
                 <div class="card ">
@@ -17,7 +17,9 @@
                             <div class="col-2">
                                 <label for="yearsid">Select year</label>
                                 <select id="yearsid" class="form-control" ng-required="true"
-                                        ng-model="selectedYearsItem" ng-options="year for year in yearsList"
+                                        ng-model="selectedYearsItem"
+
+                                        ng-options="year for year in yearsList"
                                         ng-change="getOverviewDataFromServer()">
                                 </select>
                             </div>
@@ -164,8 +166,12 @@
                             <div class="form-group error">
                                 <label for="downValue" class="col-sm-5 control-label">Year Reference *</label>
                                 <div class="col-sm-9">
-                                    <select id="yearReferenceProjectionSelectedId" class="form-control" ng-required="true"
-                                            ng-model="yearReferenceProjectionSelected" ng-options="year for year in yearsList" id="yearProjectionValue" name="yearProjectionValue">
+                                    <select id="yearReferenceProjectionSelectedId" class="form-control"
+                                            ng-required="true"
+                                            ng-model="yearReferenceProjectionSelected"
+                                            ng-options="year for year in yearsList"
+                                            id="yearProjectionValue"
+                                            name="yearProjectionValue">
                                     </select>
                                     <span class="help-inline" ng-show="frmProjection.yearProjectionValue.$invalid && frmProjection.yearProjectionValue.$touched">Value Required</span>
                                 </div>
