@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Utils;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -11,15 +12,15 @@ use App\Models\Invoice;
 class InvoicesController extends Controller
 {
 
-    public function all($store_id,$week_id)
+    public function all($store_id, $week_id)
     {
         $store_week = DB::table('store_week')
-            ->where('store_id',$store_id)
-            ->where('week_id',$week_id)
+            ->where('store_id', $store_id)
+            ->where('week_id', $week_id)
             ->first();
 
         $invoices = DB::table('invoices')
-            ->where('store_week_id',$store_week->id)
+            ->where('store_week_id', $store_week->id)
             ->get();
 
         return response()->json(['invoices' => $invoices], 200);
@@ -45,14 +46,14 @@ class InvoicesController extends Controller
         $week_id = $request->week_id;
 
         $store_week = DB::table('store_week')
-            ->where('store_id',$store_id)
-            ->where('week_id',$week_id)
+            ->where('store_id', $store_id)
+            ->where('week_id', $week_id)
             ->first();
 
         $invoice = new Invoice();
         $invoice->invoice_number = $request->invoice_number;
         $invoice->invoice_name = $request->invoice_name;
-        $invoice->total = $request->total;
+        $invoice->total = Utils::money2Float($request->total);
         $invoice->invoice_date = date('Y-m-d');
         $invoice->store_week_id = $store_week->id;
 

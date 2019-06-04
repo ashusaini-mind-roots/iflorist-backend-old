@@ -91,14 +91,14 @@
                                                 </div>
                                             </div>
 
-                                            <div class="form-group error">
+                                            <div ng-show="modalstate=='edit'" class="form-group error">
                                                 <label for="inputEmail3" class="col-sm-3 control-label">Active *</label>
                                                 <div class="col-sm-9">
-                                                    <select class="form-control has-error" name="active" id="active" ng-model="employee.active" ng-selected="employee.active" ng-options="active.id as active.name for active in actives" ng-required="true">
+                                                    <select class="form-control has-error" name="active" id="active" ng-model="employee.active" ng-selected="employee.active" ng-options="active.id as active.name for active in actives">
                                                         <!--<option value="1">Yes</option>
                                                         <option value="0">No</option>-->
                                                     </select>
-                                                    <span class="help-inline" ng-show="frmemployee.active.$invalid && frmemployee.active.$touched">Active Required</span>
+                                                    <!--<span class="help-inline" ng-show="frmemployee.active.$invalid && frmemployee.active.$touched">Active Required</span>-->
                                                 </div>
                                             </div>
 

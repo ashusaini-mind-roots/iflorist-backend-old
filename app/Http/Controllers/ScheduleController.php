@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
+use Faker\Provider\cs_CZ\DateTime;
 use Illuminate\Http\Request;
 
 use App\Models\Employee;
@@ -10,6 +11,7 @@ Use App\Models\Category;
 Use App\Models\Schedule;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Carbon;
 
 class ScheduleController extends Controller
 {
@@ -43,32 +45,36 @@ class ScheduleController extends Controller
     public function update(Request $request)
     {
         $employee_store_week = $request->employee_store_week;
-        $schedule_days = $request->schedule_days;
+        $schedule_days = json_decode($request->schedule_days);
 
         if(is_array($schedule_days))
         {
            foreach ($schedule_days as $sche)
            {
-               if($sche['id']=='-1')
+               if($request->time_in && $request->time_out && $request->break_time)
                {
-                   $chedule = new Schedule();
-                   $chedule->employee_store_week_id =$employee_store_week;
-                   $chedule->time_in = $sche['time_in'];
-                   $chedule->time_out = $sche['time_out'];
-                   $chedule->break_time = $sche['break_time'];
-                   $chedule->dates_dim_date = date('Y-m-d');
-                   $chedule->save();
+                   if($sche->id==-1)
+                   {
+                       $chedule = new Schedule();
+                       $chedule->employee_store_week_id =$employee_store_week;
+                       $chedule->time_in = Carbon::parse($request->time_in)->format('Y-m-d H:i:s');
+                       $chedule->time_out = Carbon::parse($request->time_out)->format('Y-m-d H:i:s');
+                       $chedule->break_time = $sche->break_time;
+                       $chedule->dates_dim_date = date('Y-m-d');
+                       $chedule->save();
+                   }
+                   else
+                   {
+                       $chedule = Schedule::findOrFail($sche->id);
+                       $chedule->employee_store_week_id =$employee_store_week;
+                       $chedule->time_in = Carbon::parse($request->time_in)->format('Y-m-d H:i:s');
+                       $chedule->time_out = Carbon::parse($request->time_out)->format('Y-m-d H:i:s');
+                       $chedule->break_time = $sche->break_time;
+                       $chedule->dates_dim_date = date('Y-m-d');
+                       $chedule->update();
+                   }
                }
-               else
-               {
-                   $chedule = Schedule::findOrFail($sche['id']);
-                   $chedule->employee_store_week_id =$employee_store_week;
-                   $chedule->time_in = $sche['time_in'];
-                   $chedule->time_out = $sche['time_out'];
-                   $chedule->break_time = $sche['break_time'];
-                   $chedule->dates_dim_date = date('Y-m-d');
-                   $chedule->update();
-               }
+
             }
 
             return response()->json(['status' => 'success'], 200);
