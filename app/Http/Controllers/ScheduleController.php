@@ -59,8 +59,8 @@ class ScheduleController extends Controller
                    {
                        $chedule = new Schedule();
                        $chedule->employee_store_week_id =$employee_store_week;
-                       $chedule->time_in = Carbon::parse($request->time_in)->format('Y-m-d H:i:s');
-                       $chedule->time_out = Carbon::parse($request->time_out)->format('Y-m-d H:i:s');
+                       $chedule->time_in = Carbon::parse($sche->time_in)->format('Y-m-d H:i:s');
+                       $chedule->time_out = Carbon::parse($sche->time_out)->format('Y-m-d H:i:s');
                        $chedule->break_time = $sche->break_time;
                        $chedule->dates_dim_date = date('Y-m-d');
                        $chedule->save();
@@ -69,8 +69,8 @@ class ScheduleController extends Controller
                    {
                        $chedule = Schedule::findOrFail($sche->id);
                        $chedule->employee_store_week_id =$employee_store_week;
-                       $chedule->time_in = Carbon::parse($request->time_in)->format('Y-m-d H:i:s');
-                       $chedule->time_out = Carbon::parse($request->time_out)->format('Y-m-d H:i:s');
+                       $chedule->time_in = Carbon::parse($sche->time_in)->format('Y-m-d H:i:s');
+                       $chedule->time_out = Carbon::parse($sche->time_out)->format('Y-m-d H:i:s');
                        $chedule->break_time = $sche->break_time;
                        $chedule->dates_dim_date = date('Y-m-d');
                        $chedule->update();
