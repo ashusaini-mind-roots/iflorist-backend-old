@@ -3,7 +3,7 @@
     <style>
 
     </style>
-    <div ng-controller="weekPanelController" class="">
+    <div ng-controller="weekPanelController" class="" ng-init="init()">
         <div class="row">
             <div class="col-12">
                 <div class="card ">
@@ -18,9 +18,12 @@
                                 </select>
                             </div>
                             <div class="col-2">
-                                <label for="yearsid">Select year</label>
+                                <label for="yearsid">Select year</label> @{{ selectedYearsItem }}
                                 <select id="yearsid" class="form-control" ng-required="true"
-                                        ng-model="selectedYearsItem" ng-options="year for year in yearsList"
+                                        ng-init="selectedYearsItem=selectedYearsItem"
+                                        ng-model="selectedYearsItem"
+                                        ng-options="year for year in yearsList"
+
                                         ng-change="getWeeks()">
                                 </select>
                             </div>

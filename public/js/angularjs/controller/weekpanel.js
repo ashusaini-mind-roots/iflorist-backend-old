@@ -1,4 +1,4 @@
-app.controller('weekPanelController', function ($scope, $http, $localStorage, API_URL) {
+app.controller('weekPanelController', function ($scope, $http, $localStorage, API_URL, Utils) {
 
     console.log('weekpanel.js load success');
 
@@ -6,7 +6,8 @@ app.controller('weekPanelController', function ($scope, $http, $localStorage, AP
     $scope.selectedStoreItem = 2;
 
     $scope.yearsList = {};
-    $scope.selectedYearsItem = "2018";
+
+    $scope.selectedYearsItem = Utils.GetCurrentYear();
 
     $scope.weekList = {};
     $scope.selectedWeekItem = "3";
@@ -40,6 +41,12 @@ app.controller('weekPanelController', function ($scope, $http, $localStorage, AP
     $scope.targetCOG = 0.00;
     $scope.projWeeklyRev = 0.00;
 
+    $scope.init = function () {
+        $scope.getStores();
+        $scope.getYears();
+        $scope.getWeeks();
+    }
+
     $scope.calcDailyTotal = function () {
         $scope.dailyRevenueTotal =
             parseFloat($scope.monday.amt) +
@@ -51,7 +58,6 @@ app.controller('weekPanelController', function ($scope, $http, $localStorage, AP
             parseFloat($scope.sunday.amt);
         return $scope.dailyRevenueTotal;
     }
-
 
     $scope.getStores = function () {
         // console.log(API_URL + 'store/all/' + $localStorage.currentUser.user.id + '/' + $localStorage.currentUser.user.role_name)
@@ -68,12 +74,19 @@ app.controller('weekPanelController', function ($scope, $http, $localStorage, AP
     }
 
     $scope.getYears = function () {
-        $scope.yearsList = ["2017", "2018", "2019"];
+        $scope.yearsList = Utils.GetYears();
     }
 
+    $scope.getCurrentYear = function () {
+        var currentdate = new Date();
+        return currentdate.getFullYear();
+    };
+
     $scope.getWeeks = function () {
-        if ($localStorage.weekOverview != undefined)
+        if ($localStorage.weekOverview != undefined) {
             $scope.selectedYearsItem = $localStorage.weekOverview.selectedYear;
+        }
+
         if ($localStorage.currentUser) {
             $http({
                 method: 'GET',
@@ -346,9 +359,7 @@ app.controller('weekPanelController', function ($scope, $http, $localStorage, AP
         }
     }
 
-    $scope.getStores();
-    $scope.getYears();
-    $scope.getWeeks();
+
     // $scope.SetInitValuesToSelects();
     // $scope.getWeekDataFromServer();
 
