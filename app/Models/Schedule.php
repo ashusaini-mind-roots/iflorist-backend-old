@@ -42,7 +42,7 @@ class Schedule extends Model
             ->Join('dates_dim','dates_dim.date','=','schedules.dates_dim_date')
             ->where('dates_dim.year',$year)
             ->where('store_week.id',$store_week_id)
-            ->where('categories.omit_col','0')
+            ->where('categories.omit_col',0)
             ->get();
 
         return $schedules;

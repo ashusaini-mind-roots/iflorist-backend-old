@@ -33,165 +33,198 @@
                     <div class="card-body">
                         <h5 class="card-title">Schedule</h5>
                         <div ng-show="category.employees.length > 0" class="row mb-5" ng-repeat="category in employeesScheduleList">
-                            <div class="col">
-                                <div class="table-responsive mb-5" >
-                                    <span>@{{category.category_name}}</span>
-                                    <!--Table-->
-                                    <table class="table">
-                                        <!--Table head-->
-                                        <thead>
-                                        <tr>
-                                            <th class="th-sm"></th>
-                                            <th class="th-sm">Monday</th>
-                                            <th class="th-sm"></th>
-                                            <th class="th-sm"></th>
-                                            <th class="th-sm"></th>
-                                            <th class="th-sm">Tuesday</th>
-                                            <th class="th-sm"></th>
-                                            <th class="th-sm"></th>
-                                            <th class="th-sm"></th>
-                                            <th class="th-sm">Wednesday</th>
-                                            <th class="th-sm"></th>
-                                            <th class="th-sm"></th>
-                                            <th class="th-sm"></th>
-                                            <th class="th-sm">Thursday</th>
-                                            <th class="th-sm"></th>
-                                            <th class="th-sm"></th>
-                                            <th class="th-sm"></th>
-                                            <th class="th-sm">Friday</th>
-                                            <th class="th-sm"></th>
-                                            <th class="th-sm"></th>
-                                            <th class="th-sm"></th>
-                                            <th class="th-sm">Saturday</th>
-                                            <th class="th-sm"></th>
-                                            <th class="th-sm"></th>
-                                            <th class="th-sm"></th>
-                                            <th class="th-sm">Sunday</th>
-                                            <th class="th-sm"></th>
-                                            <th class="th-sm"></th>
-                                            <th class="th-sm"></th>
-                                        </tr>
-                                        <tr>
-                                            <th class="th-sm">Employee</th>
-                                            <th class="th-sm">Time In</th>
-                                            <th class="th-sm">Brake</th>
-                                            <th class="th-sm">Time Out</th>
-                                            <th class="th-sm">Total Hours</th>
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="table-responsive mb-5" >
+                                            <span>@{{category.category_name}}</span>
+                                            <!--Table-->
+                                            <table class="table">
+                                                <!--Table head-->
+                                                <thead>
+                                                <tr>
+                                                    <th class="th-sm"></th>
+                                                    <th class="th-sm">Monday</th>
+                                                    <th class="th-sm"></th>
+                                                    <th class="th-sm"></th>
+                                                    <th class="th-sm"></th>
+                                                    <th class="th-sm">Tuesday</th>
+                                                    <th class="th-sm"></th>
+                                                    <th class="th-sm"></th>
+                                                    <th class="th-sm"></th>
+                                                    <th class="th-sm">Wednesday</th>
+                                                    <th class="th-sm"></th>
+                                                    <th class="th-sm"></th>
+                                                    <th class="th-sm"></th>
+                                                    <th class="th-sm">Thursday</th>
+                                                    <th class="th-sm"></th>
+                                                    <th class="th-sm"></th>
+                                                    <th class="th-sm"></th>
+                                                    <th class="th-sm">Friday</th>
+                                                    <th class="th-sm"></th>
+                                                    <th class="th-sm"></th>
+                                                    <th class="th-sm"></th>
+                                                    <th class="th-sm">Saturday</th>
+                                                    <th class="th-sm"></th>
+                                                    <th class="th-sm"></th>
+                                                    <th class="th-sm"></th>
+                                                    <th class="th-sm">Sunday</th>
+                                                    <th class="th-sm"></th>
+                                                    <th class="th-sm"></th>
+                                                    <th class="th-sm"></th>
+                                                </tr>
+                                                <tr>
+                                                    <th class="th-sm">Employee</th>
+                                                    <th class="th-sm">Time In</th>
+                                                    <th class="th-sm">Brake</th>
+                                                    <th class="th-sm">Time Out</th>
+                                                    <th class="th-sm">Total Hours</th>
 
-                                            <th class="th-sm">Time In</th>
-                                            <th class="th-sm">Brake</th>
-                                            <th class="th-sm">Time Out</th>
-                                            <th class="th-sm">Total Hours</th>
+                                                    <th class="th-sm">Time In</th>
+                                                    <th class="th-sm">Brake</th>
+                                                    <th class="th-sm">Time Out</th>
+                                                    <th class="th-sm">Total Hours</th>
 
-                                            <th class="th-sm">Time In</th>
-                                            <th class="th-sm">Brake</th>
-                                            <th class="th-sm">Time Out</th>
-                                            <th class="th-sm">Total Hours</th>
+                                                    <th class="th-sm">Time In</th>
+                                                    <th class="th-sm">Brake</th>
+                                                    <th class="th-sm">Time Out</th>
+                                                    <th class="th-sm">Total Hours</th>
 
-                                            <th class="th-sm">Time In</th>
-                                            <th class="th-sm">Brake</th>
-                                            <th class="th-sm">Time Out</th>
-                                            <th class="th-sm">Total Hours</th>
+                                                    <th class="th-sm">Time In</th>
+                                                    <th class="th-sm">Brake</th>
+                                                    <th class="th-sm">Time Out</th>
+                                                    <th class="th-sm">Total Hours</th>
 
-                                            <th class="th-sm">Time In</th>
-                                            <th class="th-sm">Brake</th>
-                                            <th class="th-sm">Time Out</th>
-                                            <th class="th-sm">Total Hours</th>
+                                                    <th class="th-sm">Time In</th>
+                                                    <th class="th-sm">Brake</th>
+                                                    <th class="th-sm">Time Out</th>
+                                                    <th class="th-sm">Total Hours</th>
 
-                                            <th class="th-sm">Time In</th>
-                                            <th class="th-sm">Brake</th>
-                                            <th class="th-sm">Time Out</th>
-                                            <th class="th-sm">Total Hours</th>
+                                                    <th class="th-sm">Time In</th>
+                                                    <th class="th-sm">Brake</th>
+                                                    <th class="th-sm">Time Out</th>
+                                                    <th class="th-sm">Total Hours</th>
 
-                                            <th class="th-sm">Time In</th>
-                                            <th class="th-sm">Brake</th>
-                                            <th class="th-sm">Time Out</th>
-                                            <th class="th-sm">Total Hours</th>
-                                        </tr>
-                                        </thead>
-                                        <!--Table head-->
+                                                    <th class="th-sm">Time In</th>
+                                                    <th class="th-sm">Brake</th>
+                                                    <th class="th-sm">Time Out</th>
+                                                    <th class="th-sm">Total Hours</th>
+                                                </tr>
+                                                </thead>
+                                                <!--Table head-->
 
-                                        <!--Table body-->
-                                        <tbody>
-                                        <tr ng-repeat="employee in category.employees">
-                                            <td>@{{employee.name}}</td>
-                                            {{--<td ng-repeat-start="schedule_day in employee.schedule_days">--}}
-                                            <td ng-repeat-start="x in [].constructor(7) track by $index" >
-                                                <input type="time" ng-model="employee.schedule_days[$index].time_in" placeholder="HH:mm" >
-                                            </td>
-                                            <td>
-                                                <input type="number" style="max-width:60px;" ng-model="employee.schedule_days[$index].break_time" placeholder="min" >
-                                                min</td>
-                                            <td>
-                                                <input type="time" ng-model="employee.schedule_days[$index].time_out" placeholder="HH:mm" >
-                                            </td>
-                                            <td ng-repeat-end>@{{calcTimesDifference(employee.schedule_days[$index].time_in | date: "HH:mm:ss",employee.schedule_days[$index].time_out|date:"HH:mm:ss",employee.schedule_days[$index].break_time)}}</td>
-                                        </tr>
-                                        {{--<tr>--}}
-                                            {{--<td></td>--}}
-                                            {{--<td ng-repeat-start="schedule_day in employee.schedule_days"></td>--}}
-                                            {{--<td></td>--}}
-                                            {{--<td></td>--}}
-                                            {{--<td ng-repeat-end>25</td>--}}
-                                        {{--</tr>--}}
-                                        </tbody>
-                                        <!--Table body-->
-                                    </table>
-                                    <!--Table-->
-                                </div>
-                                <button type="button" class="btn btn-primary" ng-click="updateSchedulesByCategory(category.employees)" ng-disabled="saveDays_btnDisable">Save changes</button>
-                                <hr>
-                            </div>
-                            <div class="row ml-1">
-                                <div class="col">
-                                    <div class="form-group text-center">
-                                        <label for="inputTotal">Monday </label>
-                                        {{--<input hidden type="text" class="form-control" id="inputTotal" ng-model="dailyRevenueTotal" value = @{{calcDailyTotal()}} >--}}
-                                        <div class="font-weight-bold text-center">@{{calcDailyTotalHours(category.category_name,0)}}</div>
+                                                <!--Table body-->
+                                                <tbody>
+                                                <tr ng-repeat="employee in category.employees">
+                                                    <td>@{{employee.name}}</td>
+                                                    {{--<td ng-repeat-start="schedule_day in employee.schedule_days">--}}
+                                                    <td ng-repeat-start="x in [].constructor(7) track by $index" >
+                                                        <input type="time" ng-model="employee.schedule_days[$index].time_in" placeholder="HH:mm" >
+                                                    </td>
+                                                    <td>
+                                                        <input type="number" style="max-width:60px;" ng-model="employee.schedule_days[$index].break_time" placeholder="min" >
+                                                        min</td>
+                                                    <td>
+                                                        <input type="time" ng-model="employee.schedule_days[$index].time_out" placeholder="HH:mm" >
+                                                    </td>
+                                                    <td ng-repeat-end>@{{calcTimesDifference(employee.schedule_days[$index].time_in | date: "HH:mm:ss",employee.schedule_days[$index].time_out|date:"HH:mm:ss",employee.schedule_days[$index].break_time)}}</td>
+                                                </tr>
+                                                {{--<tr>--}}
+                                                    {{--<td></td>--}}
+                                                    {{--<td ng-repeat-start="schedule_day in employee.schedule_days"></td>--}}
+                                                    {{--<td></td>--}}
+                                                    {{--<td></td>--}}
+                                                    {{--<td ng-repeat-end>25</td>--}}
+                                                {{--</tr>--}}
+                                                </tbody>
+                                                <!--Table body-->
+                                            </table>
+                                            <!--Table-->
+                                        </div>
+                                        <button type="button" class="btn btn-primary" ng-click="updateSchedulesByCategory(category.employees)" ng-disabled="saveDays_btnDisable">Save changes</button>
+                                        <hr>
                                     </div>
                                 </div>
-                                <div class="col">
-                                    <div class="form-group text-center">
-                                        <label for="inputTotal">Tuesday </label>
-                                        {{--<input hidden type="text" class="form-control" id="inputTotal" ng-model="dailyRevenueTotal" value = @{{calcDailyTotal()}} >--}}
-                                        <div class="font-weight-bold text-center">@{{calcDailyTotalHours(category.category_name,1)}}</div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <div class="col">
+                                                <div class="form-group text-center">
+                                                    <label for="inputTotal">Monday </label>
+                                                    {{--<input hidden type="text" class="form-control" id="inputTotal" ng-model="dailyRevenueTotal" value = @{{calcDailyTotal()}} >--}}
+                                                    <div class="font-weight-bold text-center">@{{calcDailyTotalHours(category.category_name,0)}}</div>
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="form-group text-center">
+                                                    <label for="inputTotal">Tuesday </label>
+                                                    {{--<input hidden type="text" class="form-control" id="inputTotal" ng-model="dailyRevenueTotal" value = @{{calcDailyTotal()}} >--}}
+                                                    <div class="font-weight-bold text-center">@{{calcDailyTotalHours(category.category_name,1)}}</div>
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="form-group text-center">
+                                                    <label for="inputTotal">Wednesday </label>
+                                                    {{--<input hidden type="text" class="form-control" id="inputTotal" ng-model="dailyRevenueTotal" value = @{{calcDailyTotal()}} >--}}
+                                                    <div class="font-weight-bold text-center">@{{calcDailyTotalHours(category.category_name,2)}}</div>
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="form-group text-center">
+                                                    <label for="inputTotal">Thursday </label>
+                                                    {{--<input hidden type="text" class="form-control" id="inputTotal" ng-model="dailyRevenueTotal" value = @{{calcDailyTotal()}} >--}}
+                                                    <div class="font-weight-bold text-center">@{{calcDailyTotalHours(category.category_name,3)}}</div>
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="form-group text-center">
+                                                    <label for="inputTotal">Friday </label>
+                                                    {{--<input hidden type="text" class="form-control" id="inputTotal" ng-model="dailyRevenueTotal" value = @{{calcDailyTotal()}} >--}}
+                                                    <div class="font-weight-bold text-center">@{{calcDailyTotalHours(category.category_name,4)}}</div>
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="form-group text-center">
+                                                    <label for="inputTotal">Saturday </label>
+                                                    {{--<input hidden type="text" class="form-control" id="inputTotal" ng-model="dailyRevenueTotal" value = @{{calcDailyTotal()}} >--}}
+                                                    <div class="font-weight-bold text-center">@{{calcDailyTotalHours(category.category_name,5)}}</div>
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="form-group text-center">
+                                                    <label for="inputTotal">Sunday </label>
+                                                    {{--<input hidden type="text" class="form-control" id="inputTotal" ng-model="dailyRevenueTotal" value = @{{calcDailyTotal()}} >--}}
+                                                    <div class="font-weight-bold text-center">@{{calcDailyTotalHours(category.category_name,6)}}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="row">
+                                            <table class="table">
+                                                <thead class="thead-light">
+                                                <tr>
+                                                    <th scope="col">Name</th>
+                                                    <th scope="col">Hours</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="employee_total in entities = (entities || calcEmployeesTotalHours(category.employees))">
+                                                        <td>@{{employee_total.name}}</td>
+                                                        <td>@{{employee_total.weekly_total_hours}}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            {{--<div class="col-12 ml-2">--}}
+                                                {{--<div class="row" ng-repeat="employee_total in entities = (entities || calcEmployeesTotalHours(category.employees))">--}}
+                                                    {{--<div class="col-3">@{{employee_total.name}}</div>--}}
+                                                    {{--<div class="col-3">@{{employee_total.weekly_total_hours}}</div>--}}
+                                                {{--</div>--}}
+                                            {{--</div>--}}
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col">
-                                    <div class="form-group text-center">
-                                        <label for="inputTotal">Wednesday </label>
-                                        {{--<input hidden type="text" class="form-control" id="inputTotal" ng-model="dailyRevenueTotal" value = @{{calcDailyTotal()}} >--}}
-                                        <div class="font-weight-bold text-center">@{{calcDailyTotalHours(category.category_name,2)}}</div>
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <div class="form-group text-center">
-                                        <label for="inputTotal">Thursday </label>
-                                        {{--<input hidden type="text" class="form-control" id="inputTotal" ng-model="dailyRevenueTotal" value = @{{calcDailyTotal()}} >--}}
-                                        <div class="font-weight-bold text-center">@{{calcDailyTotalHours(category.category_name,3)}}</div>
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <div class="form-group text-center">
-                                        <label for="inputTotal">Friday </label>
-                                        {{--<input hidden type="text" class="form-control" id="inputTotal" ng-model="dailyRevenueTotal" value = @{{calcDailyTotal()}} >--}}
-                                        <div class="font-weight-bold text-center">@{{calcDailyTotalHours(category.category_name,4)}}</div>
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <div class="form-group text-center">
-                                        <label for="inputTotal">Saturday </label>
-                                        {{--<input hidden type="text" class="form-control" id="inputTotal" ng-model="dailyRevenueTotal" value = @{{calcDailyTotal()}} >--}}
-                                        <div class="font-weight-bold text-center">@{{calcDailyTotalHours(category.category_name,5)}}</div>
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <div class="form-group text-center">
-                                        <label for="inputTotal">Sunday </label>
-                                        {{--<input hidden type="text" class="form-control" id="inputTotal" ng-model="dailyRevenueTotal" value = @{{calcDailyTotal()}} >--}}
-                                        <div class="font-weight-bold text-center">@{{calcDailyTotalHours(category.category_name,6)}}</div>
-                                    </div>
-                                </div>
+
                             </div>
                         </div>
 

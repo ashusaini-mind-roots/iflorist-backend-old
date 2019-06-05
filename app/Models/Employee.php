@@ -15,6 +15,7 @@ class Employee extends Model
             ->where('category_id',$category_id)
             ->where('store_id',$store_id)
             ->where('active',1)
+
             ->get();
         return  $employs;
     }

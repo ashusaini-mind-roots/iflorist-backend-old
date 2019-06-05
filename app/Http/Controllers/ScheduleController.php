@@ -34,15 +34,51 @@ class ScheduleController extends Controller
             $employees_response = [];//employees de esta categoria
             foreach ($employees as $employee) {
                 $schedules = Schedule::findByEmployeeAndStoreWeekIds($employee->id,$store_week_id);//los 7 schedules days de este employee;
+//if($employee->id == 4)
+//                return response()->json([$schedules,$employee->id,$store_week_id],200);
+
+                $employee_store_week_id = EmployeeStoreWeek::findByEmployeeANDStoreWeekId($employee->id,$store_week_id)->id;
+                $schedules_to_send = $this->conformSchedulesToSend($schedules,$employee_store_week_id );
                 $employees_response[] = [
                     'name' => $employee->name,
-                    'schedule_days' => $schedules,
-                    'employee_store_week_id' => EmployeeStoreWeek::findByEmployeeANDStoreWeekId($employee->id,$store_week_id)->id
+                    'active' =>$employee->active,
+                    'schedule_days' => $schedules_to_send,
+                    'employee_store_week_id' => $employee_store_week_id
                 ];
             }
             $response[] = ['category_name' => $category->name,'employees' => $employees_response];
         }
         return response()->json(['categories_schedules' => $response], 200);
+    }
+
+    private function conformSchedulesToSend($schedulesFromDatabase, $employee_store_week_id)
+    {
+        $schedules_to_send = [
+            ['id' => -1, 'employee_store_week_id' => $employee_store_week_id, 'day_of_week' => 'Monday'],
+            ['id' => -1, 'employee_store_week_id' => $employee_store_week_id, 'day_of_week' => 'Tuesday'],
+            ['id' => -1, 'employee_store_week_id' => $employee_store_week_id, 'day_of_week' => 'Wednesday'],
+            ['id' => -1, 'employee_store_week_id' => $employee_store_week_id, 'day_of_week' => 'Thursday'],
+            ['id' => -1, 'employee_store_week_id' => $employee_store_week_id, 'day_of_week' => 'Friday'],
+            ['id' => -1, 'employee_store_week_id' => $employee_store_week_id, 'day_of_week' => 'Saturday'],
+            ['id' => -1, 'employee_store_week_id' => $employee_store_week_id, 'day_of_week' => 'Sunday'],
+        ];
+        for($i = 0 ; $i < count($schedulesFromDatabase) ; $i++){
+            if($schedulesFromDatabase[$i]->day_of_week == "Monday")
+                $schedules_to_send[0] = $schedulesFromDatabase[$i];
+            elseif ($schedulesFromDatabase[$i]->day_of_week == "Tuesday")
+                $schedules_to_send[1] = $schedulesFromDatabase[$i];
+            elseif ($schedulesFromDatabase[$i]->day_of_week == "Wednesday")
+                $schedules_to_send[2] = $schedulesFromDatabase[$i];
+            elseif ($schedulesFromDatabase[$i]->day_of_week == "Thursday")
+                $schedules_to_send[3] = $schedulesFromDatabase[$i];
+            elseif ($schedulesFromDatabase[$i]->day_of_week == "Friday")
+                $schedules_to_send[4] = $schedulesFromDatabase[$i];
+            elseif ($schedulesFromDatabase[$i]->day_of_week == "Saturday")
+                $schedules_to_send[5] = $schedulesFromDatabase[$i];
+            elseif ($schedulesFromDatabase[$i]->day_of_week == "Sunday")
+                $schedules_to_send[6] = $schedulesFromDatabase[$i];
+        }
+        return $schedules_to_send;
     }
 
     public function updateoradd(Request $request)
@@ -67,6 +103,7 @@ class ScheduleController extends Controller
                        $chedule->time_out = Carbon::parse($sche->time_out)->format('Y-m-d H:i:s');
                        $chedule->break_time = !isset($sche->break_time) ? 0 : $sche->break_time;
                        $dimdate = DateDim::findBy_($year, $sche->day_of_week, $week_number);
+                       $arrayre[] =$dimdate;
                        $chedule->dates_dim_date = $dimdate->date;
                        //$chedule->dates_dim_date = date('Y-m-d');
                        $chedule->save();
@@ -79,7 +116,7 @@ class ScheduleController extends Controller
                        $chedule->time_out = Carbon::parse($sche->time_out)->format('Y-m-d H:i:s');
                        $chedule->break_time = !isset($sche->break_time) ? $chedule->break_time : $sche->break_time;
                        $dimdate = DateDim::findBy_($year, $sche->day_of_week, $week_number);
-                       //$arrayre[] =$dimdate;
+                       $arrayre[] =$dimdate;
                        $chedule->dates_dim_date =  $dimdate->date;
                        //$chedule->dates_dim_date = date('Y-m-d');
                        $chedule->update();
@@ -88,7 +125,7 @@ class ScheduleController extends Controller
 
             }
 
-            return response()->json(['status' => 'success','weeknumber'=>$week_number, "year"=>$year/*,'arrayre'=>$arrayre*/], 200);
+            return response()->json(['status' => 'success','weeknumber'=>$week_number, "year"=>$year,'arrayre'=>$arrayre], 200);
         }
 
         return response()->json([

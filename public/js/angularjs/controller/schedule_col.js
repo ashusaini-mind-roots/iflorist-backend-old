@@ -71,10 +71,10 @@ app.controller('schedule_colController', function ($scope, $http, $localStorage,
             url: API_URL + 'schedule/all/' + $scope.selectedStoreItem + '/' + $scope.selectedWeekItem,
         }).then(
             function successCallback(response) {
+                // console.log(response.data);
                 $scope.employeeStoreWeekId = response.data.employee_store_week_id;
                 $scope.parseScheduleInformationResponse(response.data.categories_schedules);
-                // $scope.employeesScheduleList = response.data.categories_schedules;
-               // console.log(response.data.categories_schedules)
+                console.log($scope.employeesScheduleList)
             }
         );
     }
@@ -85,17 +85,19 @@ app.controller('schedule_colController', function ($scope, $http, $localStorage,
                 for(var k = 0 ; k < categories_schedules[i].employees[j].schedule_days.length ; k++){
                     var schedul = categories_schedules[i].employees[j].schedule_days[k];
                     //console.log(schedul.time_in)
-                    schedul.time_in = new Date(schedul.time_in);
-                    schedul.time_out = new Date(schedul.time_out);
-                    schedul.employee_store_week_id = categories_schedules[i].employees[j].employee_store_week_id;
-                    schedul.day_of_week = $scope.dayOfWeek[k];
+                    if(schedul.time_in != undefined)
+                        schedul.time_in = new Date(schedul.time_in);
+                    if(schedul.time_out != undefined)
+                        schedul.time_out = new Date(schedul.time_out);
+                    //schedul.employee_store_week_id = categories_schedules[i].employees[j].employee_store_week_id;
+                    //schedul.day_of_week = $scope.dayOfWeek[k];
                 }
-                if(categories_schedules[i].employees[j].schedule_days.length < 7){
-                    for(var l = categories_schedules[i].employees[j].schedule_days.length ; l < 7 ; l++){
-                        categories_schedules[i].employees[j].schedule_days.push({id: -1,employee_store_week_id: categories_schedules[i].employees[j].employee_store_week_id,
-                                                                                 day_of_week : $scope.dayOfWeek[l]})
-                    }
-                }
+                // if(categories_schedules[i].employees[j].schedule_days.length < 7){
+                //     for(var l = categories_schedules[i].employees[j].schedule_days.length ; l < 7 ; l++){
+                //         categories_schedules[i].employees[j].schedule_days.push({id: -1,employee_store_week_id: categories_schedules[i].employees[j].employee_store_week_id,
+                //                                                                  day_of_week : $scope.dayOfWeek[l]})
+                //     }
+                // }
             }
         }
         return $scope.employeesScheduleList = categories_schedules;
@@ -116,7 +118,8 @@ app.controller('schedule_colController', function ($scope, $http, $localStorage,
     $scope.calcTimesDifferenceMinutes_Util = function (time_in,time_out,break_time)
     {
         var minutesTotal = 0;
-        if(time_in != undefined && time_out != undefined && break_time != undefined){
+        if(time_in != undefined && time_out != undefined){
+            if(break_time == undefined) break_time = 0;
             minutesTotal = (diffDateTime(time_in,time_out).totalmin - break_time);
         }
         return minutesTotal;
@@ -132,23 +135,31 @@ app.controller('schedule_colController', function ($scope, $http, $localStorage,
         for(var j = 0 ; j < asw_toSend.length ; j++){
             if(asw_toSend[j].time_in != undefined) {
                 asw_toSend[j].time_in = asw_toSend[j].time_in.toLocaleString("en-US", { hour12: false });
+                //delete asw_toSend[j].time_in;
             }
             if(asw_toSend[j].time_out != undefined)
                 asw_toSend[j].time_out = asw_toSend[j].time_out.toLocaleString("en-US", { hour12: false });
+               // delete asw_toSend[j].time_out;
         }
-        console.log(asw_toSend)
+
+        var novaleSend = [asw_toSend[0],asw_toSend[1],asw_toSend[2],asw_toSend[3],asw_toSend[4],
+            asw_toSend[5],asw_toSend[6]];
+
+       // console.log(novaleSend)
         //console.log(API_URL + 'schedule/update_or_add/')
         var schedule_to_send = JSON.stringify(asw_toSend);
        // var schedule_to_send = angular.toJson(esw_array);
-      // console.log(schedule_to_send)
+       //console.log(schedule_to_send)
         $http({
             method: 'POST',
             url: API_URL + 'schedule/update_or_add/',
             params: {
-                 schedule_days: schedule_to_send,
                  year: $scope.selectedYearsItem,
                  week_id: $scope.selectedWeekItem
             },
+            data: {
+                schedule_days: schedule_to_send,
+            }
         }).then(function successCallback(response) {
                  console.log(response);
             },
@@ -171,6 +182,22 @@ app.controller('schedule_colController', function ($scope, $http, $localStorage,
             }
         }
         return returnTotal;
+    }
+
+    $scope.calcEmployeesTotalHours = function (employees) {
+        var employee_list =  [];
+        for(var i = 0 ; i < employees.length ; i++){
+            var totalhours = 0;
+            for(var j = 0 ; j < employees[i].schedule_days.length ; j++){
+                var schedule = employees[i].schedule_days[j];
+                totalhours += $scope.calcTimesDifferenceMinutes_Util(schedule.time_in, schedule.time_out, schedule.break_time);
+            }
+            employee_list.push({
+                name: employees[i].name,
+                weekly_total_hours: totalhours,
+            });
+        }
+        return employee_list;
     }
 
     /* Function to calculate time difference between 2 datetimes (in Timestamp-milliseconds, or string English Date-Time)
