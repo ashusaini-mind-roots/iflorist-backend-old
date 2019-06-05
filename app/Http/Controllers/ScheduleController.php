@@ -47,53 +47,53 @@ class ScheduleController extends Controller
 
     public function updateoradd(Request $request)
     {
-//        $schedule_days = json_decode($request->schedule_days);
-//        $week_number = week::find($request->week_id)->number;
-//        $year = $request->year;
-//
-//        $arrayre = [];
-//
-//        if(is_array($schedule_days))
-//        {
-//           foreach ($schedule_days as $sche)
-//           {
-//               if(isset($sche->time_in) && isset($sche->time_out) && isset($sche->employee_store_week_id))
-//               {
-//                   if($sche->id==-1)
-//                   {
-//                       $chedule = new Schedule();
-//                       $chedule->employee_store_week_id = $sche->employee_store_week_id;
-//                       $chedule->time_in = Carbon::parse($sche->time_in)->format('Y-m-d H:i:s');
-//                       $chedule->time_out = Carbon::parse($sche->time_out)->format('Y-m-d H:i:s');
-//                       $chedule->break_time = !isset($sche->break_time) ? 0 : $sche->break_time;
-//                       $dimdate = DateDim::findBy_($year, $sche->day_of_week, $week_number);
-//                       $chedule->dates_dim_date = $dimdate->date;
-//                       //$chedule->dates_dim_date = date('Y-m-d');
-//                       $chedule->save();
-//                   }
-//                   else
-//                   {
-//                       $chedule = Schedule::findOrFail($sche->id);
-//                       $chedule->employee_store_week_id = $sche->employee_store_week_id;
-//                       $chedule->time_in = Carbon::parse($sche->time_in)->format('Y-m-d H:i:s');
-//                       $chedule->time_out = Carbon::parse($sche->time_out)->format('Y-m-d H:i:s');
-//                       $chedule->break_time = !isset($sche->break_time) ? $chedule->break_time : $sche->break_time;
-//                       $dimdate = DateDim::findBy_($year, $sche->day_of_week, $week_number);
-//                       //$arrayre[] =$dimdate;
-//                       $chedule->dates_dim_date =  $dimdate->date;
-//                       //$chedule->dates_dim_date = date('Y-m-d');
-//                       $chedule->update();
-//                   }
-//               }
-//
-//            }
-//
-//            return response()->json(['status' => 'success','weeknumber'=>$week_number, "year"=>$year/*,'arrayre'=>$arrayre*/], 200);
-//        }
-//
-//        return response()->json([
-//            'status' => 'error',
-//            'errors' => 'Schedule array invalid'
-//        ], 422);
+        $schedule_days = json_decode($request->schedule_days);
+        $week_number = week::find($request->week_id)->number;
+        $year = $request->year;
+
+        $arrayre = [];
+
+        if(is_array($schedule_days))
+        {
+           foreach ($schedule_days as $sche)
+           {
+               if(isset($sche->time_in) && isset($sche->time_out) && isset($sche->employee_store_week_id))
+               {
+                   if($sche->id==-1)
+                   {
+                       $chedule = new Schedule();
+                       $chedule->employee_store_week_id = $sche->employee_store_week_id;
+                       $chedule->time_in = Carbon::parse($sche->time_in)->format('Y-m-d H:i:s');
+                       $chedule->time_out = Carbon::parse($sche->time_out)->format('Y-m-d H:i:s');
+                       $chedule->break_time = !isset($sche->break_time) ? 0 : $sche->break_time;
+                       $dimdate = DateDim::findBy_($year, $sche->day_of_week, $week_number);
+                       $chedule->dates_dim_date = $dimdate->date;
+                       //$chedule->dates_dim_date = date('Y-m-d');
+                       $chedule->save();
+                   }
+                   else
+                   {
+                       $chedule = Schedule::findOrFail($sche->id);
+                       $chedule->employee_store_week_id = $sche->employee_store_week_id;
+                       $chedule->time_in = Carbon::parse($sche->time_in)->format('Y-m-d H:i:s');
+                       $chedule->time_out = Carbon::parse($sche->time_out)->format('Y-m-d H:i:s');
+                       $chedule->break_time = !isset($sche->break_time) ? $chedule->break_time : $sche->break_time;
+                       $dimdate = DateDim::findBy_($year, $sche->day_of_week, $week_number);
+                       //$arrayre[] =$dimdate;
+                       $chedule->dates_dim_date =  $dimdate->date;
+                       //$chedule->dates_dim_date = date('Y-m-d');
+                       $chedule->update();
+                   }
+               }
+
+            }
+
+            return response()->json(['status' => 'success','weeknumber'=>$week_number, "year"=>$year/*,'arrayre'=>$arrayre*/], 200);
+        }
+
+        return response()->json([
+            'status' => 'error',
+            'errors' => 'Schedule array invalid'
+        ], 422);
     }
 }
