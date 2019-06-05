@@ -84,6 +84,7 @@ app.controller('schedule_colController', function ($scope, $http, $localStorage,
             for(var j = 0 ; j < categories_schedules[i].employees.length ; j++){
                 for(var k = 0 ; k < categories_schedules[i].employees[j].schedule_days.length ; k++){
                     var schedul = categories_schedules[i].employees[j].schedule_days[k];
+                    //console.log(schedul.time_in)
                     schedul.time_in = new Date(schedul.time_in);
                     schedul.time_out = new Date(schedul.time_out);
                     schedul.employee_store_week_id = categories_schedules[i].employees[j].employee_store_week_id;
@@ -125,18 +126,28 @@ app.controller('schedule_colController', function ($scope, $http, $localStorage,
         var esw_array = new Array();
 
         for(var i = 0 ; i < employees.length ; i++){
-            employees[i].schedule_days
             esw_array = esw_array.concat(employees[i].schedule_days);
         }
+        var asw_toSend = angular.copy(esw_array, asw_toSend);
+        for(var j = 0 ; j < asw_toSend.length ; j++){
+            if(asw_toSend[j].time_in != undefined) {
+                asw_toSend[j].time_in = asw_toSend[j].time_in.toLocaleString("en-US", { hour12: false });
+            }
+            if(asw_toSend[j].time_out != undefined)
+                asw_toSend[j].time_out = asw_toSend[j].time_out.toLocaleString("en-US", { hour12: false });
+        }
+        console.log(asw_toSend)
         //console.log(API_URL + 'schedule/update_or_add/')
-        console.log(JSON.stringify(esw_array))
+        var schedule_to_send = JSON.stringify(asw_toSend);
+       // var schedule_to_send = angular.toJson(esw_array);
+      // console.log(schedule_to_send)
         $http({
             method: 'POST',
             url: API_URL + 'schedule/update_or_add/',
             params: {
-                 schedule_days: JSON.stringify(esw_array),
-                // year: $scope.selectedYearsItem,
-                // week_id: $scope.selectedWeekItem
+                 schedule_days: schedule_to_send,
+                 year: $scope.selectedYearsItem,
+                 week_id: $scope.selectedWeekItem
             },
         }).then(function successCallback(response) {
                  console.log(response);
