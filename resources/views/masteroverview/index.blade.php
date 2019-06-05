@@ -18,7 +18,6 @@
                                 <label for="yearsid">Select year</label>
                                 <select id="yearsid" class="form-control" ng-required="true"
                                         ng-model="selectedYearsItem"
-
                                         ng-options="year for year in yearsList"
                                         ng-change="getOverviewDataFromServer()">
                                 </select>

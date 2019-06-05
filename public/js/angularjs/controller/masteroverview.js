@@ -1,12 +1,11 @@
-app.controller('masterOverviewController', function ($scope, $http, $localStorage, API_URL, $window) {
+app.controller('masterOverviewController', function ($scope, $http, $localStorage, API_URL, $window, Utils) {
 
-    //  console.log('masteroverview.js load success');
+    console.log('masteroverview.js load success');
 
     $scope.storesList = [];
     $scope.selectedStoreItem = 1;
 
     $scope.yearsList = [];
-
 
     $scope.weeks = [];
     $scope.weekSelected = {};
@@ -20,18 +19,14 @@ app.controller('masterOverviewController', function ($scope, $http, $localStorag
     $scope.avgTarget = 0.00;
     $scope.avgDifference = 0.00;
 
-    $scope.getCurrentYear = function () {
-        var currentdate = new Date();
-        return currentdate.getFullYear();
-    };
 
-    $scope.selectedYearsItem = $scope.getCurrentYear();
+    $scope.selectedYearsItem = Utils.GetCurrentYear();
     $scope.yearReferenceProjectionSelected = $scope.selectedYearsItem - 1;
 
     $scope.init = function () {
-        $scope.selectedYearsItem = $scope.getCurrentYear();
+        $scope.selectedYearsItem = Utils.GetCurrentYear();
         $scope.yearReferenceProjectionSelected = $scope.selectedYearsItem - 1;
-        $scope.yearsList = $scope.getYears();
+        $scope.yearsList = Utils.GetYears();
         console.dir($scope.yearReferenceProjectionSelected);
     };
 
@@ -47,10 +42,6 @@ app.controller('masterOverviewController', function ($scope, $http, $localStorag
                 }
             );
         }
-    };
-
-    $scope.getYears = function () {
-        return $scope.arrayRange(2017, $scope.getCurrentYear());
     };
 
     $scope.getMasterOverviewWeekly = function () {
@@ -131,7 +122,7 @@ app.controller('masterOverviewController', function ($scope, $http, $localStorag
     $scope.showEditProjection = function (selectedWeek) {
         $scope.weekSelected = selectedWeek;
         //console.log(String(x1)+$scope.weekSelected.year_reference)
-        $scope.yearReferenceProjectionSelected = /*$scope.weekSelected.year_reference*/"2017";
+        $scope.yearReferenceProjectionSelected = $scope.weekSelected.year_reference;
         $scope.downPercentSelected = $scope.weekSelected.down_percent;
 
         $('#projectionModal').modal('show');
@@ -157,14 +148,6 @@ app.controller('masterOverviewController', function ($scope, $http, $localStorag
     $scope.getStores();
     // $scope.getYears();
     $scope.getMasterOverviewWeekly();
-
-    $scope.arrayRange = function (start, end) {
-        var foo = [];
-        for (var i = start; i <= end; i++) {
-            foo.push(i);
-        }
-        return foo;
-    };
 
 });
 
