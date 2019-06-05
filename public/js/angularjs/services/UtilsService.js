@@ -14,8 +14,11 @@ app.factory('Utils', [function () {
             }
             return foo;
         },
-        GetYears: function () {
-            return this.ArrayRange(init_year, this.GetCurrentYear());
+        GetYears: function (initial_year) {
+            if (typeof initial_year === 'undefined') {
+                initial_year = init_year;
+            }
+            return this.ArrayRange(initial_year, this.GetCurrentYear());
         }
     };
 }]);
