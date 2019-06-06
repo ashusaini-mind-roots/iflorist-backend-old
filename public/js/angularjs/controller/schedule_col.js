@@ -184,10 +184,13 @@ app.controller('schedule_colController', function ($scope, $http, $localStorage,
         return returnTotal;
     }
 
-    $scope.calcEmployeesTotalHours = function (employees) {
+    $scope.calcEmployeesTotalHours = function (category, employees) {
         var employee_list =  [];
+        var totalhours = 0;
+        var totalTotal = 0;
+
         for(var i = 0 ; i < employees.length ; i++){
-            var totalhours = 0;
+            totalhours = 0;
             for(var j = 0 ; j < employees[i].schedule_days.length ; j++){
                 var schedule = employees[i].schedule_days[j];
                 totalhours += $scope.calcTimesDifferenceMinutes_Util(schedule.time_in, schedule.time_out, schedule.break_time);
@@ -196,8 +199,11 @@ app.controller('schedule_colController', function ($scope, $http, $localStorage,
                 name: employees[i].name,
                 weekly_total_hours: totalhours,
             });
+            totalTotal += totalhours;
         }
-        return employee_list;
+        category.total_time = totalTotal;
+       // console.log(category.total_time)
+        return {employee_list: employee_list, total:totalTotal}  ;
     }
 
     /* Function to calculate time difference between 2 datetimes (in Timestamp-milliseconds, or string English Date-Time)
@@ -268,9 +274,6 @@ app.controller('schedule_colController', function ($scope, $http, $localStorage,
 
         return oDiff;
     }
-
-
-
 
     $scope.getStores();
     $scope.getYears();

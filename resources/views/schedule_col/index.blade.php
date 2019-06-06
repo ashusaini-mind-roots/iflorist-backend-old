@@ -210,9 +210,13 @@
                                                 </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr ng-repeat="employee_total in entities = (entities || calcEmployeesTotalHours(category.employees))">
+                                                    <tr ng-repeat="employee_total in entities = (entities || calcEmployeesTotalHours(category,category.employees).employee_list)">
                                                         <td>@{{employee_total.name}}</td>
                                                         <td>@{{employee_total.weekly_total_hours}}</td>
+                                                    </tr>
+                                                    <tr class="table-active">
+                                                        <td>Total</td>
+                                                        <td>@{{category.total_time}}</td>
                                                     </tr>
                                                 </tbody>
                                             </table>
