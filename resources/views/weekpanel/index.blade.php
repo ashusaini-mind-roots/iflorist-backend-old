@@ -18,7 +18,7 @@
                                 </select>
                             </div>
                             <div class="col-2">
-                                <label for="yearsid">Select year</label> @{{ selectedYearsItem }}
+                                <label for="yearsid">Select year</label>
                                 <select id="yearsid" class="form-control" ng-required="true"
                                         ng-init="selectedYearsItem=selectedYearsItem"
                                         ng-model="selectedYearsItem"
@@ -49,7 +49,7 @@
                         <div class="row">
                             <div class="col">
                                 <div class="form-group text-center">
-                                    <span>@{{monday.dates_dim_date | date:'MM/dd/yyyy'}}</span><br>
+                                    <span class="ng-cloak">@{{monday.dates_dim_date | date:'MM/dd/yyyy'}}</span><br>
                                     <label for="inputMonday">Monday</label>
                                     <input type="text"
                                            class="form-control form-control-plaintext text-center font-weight-bold"
@@ -60,7 +60,7 @@
                             </div>
                             <div class="col">
                                 <div class="form-group text-center">
-                                    <span>@{{tuesday.dates_dim_date | date:'MM/dd/yyyy'}}</span><br>
+                                    <span class="ng-cloak">@{{tuesday.dates_dim_date | date:'MM/dd/yyyy'}}</span><br>
                                     <label for="inputTuesday">Tuesday</label>
                                     <input type="text"
                                            class="form-control form-control-plaintext text-center font-weight-bold"
@@ -71,7 +71,7 @@
                             </div>
                             <div class="col">
                                 <div class="form-group text-center">
-                                    <span>@{{wednesday.dates_dim_date | date:'MM/dd/yyyy'}}</span><br>
+                                    <span class="ng-cloak">@{{wednesday.dates_dim_date | date:'MM/dd/yyyy'}}</span><br>
                                     <label for="inputWednesday">Wednesday </label>
                                     <input type="text"
                                            class="form-control form-control-plaintext text-center font-weight-bold"
@@ -81,7 +81,7 @@
                             </div>
                             <div class="col">
                                 <div class="form-group text-center">
-                                    <span>@{{thursday.dates_dim_date | date:'MM/dd/yyyy'}}</span><br>
+                                    <span class="ng-cloak">@{{thursday.dates_dim_date | date:'MM/dd/yyyy'}}</span><br>
                                     <label for="inputThursday">Thursday </label>
                                     <input type="text"
                                            class="form-control form-control-plaintext text-center font-weight-bold"
@@ -92,7 +92,7 @@
                             </div>
                             <div class="col">
                                 <div class="form-group text-center">
-                                    <span>@{{friday.dates_dim_date | date:'MM/dd/yyyy'}}</span><br>
+                                    <span class="ng-cloak">@{{friday.dates_dim_date | date:'MM/dd/yyyy'}}</span><br>
                                     <label for="inputFriday">Friday </label>
                                     <input type="text"
                                            class="form-control form-control-plaintext text-center font-weight-bold"
@@ -102,7 +102,7 @@
                             </div>
                             <div class="col">
                                 <div class="form-group text-center">
-                                    <span>@{{saturday.dates_dim_date | date:'MM/dd/yyyy'}}</span><br>
+                                    <span class="ng-cloak">@{{saturday.dates_dim_date | date:'MM/dd/yyyy'}}</span><br>
                                     <label for="inputSaturday">Saturday </label>
                                     <input type="text"
                                            class="form-control form-control-plaintext text-center font-weight-bold"
@@ -113,7 +113,7 @@
                             </div>
                             <div class="col">
                                 <div class="form-group text-center">
-                                    <span>@{{sunday.dates_dim_date | date:'MM/dd/yyyy'}}</span><br>
+                                    <span class="ng-cloak">@{{sunday.dates_dim_date | date:'MM/dd/yyyy'}}</span><br>
                                     <label for="inputSunday">Sunday</label>
                                     <input type="text"
                                            class="form-control form-control-plaintext text-center font-weight-bold"
@@ -125,7 +125,7 @@
                                 <div class="form-group text-center">
                                     <label for="inputTotal">Total </label>
                                     {{--<input hidden type="text" class="form-control" id="inputTotal" ng-model="dailyRevenueTotal" value = @{{calcDailyTotal()}} >--}}
-                                    <div class="font-weight-bold text-center">@{{calcDailyTotal()|currency}}</div>
+                                    <div class="ng-cloak font-weight-bold text-center">@{{calcDailyTotal()|currency}}</div>
                                 </div>
                             </div>
                         </div>
@@ -150,7 +150,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h6 class="card-subtitle mb-2 text-muted">Proj. Weekly Rev.</h6>
-                        <h5 class="card-title">@{{projWeeklyRev | currency}}</h5>
+                        <h5 class="card-title ng-cloak">@{{projWeeklyRev | currency}}</h5>
                         {{--<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>--}}
                         {{--<a href="#" class="card-link">Card link</a>--}}
                         {{--<a href="#" class="card-link">Another link</a>--}}
@@ -161,7 +161,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h6 class="card-subtitle mb-2 text-muted">Current Rev.</h6>
-                        <h5 class="card-title">@{{calcDailyTotal()|currency}}</h5>
+                        <h5 class="card-title  ng-cloak">@{{calcDailyTotal()|currency}}</h5>
                     </div>
                 </div>
             </div>
@@ -169,7 +169,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h6 class="card-subtitle mb-2 text-muted">Proj. Purch. Budget.</h6>
-                        <h5 class="card-title">@{{projWeeklyRev * (targetCOG/100) | currency}}</h5>
+                        <h5 class="card-title ng-cloak">@{{projWeeklyRev * (targetCOG/100) | currency}}</h5>
                     </div>
                 </div>
             </div>
@@ -177,7 +177,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h6 class="card-subtitle mb-2 text-muted">Target COG's.</h6>
-                        <h5 class="card-title">@{{targetCOG | number:2}} %
+                        <h5 class="card-title ng-cloak">@{{targetCOG | number:2}} %
                             <hr>
                             @{{ getTargetCOGInMoney() | currency }}
                         </h5>
@@ -188,7 +188,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h6 class="card-subtitle mb-2 text-muted">Running COG's</h6>
-                        <h5 class="card-title" ng-class=(targetCOG<calcRunningCOG())?'text-danger':''>
+                        <h5 class="card-title ng-cloak" ng-class=(targetCOG<calcRunningCOG())?'text-danger':''>
                             @{{calcRunningCOG() | number:2}} %
                             <hr>
                             @{{invoiceTotal|currency}}
@@ -200,7 +200,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h6 class="card-subtitle mb-2 text-muted">Difference</h6>
-                        <h5 class="card-title" ng-class="(calcCostDifference())<0?'text-danger':''">
+                        <h5 class="card-title ng-cloak" ng-class="(calcCostDifference())<0?'text-danger':''">
                             @{{calcCostDifference() | number:2}}%
                             <hr>
                             @{{getTargetCOGInMoney() - invoiceTotal | currency}}
@@ -237,9 +237,9 @@
                                         <!--Table body-->
                                         <tbody ng-cloak>
                                         <tr ng-repeat="invoice in invoices">
-                                            <td>@{{invoice.invoice_number}}</td>
-                                            <td>@{{invoice.invoice_name}}</td>
-                                            <td>@{{invoice.total | currency}}</td>
+                                            <td class="ng-cloak">@{{invoice.invoice_number}}</td>
+                                            <td class="ng-cloak">@{{invoice.invoice_name}}</td>
+                                            <td class="ng-cloak">@{{invoice.total | currency}}</td>
                                             <td>
                                                 <button class="btn btn-danger btn-xs btn-delete"
                                                         ng-click="confirmDeleteInvoice(invoice.id)">Delete
@@ -260,7 +260,7 @@
 
                                 <label>Total value</label>
                                 {{--<input type="text" class="form-control " placeholder="Value" ng-model="invoiceTotal_add">--}}
-                                <div>@{{invoiceTotal|currency}}</div>
+                                <div class="ng-cloak">@{{invoiceTotal|currency}}</div>
                             </div>
                         </div>
                     </div>
@@ -273,7 +273,7 @@
                             <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" placeholder="Value"
                                    ng-model="invoiceTotal_add" data-type="currency">
 
-                            <button type="submit" class="btn btn-primary" ng-click="createInvoice()">Add invoise
+                            <button type="submit" class="btn btn-primary" ng-click="createInvoice()">Add Invoice
                             </button>
                         </form>
                     </div>
@@ -295,7 +295,7 @@
                         </div>
                     </div>
                     <div class="card-footer text-right">
-                        <button type="submit" class="btn btn-primary" ng-click="updateNotes()">Update notes</button>
+                        <button type="submit" class="btn btn-primary" ng-click="updateNotes()">Update Notes</button>
                     </div>
                 </div>
             </div>
