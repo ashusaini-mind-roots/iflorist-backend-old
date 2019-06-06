@@ -45,6 +45,7 @@
                                         <!--Table head-->
                                         <thead>
                                         <tr>
+                                            <th class="th-sm">Week Number</th>
                                             <th class="th-sm">Week Ending</th>
                                             <th class="th-sm">Proj. Weekly Rev.</th>
                                             <th class="th-sm">Actual Weekly Rev.</th>
@@ -60,6 +61,7 @@
                                         <!--Table body-->
                                         <tbody>
                                         <tr class="ng-cloak" ng-repeat="week in weeks" ng-class="week.difference<0?'text-danger':''">
+                                            <td class="ng-cloak">@{{week.week_number}}</td>
                                             <td class="ng-cloak">@{{week.week_ending}}</td>
                                             <td class="ng-cloak">@{{week.projected_weekly_revenue | currency}}</td>
                                             <td class="ng-cloak">@{{week.actual_weekly_revenue | currency}}</td>
