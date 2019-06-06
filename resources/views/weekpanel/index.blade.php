@@ -132,7 +132,7 @@
                     </div>
                     <div class="card-footer text-right">
                         <button type="button" class="btn btn-primary" ng-click="updateDaysAmtValues()"
-                                ng-disabled="saveDays_btnDisable">Save changes
+                                ng-disabled="saveDays_btnDisable">Save Changes
                         </button>
                         {{--<a href="#" class="btn btn-primary" ng-click="updateDaysAmtValues()">Save changes</a>--}}
 
