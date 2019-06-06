@@ -8,6 +8,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use App\Models\Employee;
+use App\Models\TaxPercentCalculator;
 
 class StoresController extends Controller
 {
@@ -37,6 +39,79 @@ class StoresController extends Controller
             $stores = User::find($user_id)->store;
             return response()->json(['stores' => $stores], 200);
         }
+    }
+
+    public function storesEmployeesTaxPercentCalculators($user_id)
+    {
+
+        $rol = User::find($user_id)->role;
+        $role_name = $rol['name'];
+        if($role_name=="Admin")
+            $stores = Store::all();
+        else
+        {
+            $store = User::find($user_id)->store;
+
+            $stores [] = $store;
+        }
+
+
+
+        $stores_employees_tax_percent_calculators_array = array();
+
+        $tax_perccent_calculator = TaxPercentCalculator::first();
+
+        //return response()->json(['stores_employees_tax_percent_calculators_array' => $stores], 200);
+        foreach ($stores as $str)
+        {
+            $stores_array = array();
+
+            $employees = DB::table('employees')
+                ->leftjoin('categories', 'categories.id', '=', 'employees.category_id')
+                ->leftjoin('work_mans_comp', 'work_mans_comp.id', '=', 'employees.work_man_comp_id')
+                ->select('employees.name','employees.hourlypayrate','employees.overtimeelegible','work_mans_comp.rate')
+                ->where('employees.store_id',$str->id)
+                ->where('employees.active',true)
+                ->where('categories.omit_col',false)
+                ->get();
+            $employees_array = array();
+            foreach ($employees as $emp)
+            {
+                $sui = round($emp->hourlypayrate * $tax_perccent_calculator->sui/100,2);
+                $futa = round($emp->hourlypayrate * $tax_perccent_calculator->futa/100,2);
+                $social_security = round($emp->hourlypayrate * $tax_perccent_calculator->social_security/100,2);
+                $medicare = round($emp->hourlypayrate * $tax_perccent_calculator->medicare/100,2);
+                $work_mans_comp_amount = round($emp->hourlypayrate * $emp->rate/100,2);
+                $ourly_cost = round($emp->hourlypayrate + $sui + $futa + $social_security + $medicare + $work_mans_comp_amount,2);
+                if($emp->overtimeelegible==1)
+                    $overtimeelegible = 'Y';
+                else
+                    $overtimeelegible = 'N';
+                $data = array(
+                    'employee_name' => $emp->name,
+                    'hourly_pay_rate' => $emp->hourlypayrate,
+                    'sui' => $sui,
+                    'futa' => $futa,
+                    'social_security' => $social_security,
+                    'medicare' => $medicare,
+                    'work_mans_comp' => $emp->rate,
+                    'work_mans_comp_amount' => $work_mans_comp_amount,
+                    'ourly_cost' => $ourly_cost,
+                    'overtime_elegible' => $overtimeelegible,
+                    'overtime_hourly' => round($ourly_cost * 1.5,2)
+                );
+
+                $employees_array [] = $data;
+            }
+            $stores_array['store_name'] =  $str->store_name;
+            $stores_array['employee'] = $employees_array;
+
+            $stores_employees_tax_percent_calculators_array [] = $stores_array;
+        }
+
+
+
+        return response()->json(['stores_employees_tax_percent_calculators_array' => $stores_employees_tax_percent_calculators_array], 200);
     }
 
     public function all()
