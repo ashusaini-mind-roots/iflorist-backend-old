@@ -204,6 +204,7 @@
                                             <table class="table">
                                                 <thead class="thead-light">
                                                 <tr>
+
                                                     <th scope="col">Name</th>
                                                     <th scope="col">Hours</th>
                                                 </tr>
