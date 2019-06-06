@@ -267,9 +267,16 @@ a.article:hover {
         display: none;
     }
 
+    .ng-cloak {
+        display: none !important;
+    }
 
 }
 
-.text-center{
-    text-align: center!important;
+.ng-cloak {
+    display: none !important;
+}
+
+.text-center {
+    text-align: center !important;
 }

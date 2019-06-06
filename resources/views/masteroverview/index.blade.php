@@ -59,20 +59,20 @@
 
                                         <!--Table body-->
                                         <tbody>
-                                        <tr ng-repeat="week in weeks" ng-class="week.difference<0?'text-danger':''">
-                                            <td>@{{week.week_ending}}</td>
-                                            <td>@{{week.projected_weekly_revenue | currency}}</td>
-                                            <td>@{{week.actual_weekly_revenue | currency}}</td>
-                                            <td ng-class="week.difference<0?'font-weight-bold':''">
+                                        <tr class="ng-cloak" ng-repeat="week in weeks" ng-class="week.difference<0?'text-danger':''">
+                                            <td class="ng-cloak">@{{week.week_ending}}</td>
+                                            <td class="ng-cloak">@{{week.projected_weekly_revenue | currency}}</td>
+                                            <td class="ng-cloak">@{{week.actual_weekly_revenue | currency}}</td>
+                                            <td class="ng-cloak" ng-class="week.difference<0?'font-weight-bold':''">
                                                 @{{week.weekly_cog_total | currency}}
                                             </td>
-                                            <td ng-class="week.difference<0?'font-weight-bold':''">@{{week.actual}}%
+                                            <td class="ng-cloak" ng-class="week.difference<0?'font-weight-bold':''">@{{week.actual}}%
                                             </td>
-                                            <td>@{{week.target}}%</td>
-                                            <td ng-class="week.difference<0?'font-weight-bold':''">
+                                            <td class="ng-cloak">@{{week.target}}%</td>
+                                            <td class="ng-cloak" ng-class="week.difference<0?'font-weight-bold':''">
                                                 @{{week.difference}}%
                                             </td>
-                                            <td id="@{{week.week_id}}">
+                                            <td class="ng-cloak" id="@{{week.week_id}}">
                                                 <button type="button" class="btn btn-link btn-sm"
                                                         ng-click="goToweekControlPage(week.week_id)">View
                                                 </button>
@@ -96,17 +96,17 @@
                             <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12 mt-2">
                                 <label>AVG Actual</label>
                                 {{--<input type="text" class="form-control " placeholder="Value" ng-model="invoiceTotal_add">--}}
-                                <div>@{{avgActual | number : 2 }} %</div>
+                                <div class="ng-cloak">@{{avgActual | number : 2 }} %</div>
                             </div>
                             <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12 mt-2">
                                 <label>AVG Target</label>
                                 {{--<input type="text" class="form-control " placeholder="Value" ng-model="invoiceTotal_add">--}}
-                                <div>@{{avgTarget | number : 2 }} %</div>
+                                <div class="ng-cloak">@{{avgTarget | number : 2 }} %</div>
                             </div>
                             <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12 mt-2">
                                 <label>AVG Difference</label>
                                 {{--<input type="text" class="form-control " placeholder="Value" ng-model="invoiceTotal_add">--}}
-                                <div>@{{avgDifference | number : 2 }} %</div>
+                                <div class="ng-cloak">@{{avgDifference | number : 2 }} %</div>
                             </div>
                         </div>
                     </div>

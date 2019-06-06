@@ -14,11 +14,15 @@ app.factory('Utils', [function () {
             }
             return foo;
         },
-        GetYears: function (initial_year) {
+        GetYears: function (initial_year, end_year) {
             if (typeof initial_year === 'undefined') {
                 initial_year = init_year;
             }
-            return this.ArrayRange(initial_year, this.GetCurrentYear());
+            if (typeof end_year === 'undefined') {
+                end_year = this.GetCurrentYear();
+            }
+            console.dir([initial_year, end_year]);
+            return this.ArrayRange(initial_year, end_year);
         }
     };
 }]);

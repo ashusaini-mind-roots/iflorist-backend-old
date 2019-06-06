@@ -14,7 +14,10 @@ class WeeksController extends Controller
     public function weekByYear($year)
     {
         $weeks = DB::table('weeks')
-            ->select('weeks.id', 'weeks.number', 'weeks.year','dates_dim.date', DB::raw('DATE_FORMAT(`dates_dim`.`date`, "%m/%d") as week_end_day'))
+            ->select('weeks.id', 'weeks.number', 'weeks.year',
+                'dates_dim.date',
+                DB::raw('DATE_FORMAT(`dates_dim`.`date`, "%m/%d") as week_end_day')
+            )
             ->join('dates_dim', function ($join) use ($year) {
                 $join->on('weeks.number', '=', 'dates_dim.week_starting_monday')
                     ->where('dates_dim.week_year', '=', $year);
@@ -29,6 +32,7 @@ class WeeksController extends Controller
 
         return response()->json(['weeks' => $weeks], 200);
     }
+
 
 
 }

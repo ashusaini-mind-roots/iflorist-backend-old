@@ -90,6 +90,7 @@ Route::prefix('master_overview_weekly')->group(function () {
     Route::get('master_overview_weekly_of_fresh/{store_id}/{year}', 'MasterOverviewWeeklyController@MasterOverviewWeeklyOfFresh');
     Route::get('weekly_projections/{store_id}/{year}', 'MasterOverviewWeeklyController@WeeklyProjections');
     Route::get('projection_col/{store_id}/{year}', 'MasterOverviewWeeklyController@ProjectionCol');
+    Route::get('get_weekly_revenue/{store_id}/{week_nbr}/{year_reference_selected}', 'MasterOverviewWeeklyController@getDataStoreWeekYear');
 
 });
 
