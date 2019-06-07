@@ -778,7 +778,7 @@ Insert into invoice_temp(`invoice_name`,`invoice_amt`, `invoice_date`,store_id)v
 SET @row_number:=100;
 Insert into `invoices`(store_week_id,invoice_number,invoice_name,invoice_date,created_at,updated_at,total)
 SELECT 
-    st.id, concat(date_format(it.`invoice_date`,'%Y%m%d,it.`store_id`'),@row_number:=@row_number+1) as `invoice_number`, 
+    st.id, concat(date_format(it.`invoice_date`,'%Y%m%d'),it.`store_id`,@row_number:=@row_number+1) as `invoice_number`, 
      it.`invoice_name`, it.`invoice_date`,now(),now(),it.`invoice_amt`
 FROM
     invoice_temp it
