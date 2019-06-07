@@ -1,4 +1,4 @@
-app.controller('weekPanelController', function ($scope, $http, $localStorage, API_URL, Utils) {
+app.controller('weekPanelController', function ($scope, $http, $localStorage, API_URL, Utils, Spinner) {
 
     console.log('weekpanel.js load success');
 
@@ -466,4 +466,5 @@ app.controller('weekPanelController', function ($scope, $http, $localStorage, AP
             console.log(e)
         }
     };
+    Spinner.toggle();
 });

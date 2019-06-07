@@ -1,9 +1,8 @@
-app.controller('rolesController', function($scope,API_URL,$resource,$http) {
+app.controller('rolesController', function($scope,API_URL,$resource,$http, Spinner) {
 
     console.log('roles.js load successssss');
 
     $scope.roles = {};
-
     $scope.role = {};
 
     $http.get(API_URL+'role/all').then(
@@ -28,11 +27,9 @@ app.controller('rolesController', function($scope,API_URL,$resource,$http) {
                             console.log($scope.roles);
                         }
                     );
-
             }
-            , function errorCallback(response){
+            ,function errorCallback(response){
                 alert('This is embarassing. An error has occured. Please check the log for details');
-
             }
             );
         } else {
@@ -52,8 +49,6 @@ app.controller('rolesController', function($scope,API_URL,$resource,$http) {
             case 'edit':
                 $scope.form_title = "Edit Role";
                 $scope.id = id;
-
-
                 $http({
                     method: 'GET',
                     url: API_URL+'role/getById/' + id,
@@ -65,12 +60,8 @@ app.controller('rolesController', function($scope,API_URL,$resource,$http) {
                     }, function errorCallback(response){
                         $('#roleModal').modal('hide');
                         alert('This is embarassing. An error has occured. Please check the log for details');
-
                     }
-
                 );
-
-
                 break;
             default:
                 break;
@@ -115,11 +106,9 @@ app.controller('rolesController', function($scope,API_URL,$resource,$http) {
         }, function errorCallback(response){
             $('#roleModal').modal('hide');
             alert('This is embarassing. An error has occured. Please check the log for details');
-
             }
-
         );
     }
 
-
+    Spinner.toggle();
 });

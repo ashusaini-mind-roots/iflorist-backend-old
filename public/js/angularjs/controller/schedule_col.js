@@ -1,10 +1,5 @@
-app.controller('schedule_colController', function ($scope, $http, $localStorage, API_URL) {
+app.controller('schedule_colController', function ($scope, $http, $localStorage, API_URL, Spinner) {
     console.log('schedule_col.js load success');
-
-    $scope.example = {
-        value: new Date("2019-05-31 07:00:00"),
-        value1: new Date("2019-05-31 14:50:00")
-    };
 
     $scope.storesList = {};
     $scope.selectedStoreItem = 1;
@@ -20,8 +15,18 @@ app.controller('schedule_colController', function ($scope, $http, $localStorage,
 
     $scope.dayOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
+    $scope.hideLoader = false;
+    $scope.shrinkOnHide = false;
+
+    $scope.toggle = function() {
+        $scope.hideLoader = !$scope.hideLoader;
+    }
+     $scope.switchStyle = function() {
+        $scope.shrinkOnHide = !$scope.shrinkOnHide;
+    }
 
     $scope.getStores = function () {
+        Spinner.toggle();
         if ($localStorage.currentUser) {
             $http({
                 method: 'GET',
@@ -29,6 +34,7 @@ app.controller('schedule_colController', function ($scope, $http, $localStorage,
             }).then(
                 function successCallback(response) {
                     $scope.storesList = response.data.stores;
+                    Spinner.toggle();
                 }
             );
         }
@@ -39,6 +45,7 @@ app.controller('schedule_colController', function ($scope, $http, $localStorage,
     }
 
     $scope.getWeeks = function () {
+        Spinner.toggle();
         if ($localStorage.weekOverview != undefined)
             $scope.selectedYearsItem = $localStorage.weekOverview.selectedYear;
         if ($localStorage.currentUser) {
@@ -57,15 +64,17 @@ app.controller('schedule_colController', function ($scope, $http, $localStorage,
                     } else if (Array.isArray($scope.weekList) && $scope.weekList.length > 0)
                         $scope.selectedWeekItem = $scope.weekList[0].id;
                     $localStorage.weekOverview = undefined;
-
+                    Spinner.toggle();
                     //$scope.getWeekDataFromServer();
                     $scope.getScheduleInformation();
                 }
             );
         }
+
     }
 
     $scope.getScheduleInformation = function () {
+        Spinner.toggle();
         $http({
             method: 'GET',
             url: API_URL + 'schedule/all/' + $scope.selectedStoreItem + '/' + $scope.selectedWeekItem,
@@ -74,7 +83,7 @@ app.controller('schedule_colController', function ($scope, $http, $localStorage,
                 // console.log(response.data);
                 $scope.employeeStoreWeekId = response.data.employee_store_week_id;
                 $scope.parseScheduleInformationResponse(response.data.categories_schedules);
-                console.log($scope.employeesScheduleList)
+                Spinner.toggle();
             }
         );
     }
@@ -126,6 +135,7 @@ app.controller('schedule_colController', function ($scope, $http, $localStorage,
     }
 
     $scope.updateSchedulesByCategory = function(employees){
+        Spinner.toggle();
         var esw_array = new Array();
 
         for(var i = 0 ; i < employees.length ; i++){
@@ -161,6 +171,7 @@ app.controller('schedule_colController', function ($scope, $http, $localStorage,
                 schedule_days: schedule_to_send,
             }
         }).then(function successCallback(response) {
+                 Spinner.hide_Loader();
                  console.log(response);
             },
             function errorCallback(response) {
@@ -278,6 +289,6 @@ app.controller('schedule_colController', function ($scope, $http, $localStorage,
     $scope.getStores();
     $scope.getYears();
     $scope.getWeeks();
-
+    Spinner.toggle();
 
 });

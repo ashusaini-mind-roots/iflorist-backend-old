@@ -1,9 +1,8 @@
-app.controller('storesController', function($scope,API_URL,$resource,$http,$localStorage) {
+app.controller('storesController', function($scope,API_URL,$resource,$http,$localStorage,Spinner) {
 
     console.log('stores.js load success');
 
     $scope.stores = {};
-
     $scope.store = {};
 
     if($localStorage.currentUser) {
@@ -34,11 +33,9 @@ app.controller('storesController', function($scope,API_URL,$resource,$http,$loca
                             console.log($scope.stores);
                         }
                     );
-
             }
             , function errorCallback(response){
                 alert('This is embarassing. An error has occured.');
-
             }
             );
         } else {
@@ -59,7 +56,6 @@ app.controller('storesController', function($scope,API_URL,$resource,$http,$loca
                 $scope.form_title = "Edit store";
                 $scope.id = id;
 
-
                 $http({
                     method: 'GET',
                     url: API_URL+'store/getById/' + id,
@@ -72,10 +68,7 @@ app.controller('storesController', function($scope,API_URL,$resource,$http,$loca
                         $('#storeModal').modal('hide');
                         alert('This is embarassing. An error has occured.');
                     }
-
                 );
-
-
                 break;
             default:
                 break;
@@ -108,7 +101,6 @@ app.controller('storesController', function($scope,API_URL,$resource,$http,$loca
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
         }).then(function successCallback(response)  {
             console.log(response);
-            //location.reload();
             $('#storeModal').modal('hide');
 
             $http.get(API_URL+'store/all').then(
@@ -120,11 +112,10 @@ app.controller('storesController', function($scope,API_URL,$resource,$http,$loca
         }, function errorCallback(response){
             $('#storeModal').modal('hide');
             alert('This is embarassing. An error has occured.');
-
             }
-
         );
     }
 
+    Spinner.toggle();
 
 });

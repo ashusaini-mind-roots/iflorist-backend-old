@@ -1,13 +1,10 @@
-app.controller('usersController', function($scope,API_URL,$resource,$http) {
+app.controller('usersController', function($scope,API_URL,$resource,$http, Spinner) {
 
     console.log('users.js load success');
 
     $scope.users = {};
-
     $scope.stores = {};
-
     $scope.roles = {};
-
     $scope.user = {};
 
     $http.get(API_URL+'auth/users').then(
@@ -31,8 +28,6 @@ app.controller('usersController', function($scope,API_URL,$resource,$http) {
         }
     );
 
-
-
     $scope.confirmDelete = function(id) {
         var isConfirmDelete = confirm('Are you sure you want to delete this record?');
         console.log(id);
@@ -45,14 +40,11 @@ app.controller('usersController', function($scope,API_URL,$resource,$http) {
                     $http.get(API_URL+'auth/users').then(
                         function successCallback(response) {
                             $scope.users = response.data.users;
-                            console.log($scope.users);
                         }
                     );
-
             }
             , function errorCallback(response){
                 alert('This is embarassing. An error has occured. Please check the log for details');
-
             }
             );
         } else {
@@ -87,10 +79,7 @@ app.controller('usersController', function($scope,API_URL,$resource,$http) {
                         $('#userModal').modal('hide');
                         alert('This is embarassing. An error has occured.');
                     }
-
                 );
-
-
                 break;
             default:
                 break;
@@ -135,11 +124,10 @@ app.controller('usersController', function($scope,API_URL,$resource,$http) {
         }, function errorCallback(response){
             $('#userModal').modal('hide');
             alert('This is embarassing. An error has occured. Please check the log for details');
-
             }
-
         );
     }
 
+    Spinner.toggle();
 
 });
