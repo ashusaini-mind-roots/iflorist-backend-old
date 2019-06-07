@@ -1,4 +1,4 @@
-app.controller('masterOverviewController', function ($scope, $http, $localStorage, API_URL, $window, Utils) {
+app.controller('masterOverviewController', function ($scope, $http, $localStorage, API_URL, $window, Utils, Spinner) {
 
     console.log('masteroverview.js load success');
 
@@ -168,6 +168,6 @@ app.controller('masterOverviewController', function ($scope, $http, $localStorag
     $scope.getStores();
     // $scope.getYears();
     $scope.getMasterOverviewWeekly();
-
+    Spinner.toggle();
 });
 

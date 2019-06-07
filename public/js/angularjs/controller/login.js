@@ -1,4 +1,4 @@
-app.controller('loginController', function($scope,$location, AuthenticationService,$window) {
+app.controller('loginController', function($scope,$location, AuthenticationService,$window,Spinner) {
 
     console.log('login.js load success');
 
@@ -25,5 +25,5 @@ app.controller('loginController', function($scope,$location, AuthenticationServi
         });
     }
     $scope.initController();
-
+    Spinner.toggle();
 });
