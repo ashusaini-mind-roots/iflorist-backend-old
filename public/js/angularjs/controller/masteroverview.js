@@ -1,4 +1,4 @@
-app.controller('masterOverviewController', function ($scope, $http, $localStorage, API_URL, $window, Utils) {
+app.controller('masterOverviewController', function ($scope, $http, $localStorage, API_URL, $window, Utils, Spinner) {
 
     console.log('masteroverview.js load success');
 
@@ -30,7 +30,7 @@ app.controller('masterOverviewController', function ($scope, $http, $localStorag
         $scope.selectedYearsItem = Utils.GetCurrentYear();
         $scope.yearReferenceProjectionSelected = $scope.selectedYearsItem - 1;
         $scope.yearsList = Utils.GetYears();
-        $scope.yearsListProjection = Utils.GetYears(2016);
+
         //console.dir($scope.yearReferenceProjectionSelected);
     };
 
@@ -124,6 +124,7 @@ app.controller('masterOverviewController', function ($scope, $http, $localStorag
     };
 
     $scope.showEditProjection = function (selectedWeek) {
+        $scope.yearsListProjection = Utils.GetYears(2016, $scope.selectedYearsItem - 1);
         $scope.weekSelected = selectedWeek;
         //console.log(String(x1)+$scope.weekSelected.year_reference)
         $scope.yearReferenceProjectionSelected = $scope.weekSelected.year_reference;
@@ -150,9 +151,23 @@ app.controller('masterOverviewController', function ($scope, $http, $localStorag
         );
     };
 
+    $scope.getTotalByWeekYear = function () {
+        $http({
+            method: "GET",
+            url: API_URL + 'master_overview_weekly/get_weekly_revenue/' + $scope.selectedStoreItem + '/' + $scope.weekSelected.week_number + '/' + $scope.yearReferenceProjectionSelected
+            // params: {week_number: $scope.weekSelected, year_reference: $scope.yearReferenceProjectionSelected}
+        }).then(function successCallback(response) {
+            $scope.year_reference_revenue = parseFloat(response.data.total);
+            console.log(response);
+        }, function errorCallback(response) {
+            console.log(response);
+            alert('This is embarassing. An error has occured.');
+        });
+    }
+
     $scope.getStores();
     // $scope.getYears();
     $scope.getMasterOverviewWeekly();
-
+    Spinner.toggle();
 });
 

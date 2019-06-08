@@ -1,9 +1,8 @@
-app.controller('employeesController', function($scope,API_URL,$resource,$http) {
+app.controller('employeesController', function($scope,API_URL,$resource,$http, Spinner) {
 
     console.log('users.js load success');
 
     $scope.employees = {};
-
     $scope.categories = {};
 
     $scope.actives = [
@@ -17,11 +16,8 @@ app.controller('employeesController', function($scope,API_URL,$resource,$http) {
     ];
 
     $scope.stores = {};
-
     $scope.work_mans_comp = {};
-
     $scope.employee = {};
-
     $scope.loading = false;
 
     $http.get(API_URL+'employee/all').then(
@@ -34,56 +30,24 @@ app.controller('employeesController', function($scope,API_URL,$resource,$http) {
     $http.get(API_URL+'store/all').then(
         function successCallback(response) {
             $scope.stores = response.data.stores;
-            //console.log($scope.stores);
         }
     );
 
     $http.get(API_URL+'category/all').then(
         function successCallback(response) {
             $scope.categories = response.data.categories;
-            //console.log($scope.stores);
         }
     );
 
     $http.get(API_URL+'work_man_comp/all').then(
         function successCallback(response) {
             $scope.work_mans_comp = response.data.work_mans_comp;
-            //console.log($scope.stores);
         }
     );
-
-
-    /*$scope.confirmDelete = function(id) {
-        var isConfirmDelete = confirm('Are you sure you want to delete this record?');
-        console.log(id);
-        if (isConfirmDelete) {
-            $http({
-                method: 'DELETE',
-                url: API_URL + 'auth/delete/' + id
-            }).
-            then(function successCallback(data) {
-                    $http.get(API_URL+'auth/users').then(
-                        function successCallback(response) {
-                            $scope.users = response.data.users;
-                            console.log($scope.users);
-                        }
-                    );
-
-            }
-            , function errorCallback(response){
-                alert('This is embarassing. An error has occured. Please check the log for details');
-
-            }
-            );
-        } else {
-            return false;
-        }
-    }*/
 
     $scope.toggle = function(modalstate, id) {
 
         $scope.modalstate = modalstate;
-
         switch (modalstate) {
             case 'add':
                 $scope.form_title = "Add Empoyee";
@@ -92,8 +56,6 @@ app.controller('employeesController', function($scope,API_URL,$resource,$http) {
             case 'edit':
                 $scope.form_title = "Edit Employee";
                 $scope.id = id;
-
-
                 $http({
                     method: 'GET',
                     url: API_URL+'employee/getById/' + id,
@@ -109,8 +71,6 @@ app.controller('employeesController', function($scope,API_URL,$resource,$http) {
                     }
 
                 );
-
-
                 break;
             default:
                 break;
@@ -135,8 +95,6 @@ app.controller('employeesController', function($scope,API_URL,$resource,$http) {
             method = 'POST';
         }
 
-        //console.log($scope.user.name);
-
         $scope.loading = true;
 
         $http({
@@ -146,7 +104,6 @@ app.controller('employeesController', function($scope,API_URL,$resource,$http) {
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
         }).then(function successCallback(response)  {
             console.log(response);
-            //location.reload();
                 $scope.loading = false;
             $('#employeeModal').modal('hide');
 
@@ -159,11 +116,9 @@ app.controller('employeesController', function($scope,API_URL,$resource,$http) {
         }, function errorCallback(response){
             $('#userModal').modal('hide');
             alert('This is embarassing. An error has occured. Please check the log for details');
-
             }
-
         );
     }
 
-
+    Spinner.toggle();
 });

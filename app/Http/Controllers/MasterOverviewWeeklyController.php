@@ -17,6 +17,17 @@ use App\Models\EmployeeStoreWeek;
 
 class MasterOverviewWeeklyController extends Controller
 {
+    public function getDataStoreWeekYear($store_id, $week_nbr, $year_reference_selected)
+    {
+        try {
+            $week_id = Week::findByNumberYear($week_nbr, $year_reference_selected)->id;
+            $total = DailyRevenue::totalAmtWeek($store_id, $week_id);
+            return response()->json(['total'=>$total]);
+        } catch (\Exception $e) {
+            return response()->json($e, 500);
+        }
+    }
+
     public function MasterOverviewWeeklyOfFresh($store_id, $year)
     {
         $weeks = Week::where('year', $year)->get();
@@ -68,7 +79,8 @@ class MasterOverviewWeeklyController extends Controller
                 'difference' => number_format((float)WeeklyProjectionPercentCosts::target($store_id, $w->id) - $total, 2, '.', ''),
                 'down_percent' => $percent,
                 'year_reference' => $year_reference,
-                'year_reference_revenue' => $amtTotal
+                'year_reference_revenue' => $amtTotal,
+                'week_number' => $week_number
             );
 
             $master_overview_weekly [] = $arrayDatos;

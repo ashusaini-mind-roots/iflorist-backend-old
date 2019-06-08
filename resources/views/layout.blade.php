@@ -36,14 +36,16 @@
 
 <script src="{{asset('js/angularjs/angular.min.js')}}"></script>
 <script src="{{asset('js/angularjs/angular-resource.min.js')}}"></script>
-{{--<script src="{{asset('js/angularjs/angular-money-mask.js')}}"></script>--}}
 <script src="{{asset('js/angularjs/ngStorage.min.js')}}"></script>
+<script src="{{asset('js/angularjs/angular-animate.min.js')}}"></script>
 
 <script src="{{asset('js/angularjs/app.js')}}"></script>
 <script src="{{asset('js/angularjs/services/authentication.service.js')}}"></script>
+<script src="{{asset('js/angularjs/services/spinner.service.js')}}"></script>
 <script src="{{asset('js/angularjs/services/UtilsService.js')}}"></script>
 <script src="{{asset('js/angularjs/controller/logout.js')}}"></script>
 <script src="{{asset('js/angularjs/controller/login.js')}}"></script>
+<script src="{{asset('js/angularjs/controller/spinner.js')}}"></script>
 <script src="{{asset('js/external/jQ-Mask-Plugin/src/jquery.mask.js')}}"></script>
 {{--<script src="{{asset('js/external/ui-bootstrap-custom-tpls-2.5.0.js')}}"></script>--}}
 
@@ -58,6 +60,10 @@
 
 
 </script>
+<div class="loader-overlay" ng-controller="SpinnerController" data-ng-show="isNotHidden_Loader()">
+    <div class="spin-loader"
+         data-ng-class="{'shrink': shrinkOnHide, 'expand': !shrinkOnHide}"></div>
+</div>
 </body>
 
 </html>
