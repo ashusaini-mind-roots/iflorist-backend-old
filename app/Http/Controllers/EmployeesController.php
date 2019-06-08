@@ -97,6 +97,18 @@ class EmployeesController extends Controller
 
         $employee = Employee::findOrFail($id);
 
+        $store_week = StoreWeek::where('store_id',$employee->store_id)->get();
+
+        if($employee->store_id!=$request->store_id)
+        {
+            foreach ($store_week as $sw)
+            {
+                $employee_store_week = EmployeeStoreWeek::where('store_week_id',$sw->id)->where('employee_id',$id)->first();
+                $employee_store_week->activate = false;
+                $employee_store_week->update();
+            }
+        }
+
         $employee->store_id = $request->store_id;
         $employee->category_id = $request->category_id;
         $employee->work_man_comp_id = $request->work_man_comp_id;
@@ -106,6 +118,23 @@ class EmployeesController extends Controller
         $employee->active = $request->active;
 
         $employee->update();
+
+        $store_week = StoreWeek::where('store_id',$request->store_id)->get();
+        foreach ($store_week as $sw)
+        {
+            $employee_store_week = EmployeeStoreWeek::where('store_week_id',$sw->id)->where('employee_id',$id)->first();
+            if($employee_store_week)
+            {
+                $employee_store_week->activate = true;
+            }
+            else
+            {
+                $employee_store_week = new EmployeeStoreWeek();
+                $employee_store_week->employee_id = $id;
+                $employee_store_week->store_week_id = $sw->id;
+                $employee_store_week->save();
+            }
+        }
 
         return response()->json(['status' => 'success'], 200);
 
