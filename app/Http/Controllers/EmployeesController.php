@@ -10,6 +10,7 @@ Use App\Models\EmployeeStoreWeek;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 
+
 class EmployeesController extends Controller
 {
 
