@@ -16,7 +16,7 @@ function Service() {
 
     function Toggle() {
         public_members.ishiddenLoader = !public_members.ishiddenLoader;
-        console.log(public_members.ishiddenLoader);
+       // console.log(public_members.ishiddenLoader);
     }
 
     function IsNotHidden_Loader() {

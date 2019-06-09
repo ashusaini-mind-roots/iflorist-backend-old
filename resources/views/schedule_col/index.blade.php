@@ -141,7 +141,7 @@
                                             </table>
                                             <!--Table-->
                                         </div>
-                                        <button type="button" class="btn btn-primary" ng-click="updateSchedulesByCategory(category.employees)" ng-disabled="saveDays_btnDisable">Save changes</button>
+                                        <button type="button" class="btn btn-primary" ng-click="updateSchedulesByCategory(category.employees)">Save changes</button>
                                         <hr>
                                     </div>
                                 </div>
@@ -212,11 +212,11 @@
                                                 <tbody>
                                                     <tr ng-repeat="employee_total in entities = (entities || calcEmployeesTotalHours(category,category.employees).employee_list)">
                                                         <td>@{{employee_total.name}}</td>
-                                                        <td>@{{employee_total.weekly_total_hours}}</td>
+                                                        <td>@{{parseMinutesToHoursFormat(employee_total.weekly_total_hours)}}</td>
                                                     </tr>
                                                     <tr class="table-active">
                                                         <td>Total</td>
-                                                        <td>@{{category.total_time}}</td>
+                                                        <td>@{{parseMinutesToHoursFormat(category.total_time)}}</td>
                                                     </tr>
                                                 </tbody>
                                             </table>

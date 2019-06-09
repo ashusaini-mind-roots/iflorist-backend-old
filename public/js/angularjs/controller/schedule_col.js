@@ -1,4 +1,4 @@
-app.controller('schedule_colController', function ($scope, $http, $localStorage, API_URL, Spinner) {
+app.controller('schedule_colController', function ($scope, $http, $localStorage, API_URL, Spinner, Utils) {
     console.log('schedule_col.js load success');
 
     $scope.storesList = {};
@@ -83,6 +83,7 @@ app.controller('schedule_colController', function ($scope, $http, $localStorage,
                 // console.log(response.data);
                 $scope.employeeStoreWeekId = response.data.employee_store_week_id;
                 $scope.parseScheduleInformationResponse(response.data.categories_schedules);
+                console.log($scope.employeesScheduleList)
                 Spinner.toggle();
             }
         );
@@ -92,6 +93,7 @@ app.controller('schedule_colController', function ($scope, $http, $localStorage,
         for(var i = 0 ; i < categories_schedules.length ; i++){
             for(var j = 0 ; j < categories_schedules[i].employees.length ; j++){
                 for(var k = 0 ; k < categories_schedules[i].employees[j].schedule_days.length ; k++){
+                    categories_schedules[i].employees[j].total_time = 0;
                     var schedul = categories_schedules[i].employees[j].schedule_days[k];
                     //console.log(schedul.time_in)
                     if(schedul.time_in != undefined)
@@ -114,7 +116,9 @@ app.controller('schedule_colController', function ($scope, $http, $localStorage,
 
     $scope.calcTimesDifference = function (time_in, time_out, break_time) {
         var h = m = "00";
-        if(time_in != undefined && time_out != undefined && break_time != undefined){
+        if(time_in != undefined && time_out != undefined){
+            if(break_time == undefined)
+                break_time = 0;
             var minutesTotal = (diffDateTime(time_in,time_out).totalmin - break_time);
 
             var h = Math.floor(minutesTotal / 60);
@@ -192,7 +196,11 @@ app.controller('schedule_colController', function ($scope, $http, $localStorage,
                 }
             }
         }
-        return returnTotal;
+        return Utils.ParseMinutesToHoursFormat(returnTotal);
+    }
+
+    $scope.parseMinutesToHoursFormat = function (minutes) {
+        return Utils.ParseMinutesToHoursFormat(minutes);
     }
 
     $scope.calcEmployeesTotalHours = function (category, employees) {
@@ -213,8 +221,8 @@ app.controller('schedule_colController', function ($scope, $http, $localStorage,
             totalTotal += totalhours;
         }
         category.total_time = totalTotal;
-       // console.log(category.total_time)
-        return {employee_list: employee_list, total:totalTotal}  ;
+
+        return {employee_list: employee_list, total:totalTotal}   ;
     }
 
     /* Function to calculate time difference between 2 datetimes (in Timestamp-milliseconds, or string English Date-Time)
