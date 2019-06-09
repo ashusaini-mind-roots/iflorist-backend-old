@@ -172,8 +172,12 @@ class MasterOverviewWeeklyController extends Controller
             $total_hours = 0.00;
 
             foreach ($schedules as $sche) {
-                $total_hours = $total_hours + Schedule::scheduleDiffHours($sche->id);
+                //return response()->json(['projection_col' => $sche], 200);
+                //return response()->json(['projection_col' => Schedule::scheduleDiffHours($sche)], 200);
+                $total_hours = $total_hours + Schedule::scheduleDiffHours($sche);
             }
+
+            $total_hours = Schedule::scheduleMinToHours($total_hours);
 
             $arrayDatos = array(
                 'week_id' => $w->id,
