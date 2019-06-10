@@ -69,9 +69,9 @@
                                                 @{{week.difference}}
                                             </td>
                                             <td id="@{{week.week_id}}">
-                                                <button type="button" class="btn btn-link btn-sm"
-                                                        ng-click="goToweekControlPage(week.week_id)">View
-                                                </button>
+                                                {{--<button type="button" class="btn btn-link btn-sm"--}}
+                                                        {{--ng-click="goToweekControlPage(week.week_id)">View--}}
+                                                {{--</button>--}}
                                                 <button type="button" class="btn btn-link btn-sm"
                                                         ng-click="showEditTarget(week,week.target_percentage)">Edit target
                                                 </button>
