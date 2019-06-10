@@ -18,7 +18,7 @@
                                 <th>Store</th>
                                 <th>Category</th>
                                 <th>Overtime Elegible</th>
-                                <th>Hourly Pay Rate</th>
+                                <th>Hourly Pay rate</th>
                                 <th>Active</th>
                                 <th ng-show="rsRole == 'Admin'">Actions</th>
                             </tr>

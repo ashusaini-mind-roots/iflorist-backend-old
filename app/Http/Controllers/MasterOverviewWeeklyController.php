@@ -175,7 +175,7 @@ class MasterOverviewWeeklyController extends Controller
                 'projection_total_hours_allowed' => $projection_total_hours_allowed,
                 'target_percentage' => $target_percentage->target_percentage,
                 'actual_sales' => number_format((float)$amtTotal, 2, '.', ''),
-                'total_cheduled_hours' => $total_hours,
+                'total_scheduled_hours' => $total_hours,
                 'difference' => number_format((float)$projection_total_hours_allowed - $total_hours, '2', '.', '')
             );
 
