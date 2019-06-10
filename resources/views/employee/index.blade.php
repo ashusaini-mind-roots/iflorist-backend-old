@@ -18,7 +18,7 @@
                                 <th>Store</th>
                                 <th>Category</th>
                                 <th>Overtime Elegible</th>
-                                <th>Hourly Payrate</th>
+                                <th>Hourly Pay rate</th>
                                 <th>Active</th>
                                 <th ng-show="rsRole == 'Admin'">Actions</th>
                             </tr>
@@ -32,7 +32,7 @@
                                 <td>@{{ employee.category }}</td>
                                 <td ng-show="employee.overtimeelegible==1">Yes</td>
                                 <td ng-show="employee.overtimeelegible==0">No</td>
-                                <td>@{{ employee.hourlypayrate }} $</td>
+                                <td>@{{ employee.hourlypayrate | currency }}</td>
                                 <td ng-show="employee.active==1">Yes</td>
                                 <td ng-show="employee.active==0">No</td>
                                 <td ng-show="rsRole == 'Admin'">
