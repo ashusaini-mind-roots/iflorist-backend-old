@@ -49,20 +49,11 @@ class Schedule extends Model
         return $schedules;
     }
 
-    static public function scheduleDiffHours($schedule/*$schedule_id*/)
+    static public function scheduleDiffHours($schedule)
     {
-       // $time_out = Carbon::createFromFormat('Y-m-d H:s:i',/*$schedule->time_out*/'1970-01-01 10:50:00');
-        //$time_in = Carbon::createFromFormat('Y-m-d H:s:i',/*$schedule->time_in*/'1970-01-01 02:10:00');
-        //$diff_seg = $time_in->diffInMinutes($time_out)-/*($schedule->break_time)*/10;
         $time_out = strtotime($schedule->time_out);
         $time_in = strtotime($schedule->time_in);
-        /*$hours = floor($diff_seg/60);
-        $mins = $diff_seg % 60;*/
-        /*var h = Math.floor(minutesTotal / 60);
-        var m = minutesTotal % 60;
-        h = h < 10 ? '0' + h : h;
-        m = m < 10 ? '0' + m : m;*/
-        //return $diff_seg;
+
         return (($time_out-$time_in)/60)-$schedule->break_time;
     }
 

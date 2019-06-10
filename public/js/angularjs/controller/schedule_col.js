@@ -55,7 +55,6 @@ app.controller('schedule_colController', function ($scope, $http, $localStorage,
             }).then(
                 function successCallback(response) {
                     $scope.weekList = response.data.weeks;
-                    //$scope.SetInitValuesToSelects();
                     if ($localStorage.weekOverview) {
                         {
                             $scope.selectedWeekItem = $localStorage.weekOverview.selectedWeekId;
@@ -65,7 +64,6 @@ app.controller('schedule_colController', function ($scope, $http, $localStorage,
                         $scope.selectedWeekItem = $scope.weekList[0].id;
                     $localStorage.weekOverview = undefined;
                     Spinner.toggle();
-                    //$scope.getWeekDataFromServer();
                     $scope.getScheduleInformation();
                 }
             );
@@ -80,7 +78,6 @@ app.controller('schedule_colController', function ($scope, $http, $localStorage,
             url: API_URL + 'schedule/all/' + $scope.selectedStoreItem + '/' + $scope.selectedWeekItem,
         }).then(
             function successCallback(response) {
-                // console.log(response.data);
                 $scope.employeeStoreWeekId = response.data.employee_store_week_id;
                 $scope.parseScheduleInformationResponse(response.data.categories_schedules);
                 console.log($scope.employeesScheduleList)
@@ -93,22 +90,13 @@ app.controller('schedule_colController', function ($scope, $http, $localStorage,
         for(var i = 0 ; i < categories_schedules.length ; i++){
             for(var j = 0 ; j < categories_schedules[i].employees.length ; j++){
                 for(var k = 0 ; k < categories_schedules[i].employees[j].schedule_days.length ; k++){
-                    categories_schedules[i].employees[j].total_time = 0;
+                    categories_schedules[i].employees[j].total_hours = Utils.ParseMinutesToHoursFormat(categories_schedules[i].employees[j].total_minutes_at_week);
                     var schedul = categories_schedules[i].employees[j].schedule_days[k];
-                    //console.log(schedul.time_in)
                     if(schedul.time_in != undefined)
                         schedul.time_in = new Date(schedul.time_in);
                     if(schedul.time_out != undefined)
                         schedul.time_out = new Date(schedul.time_out);
-                    //schedul.employee_store_week_id = categories_schedules[i].employees[j].employee_store_week_id;
-                    //schedul.day_of_week = $scope.dayOfWeek[k];
                 }
-                // if(categories_schedules[i].employees[j].schedule_days.length < 7){
-                //     for(var l = categories_schedules[i].employees[j].schedule_days.length ; l < 7 ; l++){
-                //         categories_schedules[i].employees[j].schedule_days.push({id: -1,employee_store_week_id: categories_schedules[i].employees[j].employee_store_week_id,
-                //                                                                  day_of_week : $scope.dayOfWeek[l]})
-                //     }
-                // }
             }
         }
         return $scope.employeesScheduleList = categories_schedules;
@@ -149,21 +137,12 @@ app.controller('schedule_colController', function ($scope, $http, $localStorage,
         for(var j = 0 ; j < asw_toSend.length ; j++){
             if(asw_toSend[j].time_in != undefined) {
                 asw_toSend[j].time_in = asw_toSend[j].time_in.toLocaleString("en-US", { hour12: false });
-                //delete asw_toSend[j].time_in;
             }
             if(asw_toSend[j].time_out != undefined)
                 asw_toSend[j].time_out = asw_toSend[j].time_out.toLocaleString("en-US", { hour12: false });
-               // delete asw_toSend[j].time_out;
         }
 
-        var novaleSend = [asw_toSend[0],asw_toSend[1],asw_toSend[2],asw_toSend[3],asw_toSend[4],
-            asw_toSend[5],asw_toSend[6]];
-
-       // console.log(novaleSend)
-        //console.log(API_URL + 'schedule/update_or_add/')
         var schedule_to_send = JSON.stringify(asw_toSend);
-       // var schedule_to_send = angular.toJson(esw_array);
-       //console.log(schedule_to_send)
         $http({
             method: 'POST',
             url: API_URL + 'schedule/update_or_add/',
@@ -184,12 +163,13 @@ app.controller('schedule_colController', function ($scope, $http, $localStorage,
         );
     }
 
-    $scope.calcDailyTotalHours = function(category_name, dayofweek){
+    $scope.calcDailyTotalHours = function(category,category_name, dayofweek){
         var returnTotal = 0;
         for(var i = 0 ; i < $scope.employeesScheduleList.length ; i++){
             if($scope.employeesScheduleList[i].category_name == category_name )
             {
                 for(var j = 0 ; j < $scope.employeesScheduleList[i].employees.length ; j++){
+                    category.total_time = $scope.calcEmployeesTotalHours($scope.employeesScheduleList[i].employees);
                     var schedule = $scope.employeesScheduleList[i].employees[j].schedule_days[dayofweek];
                     if(schedule!= undefined && schedule.time_in != undefined && schedule.time_out != undefined && schedule.break_time != undefined)
                         returnTotal += $scope.calcTimesDifferenceMinutes_Util(schedule.time_in, schedule.time_out, schedule.break_time);
@@ -203,8 +183,7 @@ app.controller('schedule_colController', function ($scope, $http, $localStorage,
         return Utils.ParseMinutesToHoursFormat(minutes);
     }
 
-    $scope.calcEmployeesTotalHours = function (category, employees) {
-        var employee_list =  [];
+    $scope.calcEmployeesTotalHours = function (employees) {
         var totalhours = 0;
         var totalTotal = 0;
 
@@ -214,15 +193,11 @@ app.controller('schedule_colController', function ($scope, $http, $localStorage,
                 var schedule = employees[i].schedule_days[j];
                 totalhours += $scope.calcTimesDifferenceMinutes_Util(schedule.time_in, schedule.time_out, schedule.break_time);
             }
-            employee_list.push({
-                name: employees[i].name,
-                weekly_total_hours: totalhours,
-            });
             totalTotal += totalhours;
+            employees[i].total_minutes_at_week = totalhours;
+            employees[i].total_hours = Utils.ParseMinutesToHoursFormat(employees[i].total_minutes_at_week);
         }
-        category.total_time = totalTotal;
-
-        return {employee_list: employee_list, total:totalTotal}   ;
+        return totalTotal;
     }
 
     /* Function to calculate time difference between 2 datetimes (in Timestamp-milliseconds, or string English Date-Time)

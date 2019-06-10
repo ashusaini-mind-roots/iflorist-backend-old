@@ -152,49 +152,49 @@
                                                 <div class="form-group text-center">
                                                     <label for="inputTotal">Monday </label>
                                                     {{--<input hidden type="text" class="form-control" id="inputTotal" ng-model="dailyRevenueTotal" value = @{{calcDailyTotal()}} >--}}
-                                                    <div class="font-weight-bold text-center">@{{calcDailyTotalHours(category.category_name,0)}}</div>
+                                                    <div class="font-weight-bold text-center">@{{calcDailyTotalHours(category,category.category_name,0)}}</div>
                                                 </div>
                                             </div>
                                             <div class="col">
                                                 <div class="form-group text-center">
                                                     <label for="inputTotal">Tuesday </label>
                                                     {{--<input hidden type="text" class="form-control" id="inputTotal" ng-model="dailyRevenueTotal" value = @{{calcDailyTotal()}} >--}}
-                                                    <div class="font-weight-bold text-center">@{{calcDailyTotalHours(category.category_name,1)}}</div>
+                                                    <div class="font-weight-bold text-center">@{{calcDailyTotalHours(category,category.category_name,1)}}</div>
                                                 </div>
                                             </div>
                                             <div class="col">
                                                 <div class="form-group text-center">
                                                     <label for="inputTotal">Wednesday </label>
                                                     {{--<input hidden type="text" class="form-control" id="inputTotal" ng-model="dailyRevenueTotal" value = @{{calcDailyTotal()}} >--}}
-                                                    <div class="font-weight-bold text-center">@{{calcDailyTotalHours(category.category_name,2)}}</div>
+                                                    <div class="font-weight-bold text-center">@{{calcDailyTotalHours(category,category.category_name,2)}}</div>
                                                 </div>
                                             </div>
                                             <div class="col">
                                                 <div class="form-group text-center">
                                                     <label for="inputTotal">Thursday </label>
                                                     {{--<input hidden type="text" class="form-control" id="inputTotal" ng-model="dailyRevenueTotal" value = @{{calcDailyTotal()}} >--}}
-                                                    <div class="font-weight-bold text-center">@{{calcDailyTotalHours(category.category_name,3)}}</div>
+                                                    <div class="font-weight-bold text-center">@{{calcDailyTotalHours(category,category.category_name,3)}}</div>
                                                 </div>
                                             </div>
                                             <div class="col">
                                                 <div class="form-group text-center">
                                                     <label for="inputTotal">Friday </label>
                                                     {{--<input hidden type="text" class="form-control" id="inputTotal" ng-model="dailyRevenueTotal" value = @{{calcDailyTotal()}} >--}}
-                                                    <div class="font-weight-bold text-center">@{{calcDailyTotalHours(category.category_name,4)}}</div>
+                                                    <div class="font-weight-bold text-center">@{{calcDailyTotalHours(category,category.category_name,4)}}</div>
                                                 </div>
                                             </div>
                                             <div class="col">
                                                 <div class="form-group text-center">
                                                     <label for="inputTotal">Saturday </label>
                                                     {{--<input hidden type="text" class="form-control" id="inputTotal" ng-model="dailyRevenueTotal" value = @{{calcDailyTotal()}} >--}}
-                                                    <div class="font-weight-bold text-center">@{{calcDailyTotalHours(category.category_name,5)}}</div>
+                                                    <div class="font-weight-bold text-center">@{{calcDailyTotalHours(category,category.category_name,5)}}</div>
                                                 </div>
                                             </div>
                                             <div class="col">
                                                 <div class="form-group text-center">
                                                     <label for="inputTotal">Sunday </label>
                                                     {{--<input hidden type="text" class="form-control" id="inputTotal" ng-model="dailyRevenueTotal" value = @{{calcDailyTotal()}} >--}}
-                                                    <div class="font-weight-bold text-center">@{{calcDailyTotalHours(category.category_name,6)}}</div>
+                                                    <div class="font-weight-bold text-center">@{{calcDailyTotalHours(category,category.category_name,6)}}</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -210,9 +210,9 @@
                                                 </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr ng-repeat="employee_total in entities = (entities || calcEmployeesTotalHours(category,category.employees).employee_list)">
+                                                    <tr ng-repeat="employee_total in entities = category.employees">
                                                         <td>@{{employee_total.name}}</td>
-                                                        <td>@{{parseMinutesToHoursFormat(employee_total.weekly_total_hours)}}</td>
+                                                        <td>@{{employee_total.total_hours}}</td>
                                                     </tr>
                                                     <tr class="table-active">
                                                         <td>Total</td>

@@ -33,17 +33,17 @@ class ScheduleController extends Controller
             $employees = Employee::findByCategoryStore($category->id,$store_id);
             $employees_response = [];//employees de esta categoria
             foreach ($employees as $employee) {
-                $schedules = Schedule::findByEmployeeAndStoreWeekIds($employee->id,$store_week_id);//los 7 schedules days de este employee;
-//if($employee->id == 4)
-//                return response()->json([$schedules,$employee->id,$store_week_id],200);
+                $schedules = Schedule::findByEmployeeAndStoreWeekIds($employee->id,$store_week_id);//those are 7 days of this employee;
 
                 $employee_store_week_id = EmployeeStoreWeek::findByEmployeeANDStoreWeekId($employee->id,$store_week_id)->id;
-                $schedules_to_send = $this->conformSchedulesToSend($schedules,$employee_store_week_id );
+                $to_send = $this->conformSchedulesToSend($schedules,$employee_store_week_id );
+                $schedules_to_send = $to_send['schedules_to_send'];
                 $employees_response[] = [
                     'name' => $employee->name,
                     'active' =>$employee->active,
                     'schedule_days' => $schedules_to_send,
-                    'employee_store_week_id' => $employee_store_week_id
+                    'employee_store_week_id' => $employee_store_week_id,
+                    'total_minutes_at_week' => $to_send['total_minutes'],
                 ];
             }
             $response[] = ['category_name' => $category->name,'employees' => $employees_response];
@@ -62,6 +62,8 @@ class ScheduleController extends Controller
             ['id' => -1, 'employee_store_week_id' => $employee_store_week_id, 'day_of_week' => 'Saturday'],
             ['id' => -1, 'employee_store_week_id' => $employee_store_week_id, 'day_of_week' => 'Sunday'],
         ];
+
+        $total_minutes = 0.00;
         for($i = 0 ; $i < count($schedulesFromDatabase) ; $i++){
             if($schedulesFromDatabase[$i]->day_of_week == "Monday")
                 $schedules_to_send[0] = $schedulesFromDatabase[$i];
@@ -77,8 +79,10 @@ class ScheduleController extends Controller
                 $schedules_to_send[5] = $schedulesFromDatabase[$i];
             elseif ($schedulesFromDatabase[$i]->day_of_week == "Sunday")
                 $schedules_to_send[6] = $schedulesFromDatabase[$i];
+
+            $total_minutes += Schedule::scheduleDiffHours($schedulesFromDatabase[$i]);//this function actually get minutes, not hours
         }
-        return $schedules_to_send;
+        return ['schedules_to_send' => $schedules_to_send, 'total_minutes' => $total_minutes];
     }
 
     public function updateoradd(Request $request)

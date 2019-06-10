@@ -151,37 +151,26 @@ class MasterOverviewWeeklyController extends Controller
 
             $week_number = week::find($w->id)->number;
 
-            //$week_reference = Week::findByNumberYear($week_number, $year_reference);
-
             $week_reference_id = Week::findByNumberYear($week_number, $year_reference)->id;
-
             $amtTotal = DailyRevenue::totalAmtWeek($store_id, $week_reference_id);
-
             $responseValue = $amtTotal - ($percent * $amtTotal / 100);
-
             $day = DailyRevenue::lastDayWeek($store_id, $w->id);
-
             $target_percentage = TargetPercentage::where('store_week_id', $store_week_id)->first();
-
             $projection_total_hours_allowed = number_format((float)$responseValue * $target_percentage->target_percentage / 16, 2, '.', '');
-
             $amtTotal = DailyRevenue::totalAmtWeek($store_id, $week_reference_id);
-
             $schedules = Schedule::findScheduleByStoreWeekAndYear($store_week_id, $year);
 
             $total_hours = 0.00;
 
             foreach ($schedules as $sche) {
-                //return response()->json(['projection_col' => $sche], 200);
-                //return response()->json(['projection_col' => Schedule::scheduleDiffHours($sche)], 200);
-                $total_hours = $total_hours + Schedule::scheduleDiffHours($sche);
+                $total_hours = $total_hours + Schedule::scheduleDiffHours($sche);//this function actually get minutes, not hours
             }
 
             $total_hours = Schedule::scheduleMinToHours($total_hours);
 
             $arrayDatos = array(
                 'week_id' => $w->id,
-                'week_ending' => Carbon::parse($day->date)->format('M-d'),//$day->month.'-'.$day->month_day,
+                'week_ending' => Carbon::parse($day->date)->format('M-d'),
                 'projected_weekly_revenue' => number_format((float)$responseValue, 2, '.', ''),
                 'projection_total_hours_allowed' => $projection_total_hours_allowed,
                 'target_percentage' => $target_percentage->target_percentage,

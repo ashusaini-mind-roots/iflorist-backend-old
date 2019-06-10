@@ -62,11 +62,11 @@
                                             <td>@{{week.week_ending}}</td>
                                             <td>@{{week.projected_weekly_revenue | currency}}</td>
                                             <td>@{{week.projection_total_hours_allowed }}</td>
-                                            <td>@{{week.target_percentage }}</td>
-                                            <td >@{{week.actual_sales}}%</td>
-                                            <td>@{{week.total_cheduled_hours}}%</td>
+                                            <td>@{{week.target_percentage }}%</td>
+                                            <td >@{{week.actual_sales | currency}}</td>
+                                            <td>@{{week.total_cheduled_hours}}</td>
                                             <td ng-class="week.difference<0?'font-weight-bold':''">
-                                                @{{week.difference}}%
+                                                @{{week.difference}}
                                             </td>
                                             <td id="@{{week.week_id}}">
                                                 <button type="button" class="btn btn-link btn-sm"
