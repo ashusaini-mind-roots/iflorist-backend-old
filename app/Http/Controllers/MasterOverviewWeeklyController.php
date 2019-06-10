@@ -156,7 +156,7 @@ class MasterOverviewWeeklyController extends Controller
             $responseValue = $amtTotal - ($percent * $amtTotal / 100);
             $day = DailyRevenue::lastDayWeek($store_id, $w->id);
             $target_percentage = TargetPercentage::where('store_week_id', $store_week_id)->first();
-            $projection_total_hours_allowed = number_format((float)$responseValue * $target_percentage->target_percentage / 16, 2, '.', '');
+            $projection_total_hours_allowed = number_format((float)$responseValue * $target_percentage->target_percentage / 100/*16*/, 2, '.', '');
             //$amtTotal = DailyRevenue::totalAmtWeek($store_id, $week_reference_id);
 
             $actual_sales = DailyRevenue::totalAmtWeek($store_id,$w->id);
