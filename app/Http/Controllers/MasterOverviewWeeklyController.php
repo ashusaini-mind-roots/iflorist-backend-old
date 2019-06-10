@@ -157,7 +157,10 @@ class MasterOverviewWeeklyController extends Controller
             $day = DailyRevenue::lastDayWeek($store_id, $w->id);
             $target_percentage = TargetPercentage::where('store_week_id', $store_week_id)->first();
             $projection_total_hours_allowed = number_format((float)$responseValue * $target_percentage->target_percentage / 16, 2, '.', '');
-            $amtTotal = DailyRevenue::totalAmtWeek($store_id, $week_reference_id);
+            //$amtTotal = DailyRevenue::totalAmtWeek($store_id, $week_reference_id);
+
+            $actual_sales = DailyRevenue::totalAmtWeek($store_id,$w->id);
+
             $schedules = Schedule::findScheduleByStoreWeekAndYear($store_week_id, $year);
 
             $total_hours = 0.00;
@@ -174,7 +177,7 @@ class MasterOverviewWeeklyController extends Controller
                 'projected_weekly_revenue' => number_format((float)$responseValue, 2, '.', ''),
                 'projection_total_hours_allowed' => $projection_total_hours_allowed,
                 'target_percentage' => $target_percentage->target_percentage,
-                'actual_sales' => number_format((float)$amtTotal, 2, '.', ''),
+                'actual_sales' => number_format((float)$actual_sales, 2, '.', ''),
                 'total_cheduled_hours' => $total_hours,
                 'difference' => number_format((float)$projection_total_hours_allowed - $total_hours, '2', '.', '')
             );
