@@ -18,11 +18,66 @@ app.controller('schedule_colController', function ($scope, $http, $localStorage,
     $scope.hideLoader = false;
     $scope.shrinkOnHide = false;
 
-    $scope.toggle = function() {
-        $scope.hideLoader = !$scope.hideLoader;
+    //------week resume
+    //$scope.runningCOG = 0.00;
+    $scope.targetCOL = 0.00;
+    $scope.projWeeklyRev = 0.00;
+    $scope.scheduledPayroll = 0.00;
+    $scope.differenceCol = 0.00;
+    $scope.projectedPayrol = 0.00;
+
+
+    $scope.getWeekDataFromServer = function () {
+        $scope.getTargetCOL();
+        $scope.getProjWeeklyRev();
+        $scope.getScheduledPayroll();
     }
-     $scope.switchStyle = function() {
-        $scope.shrinkOnHide = !$scope.shrinkOnHide;
+
+    $scope.calcDifferendeCOL = function () {
+        return $scope.differenceCol = $scope.projectedPayrol - $scope.scheduledPayroll;
+    }
+    $scope.calcProjectedPayRol = function () {
+        return $scope.projectedPayrol = $scope.targetCOL * $scope.projWeeklyRev / 100;
+    }
+
+    $scope.getScheduledPayroll = function () {
+        $http({
+            method: 'GET',
+            url: API_URL + 'master_overview_weekly/scheduled_payroll_col/' + $scope.selectedStoreItem + '/' + $scope.selectedWeekItem,
+        }).then(
+            function successCallback(response) {
+                $scope.scheduledPayroll= response.data.scheduled_payroll;
+                $scope.calcDifferendeCOL();
+                //console.log($scope.scheduledPayroll)
+            }
+        );
+    }
+
+    $scope.getTargetCOL = function () {
+        $http({
+            method: 'GET',
+            url: API_URL + 'target_percentage/' + $scope.selectedStoreItem + '/' + $scope.selectedWeekItem,
+        }).then(
+            function successCallback(response) {
+                $scope.targetCOL = response.data.target_percentage;
+                console.log($scope.targetCOL)
+            }
+        );
+    }
+
+    $scope.getProjWeeklyRev = function () {
+        $http({
+            method: 'GET',
+            url: API_URL + 'weekly_projection_percent_revenue/proj_weekly_revenue/' + $scope.selectedStoreItem + '/' + $scope.selectedWeekItem,
+        }).then(
+            function successCallback(response) {
+                $scope.projWeeklyRev = response.data.proj_weekly_rev;
+                //console.log(response)
+            },
+            function errorCallback(response) {
+                console.log(response)
+            }
+        );
     }
 
     $scope.getStores = function () {
@@ -65,6 +120,8 @@ app.controller('schedule_colController', function ($scope, $http, $localStorage,
                     $localStorage.weekOverview = undefined;
                     Spinner.toggle();
                     $scope.getScheduleInformation();
+
+                    $scope.getWeekDataFromServer();
                 }
             );
         }

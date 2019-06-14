@@ -92,7 +92,7 @@ Route::prefix('master_overview_weekly')->group(function () {
     Route::get('weekly_projections/{store_id}/{year}', 'MasterOverviewWeeklyController@WeeklyProjections');
     Route::get('projection_col/{store_id}/{year}', 'MasterOverviewWeeklyController@ProjectionCol');
     Route::get('get_weekly_revenue/{store_id}/{week_nbr}/{year_reference_selected}', 'MasterOverviewWeeklyController@getDataStoreWeekYear');
-
+    Route::get('scheduled_payroll_col/{store_id}/{week_id}', 'MasterOverviewWeeklyController@get_scheduled_payroll_col');
 });
 
 Route::prefix('employee')->group(function () {
@@ -117,4 +117,5 @@ Route::prefix('schedule')->group(function () {
 
 Route::prefix('target_percentage')->group(function () {
     Route::put('update_target_percentage/{store_id}/{week_id}', 'TargetPercentagesController@update_target_porcentage');
+    Route::get('{store_id}/{week_id}', 'TargetPercentagesController@get_target');
 });

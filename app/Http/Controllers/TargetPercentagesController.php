@@ -29,4 +29,15 @@ class TargetPercentagesController extends Controller
 
         return response()->json(['status' => 'success'], 200);
     }
+
+    public function get_target($store_id,$week_id)
+    {
+        $store_week_id = StoreWeek::storeWeekId($store_id,$week_id);
+
+        $tperc = TargetPercentage::where('store_week_id', $store_week_id)->first();
+
+        return response()->json(['target_percentage' => $tperc->target_percentage], 200);
+    }
+
+
 }

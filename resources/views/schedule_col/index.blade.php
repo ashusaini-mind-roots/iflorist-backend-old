@@ -27,7 +27,72 @@
             </div>
         </div>
 
-        <div class="row mb-5">
+        <div class="row mt-5">
+            <div class="col-2">
+                <div class="card">
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-muted">Projected Sales</h6>
+                        <h5 class="card-title ng-cloak">@{{projWeeklyRev | currency}}</h5>
+                        {{--<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>--}}
+                        {{--<a href="#" class="card-link">Card link</a>--}}
+                        {{--<a href="#" class="card-link">Another link</a>--}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-2">
+                <div class="card">
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-muted">Projected Payroll</h6>
+                        <h5 class="card-title  ng-cloak">@{{calcProjectedPayRol()|currency}}</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-2">
+                <div class="card">
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-muted">Scheduled Payroll</h6>
+                        <h5 class="card-title ng-cloak">@{{scheduledPayroll | currency}}</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-2">
+                <div class="card">
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-muted">Target COL's.</h6>
+                        <h5 class="card-title ng-cloak">@{{targetCOL | number:2}} %
+                            {{--<hr>--}}
+                            {{--@{{ getTargetCOGInMoney() | currency }}--}}
+                        </h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-2">
+                <div class="card">
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-muted">Difference</h6>
+                        <h5 class="card-title ng-cloak" ng-class=(differenceCol<0)?'text-danger':''>
+                            @{{differenceCol | currency }}
+                            {{--<hr>--}}
+                            {{--@{{invoiceTotal|currency}}--}}
+                        </h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-2">
+                <div class="card">
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-muted">Difference</h6>
+                        <h5 class="card-title ng-cloak" ng-class="(calcCostDifference())<0?'text-danger':''">
+                            @{{calcCostDifference() | number:2}}%
+                            {{--<hr>--}}
+                            {{--@{{getTargetCOGInMoney() - invoiceTotal | currency}}--}}
+                        </h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row ">
             <div class="col-12">
                 <div class="card mt-5 ">
                     <div class="card-body">

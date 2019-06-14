@@ -24,9 +24,11 @@ class Schedule extends Model
             ->Join('employee_store_week','employee_store_week.employee_id','=','employees.id')
             ->Join('schedules','schedules.employee_store_week_id','=','employee_store_week.id')
             ->Join('dates_dim','dates_dim.date','=','schedules.dates_dim_date')
+            ->Join('categories','categories.id','=','employees.category_id')
             ->select('schedules.*','dates_dim.day_of_week','dates_dim.month','dates_dim.month_day')
             ->where('employees.id',$employee_id)
             ->where('employee_store_week.store_week_id',$store_week_id)
+//            ->where('categories.omit_col',$omit_cat_col)
             ->orderBy('schedules.dates_dim_date','asc')
             ->get();
 

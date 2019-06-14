@@ -137,11 +137,9 @@ class MasterOverviewWeeklyController extends Controller
     public function ProjectionCol($store_id, $year)
     {
         $weeks = Week::where('year', $year)->get();
-
         $master_overview_weekly = array();
+        $employees = Employee::getEmployeesByStoreId($store_id,1);//omit employees from Driver Category because drivers doesn't take part on money
 
-        $employees = Employee::getEmployeesByStoreId($store_id);
-//        return response()->json(['projection_col' => $employees], 200);
         foreach ($weeks as $w) {
             $responseValue = 0.00;
             $amtTotal = 0.00;
@@ -165,11 +163,6 @@ class MasterOverviewWeeklyController extends Controller
             //$amtTotal = DailyRevenue::totalAmtWeek($store_id, $week_reference_id);
 
             $actual_sales = DailyRevenue::totalAmtWeek($store_id,$w->id);
-
-           // $schedules = Schedule::findScheduleByStoreWeekAndYear($store_week_id, $year);
-
-
-            //$schedules = Schedule::findByEmployeeAndStoreWeekIds($employee->id,$store_week_id);//those are 7 days of this employee;
             $employees_with_schedules = [];
 
             foreach ($employees as $employee) {
@@ -181,8 +174,8 @@ class MasterOverviewWeeklyController extends Controller
 
             $scheduled_payroll = 0;
             foreach ($employees_general_data as $emp_data) {
-                $hours = ($emp_data['total_minutes'] )/60;//0.95
-                $mins = $emp_data['total_minutes'] % 60;//57
+                $hours = ($emp_data['total_minutes'] )/60;
+//                $mins = $emp_data['total_minutes'] % 60;
                 if($hours <= 40){
                     $scheduled_payroll += $emp_data['hourly_cost'] * ($hours);
                 }else{
@@ -190,44 +183,6 @@ class MasterOverviewWeeklyController extends Controller
                 }
             }
 
-
-
-//            $total_hours = 0.00;//minutes, really
-//            $hourlypayrate = 0.00;
-//            foreach ($schedules as $sche) {
-//                $total_hours = $total_hours + Schedule::scheduleDiffHours($sche);//this function actually gets minutes, not hours
-////                $hourlypayrate = $sche.hourlypayrate;
-//            }
-
-//
-//            $stores_array = array();
-//
-//            $employees = DB::table('employees')
-//                ->leftjoin('categories', 'categories.id', '=', 'employees.category_id')
-//                ->leftjoin('work_mans_comp', 'work_mans_comp.id', '=', 'employees.work_man_comp_id')
-//                ->select('employees.name','employees.hourlypayrate','employees.overtimeelegible','work_mans_comp.rate')
-//                ->where('employees.store_id',$store_id)
-//                ->where('employees.active',true)
-//                ->where('categories.omit_col',false)
-//                ->get();
-//            $employees_array = array();
-//            foreach ($employees as $emp) {
-//                $sui = round($emp->hourlypayrate * $tax_perccent_calculator->sui / 100, 2);
-//                $futa = round($emp->hourlypayrate * $tax_perccent_calculator->futa / 100, 2);
-//                $social_security = round($emp->hourlypayrate * $tax_perccent_calculator->social_security / 100, 2);
-//                $medicare = round($emp->hourlypayrate * $tax_perccent_calculator->medicare / 100, 2);
-//                $work_mans_comp_amount = round($emp->hourlypayrate * $emp->rate / 100, 2);
-//                $ourly_cost = round($emp->hourlypayrate + $sui + $futa + $social_security + $medicare + $work_mans_comp_amount, 2);
-//            }
-//
-//            if($total_hours <= 40){
-//                $scheduled_payroll = $hourlypayrate;
-//            }
-
-            //$total_hours = Schedule::scheduleMinToHours($total_hours);
-
-//            $schedule_payroll_percent = ($total_hours / $actual_sales) * 100;
-                //((Scheduled Hours)/(Actual Sales))*100
             $actual_sales_return = number_format((float)$actual_sales, 2, '.', '');
             $projeted_weekly_revenue = number_format((float)$responseValue, 2, '.', '');
             $arrayDatos = array(
@@ -239,7 +194,6 @@ class MasterOverviewWeeklyController extends Controller
                 'actual_sales' => $actual_sales_return,
                 'scheduled_payroll' => $scheduled_payroll,
                 'scheduled_payroll_percent' => number_format((float)($actual_sales_return > 0 ? ($scheduled_payroll * 100) / $actual_sales_return : 0), 2, '.', '')  ,
-//                'difference' => number_format((float)$projection_total_hours_allowed - $total_hours, '2', '.', '')
             'actual_payroll_percent' => number_format((float)($scheduled_payroll / ($projeted_weekly_revenue > 0 ? $projeted_weekly_revenue : 1)), 2, '.', ''),
             'employees'=>$employees,
                 'employees_general_data'=>$employees_general_data,
@@ -284,5 +238,32 @@ class MasterOverviewWeeklyController extends Controller
             $employees_with_schedules[$i]['hourly_cost'] = $emp->employee_hourlypayrate + $employees_with_schedules[$i]['total_taxes'] ;
         }
         return $employees_with_schedules;
+    }
+
+    public function get_scheduled_payroll_col($store_id,$week_id)
+    {
+        $employees = Employee::getEmployeesByStoreId($store_id,1);//omit employees from Driver Category because drivers doesn't take part on money
+
+        $employees_with_schedules = [];
+        $store_week_id = StoreWeek::storeWeekId($store_id, $week_id);
+
+        foreach ($employees as $employee) {
+            $employee_schedules = Schedule::findByEmployeeAndStoreWeekIds($employee->employee_id,$store_week_id);//those are 7 days of this employee or less days;
+            $employees_with_schedules[] = ['employee'=>$employee,'schedules'=>$employee_schedules];
+        }
+        $employees_general_data = $this->getEmployeeGeneralData($employees_with_schedules);
+
+        $scheduled_payroll = 0.00;
+        foreach ($employees_general_data as $emp_data) {
+            $hours = ($emp_data['total_minutes'] )/60;//0.95
+            $mins = $emp_data['total_minutes'] % 60;//57
+            if($hours <= 40){
+                $scheduled_payroll += $emp_data['hourly_cost'] * ($hours);
+            }else{
+                $scheduled_payroll += $emp_data['hourly_cost'] * 40 + ($emp_data['hourly_cost'] * 1.5 * ($hours - 40));
+            }
+        }
+
+        return response()->json(['scheduled_payroll' => $scheduled_payroll], 200);
     }
 }
