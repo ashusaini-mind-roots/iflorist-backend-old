@@ -41,16 +41,17 @@
                                     <!--Table-->
                                     <table class="table">
 
-                                        <!--Table head-->
+                                    <!--Table head-->
                                         <thead>
                                         <tr>
                                             <th class="th-sm">Week Ending</th>
                                             <th class="th-sm">Proj. Weekly Rev.</th>
-                                            <th class="th-sm">Proj. Hours Allowed.</th>
                                             <th class="th-sm">Target Percentage</th>
+                                            <th class="th-sm">Weekly Payroll Budget</th>
+                                            <th class="th-sm">Scheduled Payroll</th>
+                                            <th class="th-sm">Scheduled Payroll%</th>
                                             <th class="th-sm">Actual Sales</th>
-                                            <th class="th-sm">Scheduled Hours</th>
-                                            <th class="th-sm">Difference</th>
+                                            <th class="th-sm">Actual Payroll %</th>
                                             <th class="th-sm">Actions</th>
                                         </tr>
                                         </thead>
@@ -61,13 +62,15 @@
                                         <tr ng-repeat="week in weeks" ng-class="week.difference<0?'text-danger':''">
                                             <td>@{{week.week_ending}}</td>
                                             <td>@{{week.projected_weekly_revenue | currency}}</td>
-                                            <td>@{{week.projection_total_hours_allowed }}</td>
                                             <td>@{{week.target_percentage }}%</td>
+                                            <td>@{{week.projection_total_hours_allowed | currency }}</td>
+                                            <td>@{{week.scheduled_payroll | currency}}</td>
+                                            <td>@{{week.scheduled_payroll_percent}}%</td>
+                                            {{--<td ng-class="week.difference<0?'font-weight-bold':''">--}}
+                                                {{--@{{week.difference}}--}}
+                                            {{--</td>--}}
                                             <td >@{{week.actual_sales | currency}}</td>
-                                            <td>@{{week.total_cheduled_hours}}</td>
-                                            <td ng-class="week.difference<0?'font-weight-bold':''">
-                                                @{{week.difference}}
-                                            </td>
+                                            <td>@{{week.actual_payroll_percent}}%</td>
                                             <td id="@{{week.week_id}}">
                                                 {{--<button type="button" class="btn btn-link btn-sm"--}}
                                                         {{--ng-click="goToweekControlPage(week.week_id)">View--}}

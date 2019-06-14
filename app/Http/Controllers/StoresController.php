@@ -43,7 +43,6 @@ class StoresController extends Controller
 
     public function storesEmployeesTaxPercentCalculators($user_id)
     {
-
         $rol = User::find($user_id)->role;
         $role_name = $rol['name'];
         if($role_name=="Admin")
@@ -54,9 +53,6 @@ class StoresController extends Controller
 
             $stores [] = $store;
         }
-
-
-
         $stores_employees_tax_percent_calculators_array = array();
 
         $tax_perccent_calculator = TaxPercentCalculator::first();
@@ -108,8 +104,6 @@ class StoresController extends Controller
 
             $stores_employees_tax_percent_calculators_array [] = $stores_array;
         }
-
-
 
         return response()->json(['stores_employees_tax_percent_calculators_array' => $stores_employees_tax_percent_calculators_array], 200);
     }

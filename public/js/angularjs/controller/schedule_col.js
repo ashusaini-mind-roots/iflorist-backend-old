@@ -126,7 +126,7 @@ app.controller('schedule_colController', function ($scope, $http, $localStorage,
         return minutesTotal;
     }
 
-    $scope.updateSchedulesByCategory = function(employees){
+    $scope.updateSchedulesByCategory = function(employees,category_name){
         Spinner.toggle();
         var esw_array = new Array();
 
@@ -140,9 +140,11 @@ app.controller('schedule_colController', function ($scope, $http, $localStorage,
             }
             if(asw_toSend[j].time_out != undefined)
                 asw_toSend[j].time_out = asw_toSend[j].time_out.toLocaleString("en-US", { hour12: false });
+            asw_toSend[j].category_name = category_name;
         }
 
         var schedule_to_send = JSON.stringify(asw_toSend);
+       // console.log(schedule_to_send);
         $http({
             method: 'POST',
             url: API_URL + 'schedule/update_or_add/',
@@ -154,8 +156,11 @@ app.controller('schedule_colController', function ($scope, $http, $localStorage,
                 schedule_days: schedule_to_send,
             }
         }).then(function successCallback(response) {
-                 Spinner.hide_Loader();
-                 console.log(response);
+                $scope.updateSchedulesAfterSaveNewones(response.data.scheduleds_added);
+                console.log(response.data.scheduleds_added);
+            console.log($scope.employeesScheduleList);
+                Spinner.hide_Loader();
+
             },
             function errorCallback(response) {
                 console.log(response)
@@ -163,6 +168,27 @@ app.controller('schedule_colController', function ($scope, $http, $localStorage,
         );
     }
 
+    $scope.updateSchedulesAfterSaveNewones = function (new_schedules) {
+        var sche;
+        for(var i = 0 ; i < new_schedules.length ; i++){
+            for(var j = 0 ; j < $scope.employeesScheduleList.length ; j++){
+                if($scope.employeesScheduleList[j].category_name == new_schedules[i].category_name )
+                {
+                    if($scope.employeesScheduleList[j].employees != undefined)
+                    for(var k = 0 ; k < $scope.employeesScheduleList[j].employees.length ; k++){
+                        if($scope.employeesScheduleList[j].employees[k].schedule_days != undefined)
+                        for(var l = 0 ; l < $scope.employeesScheduleList[j].employees[k].schedule_days.length ; l++){
+                            sche = $scope.employeesScheduleList[j].employees[k].schedule_days[l];
+                           // console.log(sche.day_of_week + "---" + new_schedules[i].day_of_week );
+                            if(new_schedules[i].day_of_week == sche.day_of_week && new_schedules[i].employee_store_week_id == $scope.employeesScheduleList[j].employees[k].employee_store_week_id)
+                                sche.id = new_schedules[i].id;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
     $scope.calcDailyTotalHours = function(category,category_name, dayofweek){
         var returnTotal = 0;
         for(var i = 0 ; i < $scope.employeesScheduleList.length ; i++){

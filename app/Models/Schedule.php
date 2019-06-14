@@ -44,6 +44,8 @@ class Schedule extends Model
             ->where('dates_dim.year',$year)
             ->where('store_week.id',$store_week_id)
             ->where('categories.omit_col',0)
+            ->where('employees.active',1)
+            ->select('schedules.*','employee.hourlypayrate','employee.overtimeelegible','work_mans_comp.*')
             ->get();
 
         return $schedules;

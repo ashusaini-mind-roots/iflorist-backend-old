@@ -93,6 +93,7 @@ class ScheduleController extends Controller
 
         $arrayre = [];
 
+        $temp_new = [];
         if(is_array($schedule_days))
         {
            foreach ($schedule_days as $sche)
@@ -111,6 +112,9 @@ class ScheduleController extends Controller
                        $chedule->dates_dim_date = $dimdate->date;
                        //$chedule->dates_dim_date = date('Y-m-d');
                        $chedule->save();
+                       $sche->id = $chedule->id;
+                       $sche->dates_dim_date = $dimdate->date;
+                       $temp_new[] = $sche;
                    }
                    else
                    {
@@ -120,16 +124,17 @@ class ScheduleController extends Controller
                        $chedule->time_out = Carbon::parse($sche->time_out)->format('Y-m-d H:i:s');
                        $chedule->break_time = !isset($sche->break_time) ? $chedule->break_time : $sche->break_time;
                        $dimdate = DateDim::findBy_($year, $sche->day_of_week, $week_number);
-                       $arrayre[] =$dimdate;
+                       $arrayre[] = $dimdate;
                        $chedule->dates_dim_date =  $dimdate->date;
                        //$chedule->dates_dim_date = date('Y-m-d');
                        $chedule->update();
+
                    }
                }
 
             }
 
-            return response()->json(['status' => 'success','weeknumber'=>$week_number, "year"=>$year,'arrayre'=>$arrayre], 200);
+            return response()->json(['status' => 'success','weeknumber'=>$week_number, "year"=>$year,'arrayre'=>$arrayre,'scheduleds_added'=>$temp_new], 200);
         }
 
         return response()->json([

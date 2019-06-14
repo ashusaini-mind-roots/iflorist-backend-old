@@ -141,7 +141,7 @@
                                             </table>
                                             <!--Table-->
                                         </div>
-                                        <button type="button" class="btn btn-primary" ng-click="updateSchedulesByCategory(category.employees)">Save changes</button>
+                                        <button type="button" class="btn btn-primary" ng-click="updateSchedulesByCategory(category.employees,category.category_name)">Save changes</button>
                                         <hr>
                                     </div>
                                 </div>
