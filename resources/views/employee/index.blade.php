@@ -19,7 +19,9 @@
                                 <th>Category</th>
                                 <th>Overtime Elegible</th>
                                 <th>Hourly Pay rate</th>
-                                <th>Active</th>
+                                <th>Hourly Gross Pay</th>
+                                <th>Overtime Gross Pay</th>
+                                {{--<th>Active</th>--}}
                                 <th ng-show="rsRole == 'Admin'">Actions</th>
                             </tr>
                             </thead>
@@ -33,8 +35,10 @@
                                 <td ng-show="employee.overtimeelegible==1">Yes</td>
                                 <td ng-show="employee.overtimeelegible==0">No</td>
                                 <td>@{{ employee.hourlypayrate | currency }}</td>
-                                <td ng-show="employee.active==1">Yes</td>
-                                <td ng-show="employee.active==0">No</td>
+                                <td>@{{ employee.hourly_gross_pay | currency  }}</td>
+                                <td>@{{ employee.overtime_gross_pay | currency  }}</td>
+                                {{--<td ng-show="employee.active==1">Yes</td>--}}
+                                {{--<td ng-show="employee.active==0">No</td>--}}
                                 <td ng-show="rsRole == 'Admin'">
                                     <button class="btn btn-default btn-xs btn-detail" ng-click="toggle('edit', employee.id)">Edit</button>
                                     <!--<button class="btn btn-danger btn-xs btn-delete" ng-click="confirmDelete(user.id)">Delete</button>-->

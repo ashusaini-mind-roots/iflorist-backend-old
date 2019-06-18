@@ -9,19 +9,20 @@ use App\Models\StoreWeek;
 Use App\Models\EmployeeStoreWeek;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use App\Models\TaxPercentCalculator;
 
 
 class EmployeesController extends Controller
 {
-
     public function index()
     {
-        $employees = DB::table('employees')
-            ->leftjoin('stores','employees.store_id','=','stores.id')
-            ->leftjoin('categories','employees.category_id','=','categories.id')
-            ->leftjoin('work_mans_comp','employees.work_man_comp_id','=','work_mans_comp.id')
-            ->select('employees.*','work_mans_comp.name as work_man_comp','stores.store_name as store','categories.name as category')
-            ->get();
+        $employees = Employee::getAllActiveEmployees();
+
+        for($i = 0 ; $i < count($employees) ; $i++){
+            $taxes = $this->getEmployeeTaxes($employees[$i]->hourlypayrate,$employees[$i]->work_man_comp_rate);
+            $employees[$i]->hourly_gross_pay =  $taxes + $employees[$i]->hourlypayrate ;
+            $employees[$i]->overtime_gross_pay = $taxes + ($employees[$i]->hourlypayrate * 1.5) ;
+        }
         return response()->json(['employees' => $employees], 200);
     }
 
@@ -138,6 +139,23 @@ class EmployeesController extends Controller
         }
 
         return response()->json(['status' => 'success'], 200);
+    }
 
+    public function getEmployeeTaxes($employee_hourlypayrate,$workmans_rate){
+        $tax_perccent_calculator = TaxPercentCalculator::first();
+
+        $sui = round($employee_hourlypayrate * $tax_perccent_calculator->sui/100,2);
+        $futa = round($employee_hourlypayrate * $tax_perccent_calculator->futa/100,2);
+        $social_security = round($employee_hourlypayrate * $tax_perccent_calculator->social_security/100,2);
+        $medicare = round($employee_hourlypayrate * $tax_perccent_calculator->medicare/100,2);
+        $work_mans_comp_amount = round($employee_hourlypayrate * $workmans_rate/100,2);
+        $total_taxes = round(
+            $sui+
+            $futa+
+            $social_security+
+            $medicare+
+            $work_mans_comp_amount
+            ,2);
+        return $total_taxes;
     }
 }
