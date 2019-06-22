@@ -5,7 +5,7 @@ app.controller('schedule_colController', function ($scope, $http, $localStorage,
     $scope.selectedStoreItem = 1;
 
     $scope.yearsList = {};
-    $scope.selectedYearsItem = "2018";
+    $scope.selectedYearsItem;
 
     $scope.weekList = {};
     $scope.selectedWeekItem = "1";
@@ -96,7 +96,9 @@ app.controller('schedule_colController', function ($scope, $http, $localStorage,
     }
 
     $scope.getYears = function () {
-        $scope.yearsList = ["2017", "2018", "2019"];
+       // $scope.yearsList = ["2017", "2018", "2019"];
+        $scope.yearsList = Utils.GetYears();
+        $scope.selectedYearsItem = Utils.GetCurrentYear();
     }
 
     $scope.getWeeks = function () {

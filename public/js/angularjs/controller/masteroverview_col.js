@@ -1,4 +1,4 @@
-app.controller('masterOverview_ColController', function($scope,$http,$localStorage,API_URL,$window, Spinner) {
+app.controller('masterOverview_ColController', function($scope,$http,$localStorage,API_URL,$window,Utils, Spinner) {
 
     console.log('masteroverview_col.js load success');
 
@@ -6,7 +6,7 @@ app.controller('masterOverview_ColController', function($scope,$http,$localStora
     $scope.selectedStoreItem = 1;
 
     $scope.yearsList = [];
-    $scope.selectedYearsItem = "2018";
+    $scope.selectedYearsItem;
 
     $scope.weeks = [];
     $scope.weekSelected = {};
@@ -36,7 +36,8 @@ app.controller('masterOverview_ColController', function($scope,$http,$localStora
     }
 
     $scope.getYears = function () {
-        $scope.yearsList = ["2017","2018","2019"];
+        $scope.yearsList = Utils.GetYears();
+        $scope.selectedYearsItem = Utils.GetCurrentYear();
     }
 
     $scope.getMasterOverviewWeekly = function () {

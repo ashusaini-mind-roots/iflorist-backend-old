@@ -168,7 +168,10 @@
                                 <label for="downValue" class="col-sm-5 control-label">Year Reference *</label>
                                 <div class="col-sm-9">
                                     <select id="yearReferenceProjectionSelectedId" class="form-control" ng-required="true"
-                                            ng-model="yearReferenceProjectionSelected" ng-options="year for year in yearsList" id="yearProjectionValue" name="yearProjectionValue">
+                                            ng-model="yearReferenceProjectionSelected"
+                                            ng-options="year for year in yearsList"
+                                            id="yearProjectionValue"
+                                            name="yearProjectionValue">
                                     </select>
                                     <span class="help-inline" ng-show="frmProjection.yearProjectionValue.$invalid && frmProjection.yearProjectionValue.$touched">Value Required</span>
                                 </div>
