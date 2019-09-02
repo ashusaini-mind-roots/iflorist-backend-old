@@ -90,34 +90,7 @@
                                 </div>
                             </div>
                         </div>
-                        {{--<hr/>--}}
-                        {{--<div class="row">--}}
-                            {{--<div class="col-lg-3 col-md-6 col-sm-12 col-xs-12 mt-2">--}}
-                                {{--<label>AVG Actual</label>--}}
-                                {{--<input type="text" class="form-control " placeholder="Value" ng-model="invoiceTotal_add">--}}
-                                {{--<div>@{{avgActual | number : 2 }} %</div>--}}
-                            {{--</div>--}}
-                            {{--<div class="col-lg-3 col-md-6 col-sm-12 col-xs-12 mt-2">--}}
-                                {{--<label>AVG Target</label>--}}
-                                {{--<input type="text" class="form-control " placeholder="Value" ng-model="invoiceTotal_add">--}}
-                                {{--<div>@{{avgTarget | number : 2 }} %</div>--}}
-                            {{--</div>--}}
-                            {{--<div class="col-lg-3 col-md-6 col-sm-12 col-xs-12 mt-2">--}}
-                                {{--<label>AVG Difference</label>--}}
-                                {{--<input type="text" class="form-control " placeholder="Value" ng-model="invoiceTotal_add">--}}
-                                {{--<div>@{{avgDifference | number : 2 }} %</div>--}}
-                            {{--</div>--}}
-                        {{--</div>--}}
                     </div>
-                    {{--<div class="card-footer text-right">--}}
-                    {{--<form class="form-inline">--}}
-                    {{--<input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" placeholder="Number" ng-model="invoiceNumber_add">--}}
-                    {{--<input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" placeholder="Name" ng-model="invoiceName_add">--}}
-                    {{--<input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" placeholder="Value" ng-model="invoiceTotal_add">--}}
-
-                    {{--<button type="submit" class="btn btn-primary" ng-click="createInvoice()">Add invoise</button>--}}
-                    {{--</form>--}}
-                    {{--</div>--}}
                 </div>
             </div>
         </div>
