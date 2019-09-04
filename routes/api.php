@@ -119,3 +119,11 @@ Route::prefix('target_percentage')->group(function () {
     Route::put('update_target_percentage/{store_id}/{week_id}', 'TargetPercentagesController@update_target_porcentage');
     Route::get('{store_id}/{week_id}', 'TargetPercentagesController@get_target');
 });
+
+Route::prefix('plan')->group(function () {
+    Route::get('plans', 'PlansController@plans');
+});
+
+Route::prefix('company')->group(function () {
+    Route::post('create', 'CompanyController@create');
+});
