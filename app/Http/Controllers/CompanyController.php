@@ -25,12 +25,21 @@ class CompanyController extends Controller
             'ba_state' => 'required',
             'ba_zip_code' => 'required',
             'card_holder_name' => 'required',
+            'plans' => 'required',
         ]);
 
         if ($v->fails()) {
             return response()->json([
                 'status' => 'error',
                 'errors' => $v->errors()
+            ], 422);
+        }
+
+        if(is_array()==false)
+        {
+            return response()->json([
+                'status' => 'error',
+                'errors' => 'Plans array invalid !'
             ], 422);
         }
 
@@ -73,6 +82,21 @@ class CompanyController extends Controller
         catch (\Exception $e)
         {
             return response()->json($e, 500);
+        }
+
+        $plans = $request->plans;
+        foreach ($plans as $p)
+        {
+            try{
+                $company_plan = new CompanyPlan();
+                $company_plan->company_id = $company->id;
+                $company_plan->plan_id = $p;
+                $company_plan->save();
+            }
+            catch (\Exception $e)
+            {
+                return response()->json($e, 500);
+            }
         }
 
         return response()->json(['msg' => 'Your acount was created !'], 200);
