@@ -35,7 +35,7 @@ class CompanyController extends Controller
             ], 422);
         }
 
-        if(is_array()==false)
+        if(is_array($request->plans)==false)
         {
             return response()->json([
                 'status' => 'error',
