@@ -18,6 +18,7 @@ Route::prefix('auth')->group(function () {
     Route::post('login', 'AuthController@login');
     Route::post('refresh', 'AuthController@refresh');
     Route::post('logout', 'AuthController@logout');
+    Route::post('exis_user', 'AuthController@exis_user');
 
 
     Route::get('users', 'AuthController@users');

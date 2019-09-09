@@ -93,6 +93,20 @@ class AuthController extends Controller
         return response()->json($users);
     }
 
+    public function exis_user()
+    {
+        $email = request(['email']);
+
+        $users = DB::table('users')
+            ->select('users.*')
+            ->where('users.email',$email)
+            ->first();
+
+        return response()->json($users);
+    }
+
+    
+
     public function user_rol()
     {
         $rol_id = auth()->user()->role_id;
