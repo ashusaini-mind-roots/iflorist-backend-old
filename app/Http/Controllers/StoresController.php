@@ -138,6 +138,7 @@ class StoresController extends Controller
         $Store->contact_phone = $request->contact_phone;
         $Store->zip_code = $request->zip_code;
         $Store->address = $request->address;
+        $Store->company_id = $request->company_id;
         $Store->save();
 
         return response()->json(['status' => 'success'], 200);
@@ -163,6 +164,7 @@ class StoresController extends Controller
         $Store->contact_phone = $request->contact_phone;
         $Store->zip_code = $request->zip_code;
         $Store->address = $request->address;
+//        $Store->company_id = $request->company_id;
         $Store->update();
 
         return response()->json(['status' => 'success'], 200);
