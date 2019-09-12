@@ -43,6 +43,14 @@ class CompanyController extends Controller
             ], 422);
         }
 
+        /*if(this.valid_card($request->card_number)==false)
+        {
+            return response()->json([
+                'status' => 'error',
+                'errors' => 'Invalid Credit Card !'
+            ], 422);
+        }*/
+
         $user = new User;
         $user->name = $request->name;
         $user->email = $request->email;
@@ -62,6 +70,7 @@ class CompanyController extends Controller
 
         $company = new Company();
         $company->name = $request->name;
+        $company->card_number = $request->card_number;
         $company->cc = $request->cc;
         $company->cc_expired_date = $request->cc_expired_date;
         $company->ba_street = $request->ba_street;
@@ -100,6 +109,30 @@ class CompanyController extends Controller
         }
 
         return response()->json(['msg' => 'Your acount was created !'], 200);
+    }
+
+    public function valid_card(Request $request)
+    {
+        $v = Validator::make($request->all(), [
+            'card_number' => 'required',
+            'ba_zip_code' => 'required',
+            'cc' => 'required',
+            'card_holder_name' => 'required',
+        ]);
+
+        if ($v->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'errors' => $v->errors()
+            ], 422);
+        }
+
+        /*Implementar aquí la lógica de validación.*/
+        if($request->card_number=='123456789')
+            return response()->json(['error' => '0','msg' => 'Valid Card Number !'], 200);
+        else
+            return response()->json(['error' => '1','msg' => 'Invalid Card Number !'], 200);
+
     }
 
     private function send_email($company_id, $email)

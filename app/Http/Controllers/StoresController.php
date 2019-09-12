@@ -16,7 +16,7 @@ class StoresController extends Controller
     public function index($user_id,$role_name)
     {
         if($role_name=="Admin")
-            return response()->json(['stores' => Store::all()], 200);
+            $stores = response()->json(['stores' => Store::all()], 200);
         else
         {
             $stores = DB::table('users')
@@ -24,8 +24,19 @@ class StoresController extends Controller
                 ->select('stores.*')
                 ->where('users.id',$user_id)
                 ->get();
-            return response()->json(['stores' => $stores], 200);
+            //return response()->json(['stores' => $stores], 200);
         }
+		
+		$result = array();
+        foreach ($stores as $store)
+        {
+            $store_data = array();
+            $store_data['store'] = $store;
+            $result[] = $store_data;
+        }
+		
+		return response()->json(['stores' => $result], 200);
+		
     }
 
     public function storesByUser($user_id)
@@ -110,13 +121,7 @@ class StoresController extends Controller
 
     public function all()
     {
-        $stores = Store::all();
-        $stores_tosend = array();
-        foreach ($stores as $store){
-            $stores_tosend[] = $store;
-        }
-
-        return response()->json(['stores' => $stores_tosend], 200);
+        return response()->json(['stores' => Store::all()], 200);
     }
 
     public function getById($id)
