@@ -127,7 +127,7 @@ class CompanyController extends Controller
             ], 422);
         }
 
-        /*Implementar aquí la lógica de validación.*/
+        /*Implements here the validation logic.*/
         if($request->card_number=='123456789')
             return response()->json(['error' => '0','msg' => 'Valid Card Number !'], 200);
         else
@@ -153,7 +153,5 @@ class CompanyController extends Controller
         {
             return response()->json($e, 500);
         }
-
-
     }
 }
