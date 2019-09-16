@@ -121,15 +121,7 @@ class StoresController extends Controller
 
     public function all()
     {
-		$stores = Store::all();
-        $result = array();
-        foreach ($stores as $store)
-        {
-            $store_data = array();
-            $store_data['store'] = $store;
-            $result[] = $store_data;
-        }
-        return response()->json(['stores' => $result], 200);
+        return response()->json(['stores' => Store::all()], 200);
     }
 
     public function getById($id)

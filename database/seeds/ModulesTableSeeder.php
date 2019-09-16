@@ -12,8 +12,8 @@ class ModulesTableSeeder extends Seeder
      */
     public function run()
     {
-        Module::create(['name' => 'Module 1']);
-        Module::create(['name' => 'Module 2']);
+        Module::create(['name' => 'Cost of Good']);
+        Module::create(['name' => 'Cost of Labor']);
         Module::create(['name' => 'Module 3']);
         Module::create(['name' => 'Module 4']);
         Module::create(['name' => 'Module 5']);

@@ -12,12 +12,12 @@ class PlanModuleTableSeeder extends Seeder
      */
     public function run()
     {
-        PlanModule::create(['plan_id' => 4,'module_id' => 5]);
-        PlanModule::create(['plan_id' => 4,'module_id' => 6]);
+        PlanModule::create(['plan_id' => 4,'module_id' => 1]);
+        PlanModule::create(['plan_id' => 4,'module_id' => 2]);
 
-        PlanModule::create(['plan_id' => 5,'module_id' => 7]);
-        PlanModule::create(['plan_id' => 5,'module_id' => 8]);
+        PlanModule::create(['plan_id' => 5,'module_id' => 3]);
+        PlanModule::create(['plan_id' => 5,'module_id' => 4]);
         
-        PlanModule::create(['plan_id' => 6,'module_id' => 9]);
+        PlanModule::create(['plan_id' => 6,'module_id' => 5]);
     }
 }
