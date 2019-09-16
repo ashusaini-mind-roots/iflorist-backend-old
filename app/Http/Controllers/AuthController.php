@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use App\Models\Company;
 
 
 
@@ -72,11 +73,19 @@ class AuthController extends Controller
     public function login()
     {
         $credentials = request(['email', 'password']);
+
         if(!$token = auth()->attempt($credentials))
         {
             return response()->json(['error'=>'Unauthorized'],401);
-
         }
+
+        $company = new Company();
+        
+        if($company->is_active(auth()->user()->id)==false)
+            return response()->json(['error'=>'Company desactivated'],200);
+
+        if($company->is_cancel(auth()->user()->id)==true)
+            return response()->json(['error'=>'Company canceled'],200);
 
         //return $this->respondWithToken($token);
         return $this->resposeWithToken($token);

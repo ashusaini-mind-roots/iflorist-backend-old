@@ -111,6 +111,14 @@ class CompanyController extends Controller
         return response()->json(['msg' => 'Your acount was created !'], 200);
     }
 
+    public function activate_company(Request $request)
+    {
+        $company = Company::findOrFail($request->company_id);
+        $company->activated_acount = '1';
+        $company->update();
+        return response()->json(['status' => 'success'], 200);
+    }
+
     public function valid_card(Request $request)
     {
         $v = Validator::make($request->all(), [
@@ -128,10 +136,10 @@ class CompanyController extends Controller
         }
 
         /*Implementar aquí la lógica de validación.*/
-        if($request->card_number=='123456789')
-            return response()->json(['error' => '0','msg' => 'Valid Card Number !'], 200);
+        if($request->card_number=='1234567891234567')
+            return response()->json(['error' => true,'msg' => 'Valid Card Number !'], 200);
         else
-            return response()->json(['error' => '1','msg' => 'Invalid Card Number !'], 200);
+            return response()->json(['error' => false,'msg' => 'Invalid Card Number !'], 200);
 
     }
 

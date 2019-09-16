@@ -128,4 +128,5 @@ Route::prefix('plan')->group(function () {
 Route::prefix('company')->group(function () {
     Route::post('create', 'CompanyController@create');
     Route::post('valid_card', 'CompanyController@valid_card');
+    Route::post('activate_company', 'CompanyController@activate_company');
 });
