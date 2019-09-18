@@ -15,6 +15,7 @@ class Plan extends Model
         ->where('company.user_id',$user_id)
         ->first();
 
+        DB::statement("SET sql_mode = ''");
         $modules = DB::table('modules')
         ->select('modules.*')
         ->leftjoin('plan_module','plan_module.module_id','=','modules.id')
