@@ -30,8 +30,8 @@ class PlansController extends Controller
     {
         
 
-        $company = DB::table('companys')
-        ->where('companys.user_id',$user_id)
+        $company = DB::table('company')
+        ->where('company.user_id',$user_id)
         ->first();
 
         $plans = DB::table('plans')

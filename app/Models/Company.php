@@ -7,14 +7,14 @@ use Illuminate\Support\Facades\DB;
 
 class Company extends Model
 {
-    protected $table = 'companys';
+    protected $table = 'company';
 
 
 
     public function is_active($user_id)
     {
-        $company = DB::table('companys')
-            ->where('companys.user_id',$user_id)
+        $company = DB::table('company')
+            ->where('company.user_id',$user_id)
             ->first();
 
         if(!$company)
@@ -28,8 +28,8 @@ class Company extends Model
 
     public function is_cancel($user_id)
     {
-        $company = DB::table('companys')
-            ->where('companys.user_id',$user_id)
+        $company = DB::table('company')
+            ->where('company.user_id',$user_id)
             ->first();
 
         if(!$company)
