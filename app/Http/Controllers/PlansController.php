@@ -28,8 +28,6 @@ class PlansController extends Controller
 
     public function plansbyuser($user_id)
     {
-        
-
         $company = DB::table('company')
         ->where('company.user_id',$user_id)
         ->first();
@@ -51,4 +49,12 @@ class PlansController extends Controller
         }
         return response()->json(['plans' => $result], 200);
     }
+
+
+    public function modulesbyuser($user_id)
+    {
+        $plan = new Plan();
+        return response()->json(['modules' => $plan->modulesbyuser($user_id)], 200);
+    }
+
 }

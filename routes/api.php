@@ -124,6 +124,7 @@ Route::prefix('target_percentage')->group(function () {
 Route::prefix('plan')->group(function () {
     Route::get('plans', 'PlansController@plans');
     Route::get('plansbyuser/{week_id}', 'PlansController@plansbyuser');
+    Route::get('modulesbyuser/{week_id}', 'PlansController@modulesbyuser');
 });
 
 Route::prefix('company')->group(function () {

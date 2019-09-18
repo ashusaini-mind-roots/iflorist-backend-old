@@ -8,6 +8,7 @@ use App\Models\Company;
 use App\Models\User;
 use App\Models\CompanyPlan;
 use \Exception;
+use Illuminate\Support\Str;
 
 class CompanyController extends Controller
 {
@@ -43,14 +44,6 @@ class CompanyController extends Controller
             ], 422);
         }
 
-        /*if(this.valid_card($request->card_number)==false)
-        {
-            return response()->json([
-                'status' => 'error',
-                'errors' => 'Invalid Credit Card !'
-            ], 422);
-        }*/
-
         $user = new User;
         $user->name = $request->name;
         $user->email = $request->email;
@@ -82,6 +75,8 @@ class CompanyController extends Controller
         $company->user_id = $user_id;
         $company->canceled_acount = 0;
         $company->activated_acount = 0;
+        $company->activation_code_expired_date = date('Y-m-d');
+        $company->activation_code = Str::random(6);
 
         $company->save();
         try{
