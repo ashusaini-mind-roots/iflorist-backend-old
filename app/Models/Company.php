@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class Company extends Model
 {
@@ -11,7 +12,7 @@ class Company extends Model
 
 
 
-    public function is_active($user_id)
+    public function if_active($user_id)
     {
         $company = DB::table('company')
             ->where('company.user_id',$user_id)
@@ -26,7 +27,29 @@ class Company extends Model
             return false;
     }
 
-    public function is_cancel($user_id)
+    public function if_code_expired($user_id)
+    {
+        $company = DB::table('company')
+            ->where('company.user_id',$user_id)
+            ->first();
+
+        if(!$company)
+            return false;
+
+        $activation_core_expired_date = Carbon::createFromFormat('Y-m-d H:i:s', $company->activation_code_expired_date);
+        $datetime = $date = Carbon::now();
+
+        $dif = $activation_core_expired_date->diffInHours($datetime);
+
+        if($dif>config('app.time_activation_code_expired_date'))
+        {
+            return true; 
+        }
+
+        return false;
+    }
+
+    public function if_cancel($user_id)
     {
         $company = DB::table('company')
             ->where('company.user_id',$user_id)

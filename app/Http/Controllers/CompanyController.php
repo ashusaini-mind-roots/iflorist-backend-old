@@ -125,7 +125,8 @@ class CompanyController extends Controller
 
                 $dif = $activation_core_expired_date->diffInHours($datetime);
 
-                if($dif>config('app.time_activation_code_expired_date'))
+                $companyObject = new Company();
+                if($companyObject->if_code_expired($company->user_id))
                 {
                     $new_activation_code = Str::random(16);
                     $user = User::find($company->user_id);
