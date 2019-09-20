@@ -14,8 +14,8 @@ class AddActivationCodeAndExpiredActivationCodeToCompanyTable extends Migration
     public function up()
     {
         Schema::table('company', function (Blueprint $table) {
-            $table->string('activation_code',6);
-            $table->date('activation_code_expired_date');
+            $table->string('activation_code',16);
+            $table->datetime('activation_code_expired_date');
         });
     }
 

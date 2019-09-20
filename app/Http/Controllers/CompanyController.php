@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\CompanyPlan;
 use \Exception;
 use Illuminate\Support\Str;
+use Carbon\Carbon;
 
 class CompanyController extends Controller
 {
@@ -75,13 +76,15 @@ class CompanyController extends Controller
         $company->user_id = $user_id;
         $company->canceled_acount = 0;
         $company->activated_acount = 0;
-        $company->activation_code_expired_date = date('Y-m-d');
-        $company->activation_code = Str::random(6);
-
+        $company->activation_code_expired_date = date('Y-m-d H:i:s');
+        $company->activation_code = Str::random(16);
+        
         $company->save();
         try{
             $company->save();
-            $this->send_email($company->id,$request->email);
+
+            $texto = config('app.api_url_activation_company').'/'.$company->user_id.'-'.$company->activation_code;
+            $this->send_mail($user->email, $texto);
         }
         catch (\Exception $e)
         {
@@ -108,10 +111,53 @@ class CompanyController extends Controller
 
     public function activate_company(Request $request)
     {
-        $company = Company::findOrFail($request->company_id);
-        $company->activated_acount = '1';
-        $company->update();
-        return response()->json(['status' => 'success'], 200);
+        
+        $array_code = explode('-',$request->activation_code);
+        
+        $company = Company::find($array_code[0]);
+        if($company)
+        {
+            
+            if($company->activation_code == $array_code[1])
+            {
+                $activation_core_expired_date = Carbon::createFromFormat('Y-m-d H:i:s', $company->activation_code_expired_date);
+                $datetime = $date = Carbon::now();
+
+                $dif = $activation_core_expired_date->diffInHours($datetime);
+
+                if($dif>config('app.time_activation_code_expired_date'))
+                {
+                    $new_activation_code = Str::random(16);
+                    $user = User::find($company->user_id);
+                    $texto = config('app.api_url_activation_company').'/'.$company->user_id.'-'.$new_activation_code;
+                    $this->send_mail($user->email, $texto);
+                    $company->activation_code_expired_date = date('Y-m-d H-i-s');
+                    $company->activation_code = $new_activation_code;
+                    $company->update();
+                    return response()->json(['error' => 'Your activation code has been expired, we sended you a new activation code'], 200);
+                }
+
+                return response()->json(['status' => $dif], 200);
+
+                $company->activated_acount = '1';
+                $company->update();
+                return response()->json(['status' => 'success'], 200);
+            }
+            else
+            {
+                return response()->json(['error' => 'Invalid Code'], 200);
+            }
+        }
+        else
+        {
+            return response()->json(['error' => 'Invalid User'], 200);
+        }
+    }
+
+
+    public function send_mail($email,$text)
+    {
+
     }
 
     public function valid_card(Request $request)
@@ -135,11 +181,6 @@ class CompanyController extends Controller
             return response()->json(['error' => true,'msg' => 'Valid Card Number !'], 200);
         else
             return response()->json(['error' => false,'msg' => 'Invalid Card Number !'], 200);
-
-    }
-
-    private function send_email($company_id, $email)
-    {
 
     }
 
