@@ -137,8 +137,6 @@ class CompanyController extends Controller
                     return response()->json(['error' => 'Your activation code has been expired, we sended you a new activation code'], 200);
                 }
 
-                return response()->json(['status' => $dif], 200);
-
                 $company->activated_acount = '1';
                 $company->update();
                 return response()->json(['status' => 'success'], 200);
