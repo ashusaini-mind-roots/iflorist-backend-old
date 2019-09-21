@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use App\Models\Company;
+use Illuminate\Support\Str;
 
 
 
@@ -81,14 +82,33 @@ class AuthController extends Controller
 
         $company = new Company();
         
-        if($company->is_active(auth()->user()->id)==false)
-            return response()->json(['error'=>'Company desactivated'],200);
+        if($company->if_active(auth()->user()->id)==false)
+        {
+            if($company->if_code_expired(auth()->user()->id))
+            {
+                $new_activation_code = Str::random(16);
+                $texto = config('app.api_url_activation_company').'/'.auth()->user()->id.'-'.$new_activation_code;
+                $this->send_mail(auth()->user()->email, $texto);
+                $companyFind = Company::where('user_id',auth()->user()->id);
+                $companyFind->activation_code = $new_activation_code;
+                $companyFind->activation_code_expired_date = date('Y-m-d H-i-s');
+                $companyFind->update(['activation_code_expired_date'=>date('Y-m-d H-i-s'),'activation_code'=>$new_activation_code]);
+                return response()->json(['error' => 'Your activation code has expired, we have sent you a new activation code'], 200);
+            }
 
-        if($company->is_cancel(auth()->user()->id)==true)
+            return response()->json(['error'=>'Company deactivated'],200);
+        }
+            
+        if($company->if_cancel(auth()->user()->id)==true)
             return response()->json(['error'=>'Company canceled'],200);
 
         //return $this->respondWithToken($token);
         return $this->resposeWithToken($token);
+    }
+
+    public function send_mail($email,$text)
+    {
+
     }
 
     public function me()
@@ -111,7 +131,30 @@ class AuthController extends Controller
             ->where('users.email',$email)
             ->first();
 
-        return response()->json($users);
+        if($users)
+        {
+            $company = new Company();
+
+            //return response()->json(['error' => $users->id], 200);
+
+            if($company->if_code_expired($users->id))
+            {
+                $new_activation_code = Str::random(16);
+                $texto = config('app.api_url_activation_company').'/'.$users->id.'-'.$new_activation_code;
+                $this->send_mail($users->email, $texto);
+                $companyFind = Company::where('user_id',$users->id);
+                $companyFind->activation_code = $new_activation_code;
+                $companyFind->activation_code_expired_date = date('Y-m-d H-i-s');
+                $companyFind->update(['activation_code_expired_date'=>date('Y-m-d H-i-s'),'activation_code'=>$new_activation_code]);
+                return response()->json(['error' => 'Your activation code has expired, we have sent you a new activation code'], 200);
+            }
+
+            return response()->json(['error' => 'The email is in use, try another'], 200);
+        }
+
+        return response()->json(['success' => $users], 200);
+
+        //return response()->json($users);
     }
 
     

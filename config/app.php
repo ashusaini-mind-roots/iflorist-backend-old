@@ -228,4 +228,7 @@ return [
 
     ],
 
+    'time_activation_code_expired_date' => 2,
+    'api_url_activation_company' => 'http://localhost:4200/activate-company',
+
 ];
