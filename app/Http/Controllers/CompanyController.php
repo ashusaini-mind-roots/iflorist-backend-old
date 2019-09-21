@@ -20,7 +20,7 @@ class CompanyController extends Controller
             'cc_expired_date' => 'required',
             'password' => 'required',
             'ba_street' => 'required',
-            'ba_street2' => 'required',
+            //'ba_street2' => 'required',
             'ba_city' => 'required',
             'ba_state' => 'required',
             'ba_zip_code' => 'required',

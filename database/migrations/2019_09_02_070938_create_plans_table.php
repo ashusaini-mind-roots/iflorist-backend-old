@@ -15,7 +15,7 @@ class CreatePlansTable extends Migration
     {
         Schema::create('plans', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->decimal('cost',3,2);
+            $table->decimal('cost',10,2);
             $table->string('name');
             $table->boolean('special');
             $table->timestamps();
