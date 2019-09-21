@@ -93,10 +93,10 @@ class AuthController extends Controller
                 $companyFind->activation_code = $new_activation_code;
                 $companyFind->activation_code_expired_date = date('Y-m-d H-i-s');
                 $companyFind->update(['activation_code_expired_date'=>date('Y-m-d H-i-s'),'activation_code'=>$new_activation_code]);
-                return response()->json(['error' => 'Your activation code has been expired, we sended you a new activation code'], 200);
+                return response()->json(['error' => 'Your activation code has expired, we have sent you a new activation code'], 200);
             }
 
-            return response()->json(['error'=>'Company desactivated'],200);
+            return response()->json(['error'=>'Company deactivated'],200);
         }
             
         if($company->if_cancel(auth()->user()->id)==true)
@@ -146,10 +146,10 @@ class AuthController extends Controller
                 $companyFind->activation_code = $new_activation_code;
                 $companyFind->activation_code_expired_date = date('Y-m-d H-i-s');
                 $companyFind->update(['activation_code_expired_date'=>date('Y-m-d H-i-s'),'activation_code'=>$new_activation_code]);
-                return response()->json(['error' => 'Your activation code has been expired, we sended you a new activation code'], 200);
+                return response()->json(['error' => 'Your activation code has expired, we have sent you a new activation code'], 200);
             }
 
-            return response()->json(['error' => 'The email already exist in other Company'], 200);
+            return response()->json(['error' => 'The email is in use, try another'], 200);
         }
 
         return response()->json(['success' => $users], 200);

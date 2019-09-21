@@ -135,7 +135,7 @@ class CompanyController extends Controller
                     $company->activation_code_expired_date = date('Y-m-d H-i-s');
                     $company->activation_code = $new_activation_code;
                     $company->update();
-                    return response()->json(['error' => 'Your activation code has been expired, we sended you a new activation code'], 200);
+                    return response()->json(['error' => 'Your activation code has expired, we have sent you a new activation code'], 200);
                 }
 
                 $company->activated_acount = '1';
