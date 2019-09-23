@@ -18,8 +18,8 @@ class CompanyController extends Controller
         $v = Validator::make($request->all(), [
             'name' => 'required',
             'email' => 'required',
-            'cc' => 'required',
-            'cc_expired_date' => 'required',
+            //'cc' => 'required',
+           // 'cc_expired_date' => 'required',
             'password' => 'required',
             'ba_street' => 'required',
             //'ba_street2' => 'required',
@@ -59,14 +59,13 @@ class CompanyController extends Controller
             return response()->json($e, 500);
         }
 
-
         $user_id = $user->id;
 
         $company = new Company();
         $company->name = $request->name;
-        $company->card_number = $request->card_number;
-        $company->cc = $request->cc;
-        $company->cc_expired_date = $request->cc_expired_date;
+       // $company->card_number = $request->card_number;
+        //$company->cc = $request->cc;
+        //$company->cc_expired_date = $request->cc_expired_date;
         $company->ba_street = $request->ba_street;
         $company->ba_street2 = $request->ba_street2;
         $company->ba_city = $request->ba_city;

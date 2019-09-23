@@ -16,7 +16,7 @@ class AddCompanyIdToStoresTable extends Migration
         Schema::table('stores', function (Blueprint $table) {
             $table->bigInteger('company_id')->unsigned()->nullable(true);
 
-            $table->foreign('company_id')->references('id')->on('companys');
+            $table->foreign('company_id')->references('id')->on('company');
         });
     }
 

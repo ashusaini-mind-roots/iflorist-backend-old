@@ -19,7 +19,7 @@ class CreateCompanyPlanTable extends Migration
             $table->bigInteger('plan_id')->unsigned();
             $table->timestamps();
 
-            $table->foreign('company_id')->references('id')->on('companys');
+            $table->foreign('company_id')->references('id')->on('company');
             $table->foreign('plan_id')->references('id')->on('plans');
         });
     }
