@@ -13,19 +13,20 @@ class CreateCompanysTable extends Migration
      */
     public function up()
     {
-        Schema::create('companys', function (Blueprint $table) {
+        Schema::create('company', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
             $table->boolean('canceled_acount');
             $table->boolean('activated_acount');
-            $table->string('cc',4);
-            $table->date('cc_expired_date');
+           // $table->string('cc',4);
+          //  $table->date('cc_expired_date');
             $table->text('ba_street');
             $table->text('ba_street2');
             $table->string('ba_city');
             $table->string('ba_state');
             $table->string('ba_zip_code',5);
             $table->string('card_holder_name',150);
+            $table->string('external_customer_id',250)->nullable(true);
             $table->timestamps();
 
             $table->bigInteger('user_id')->unsigned();

@@ -13,7 +13,7 @@ class AddCardNumberToCompanysTable extends Migration
      */
     public function up()
     {
-        Schema::table('companys', function (Blueprint $table) {
+        Schema::table('company', function (Blueprint $table) {
             $table->string('card_number',16);
         });
     }

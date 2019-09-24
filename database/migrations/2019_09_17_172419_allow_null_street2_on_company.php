@@ -13,9 +13,9 @@ class AllowNullStreet2OnCompany extends Migration
      */
     public function up()
     {
-        Schema::table('companys', function (Blueprint $table) {
+        Schema::table('company', function (Blueprint $table) {
             DB::statement('
-                 ALTER TABLE `companys` 
+                 ALTER TABLE `company` 
                         MODIFY `ba_street2` TEXT NULL;
             ');
         });

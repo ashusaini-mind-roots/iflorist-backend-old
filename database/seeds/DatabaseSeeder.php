@@ -20,11 +20,14 @@ class DatabaseSeeder extends Seeder
         $this->call(DailyRevenuesTableSeeder::class);
         $this->call(WeeklyProjectionPercentRevenueTableSeeder::class);
         $this->call(WeeklyProjectionPercentCostsTableSeeder::class);
-        $this->call(InvoiceTableSeeder::class);
+//        $this->call(InvoiceTableSeeder::class);
         $this->call(TargetPercentageTableSeeder::class);
         $this->call(CategoriesTableSeeder::class);
         $this->call(WorkMansCombTableSeeder::class);
         $this->call(TaxPercentCalculatorsTableSeeder::class);
+        $this->call(ModulesTableSeeder::class);
+        $this->call(PlansTableSeeder::class);
+        $this->call(PlanModuleTableSeeder::class);
         $this->command->info('****Vaya salvaje corrieron los migrations sin bateo :) !!!****');
     }
 }
