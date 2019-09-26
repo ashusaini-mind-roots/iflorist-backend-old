@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\EmailServices;
+use App\Services\MerchantService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Company;
@@ -15,11 +17,13 @@ class CompanyController extends Controller
 {
     public function create(Request $request)
     {
+
         $v = Validator::make($request->all(), [
+            'card_token' => 'required',
             'name' => 'required',
             'email' => 'required',
             //'cc' => 'required',
-           // 'cc_expired_date' => 'required',
+            // 'cc_expired_date' => 'required',
             'password' => 'required',
             'ba_street' => 'required',
             //'ba_street2' => 'required',
@@ -29,7 +33,6 @@ class CompanyController extends Controller
             'card_holder_name' => 'required',
             'plans' => 'required',
         ]);
-
         if ($v->fails()) {
             return response()->json([
                 'status' => 'error',
@@ -37,125 +40,145 @@ class CompanyController extends Controller
             ], 422);
         }
 
-        if(is_array($request->plans)==false)
-        {
+
+        if (is_array($request->plans) == false) {
             return response()->json([
                 'status' => 'error',
                 'errors' => 'Plans array invalid !'
             ], 422);
         }
 
-        $user = new User;
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->role_id = '2';
-        $user->store_id = '2';
-        $user->password = bcrypt($request->password);
-        try{
-            $user->save();
-        }
-        catch (\Exception $e)
-        {
-            return response()->json($e, 500);
+        //Create Customer in Merchant and
+        // store default payment method
+        try {
+            $Merchant = new MerchantService();
+            $CustomerMerchant = $Merchant->createCustomer(
+                $request->email,
+                $request->company_name,
+                $request->card_token,
+                $address = [
+                    'line1' => $request->ba_street,
+                    'line2' => $request->ba_street2,
+                    'city' => $request->ba_city,
+                    'country' => null,
+                    'state' => $request->ba_state,
+                    'postal_code' => $request->ba_zip_code,
+
+                ]
+            );
+        } catch (Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'errors' => $e->getMessage()
+            ], 422);
         }
 
-        $user_id = $user->id;
-
-        $company = new Company();
-        $company->name = $request->name;
-       // $company->card_number = $request->card_number;
-        //$company->cc = $request->cc;
-        //$company->cc_expired_date = $request->cc_expired_date;
-        $company->ba_street = $request->ba_street;
-        $company->ba_street2 = $request->ba_street2;
-        $company->ba_city = $request->ba_city;
-        $company->ba_state = $request->ba_state;
-        $company->ba_zip_code = $request->ba_zip_code;
-        $company->card_holder_name = $request->card_holder_name;
-        $company->user_id = $user_id;
-        $company->canceled_acount = 0;
-        $company->activated_acount = 0;
-        $company->activation_code_expired_date = date('Y-m-d H:i:s');
-        $company->activation_code = Str::random(16);
-        
-        $company->save();
-        try{
+        //Create Company in DB
+        try {
+            $company = new Company();
+            $company->name = $request->name;
+            // $company->card_number = $request->card_number;
+            //$company->cc = $request->cc;
+            //$company->cc_expired_date = $request->cc_expired_date;
+            $company->ba_street = $request->ba_street;
+            $company->ba_street2 = $request->ba_street2;
+            $company->ba_city = $request->ba_city;
+            $company->ba_state = $request->ba_state;
+            $company->ba_zip_code = $request->ba_zip_code;
+            $company->card_holder_name = $request->card_holder_name;
+            // $company->user_id = $user_id;
+            $company->canceled_account = 0;
+            $company->external_customer_id = $CustomerMerchant->id;
             $company->save();
-
-            $texto = config('app.api_url_activation_company').'/'.$company->user_id.'-'.$company->activation_code;
-            $this->send_mail($user->email, $texto);
-        }
-        catch (\Exception $e)
-        {
-            return response()->json($e, 500);
+        } catch (\Exception $e) {
+            $Merchant->deleteCustomer($CustomerMerchant->id);
+            return response()->json($e->getMessage(), 500);
         }
 
+        //Create User
+        try {
+            $user = new User;
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->role_id = '2';
+            $user->store_id = '2';
+            $user->activated_account = 0;
+            $user->activation_code_expired_date = date('Y-m-d H:i:s');
+            $user->activation_code = Str::random(16);
+            $user->password = bcrypt($request->password);
+            $user->save();
+            $text = config('app.api_url_activation_company') . '/' . $user->user_id . '-' . $user->activation_code;
+            $this->send_activation_mail($user->email, $text);
+        } catch (\Exception $e) {
+            $Merchant->deleteCustomer($CustomerMerchant->id);
+            return response()->json($e->getMessage(), 500);
+        }
+
+        // Assign Plan
         $plans = $request->plans;
-        foreach ($plans as $p)
-        {
-            try{
+        foreach ($plans as $p) {
+            try {
                 $company_plan = new CompanyPlan();
                 $company_plan->company_id = $company->id;
                 $company_plan->plan_id = $p;
                 $company_plan->save();
-            }
-            catch (\Exception $e)
-            {
+            } catch (\Exception $e) {
                 return response()->json($e, 500);
             }
         }
 
-        return response()->json(['msg' => 'Your acount was created !'], 200);
+        return response()->json(['msg' => 'Your account was created !'], 200);
     }
 
-    public function activate_company(Request $request)
+    public function activate_user(Request $request)
     {
-        
-        $array_code = explode('-',$request->activation_code);
-        
-        $company = Company::find($array_code[0]);
-        if($company)
-        {
-            
-            if($company->activation_code == $array_code[1])
-            {
-                $activation_core_expired_date = Carbon::createFromFormat('Y-m-d H:i:s', $company->activation_code_expired_date);
+
+        $array_code = explode('-', $request->activation_code);
+
+        $user = User::find($array_code[0]);
+        if ($user) {
+
+            if ($user->activation_code == $array_code[1]) {
+                $activation_core_expired_date = Carbon::createFromFormat('Y-m-d H:i:s', $user->activation_code_expired_date);
                 $datetime = $date = Carbon::now();
 
                 $dif = $activation_core_expired_date->diffInHours($datetime);
 
-                $companyObject = new Company();
-                if($companyObject->if_code_expired($company->user_id))
-                {
+                $userObject = new User();
+                if ($userObject->if_code_expired($user->id)) {
                     $new_activation_code = Str::random(16);
-                    $user = User::find($company->user_id);
-                    $texto = config('app.api_url_activation_company').'/'.$company->user_id.'-'.$new_activation_code;
-                    $this->send_mail($user->email, $texto);
-                    $company->activation_code_expired_date = date('Y-m-d H-i-s');
-                    $company->activation_code = $new_activation_code;
-                    $company->update();
+                    $text = config('app.api_url_activation_company') . '/' . $user->id . '-' . $new_activation_code;
+                    $this->send_activation_mail($user->email, $text);
+                    $user->activation_code_expired_date = date('Y-m-d H-i-s');
+                    $user->activation_code = $new_activation_code;
+                    $user->update();
                     return response()->json(['error' => 'Your activation code has expired, we have sent you a new activation code'], 200);
                 }
 
-                $company->activated_acount = '1';
-                $company->update();
+                $user->activated_acount = '1';
+                $user->update();
                 return response()->json(['status' => 'success'], 200);
-            }
-            else
-            {
+            } else {
                 return response()->json(['error' => 'Invalid Code'], 200);
             }
-        }
-        else
-        {
+        } else {
             return response()->json(['error' => 'Invalid User'], 200);
         }
     }
 
 
-    public function send_mail($email,$text)
+    public function send_activation_mail($email, $text)
     {
-
+        $Email = new EmailServices();
+        $html = '<h1>Activation Email</h1><p>' . $text . '</p>';
+        try {
+            $Email->sendSimpleEmail($email, $html, 'Activation Email ');
+        } catch (Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'errors' => $e->getMessage()
+            ], 500);
+        }
     }
 
     public function valid_card(Request $request)
@@ -175,27 +198,36 @@ class CompanyController extends Controller
         }
 
         /*Implementar aquí la lógica de validación.*/
-        if($request->card_number=='1234567891234567')
-            return response()->json(['error' => true,'msg' => 'Valid Card Number !'], 200);
+        if ($request->card_number == '1234567891234567')
+            return response()->json(['error' => true, 'msg' => 'Valid Card Number !'], 200);
         else
-            return response()->json(['error' => false,'msg' => 'Invalid Card Number !'], 200);
+            return response()->json(['error' => false, 'msg' => 'Invalid Card Number !'], 200);
 
     }
 
     public function canceled_acount(Request $request)
     {
-        try{
+        try {
             $acount_id = $request->acount_id;
             $company = Company::findOrFail($acount_id);
             $company->canceled_acount = 1;
             $company->update();
-            return response()->json(['msg' => 'The acount was canceled !'], 200);
-        }
-        catch (\Exception $e)
-        {
+            return response()->json(['msg' => 'The account was canceled !'], 200);
+        } catch (\Exception $e) {
             return response()->json($e, 500);
         }
 
 
+    }
+
+    public function testEmail()
+    {
+        try {
+            $Email = new EmailServices();
+            return $Email->sendSimpleEmail('emigort@gmail.com', '<h1>test</h1>', 'test');
+
+        } catch (Exception $e) {
+            return response()->json([$e->getMessage(), $e->getFile(), $e->getCode(), $e->getLine()], 500);
+        }
     }
 }

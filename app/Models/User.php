@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -73,4 +74,42 @@ class User extends Authenticatable implements JWTSubject
     {
         return [];
     }
+
+
+    public function if_active($user_id)
+    {
+        $user = DB::table('users')
+            ->where('users.id', $user_id)
+            ->first();
+
+        if (!$user)
+            return false;
+
+        if ($user->activated_account == '1')
+            return true;
+        else
+            return false;
+    }
+
+    public function if_code_expired($user_id)
+    {
+        $user = DB::table('users')
+            ->where('users.id', $user_id)
+            ->first();
+
+        if (!$user)
+            return false;
+
+        $activation_core_expired_date = Carbon::createFromFormat('Y-m-d H:i:s', $user->activation_code_expired_date);
+        $datetime = $date = Carbon::now();
+
+        $dif = $activation_core_expired_date->diffInHours($datetime);
+
+        if ($dif > config('app.time_activation_code_expired_date')) {
+            return true;
+        }
+
+        return false;
+    }
+
 }

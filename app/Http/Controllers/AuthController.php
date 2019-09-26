@@ -80,11 +80,11 @@ class AuthController extends Controller
             return response()->json(['error'=>'Unauthorized'],401);
         }
 
-        $company = new Company();
-        
-        if($company->if_active(auth()->user()->id)==false)
+        $user = new User();
+
+        if($user->if_active(auth()->user()->id)==false)
         {
-            if($company->if_code_expired(auth()->user()->id))
+            if($user->if_code_expired(auth()->user()->id))
             {
                 $new_activation_code = Str::random(16);
                 $texto = config('app.api_url_activation_company').'/'.auth()->user()->id.'-'.$new_activation_code;
@@ -98,7 +98,7 @@ class AuthController extends Controller
 
             return response()->json(['error'=>'Company deactivated'],200);
         }
-            
+
         if($company->if_cancel(auth()->user()->id)==true)
             return response()->json(['error'=>'Company canceled'],200);
 
@@ -157,7 +157,7 @@ class AuthController extends Controller
         //return response()->json($users);
     }
 
-    
+
 
     public function user_rol()
     {

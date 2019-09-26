@@ -20,8 +20,13 @@ class CreateUsersTable extends Migration
             $table->integer('role_id')->default(1);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+
+            $table->boolean('activated_account')->nullable();
+            $table->string('activation_code',16)->nullable();
+            $table->datetime('activation_code_expired_date')->nullable();
             $table->rememberToken();
             $table->timestamps();
+
            // $table->foreign('role_id')->references('id')->on('roles');
         });
     }
