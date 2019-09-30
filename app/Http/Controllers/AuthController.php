@@ -99,8 +99,8 @@ class AuthController extends Controller
             return response()->json(['error'=>'Company deactivated'],200);
         }
 
-        if($company->if_cancel(auth()->user()->id)==true)
-            return response()->json(['error'=>'Company canceled'],200);
+//        if($user->if_active(auth()->user()->id)==true)
+//            return response()->json(['error'=>'Company canceled'],200);
 
         //return $this->respondWithToken($token);
         return $this->resposeWithToken($token);
@@ -126,23 +126,23 @@ class AuthController extends Controller
     {
         $email = request(['email']);
 
-        $users = DB::table('users')
+        $user = DB::table('users')
             ->select('users.*')
             ->where('users.email',$email)
             ->first();
 
-        if($users)
+        if($user)
         {
-            $company = new Company();
+            $_user = new User();
 
             //return response()->json(['error' => $users->id], 200);
 
-            if($company->if_code_expired($users->id))
+            if($_user->if_code_expired($user->id))
             {
                 $new_activation_code = Str::random(16);
-                $texto = config('app.api_url_activation_company').'/'.$users->id.'-'.$new_activation_code;
-                $this->send_mail($users->email, $texto);
-                $companyFind = Company::where('user_id',$users->id);
+                $texto = config('app.api_url_activation_company').'/'.$user->id.'-'.$new_activation_code;
+                $this->send_mail($user->email, $texto);
+                $companyFind = Company::where('user_id',$user->id);
                 $companyFind->activation_code = $new_activation_code;
                 $companyFind->activation_code_expired_date = date('Y-m-d H-i-s');
                 $companyFind->update(['activation_code_expired_date'=>date('Y-m-d H-i-s'),'activation_code'=>$new_activation_code]);
@@ -152,7 +152,7 @@ class AuthController extends Controller
             return response()->json(['error' => 'The email is in use, try another'], 200);
         }
 
-        return response()->json(['success' => $users], 200);
+        return response()->json(['success' => $user], 200);
 
         //return response()->json($users);
     }

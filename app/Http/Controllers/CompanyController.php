@@ -48,53 +48,32 @@ class CompanyController extends Controller
             ], 422);
         }
 
-        //Create Customer in Merchant and
-        // store default payment method
-        try {
-            $Merchant = new MerchantService();
-            $CustomerMerchant = $Merchant->createCustomer(
-                $request->email,
-                $request->company_name,
-                $request->card_token,
-                $address = [
-                    'line1' => $request->ba_street,
-                    'line2' => $request->ba_street2,
-                    'city' => $request->ba_city,
-                    'country' => null,
-                    'state' => $request->ba_state,
-                    'postal_code' => $request->ba_zip_code,
+//        //Create Customer in Merchant and
+//        // store default payment method
+//        try {
+//            $Merchant = new MerchantService();
+//            $CustomerMerchant = $Merchant->createCustomer(
+//                $request->email,
+//                $request->company_name,
+//                $request->card_token,
+//                $address = [
+//                    'line1' => $request->ba_street,
+//                    'line2' => $request->ba_street2,
+//                    'city' => $request->ba_city,
+//                    'country' => null,
+//                    'state' => $request->ba_state,
+//                    'postal_code' => $request->ba_zip_code,
+//
+//                ]
+//            );
+//        } catch (Exception $e) {
+//            return response()->json([
+//                'status' => 'error',
+//                'errors' => $e->getMessage()
+//            ], 422);
+//        }
 
-                ]
-            );
-        } catch (Exception $e) {
-            return response()->json([
-                'status' => 'error',
-                'errors' => $e->getMessage()
-            ], 422);
-        }
-
-        //Create Company in DB
-        try {
-            $company = new Company();
-            $company->name = $request->name;
-            // $company->card_number = $request->card_number;
-            //$company->cc = $request->cc;
-            //$company->cc_expired_date = $request->cc_expired_date;
-            $company->ba_street = $request->ba_street;
-            $company->ba_street2 = $request->ba_street2;
-            $company->ba_city = $request->ba_city;
-            $company->ba_state = $request->ba_state;
-            $company->ba_zip_code = $request->ba_zip_code;
-            $company->card_holder_name = $request->card_holder_name;
-            // $company->user_id = $user_id;
-            $company->canceled_account = 0;
-            $company->external_customer_id = $CustomerMerchant->id;
-            $company->save();
-        } catch (\Exception $e) {
-            $Merchant->deleteCustomer($CustomerMerchant->id);
-            return response()->json($e->getMessage(), 500);
-        }
-
+        $emailResponse = null;
         //Create User
         try {
             $user = new User;
@@ -108,9 +87,29 @@ class CompanyController extends Controller
             $user->password = bcrypt($request->password);
             $user->save();
             $text = config('app.api_url_activation_company') . '/' . $user->user_id . '-' . $user->activation_code;
-            $this->send_activation_mail($user->email, $text);
+            $emailResponse = $this->send_activation_mail($user->email, $text);
         } catch (\Exception $e) {
-            $Merchant->deleteCustomer($CustomerMerchant->id);
+//            $Merchant->deleteCustomer($CustomerMerchant->id);
+            return response()->json($e->getMessage(), 500);
+        }
+
+        //Create Company in DB
+        try {
+            $company = new Company();
+            $company->name = $request->name;
+            $company->ba_street = $request->ba_street;
+            $company->ba_street2 = $request->ba_street2;
+            $company->ba_city = $request->ba_city;
+            $company->ba_state = $request->ba_state;
+            $company->ba_zip_code = $request->ba_zip_code;
+            $company->card_holder_name = $request->card_holder_name;
+            $company->canceled_account = 0;
+//            $company->external_customer_id = $CustomerMerchant->id;
+            $company->external_customer_id = "customermarchantid";
+            $company->user_id = $user->id;
+            $company->save();
+        } catch (\Exception $e) {
+//            $Merchant->deleteCustomer($CustomerMerchant->id);
             return response()->json($e->getMessage(), 500);
         }
 
@@ -127,15 +126,14 @@ class CompanyController extends Controller
             }
         }
 
-        return response()->json(['msg' => 'Your account was created !'], 200);
+        return response()->json(['msg' => 'Your account was created !','email_response' => $emailResponse], 200);
     }
 
     public function activate_user(Request $request)
     {
-
         $array_code = explode('-', $request->activation_code);
-
         $user = User::find($array_code[0]);
+        $emailResponse = null;
         if ($user) {
 
             if ($user->activation_code == $array_code[1]) {
@@ -148,7 +146,7 @@ class CompanyController extends Controller
                 if ($userObject->if_code_expired($user->id)) {
                     $new_activation_code = Str::random(16);
                     $text = config('app.api_url_activation_company') . '/' . $user->id . '-' . $new_activation_code;
-                    $this->send_activation_mail($user->email, $text);
+                    $emailResponse = $this->send_activation_mail($user->email, $text);
                     $user->activation_code_expired_date = date('Y-m-d H-i-s');
                     $user->activation_code = $new_activation_code;
                     $user->update();
@@ -157,22 +155,22 @@ class CompanyController extends Controller
 
                 $user->activated_acount = '1';
                 $user->update();
-                return response()->json(['status' => 'success'], 200);
+                return response()->json(['status' => 'success', 'email_response' => $emailResponse], 200);
             } else {
-                return response()->json(['error' => 'Invalid Code'], 200);
+                return response()->json(['error' => 'Invalid Code', 'email_response' => $emailResponse], 200);
             }
         } else {
-            return response()->json(['error' => 'Invalid User'], 200);
+            return response()->json(['error' => 'Invalid User', 'email_response' => $emailResponse], 200);
         }
     }
 
 
     public function send_activation_mail($email, $text)
     {
-        $Email = new EmailServices();
+        $_email = new EmailServices();
         $html = '<h1>Activation Email</h1><p>' . $text . '</p>';
         try {
-            $Email->sendSimpleEmail($email, $html, 'Activation Email ');
+            return $_email->sendSimpleEmail($email, $html, 'Activation Email ');
         } catch (Exception $e) {
             return response()->json([
                 'status' => 'error',
@@ -216,8 +214,6 @@ class CompanyController extends Controller
         } catch (\Exception $e) {
             return response()->json($e, 500);
         }
-
-
     }
 
     public function testEmail()
