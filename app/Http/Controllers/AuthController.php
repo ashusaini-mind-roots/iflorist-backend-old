@@ -89,10 +89,11 @@ class AuthController extends Controller
                 $new_activation_code = Str::random(16);
                 $texto = config('app.api_url_activation_company').'/'.auth()->user()->id.'-'.$new_activation_code;
                 $this->send_mail(auth()->user()->email, $texto);
-                $companyFind = Company::where('user_id',auth()->user()->id);
-                $companyFind->activation_code = $new_activation_code;
-                $companyFind->activation_code_expired_date = date('Y-m-d H-i-s');
-                $companyFind->update(['activation_code_expired_date'=>date('Y-m-d H-i-s'),'activation_code'=>$new_activation_code]);
+//                $companyFind = Company::where('user_id',auth()->user()->id);
+                $user->id = auth()->user()->id;
+                $user->activation_code = $new_activation_code;
+                $user->activation_code_expired_date = date('Y-m-d H-i-s');
+                $user->update(['activation_code_expired_date'=>date('Y-m-d H-i-s'),'activation_code'=>$new_activation_code]);
                 return response()->json(['error' => 'Your activation code has expired, we have sent you a new activation code'], 200);
             }
 
