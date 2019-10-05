@@ -17,7 +17,8 @@ use Illuminate\Support\Facades\DB;
  * @property string password
  * @property string remember_token
  * @property string email_verified_at
- * @property int role_id
+ * @property int role_id,
+ * @property string activation_code
  */
 class User extends Authenticatable implements JWTSubject
 {
@@ -29,7 +30,7 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password','activated_account','activation_code'
     ];
 
     /**
@@ -99,7 +100,7 @@ class User extends Authenticatable implements JWTSubject
 
         if (!$user)
             return false;
-
+        //dd( $user->activation_code_expired_date);
         $activation_core_expired_date = Carbon::createFromFormat('Y-m-d H:i:s', $user->activation_code_expired_date);
         $datetime = $date = Carbon::now();
 

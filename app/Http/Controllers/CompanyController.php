@@ -132,11 +132,12 @@ class CompanyController extends Controller
     public function activate_user(Request $request)
     {
         $array_code = explode('-', $request->activation_code);
-        $user = User::find($array_code[0]);
+        $user = User::where('activation_code',$array_code[0])->first();
+       // dd($user);
         $emailResponse = null;
         if ($user) {
 
-            if ($user->activation_code == $array_code[1]) {
+            if ($user->activation_code == $array_code[0]) {
                 $activation_core_expired_date = Carbon::createFromFormat('Y-m-d H:i:s', $user->activation_code_expired_date);
                 $datetime = $date = Carbon::now();
 
@@ -153,7 +154,7 @@ class CompanyController extends Controller
                     return response()->json(['error' => 'Your activation code has expired, we have sent you a new activation code'], 200);
                 }
 
-                $user->activated_acount = '1';
+                $user->activated_acCount = '1';
                 $user->update();
                 return response()->json(['status' => 'success', 'email_response' => $emailResponse], 200);
             } else {

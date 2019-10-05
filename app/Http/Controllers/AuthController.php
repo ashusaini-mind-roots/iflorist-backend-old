@@ -88,6 +88,7 @@ class AuthController extends Controller
             {
                 $new_activation_code = Str::random(16);
                 $texto = config('app.api_url_activation_company').'/'.auth()->user()->id.'-'.$new_activation_code;
+
                 $this->send_mail(auth()->user()->email, $texto);
 //                $companyFind = Company::where('user_id',auth()->user()->id);
                 $user->id = auth()->user()->id;
