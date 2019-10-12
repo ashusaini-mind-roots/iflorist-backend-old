@@ -17,6 +17,7 @@ class CreateEmployeesTable extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('category_id')->unsigned();
             $table->bigInteger('work_man_comp_id')->unsigned();
+            $table->bigInteger('user_id')->unsigned()->nullable(true);
             $table->string('name');
             $table->boolean('overtimeelegible');
             $table->decimal('hourlypayrate',4,2);
@@ -24,6 +25,7 @@ class CreateEmployeesTable extends Migration
 
             $table->foreign('category_id')->references('id')->on('categories');
             $table->foreign('work_man_comp_id')->references('id')->on('work_mans_comp');
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 
