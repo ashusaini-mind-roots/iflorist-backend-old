@@ -133,4 +133,8 @@ Route::prefix('company')->group(function () {
     Route::post('create', 'CompanyController@create');
     Route::post('valid_card', 'CompanyController@valid_card');
     Route::post('activate_company', 'CompanyController@activate_user');
+
+    Route::group(['middleware' => 'auth:api'], function () {
+        Route::get('stores_by_company', 'CompanyController@getStoresByCompany');
+    });
 });
