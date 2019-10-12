@@ -14,7 +14,7 @@ class AddStoreIdUserTable extends Migration
     public function up()
     {
         Schema::table('users', function ($table) {
-            $table->integer('store_id')->default(1);
+           // $table->integer('store_id')->default(1);
             // $table->foreign('role_id')->references('id')->on('roles');
         });
     }
