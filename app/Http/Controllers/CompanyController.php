@@ -12,6 +12,7 @@ use App\Models\CompanyPlan;
 use \Exception;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class CompanyController extends Controller
 {
@@ -225,6 +226,17 @@ class CompanyController extends Controller
 
         } catch (Exception $e) {
             return response()->json([$e->getMessage(), $e->getFile(), $e->getCode(), $e->getLine()], 500);
+        }
+    }
+
+    public function getStoresByCompany()
+    {
+        try {
+            //return response()->json(['stores' => auth()->user()->id], 200);
+            $company = new Company();
+            return response()->json(['stores' => $company->getStoresByCompany(auth()->user()->id)], 200);
+        } catch (\Exception $e) {
+            return response()->json($e, 500);
         }
     }
 }
