@@ -80,7 +80,7 @@ class CompanyController extends Controller
             $user->name = $request->name;
             $user->email = $request->email;
             $user->role_id = '2';
-            $user->store_id = '2';
+            //$user->store_id = '2';
             $user->activated_account = 0;
             $user->activation_code_expired_date = date('Y-m-d H:i:s');
             $user->activation_code = Str::random(16);
