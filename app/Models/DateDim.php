@@ -19,4 +19,10 @@ class DateDim extends Model
         return  $dateDim;
 
     }
+
+    static function allDaysText()
+    {
+        $daysText = array('Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday');
+        return $daysText;
+    }
 }

@@ -13,13 +13,23 @@ class Company extends Model
 
     public function getStoresByCompany($user_id)
     {
-        $user = DB::table('company')
+        $stores = DB::table('company')
             ->Join('stores','stores.company_id','=','company.id')
             ->where('company.user_id', $user_id)
             ->select('stores.*')
             ->get();
 
-        return  $user;
+        return  $stores;
+    }
+
+    public function getUserByCopany($companyId)
+    {
+        $userId = DB::table('company')
+            ->where('company.id', $companyId)
+            ->select('company.user_id')
+            ->first()->user_id;
+
+        return  $userId;
     }
 
 
