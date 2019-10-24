@@ -30,7 +30,7 @@ class MasterOverviewWeeklyController extends Controller
         }
     }
 
-    public function MasterOverviewWeeklyOfFresh($store_id, $year)
+    public function MasterOverviewWeeklyOf($cost_of,$store_id, $year)
     {
         $weeks = Week::where('year', $year)->get();
 
@@ -69,6 +69,8 @@ class MasterOverviewWeeklyController extends Controller
                 $total = $weekly_cog_total * 100 / $actual_weekly_revenue;
             }
 
+            $target = WeeklyProjectionPercentCosts::target($cost_of);
+
             $arrayDatos = array(
                 'week_id' => $w->id,
                 'week_ending_date' => $day->date,
@@ -76,9 +78,9 @@ class MasterOverviewWeeklyController extends Controller
                 'projected_weekly_revenue' => number_format((float)$responseValue, 2, '.', ''),
                 'actual_weekly_revenue' => number_format((float)$actual_weekly_revenue, 2, '.', ''),
                 'weekly_cog_total' => number_format((float)$weekly_cog_total, 2, '.', ''),
-                'target' => number_format((float)WeeklyProjectionPercentCosts::target($store_id, $w->id), 2, '.', ''),
+                'target' => number_format((float)$target, 2, '.', ''),
                 'actual' => number_format((float)$total, 2, '.', ''),
-                'difference' => number_format((float)WeeklyProjectionPercentCosts::target($store_id, $w->id) - $total, 2, '.', ''),
+                'difference' => number_format((float)$target - $total, 2, '.', ''),
                 'down_percent' => $percent,
                 'year_reference' => $year_reference,
                 'year_reference_revenue' => $amtTotal,

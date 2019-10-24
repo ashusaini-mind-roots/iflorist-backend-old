@@ -12,7 +12,7 @@ use App\Models\Invoice;
 class InvoicesController extends Controller
 {
 
-    public function all($store_id, $week_id)
+    public function all($cost_of, $store_id, $week_id)
     {
         $store_week = DB::table('store_week')
             ->where('store_id', $store_id)
@@ -21,6 +21,7 @@ class InvoicesController extends Controller
 
         $invoices = DB::table('invoices')
             ->where('store_week_id', $store_week->id)
+            ->where('goods_or_fresh', $cost_of )
             ->get();
 
         return response()->json(['invoices' => $invoices], 200);
@@ -53,6 +54,7 @@ class InvoicesController extends Controller
         $invoice = new Invoice();
         $invoice->invoice_number = $request->invoice_number;
         $invoice->invoice_name = $request->invoice_name;
+        $invoice->goods_or_fresh = $request->cost_of;
         $invoice->total = Utils::money2Float($request->total);
         $invoice->invoice_date = date('Y-m-d');
         $invoice->store_week_id = $store_week->id;

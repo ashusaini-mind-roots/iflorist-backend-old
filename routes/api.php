@@ -65,7 +65,7 @@ Route::prefix('daily_revenue')->group(function () {
 });
 
 Route::prefix('invoice')->group(function () {
-    Route::get('all/{store_id}/{week_id}', 'InvoicesController@all');
+    Route::get('all/{cost_of}/{store_id}/{week_id}', 'InvoicesController@all');
     Route::post('create', 'InvoicesController@create');
     Route::delete('delete/{id}', 'InvoicesController@delete');
 });
@@ -81,7 +81,7 @@ Route::prefix('diff_projection_percent')->group(function () {
 });
 
 Route::prefix('weekly_projection_percent_costs')->group(function () {
-    Route::get('target_cog/{store_id}/{week_id}', 'WeeklyProjectionPercentCostsController@targetCog');
+    Route::get('target/{cost_of}', 'WeeklyProjectionPercentCostsController@target');
     Route::put('update_target_cog/{store_id}/{week_id}', 'WeeklyProjectionPercentCostsController@updateTargetCog');
 });
 
@@ -91,7 +91,7 @@ Route::prefix('weekly_projection_percent_revenue')->group(function () {
 });
 
 Route::prefix('master_overview_weekly')->group(function () {
-    Route::get('master_overview_weekly_of_fresh/{store_id}/{year}', 'MasterOverviewWeeklyController@MasterOverviewWeeklyOfFresh');
+    Route::get('master_overview_weekly_of/{cost_of}/{store_id}/{year}', 'MasterOverviewWeeklyController@MasterOverviewWeeklyOf');
     Route::get('weekly_projections/{store_id}/{year}', 'MasterOverviewWeeklyController@WeeklyProjections');
     Route::get('projection_col/{store_id}/{year}', 'MasterOverviewWeeklyController@ProjectionCol');
     Route::get('get_weekly_revenue/{store_id}/{week_nbr}/{year_reference_selected}', 'MasterOverviewWeeklyController@getDataStoreWeekYear');

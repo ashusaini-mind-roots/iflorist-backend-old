@@ -9,15 +9,14 @@ class WeeklyProjectionPercentCosts extends Model
 {
     protected $table = 'weekly_projection_percent_costs';
 
-    static function target($store_id,$week_id)
+    static function target($cost_of)
     {
-        $target_cog = DB::table('weekly_projection_percent_costs')
-            ->leftjoin('store_week','store_week.id','=','weekly_projection_percent_costs.store_week_id')
-            ->select('weekly_projection_percent_costs.*')
-            ->where('store_week.store_id',$store_id)
-            ->where('store_week.week_id',$week_id)
-            ->first()->target_cog;
-        return  $target_cog;
+//        $target = DB::table('weekly_projection_percent_costs')
+//            ->get();
+        if($cost_of == 'goods')
+            return parent::all()->first()->target_cog;
+        else  if($cost_of == 'fresh')
+            return parent::all()->first()->target_cof;
     }
 
 }

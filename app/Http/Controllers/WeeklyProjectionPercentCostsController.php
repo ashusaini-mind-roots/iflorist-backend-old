@@ -10,21 +10,25 @@ use Illuminate\Support\Facades\Validator;
 class WeeklyProjectionPercentCostsController extends Controller
 {
 
-    public function targetCog($store_id,$week_id)
+    public function target($cost_of/*$store_id,$week_id*/)
     {
-        if($store_id!=null && $week_id!=null)
+        try
         {
-            $store_week_id = StoreWeek::storeWeekId($store_id,$week_id);
+//            $store_week_id = StoreWeek::storeWeekId($store_id,$week_id);
+            $targetCog = '';
+            $targetCof = '';
 
-            $target_cog = WeeklyProjectionPercentCosts::where('store_week_id',$store_week_id)->first()->target_cog;
+            if($cost_of == 'goods')
+                $targetCog = WeeklyProjectionPercentCosts::all()->first()->target_cog;
+            else
+                $targetCof = WeeklyProjectionPercentCosts::all()->first()->target_cof;
 
-            return response()->json(['target_cog' => $target_cog], 200);
+            return response()->json(['target_cog' => $targetCog, 'target_cof' => $targetCof], 200);
         }
-        else
+        catch (Exception $e)
         {
-            return response()->json(['target_cog' => ''], 200);
+            return response()->json(['target_cog' => '', 'target_cof' => ''], 200);
         }
-
     }
 
 
