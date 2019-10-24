@@ -57,6 +57,7 @@ Route::prefix('store')->group(function () {
 
 Route::prefix('week')->group(function () {
     Route::get('week_by_year/{year}', 'WeeksController@weekByYear');
+    Route::post('create', 'WeeksController@taskWeek');
 });
 
 Route::prefix('daily_revenue')->group(function () {

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Store extends Model
 {
@@ -18,4 +19,6 @@ class Store extends Model
     {
         return $this->belongsToMany('App\Models\Week');
     }
+
+    //public function 
 }

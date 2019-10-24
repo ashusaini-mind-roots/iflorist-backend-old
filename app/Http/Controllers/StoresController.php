@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Store;
 use App\Models\Role;
 use App\Models\User;
+use App\Models\Company;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
@@ -133,7 +134,7 @@ class StoresController extends Controller
     {
         $v = Validator::make($request->all(), [
             'store_name' => 'required',
-            'contact_email' => 'required|email'
+            /*'contact_email' => 'required|email'*/
         ]);
 
         if ($v->fails()) {
@@ -143,13 +144,16 @@ class StoresController extends Controller
             ], 422);
         }
 
+        $userId = auth()->user()->id;
+        $company = Company::where('user_id',$userId)->first();
+
         $Store = new Store;
         $Store->store_name = $request->store_name;
         $Store->contact_email = $request->contact_email;
         $Store->contact_phone = $request->contact_phone;
         $Store->zip_code = $request->zip_code;
         $Store->address = $request->address;
-        $Store->company_id = $request->company_id;
+        $Store->company_id = $company->id;
         $Store->save();
 
         return response()->json(['status' => 'success'], 200);
@@ -159,7 +163,7 @@ class StoresController extends Controller
     {
         $v = Validator::make($request->all(), [
             'store_name' => 'required',
-            'contact_email' => 'required|email'
+            /*'contact_email' => 'required|email'*/
         ]);
 
         if ($v->fails()) {
