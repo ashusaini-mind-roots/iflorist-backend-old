@@ -2,26 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use function foo\func;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
-use App\Models\Week;
-use App\Models\Store;
-use App\Models\StoreWeek;
-use App\Models\DailyRevenue;
-use App\Models\DateDim;
-use App\Models\Company;
+//use function foo\func;
+//use Illuminate\Http\Request;
+//use Illuminate\Support\Facades\App;
+//use App\Models\Week;
+//use App\Models\Store;
+//use App\Models\StoreWeek;
+//use App\Models\DailyRevenue;
+//use App\Models\DateDim;
+//use App\Models\Company;
 use Illuminate\Support\Facades\DB;
 
 class WeeksController extends Controller
 {
-
-    public function taskWeek()
-    {
-        
-        
-    }
-
     public function weekByYear($year)
     {
         $weeks = DB::table('weeks')
