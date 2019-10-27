@@ -15,11 +15,11 @@ class AddWeeklyProjectionPercentRevenuesStoreIdWeeekIdWeekNumber extends Migrati
     {
         Schema::table('weekly_projection_percent_revenues', function (Blueprint $table) {
             $table->bigInteger('store_id')->unsigned();
-            $table->bigInteger('week_id')->unsigned();
+            //$table->bigInteger('week_id')->unsigned();
             $table->char('week_number',2);
 
             $table->foreign('store_id')->references('id')->on('stores');
-            $table->foreign('week_id')->references('id')->on('weeks');
+            //$table->foreign('week_id')->references('id')->on('weeks');
         });
     }
 
