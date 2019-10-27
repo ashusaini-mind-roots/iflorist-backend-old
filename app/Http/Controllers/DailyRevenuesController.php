@@ -12,6 +12,18 @@ class DailyRevenuesController extends Controller
 {
     public function sevenDaysWeek($store_id, $week_id)
     {
+//        $seven_days_week = DB::table('daily_revenues')
+//            ->leftjoin('store_week', 'store_week.id', '=', 'daily_revenues.store_week_id')
+//            ->leftjoin('dates_dim', 'dates_dim.date', '=', 'daily_revenues.dates_dim_date')
+//            ->select('daily_revenues.*', 'dates_dim.day_of_week')
+//            ->where('store_week.store_id', $store_id)
+//            ->where('store_week.week_id', $week_id)
+//            ->get();
+        //date_format($date, 'Y-m-d H:i:s');
+        return response()->json(['seven_days_week' => $this->sevenDaysWeek_aux()], 200);
+    }
+    public function sevenDaysWeek_aux($store_id, $week_id)
+    {
         $seven_days_week = DB::table('daily_revenues')
             ->leftjoin('store_week', 'store_week.id', '=', 'daily_revenues.store_week_id')
             ->leftjoin('dates_dim', 'dates_dim.date', '=', 'daily_revenues.dates_dim_date')
@@ -20,9 +32,9 @@ class DailyRevenuesController extends Controller
             ->where('store_week.week_id', $week_id)
             ->get();
         //date_format($date, 'Y-m-d H:i:s');
-        return response()->json(['seven_days_week' => $seven_days_week], 200);
+//        return response()->json(['seven_days_week' => $seven_days_week], 200);
+        return $seven_days_week;
     }
-
     public function updateAllAmt(Request $request)
     {
         $daily_revenues [] = json_decode($request->monday);
@@ -45,5 +57,27 @@ class DailyRevenuesController extends Controller
         }
 
         return response()->json(['status' => 'success'], 200);
+    }
+    public function getSales($store_id, $year, $quarter)
+    {
+        $store_weeks = StoreWeek::getAllStoreWeeksByStoreAndYear($store_id, $year);
+        $store_weeks = $store_weeks->toArray();
+        $store_weeks = array_slice($store_weeks,($quarter - 1) * 13,13);
+        $weeks_return = [];
+
+        for ($i = 0 ; $i < count($store_weeks) ; $i++)
+        {
+            $seven_days = $this->sevenDaysWeek_aux($store_weeks[$i]->store_id, $store_weeks[$i]->week_id);
+            if($seven_days)
+            {
+                $weeks_return[] = [
+                    'number'=>$store_weeks[$i]->number,
+                    'id'=>$store_weeks[$i]->id,
+                    'year'=>$store_weeks[$i]->year,
+                    'days'=>$seven_days,
+                ];
+            }
+        }
+        return response()->json(['weeks' => $weeks_return], 200);
     }
 }

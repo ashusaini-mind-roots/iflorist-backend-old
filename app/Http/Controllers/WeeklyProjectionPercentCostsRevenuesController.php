@@ -61,7 +61,7 @@ class WeeklyProjectionPercentCostsRevenuesController extends Controller
     {
         $total = 0;
         foreach ($seven_days_week as $day){
-            $total += $day->amt;
+            $total += $day->merchandise + $day->wire  + $day->delivery;
         }
         return $total;
     }

@@ -18,7 +18,9 @@ class CreateDailyRevenuesTable extends Migration
             $table->bigInteger('store_week_id')->unsigned();
             $table->date('dates_dim_date');
             $table->integer('user_id')->unsigned();
-            $table->decimal('amt',10,2);
+            $table->decimal('merchandise',10,2);
+            $table->decimal('wire',10,2);
+            $table->decimal('delivery',10,2);
             $table->dateTime('entered_date');
             $table->timestamps();
 

@@ -22,6 +22,16 @@ class StoreWeek extends Model
             ->first()->id;
     }
 
+    static function getAllStoreWeeksByStoreAndYear($store_id, $year)
+    {
+        return $storeweks = DB::table('store_week')
+            ->join('weeks', 'store_week.week_id', '=', 'weeks.id')
+            ->where('store_week.store_id', $store_id)
+            ->where('weeks.year', $year)
+            ->orderBy('weeks.number')
+            ->get();
+    }
+
     /*static function storeWeekId($store_id,$week_id)
     {
         return $store_week = DB::table('store_week')

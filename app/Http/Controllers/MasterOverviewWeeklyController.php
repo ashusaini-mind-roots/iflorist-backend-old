@@ -268,4 +268,6 @@ class MasterOverviewWeeklyController extends Controller
 
         return response()->json(['scheduled_payroll' => $scheduled_payroll], 200);
     }
+
+
 }

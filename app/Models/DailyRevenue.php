@@ -47,7 +47,8 @@ class DailyRevenue extends Model
             ->select('daily_revenues.*','dates_dim.*')
             ->where('store_week.store_id',$store_id)
             ->where('store_week.week_id',$week_id)
-            ->get()->sum('amt');
+            ->get()->sum(DB::raw('wire + delivery + merchandise'))
+            ;
         return  $total_amt_week;
     }
 }
