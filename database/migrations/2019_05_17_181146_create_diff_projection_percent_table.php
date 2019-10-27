@@ -15,7 +15,7 @@ class CreateDiffProjectionPercentTable extends Migration
     {
         Schema::create('diff_projection_percent', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('store_week_id')->unsigned();;
+            //$table->bigInteger('store_week_id')->unsigned();;
             $table->year('year_proyection');
             $table->year('year_reference')->nullable();
             $table->decimal('amt_total',10,2)->default(0.00);
@@ -23,7 +23,7 @@ class CreateDiffProjectionPercentTable extends Migration
             
             $table->timestamps();
 
-            $table->foreign('store_week_id')->references('id')->on('store_week');
+            //$table->foreign('store_week_id')->references('id')->on('store_week');
         });
     }
 
