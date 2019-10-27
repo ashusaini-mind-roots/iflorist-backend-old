@@ -9,6 +9,7 @@ use App\Models\Week;
 use App\Models\DailyRevenue;
 use League\Flysystem\Exception;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 class WeeklyProjectionPercentCostsRevenuesController extends Controller
 {
@@ -90,5 +91,11 @@ class WeeklyProjectionPercentCostsRevenuesController extends Controller
 
         return response()->json(['status' => 'success'], 200);
 
+    }
+
+    public function projections($store_id,$year)
+    {
+        $projections = WeeklyProjectionPercentRevenues::getWeeklyProjectionPercentRevenues($store_id,$year);
+        return response()->json(['projections' => $projections], 200);
     }
 }

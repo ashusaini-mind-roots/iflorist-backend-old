@@ -89,6 +89,7 @@ Route::prefix('weekly_projection_percent_costs')->group(function () {
 Route::prefix('weekly_projection_percent_revenue')->group(function () {
     Route::get('proj_weekly_revenue/{store_id}/{week_id}', 'WeeklyProjectionPercentCostsRevenuesController@projWeeklyRevenue');
     Route::put('update_proj_weekly_revenue/{store_id}/{week_id}', 'WeeklyProjectionPercentCostsRevenuesController@updateWeeklyProjectionPercentValue');
+    Route::get('projections/{store_id}/{year}', 'WeeklyProjectionPercentCostsRevenuesController@projections');
 });
 
 Route::prefix('master_overview_weekly')->group(function () {
@@ -139,3 +140,4 @@ Route::prefix('company')->group(function () {
         Route::get('stores_by_company', 'CompanyController@getStoresByCompany');
     });
 });
+
