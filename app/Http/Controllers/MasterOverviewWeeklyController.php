@@ -41,9 +41,13 @@ class MasterOverviewWeeklyController extends Controller
             $amtTotal = 0.00;
             $week_number = -1;
 
-            $store_week_id = StoreWeek::storeWeekId($store_id, $w->id);
+           // $store_week_id = StoreWeek::storeWeekId($store_id, $w->id);
 
-            $wppRevenues = WeeklyProjectionPercentRevenues::where('store_week_id', $store_week_id)->first();
+            $wppRevenues = WeeklyProjectionPercentRevenues::where('store_id', $store_id)
+                ->where('year_proyection', $year)
+                ->where('week_number', $w->number)
+                ->first();
+
             $year_reference = $wppRevenues->year_reference;
             $percent = $wppRevenues->percent;
 
