@@ -49,15 +49,16 @@ class WeeklyProjectionPercentRevenues extends Model
                 ->select('weekly_projection_percent_revenues.*'/*,'store_week.week_id'*/)
                 ->first();
 
-            if(!$weeklyProjectionPercentRevenueReference)
+            $amtTotalReference = 0;
+
+            if($weeklyProjectionPercentRevenueReference)
             {
-                $result = array();
-                return  $result;
+                $amtTotalReference = $weeklyProjectionPercentRevenueReference->amt_total;
             }
             
             $row['id'] = $w->id;
             $row['amt_total'] = $w->amt_total;
-            $row['reference_amt_total'] = $weeklyProjectionPercentRevenueReference->amt_total;
+            $row['reference_amt_total'] = $amtTotalReference;
             $row['week'] = $dailyRevenues[0]->month.' '.$dailyRevenues[0]->month_day.' - '.$dailyRevenues[6]->month.' '.$dailyRevenues[6]->month_day;
             $row['adjust'] = $w->percent;
             
