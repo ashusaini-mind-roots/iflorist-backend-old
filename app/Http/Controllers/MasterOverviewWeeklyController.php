@@ -33,13 +33,15 @@ class MasterOverviewWeeklyController extends Controller
     public function MasterOverviewWeeklyOf($cost_of,$store_id, $year)
     {
         $weeks = Week::where('year', $year)->get();
-
         $master_overview_weekly = array();
+        $year_reference = $year;
 
         foreach ($weeks as $w) {
             $responseValue = 0.00;
             $amtTotal = 0.00;
-            $week_number = -1;
+//            $week_number = -1;
+            $week_number = $w->number/*week::find($w->id)->number*/;
+            $percent = 0;
 
            // $store_week_id = StoreWeek::storeWeekId($store_id, $w->id);
 
@@ -48,19 +50,31 @@ class MasterOverviewWeeklyController extends Controller
                 ->where('week_number', $w->number)
                 ->first();
 
-            $year_reference = $wppRevenues->year_reference;
-            $percent = $wppRevenues->percent;
+            if($wppRevenues && $wppRevenues->year_reference) {
 
-            $week_number = week::find($w->id)->number;
+                $year_reference = $wppRevenues->year_reference;
+                $percent = $wppRevenues->percent;
 
-            //$week_reference = Week::findByNumberYear($week_number, $year_reference);
 
-            $week_reference_id = Week::findByNumberYear($week_number, $year_reference)->id;
 
-            $amtTotal = DailyRevenue::totalAmtWeek($store_id, $week_reference_id);
+                //$week_reference = Week::findByNumberYear($week_number, $year_reference);
 
-            $responseValue = $amtTotal - ($percent * $amtTotal / 100);
+                $week_reference_id = Week::findByNumberYear($week_number, $year_reference)->id;
 
+                //$amtTotal = DailyRevenue::totalAmtWeek($store_id, $week_reference_id);
+
+                $wppRevenues_reference = WeeklyProjectionPercentRevenues::where('store_id', $store_id)
+                    ->where('year_proyection', $wppRevenues->year_reference)
+                    ->where('week_number', $w->number)
+                    ->first();
+                $amtTotal = $wppRevenues_reference->amt_total;
+                $responseValue = $amtTotal - ($percent * $amtTotal / 100);
+            }
+            else{
+                $seven_days_week = DailyRevenue::sevenDaysWeek($store_id, $w->id);
+                $amtTotal = DailyRevenue::amtTotal($seven_days_week);
+                $responseValue = $amtTotal;
+            }
 
             $day = DailyRevenue::lastDayWeek($store_id, $w->id);
 
@@ -96,6 +110,7 @@ class MasterOverviewWeeklyController extends Controller
 
         return response()->json(['master_overview_weekly' => $master_overview_weekly], 200);
     }
+
 
     public function WeeklyProjections($store_id, $year)
     {

@@ -22,7 +22,11 @@ class WeeklyProjectionPercentCostsRevenuesController extends Controller
         try{
             $store_week_id = StoreWeek::storeWeekId($store_id,$week_id);
 
-            $wppRevenues = WeeklyProjectionPercentRevenues::where('store_week_id',$store_week_id)->first();
+//            $wppRevenues = WeeklyProjectionPercentRevenues::where('store_week_id',$store_week_id)->first();
+            $wppRevenues = WeeklyProjectionPercentRevenues::where('store_id', $store_id)
+                ->where('year_proyection', $week->year)
+                ->where('week_number', $week->number)
+                ->first();
             if($wppRevenues && $wppRevenues->year_reference){
                 $year_reference = $wppRevenues->year_reference;
                 $percent = $wppRevenues->percent;
@@ -47,7 +51,7 @@ class WeeklyProjectionPercentCostsRevenuesController extends Controller
             }
             else {
                 $seven_days_week = DailyRevenue::sevenDaysWeek($store_id, $week->id);
-                $amtTotal = $this->amtTotal($seven_days_week);
+                $amtTotal = DailyRevenue::amtTotal($seven_days_week);
                 $responseValue = $amtTotal;
             }
         }
@@ -58,14 +62,14 @@ class WeeklyProjectionPercentCostsRevenuesController extends Controller
         return response()->json(['proj_weekly_rev' => $responseValue,'amt_total'=>$amtTotal,'week_number'=>$week_number], 200);
     }
 
-    public function amtTotal($seven_days_week)
-    {
-        $total = 0;
-        foreach ($seven_days_week as $day){
-            $total += $day->merchandise + $day->wire  + $day->delivery;
-        }
-        return $total;
-    }
+//    public function amtTotal($seven_days_week)
+//    {
+//        $total = 0;
+//        foreach ($seven_days_week as $day){
+//            $total += $day->merchandise + $day->wire  + $day->delivery;
+//        }
+//        return $total;
+//    }
 
     public function updateWeeklyProjectionPercentValue(Request $request,$store_id,$week_id)
     {

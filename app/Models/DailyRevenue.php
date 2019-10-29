@@ -51,4 +51,13 @@ class DailyRevenue extends Model
             ;
         return  $total_amt_week;
     }
+
+    static function amtTotal($seven_days_week)
+    {
+        $total = 0;
+        foreach ($seven_days_week as $day){
+            $total += $day->merchandise + $day->wire  + $day->delivery;
+        }
+        return $total;
+    }
 }
