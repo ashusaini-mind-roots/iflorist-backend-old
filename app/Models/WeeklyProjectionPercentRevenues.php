@@ -43,12 +43,19 @@ class WeeklyProjectionPercentRevenues extends Model
             ->get();
 
             $weeklyProjectionPercentRevenueReference = DB::table('weekly_projection_percent_revenues')
-            ->where('weekly_projection_percent_revenues.week_number', $w->week_number)
-            ->where('weekly_projection_percent_revenues.store_id', $w->store_id)
-            ->where('weekly_projection_percent_revenues.year_proyection', $w->year_reference)
-            ->select('weekly_projection_percent_revenues.*'/*,'store_week.week_id'*/)
-            ->first();
+                ->where('weekly_projection_percent_revenues.week_number', $w->week_number)
+                ->where('weekly_projection_percent_revenues.store_id', $w->store_id)
+                ->where('weekly_projection_percent_revenues.year_proyection', $w->year_reference)
+                ->select('weekly_projection_percent_revenues.*'/*,'store_week.week_id'*/)
+                ->first();
 
+            if(!$weeklyProjectionPercentRevenueReference)
+            {
+                $result = array();
+                return  $result;
+            }
+            
+            $row['id'] = $w->id;
             $row['amt_total'] = $w->amt_total;
             $row['reference_amt_total'] = $weeklyProjectionPercentRevenueReference->amt_total;
             $row['week'] = $dailyRevenues[0]->month.' '.$dailyRevenues[0]->month_day.' - '.$dailyRevenues[6]->month.' '.$dailyRevenues[6]->month_day;
