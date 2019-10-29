@@ -102,4 +102,16 @@ class WeeklyProjectionPercentCostsRevenuesController extends Controller
         $projections = WeeklyProjectionPercentRevenues::getWeeklyProjectionPercentRevenues($store_id,$year);
         return response()->json(['projections' => $projections], 200);
     }
+
+    public function update(Request $request,$proyection_id)
+    {
+        $weeklyProjectionPercentRevenues = WeeklyProjectionPercentRevenues::findOrFail($proyection_id);
+        $weeklyProjectionPercentRevenues->amt_total = $request->amt_total;
+        $weeklyProjectionPercentRevenues->percent = $request->adjust;
+
+//        $Store->company_id = $request->company_id;
+        $weeklyProjectionPercentRevenues->update();
+
+        return response()->json(['status' => 'success'], 200);
+    }
 }
