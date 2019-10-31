@@ -27,7 +27,7 @@ class DailyRevenuesController extends Controller
         $seven_days_week = DB::table('daily_revenues')
             ->leftjoin('store_week', 'store_week.id', '=', 'daily_revenues.store_week_id')
             ->leftjoin('dates_dim', 'dates_dim.date', '=', 'daily_revenues.dates_dim_date')
-            ->select('daily_revenues.*', 'dates_dim.day_of_week')
+            ->select('daily_revenues.*', 'dates_dim.day_of_week',DB::raw('merchandise + wire + delivery as total'))
             ->where('store_week.store_id', $store_id)
             ->where('store_week.week_id', $week_id)
             ->get();
@@ -58,6 +58,20 @@ class DailyRevenuesController extends Controller
 
         return response()->json(['status' => 'success'], 200);
     }
+
+    public function update(Request $request, $id)
+    {
+        $dailyRevenue = DailyRevenue::findOrFail($id);
+        $dailyRevenue->merchandise = $request->merchandise;
+        $dailyRevenue->wire = $request->wire;
+        $dailyRevenue->delivery = $request->delivery;
+
+//        $Store->company_id = $request->company_id;
+        $dailyRevenue->update();
+
+        return response()->json(['status' => 'success'], 200);
+    }
+
     public function getSales($store_id, $year, $quarter)
     {
         $store_weeks = StoreWeek::getAllStoreWeeksByStoreAndYear($store_id, $year);
@@ -67,14 +81,46 @@ class DailyRevenuesController extends Controller
 
         for ($i = 0 ; $i < count($store_weeks) ; $i++)
         {
+            $week = DB::table('weeks')
+            ->where('weeks.number', $store_weeks[$i]->number)
+            ->where('weeks.year', $year)
+            ->select('weeks.id')
+            ->first();
+
+            $store_week = DB::table('store_week')
+            ->where('store_week.store_id', $store_id)
+            ->where('store_week.week_id', $week->id)
+            ->select('store_week.id')
+            ->first();
+
+            $dailyRevenues = DB::table('daily_revenues')
+            ->Join('dates_dim','dates_dim.date','=','daily_revenues.dates_dim_date')
+            ->where('daily_revenues.store_week_id', $store_week->id)
+            ->select('dates_dim.*')
+            ->get();
+
             $seven_days = $this->sevenDaysWeek_aux($store_weeks[$i]->store_id, $store_weeks[$i]->week_id);
             if($seven_days)
             {
+                $totalMerchandise = 0;
+                $totalWire = 0;
+                $totalDelivery = 0;
+                foreach($seven_days as $d)
+                {
+                    $totalMerchandise = $totalMerchandise + $d->merchandise;
+                    $totalWire = $totalWire + $d->wire;
+                    $totalDelivery = $totalDelivery + $d->delivery;
+                }
                 $weeks_return[] = [
                     'number'=>$store_weeks[$i]->number,
                     'id'=>$store_weeks[$i]->id,
                     'year'=>$store_weeks[$i]->year,
                     'days'=>$seven_days,
+                    'week' => $dailyRevenues[0]->month.' '.$dailyRevenues[0]->month_day.' - '.$dailyRevenues[6]->month.' '.$dailyRevenues[6]->month_day,
+                    'totalMerchandise' => $totalMerchandise,
+                    'totalWire' => $totalWire,
+                    'totalDelivery' => $totalDelivery
+                    //'store_week' => $store_weeks
                 ];
             }
         }
