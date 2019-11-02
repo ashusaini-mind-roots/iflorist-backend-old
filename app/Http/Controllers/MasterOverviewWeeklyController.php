@@ -30,24 +30,32 @@ class MasterOverviewWeeklyController extends Controller
         }
     }
 
-    public function MasterOverviewWeeklyOf($cost_of,$store_id, $year)
+    public function MasterOverviewWeeklyOf($cost_of,$store_id, $year, $quarter)
     {
-        $weeks = Week::where('year', $year)->get();
+        $weeks = Week::where('year', $year)
+            ->orderBy('number')
+            ->get();
+        $weeks = $weeks->toArray();
+        $weeks = array_slice($weeks,($quarter - 1) * 13,13);
+
         $master_overview_weekly = array();
         $year_reference = $year;
 
-        foreach ($weeks as $w) {
+//        foreach ($weeks as $w) {
+        for ($i = 0 ;$i < count($weeks) ; $i++){
+            $w = $weeks[$i];
             $responseValue = 0.00;
             $amtTotal = 0.00;
 //            $week_number = -1;
-            $week_number = $w->number/*week::find($w->id)->number*/;
+           // print_r($weeks);die;
+            $week_number = $w['number']/*week::find($w->id)->number*/;
             $percent = 0;
-
+            $wid = $w['id'];
            // $store_week_id = StoreWeek::storeWeekId($store_id, $w->id);
 
             $wppRevenues = WeeklyProjectionPercentRevenues::where('store_id', $store_id)
                 ->where('year_proyection', $year)
-                ->where('week_number', $w->number)
+                ->where('week_number', $week_number)
                 ->first();
 
             if($wppRevenues && $wppRevenues->year_reference) {
@@ -55,31 +63,30 @@ class MasterOverviewWeeklyController extends Controller
                 $year_reference = $wppRevenues->year_reference;
                 $percent = $wppRevenues->percent;
 
-
-
                 //$week_reference = Week::findByNumberYear($week_number, $year_reference);
 
                 $week_reference_id = Week::findByNumberYear($week_number, $year_reference)->id;
 
-                //$amtTotal = DailyRevenue::totalAmtWeek($store_id, $week_reference_id);
+                $amtTotal = DailyRevenue::totalAmtWeek($store_id, $week_reference_id);
 
-                $wppRevenues_reference = WeeklyProjectionPercentRevenues::where('store_id', $store_id)
-                    ->where('year_proyection', $wppRevenues->year_reference)
-                    ->where('week_number', $w->number)
-                    ->first();
-                $amtTotal = $wppRevenues_reference->amt_total;
+//                $wppRevenues_reference = WeeklyProjectionPercentRevenues::where('store_id', $store_id)
+//                    ->where('year_proyection', $wppRevenues->year_reference)
+//                    ->where('week_number', $w->number)
+//                    ->first();
+                //$amtTotal = $wppRevenues_reference->amt_total;
                 $responseValue = $amtTotal - ($percent * $amtTotal / 100);
             }
             else{
-                $seven_days_week = DailyRevenue::sevenDaysWeek($store_id, $w->id);
+                $seven_days_week = DailyRevenue::sevenDaysWeek($store_id, $wid);
                 $amtTotal = DailyRevenue::amtTotal($seven_days_week);
                 $responseValue = $amtTotal;
             }
 
-            $day = DailyRevenue::lastDayWeek($store_id, $w->id);
 
-            $actual_weekly_revenue = DailyRevenue::totalAmtWeek($store_id, $w->id);
-            $weekly_cog_total = Invoice::total($store_id, $w->id);
+            $day = DailyRevenue::lastDayWeek($store_id, $wid);
+
+            $actual_weekly_revenue = DailyRevenue::totalAmtWeek($store_id, $wid);
+            $weekly_cog_total = Invoice::total($store_id, $wid);
 
             if ($weekly_cog_total == 0) {
                 $total = 0;
@@ -90,7 +97,7 @@ class MasterOverviewWeeklyController extends Controller
             $target = WeeklyProjectionPercentCosts::target($cost_of);
 
             $arrayDatos = array(
-                'week_id' => $w->id,
+                'week_id' => $wid,
                 'week_ending_date' => $day->date,
                 'week_ending' => Carbon::parse($day->date)->format('M-d'),//$day->month.'-'.$day->month_day,
                 'projected_weekly_revenue' => number_format((float)$responseValue, 2, '.', ''),
@@ -98,7 +105,8 @@ class MasterOverviewWeeklyController extends Controller
                 'weekly_cog_total' => number_format((float)$weekly_cog_total, 2, '.', ''),
                 'target' => number_format((float)$target, 2, '.', ''),
                 'actual' => number_format((float)$total, 2, '.', ''),
-                'difference' => number_format((float)$target - $total, 2, '.', ''),
+//                'difference' => number_format((float)$target - $total, 2, '.', ''),
+                'difference' => number_format((float)$actual_weekly_revenue - (float)$weekly_cog_total, 2, '.', ''),
                 'down_percent' => $percent,
                 'year_reference' => $year_reference,
                 'year_reference_revenue' => $amtTotal,
