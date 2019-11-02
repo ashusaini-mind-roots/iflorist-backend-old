@@ -74,9 +74,10 @@ class DailyRevenuesController extends Controller
 
     public function getSales($store_id, $year, $quarter)
     {
-        $store_weeks = StoreWeek::getAllStoreWeeksByStoreAndYear($store_id, $year);
-        $store_weeks = $store_weeks->toArray();
-        $store_weeks = array_slice($store_weeks,($quarter - 1) * 13,13);
+        $store_weeks = StoreWeek::getAllStoreWeeksByStoreAndYearQuarters($store_id, $year, $quarter);
+//        $store_weeks = StoreWeek::getAllStoreWeeksByStoreAndYear($store_id, $year);
+//        $store_weeks = $store_weeks->toArray();
+//        $store_weeks = array_slice($store_weeks,($quarter - 1) * 13,13);
         $weeks_return = [];
 
         for ($i = 0 ; $i < count($store_weeks) ; $i++)

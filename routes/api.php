@@ -96,7 +96,7 @@ Route::prefix('weekly_projection_percent_revenue')->group(function () {
 });
 
 Route::prefix('master_overview_weekly')->group(function () {
-    Route::get('master_overview_weekly_of/{cost_of}/{store_id}/{year}', 'MasterOverviewWeeklyController@MasterOverviewWeeklyOf');
+    Route::get('master_overview_weekly_of/{cost_of}/{store_id}/{year}/{quarter}', 'MasterOverviewWeeklyController@MasterOverviewWeeklyOf');
     Route::get('weekly_projections/{store_id}/{year}', 'MasterOverviewWeeklyController@WeeklyProjections');
     Route::get('projection_col/{store_id}/{year}', 'MasterOverviewWeeklyController@ProjectionCol');
     Route::get('get_weekly_revenue/{store_id}/{week_nbr}/{year_reference_selected}', 'MasterOverviewWeeklyController@getDataStoreWeekYear');
