@@ -35,18 +35,23 @@ class ScheduleController extends Controller
             foreach ($employees as $employee) {
                 $schedules = Schedule::findByEmployeeAndStoreWeekIds($employee->id,$store_week_id);//those are 7 days of this employee;
 
-                $employee_store_week_id = EmployeeStoreWeek::findByEmployeeANDStoreWeekId($employee->id,$store_week_id)->id;
+                $employee_store_week = EmployeeStoreWeek::findByEmployeeANDStoreWeekId($employee->id,$store_week_id);
+                $employee_store_week_id = $employee_store_week->id;
                 $to_send = $this->conformSchedulesToSend($schedules,$employee_store_week_id );
                 $schedules_to_send = $to_send['schedules_to_send'];
                 $employees_response[] = [
                     'name' => $employee->name,
+                    'id' => ''.$employee->id . "" . $category->id,
                     'active' =>$employee->active,
                     'schedule_days' => $schedules_to_send,
                     'employee_store_week_id' => $employee_store_week_id,
                     'total_minutes_at_week' => $to_send['total_minutes'],
+                    'hourly_pay_rate' => $employee->hourlypayrate,
+                    'over_time_elegible' => $employee->overtimeelegible,
+                    'category_name' => $category->name
                 ];
             }
-            $response[] = ['category_name' => $category->name,'employees' => $employees_response];
+            $response[] = ['id' => $category->id, 'category_name' => $category->name,'employees' => $employees_response];
         }
         return response()->json(['categories_schedules' => $response], 200);
     }
