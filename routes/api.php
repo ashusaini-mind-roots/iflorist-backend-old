@@ -74,8 +74,10 @@ Route::prefix('invoice')->group(function () {
 });
 
 Route::prefix('note')->group(function () {
-    Route::get('all/{store_id}/{week_id}', 'NotesController@all');
+    Route::get('all/{store_id}/{week_id}/{year}', 'NotesController@all');
     Route::put('update/{store_id}/{week_id}', 'NotesController@update');
+    Route::delete('delete/{note_id}', 'NotesController@delete');
+    Route::post('create', 'NotesController@create');
 });
 
 Route::prefix('diff_projection_percent')->group(function () {
