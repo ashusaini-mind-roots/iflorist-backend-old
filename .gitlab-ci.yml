@@ -1,0 +1,43 @@
+stages:
+  - deploy
+
+deploy-to-dev:
+  stage: deploy
+  image: daxter1987/ubuntu-deploy:1.0.6
+  script:
+    - cp $LARAVEL_ENV_FILE .env
+    - mkdir .elasticbeanstalk
+    - cp $ELASTIC_BEANSTALK_CONFIG_FILE .elasticbeanstalk/config.yml
+    - mkdir -p ~/.ssh
+    - cp $SSH_PRIVATE_KEY ~/.ssh/emi-ssh.pem
+    - chmod 600 ~/.ssh/emi-ssh.pem
+    - ssh -i ~/.ssh/emi-ssh.pem -o StrictHostKeyChecking=no ubuntu@ec2-184-73-58-89.compute-1.amazonaws.com "cd ~/iflower && rm -rf dev && mkdir dev"
+    #- rsync -rave "ssh -i ~/.ssh/emi-ssh.pem -o StrictHostKeyChecking=no" ./ ubuntu@ec2-3-228-78-243.compute-1.amazonaws.com:~/new-orca-api/dev -y
+    #- ssh -i ~/.ssh/emi-ssh.pem -o StrictHostKeyChecking=no ubuntu@ec2-3-228-78-243.compute-1.amazonaws.com "cp /home/ubuntu/private/oauth-public.key ~/new-orca-api/dev/storage/oauth-public.key && cp /home/ubuntu/private/oauth-private.key ~/new-orca-api/dev/storage/oauth-private.key && cd ~/new-orca-api/dev && sudo chmod -R 777 storage/ && ~/.local/bin/eb deploy new-orca-api-develop"
+   # - curl -X POST --data '{"text":"'$GITLAB_USER_LOGIN' deployed '$CI_PROJECT_NAME' to '$CI_COMMIT_REF_NAME' at neworcaapi.orcasandbox.com"}' https://hooks.slack.com/services/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
+  environment:
+    name: develop
+  only:
+    - develop
+
+
+#deploy-to-prod:
+#  stage: deploy
+#  image: daxter1987/ubuntu-deploy:1.0.6
+#  script:
+#    - cp $LARAVEL_ENV_FILE .env
+#    - mkdir .elasticbeanstalk
+#    - cp $ELASTIC_BEANSTALK_CONFIG_FILE .elasticbeanstalk/config.yml
+#    - mkdir -p ~/.ssh
+#    - cp $SSH_PRIVATE_KEY ~/.ssh/emi-ssh.pem
+#    - chmod 600 ~/.ssh/emi-ssh.pem
+#    - ssh -i ~/.ssh/emi-ssh.pem -o StrictHostKeyChecking=no ubuntu@ec2-3-228-78-243.compute-1.amazonaws.com "cd ~/new-orca-api && rm -rf prod && mkdir prod"
+#    - rsync -rave "ssh -i ~/.ssh/emi-ssh.pem -o StrictHostKeyChecking=no" ./ ubuntu@ec2-3-228-78-243.compute-1.amazonaws.com:~/new-orca-api/prod -y
+#    - ssh -i ~/.ssh/emi-ssh.pem -o StrictHostKeyChecking=no ubuntu@ec2-3-228-78-243.compute-1.amazonaws.com "cp /home/ubuntu/private/oauth-public.key ~/new-orca-api/prod/storage/oauth-public.key && cp /home/ubuntu/private/oauth-private.key ~/new-orca-api/prod/storage/oauth-private.key && cd ~/new-orca-api/prod && sudo chmod -R 777 storage/ && ~/.local/bin/eb deploy new-orca-api-production"
+#    - curl -X POST --data '{"text":"'$GITLAB_USER_LOGIN' deployed '$CI_PROJECT_NAME' to '$CI_COMMIT_REF_NAME' at neworcaapi.discoverorca.com"}' https://hooks.slack.com/services/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
+#  environment:
+#    name: production
+#  only:
+#    - master
+#  when: manual
+
