@@ -28,6 +28,7 @@ class DatabaseSeeder extends Seeder
         $this->call(ModulesTableSeeder::class);
         $this->call(PlansTableSeeder::class);
         $this->call(PlanModuleTableSeeder::class);
-        $this->command->info('****Vaya salvaje corrieron los migrations sin bateo :) !!!****');
+        $this->call(StatusTableSeeder::class);
+        $this->command->info('****Seeds were properly seeded, these guys are the best !!!****');
     }
 }

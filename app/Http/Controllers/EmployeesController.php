@@ -14,9 +14,9 @@ use App\Models\TaxPercentCalculator;
 
 class EmployeesController extends Controller
 {
-    public function index()
+    public function getAll($store_id)
     {
-        $employees = Employee::getAllActiveEmployees();
+        $employees = Employee::getAllActiveEmployees($store_id);
 
         for($i = 0 ; $i < count($employees) ; $i++){
             $taxes = $this->getEmployeeTaxes($employees[$i]->hourlypayrate,$employees[$i]->work_man_comp_rate);
