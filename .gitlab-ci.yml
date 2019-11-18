@@ -13,7 +13,7 @@ deploy-to-dev:
     - chmod 600 ~/.ssh/iflorist.pem
     - ssh -i ~/.ssh/iflorist.pem -o StrictHostKeyChecking=no ubuntu@ec2-3-133-157-172.us-east-2.compute.amazonaws.com "cd ~/iflorist && rm -rf dev && mkdir dev"
     - rsync -rave "ssh -i ~/.ssh/iflorist.pem -o StrictHostKeyChecking=no" ./ ubuntu@ec2-3-133-157-172.us-east-2.compute.amazonaws.com:~/iflorist/dev -y
-    #- ssh -i ~/.ssh/iflorist.pem -o StrictHostKeyChecking=no ubuntu@ec2-3-228-78-243.compute-1.amazonaws.com "cp /home/ubuntu/private/oauth-public.key ~/new-orca-api/dev/storage/oauth-public.key && cp /home/ubuntu/private/oauth-private.key ~/new-orca-api/dev/storage/oauth-private.key && cd ~/new-orca-api/dev && sudo chmod -R 777 storage/ && ~/.local/bin/eb deploy new-orca-api-develop"
+    - ssh -i ~/.ssh/iflorist.pem -o StrictHostKeyChecking=no ubuntu@ec2-3-228-78-243.compute-1.amazonaws.com "cp /home/ubuntu/private/oauth-public.key ~/iflorist/dev/storage/oauth-public.key && cp /home/ubuntu/private/oauth-private.key ~/iflorist/dev/storage/oauth-private.key && cd ~/iflorist/dev && sudo chmod -R 777 storage/ && ~/.local/bin/eb deploy Iflorist-dev"
    # - curl -X POST --data '{"text":"'$GITLAB_USER_LOGIN' deployed '$CI_PROJECT_NAME' to '$CI_COMMIT_REF_NAME' at neworcaapi.orcasandbox.com"}' https://hooks.slack.com/services/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
   environment:
     name: develop
