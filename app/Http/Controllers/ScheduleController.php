@@ -36,20 +36,22 @@ class ScheduleController extends Controller
                 $schedules = Schedule::findByEmployeeAndStoreWeekIds($employee->id,$store_week_id);//those are 7 days of this employee;
 
                 $employee_store_week = EmployeeStoreWeek::findByEmployeeANDStoreWeekId($employee->id,$store_week_id);
-                $employee_store_week_id = $employee_store_week->id;
-                $to_send = $this->conformSchedulesToSend($schedules,$employee_store_week_id );
-                $schedules_to_send = $to_send['schedules_to_send'];
-                $employees_response[] = [
-                    'name' => $employee->name,
-                    'id' => ''.$employee->id . "" . $category->id,
-                    'active' =>$employee->active,
-                    'schedule_days' => $schedules_to_send,
-                    'employee_store_week_id' => $employee_store_week_id,
-                    'total_minutes_at_week' => $to_send['total_minutes'],
-                    'hourly_pay_rate' => $employee->hourlypayrate,
-                    'over_time_elegible' => $employee->overtimeelegible,
-                    'category_name' => $category->name
-                ];
+                if($employee_store_week){
+                    $employee_store_week_id = $employee_store_week->id;
+                    $to_send = $this->conformSchedulesToSend($schedules,$employee_store_week_id );
+                    $schedules_to_send = $to_send['schedules_to_send'];
+                    $employees_response[] = [
+                        'name' => $employee->name,
+                        'id' => ''.$employee->id . "" . $category->id,
+                        'active' =>$employee->active,
+                        'schedule_days' => $schedules_to_send,
+                        'employee_store_week_id' => $employee_store_week_id,
+                        'total_minutes_at_week' => $to_send['total_minutes'],
+                        'hourly_pay_rate' => $employee->hourlypayrate,
+                        'over_time_elegible' => $employee->overtimeelegible,
+                        'category_name' => $category->name
+                    ];
+                }
             }
             $response[] = ['id' => $category->id, 'category_name' => $category->name,'employees' => $employees_response];
         }
