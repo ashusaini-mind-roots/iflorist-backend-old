@@ -31,7 +31,7 @@ class ScheduleController extends Controller
 
         foreach ($categories as $category) {
             $employees = Employee::findByCategoryStore($category->id,$store_id);
-            $employees_response = [];//employees de esta categoria
+            $employees_response = [];//employees at this category
             foreach ($employees as $employee) {
                 $schedules = Schedule::findByEmployeeAndStoreWeekIds($employee->id,$store_week_id);//those are 7 days of this employee;
 
@@ -49,11 +49,15 @@ class ScheduleController extends Controller
                         'total_minutes_at_week' => $to_send['total_minutes'],
                         'hourly_pay_rate' => $employee->hourlypayrate,
                         'over_time_elegible' => $employee->overtimeelegible,
-                        'category_name' => $category->name
+                        'category_name' => $category->name,
+                        'employees_total' => count($employees),
                     ];
                 }
             }
-            $response[] = ['id' => $category->id, 'category_name' => $category->name,'employees' => $employees_response];
+            $response[] = ['id' => $category->id, 'category_name' => $category->name,'employees' => $employees_response,
+                'emplotest'=>$employees,
+                'scheduletest' =>$schedules,
+                'employeestoreweektest' => $employee_store_week];
         }
         return response()->json(['categories_schedules' => $response], 200);
     }
