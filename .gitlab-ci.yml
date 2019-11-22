@@ -6,8 +6,8 @@ deploy-to-dev:
   image: daxter1987/ubuntu-deploy:1.0.6
   script:
     - cp $LARAVEL_ENV_FILE .env
-    - mkdir ~/iflorist/dev/.elasticbeanstalk
-    - cp $ELASTIC_BEANSTALK_CONFIG_FILE ~/iflorist/dev/.elasticbeanstalk/config.yml
+    - mkdir iflorist/dev/.elasticbeanstalk
+    - cp $ELASTIC_BEANSTALK_CONFIG_FILE iflorist/dev/.elasticbeanstalk/config.yml
     - mkdir -p ~/.ssh
     - cp $SSH_PRIVATE_KEY ~/.ssh/iflorist.pem
     - chmod 600 ~/.ssh/iflorist.pem
