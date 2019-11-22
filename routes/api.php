@@ -12,6 +12,9 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Route::get('test',function (){
+    echo 'Api Working';
+});
 //Route::get('test_email','CompanyController@testEmail');
 Route::prefix('auth')->group(function () {
 
