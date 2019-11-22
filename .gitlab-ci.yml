@@ -13,7 +13,7 @@ deploy-to-dev:
     - chmod 600 ~/.ssh/iflorist.pem
     # - ssh -i ~/.ssh/iflorist.pem -o StrictHostKeyChecking=no ubuntu@ec2-52-15-131-157.us-east-2.compute.amazonaws.com "cd ~/iflorist && rm -rf dev && mkdir dev"
     - ssh -i ~/.ssh/iflorist.pem -o StrictHostKeyChecking=no ubuntu@ec2-52-15-131-157.us-east-2.compute.amazonaws.com "cd ~/iflorist && rm -rf dev && mkdir dev && cd dev && mkdir .elasticbeanstalk"
-    - ssh -i ~/.ssh/iflorist.pem -o StrictHostKeyChecking=no ubuntu@ec2-52-15-131-157.us-east-2.compute.amazonaws.com "cp ~/local/bin/.elasticbeanstalk/config.yml ~/iflorist/dev/.elasticbeanstalk/"
+    - ssh -i ~/.ssh/iflorist.pem -o StrictHostKeyChecking=no ubuntu@ec2-52-15-131-157.us-east-2.compute.amazonaws.com "cp ~/.elasticbeanstalk/config.yml ~/iflorist/dev/.elasticbeanstalk/"
     - rsync -rave "ssh -i ~/.ssh/iflorist.pem -o StrictHostKeyChecking=no" ./ ubuntu@ec2-52-15-131-157.us-east-2.compute.amazonaws.com:~/iflorist/dev -y
     - ssh -i ~/.ssh/iflorist.pem -o StrictHostKeyChecking=no ubuntu@ec2-52-15-131-157.us-east-2.compute.amazonaws.com "cd ~/iflorist/dev && sudo chmod -R 777 storage/ && eb deploy Iflorist-dev"
     #cp /home/ubuntu/private/oauth-public.key ~/iflorist/dev/storage/oauth-public.key && cp /home/ubuntu/private/oauth-private.key ~/iflorist/dev/storage/oauth-private.key &&
