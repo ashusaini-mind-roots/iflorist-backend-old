@@ -7,7 +7,7 @@ deploy-to-dev:
   script:
     - cp $LARAVEL_ENV_FILE .env
     - mkdir -p .elasticbeanstalk
-    - cp $ELASTIC_BEANSTALK_CONFIG_FILE ~/.elasticbeanstalk/config.yml
+    - cp $ELASTIC_BEANSTALK_CONFIG_FILE .elasticbeanstalk/config.yml
     - mkdir -p ~/.ssh
     - cp $SSH_PRIVATE_KEY ~/.ssh/iflorist.pem
     - chmod 600 ~/.ssh/iflorist.pem
