@@ -20,11 +20,8 @@ class ScheduleController extends Controller
     public function schedule_week($store_id, $week_id)
     {
         $store_week_id = StoreWeek::storeWeekId($store_id,$week_id);
-        //$employee_store_week = EmployeeStoreWeek::findByStoreWeekId($store_week_id);
         $employee_store_week_id = -1;
-       // if($employee_store_week)
-       //     $employee_store_week_id = $employee_store_week->id;
-//        $schedules = Schedule::findByEmployeeStoreWeekId($employee_store_week->id);
+       
 
         $categories = Category::all();
         $response = [];

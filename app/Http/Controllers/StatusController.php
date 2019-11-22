@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Statu;
+use App\Models\Status;
 
 class StatusController extends Controller
 {
     public function index()
     {
-        return response()->json(['status' => Statu::all()], 200);
+        return response()->json(['status' => Status::all()], 200);
     }
 }
