@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Models\User;
 use App\Models\Employee;
 use App\Models\StoreWeek;
 Use App\Models\EmployeeStoreWeek;
@@ -33,11 +34,32 @@ class EmployeesController extends Controller
 
     public function create(Request $request)
     {
+        $fileUrl = 'default';
+        
+        if($request->has('image') && $request->file('image')!=null)
+           $fileUrl = $request->file('image')->store('employee');
+        
+        //return response()->json(['status' => $fileUrl], 200);
+
+        $user = new User();
+
+        if($user->if_email($request->email))
+        {
+            return response()->json([
+                'status' => 'error',
+                'error' => 'The email already exist !'
+            ], 200);
+        }
+
         $v = Validator::make($request->all(), [
             'store_id' => 'required',
             'category_id' => 'required',
+            'status_id' => 'required',
             'work_man_comp_id' => 'required',
             'name' => 'required',
+            'email' => 'required',
+            'phone_number' => 'required',
+            'active' => 'required',
             'overtimeelegible' => 'required',
             'hourlypayrate' => 'required',
         ]);
@@ -49,15 +71,27 @@ class EmployeesController extends Controller
             ], 422);
         }
 
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->role_id = 2;
+        $user->password = '123456789';
+        $user->activated_account = $request->activate;
+
+        $user->save();
+
         $employee = new Employee();
 
         $employee->store_id = $request->store_id;
         $employee->category_id = $request->category_id;
+        $employee->status_id = $request->status_id;
         $employee->work_man_comp_id = $request->work_man_comp_id;
+        $employee->user_id = $user->id;
         $employee->name = $request->name;
+        $employee->phone_number = $request->phone_number;
         $employee->overtimeelegible = $request->overtimeelegible;
         $employee->hourlypayrate = $request->hourlypayrate;
-        $employee->active = /*$request->active*/true;
+        $employee->image = $fileUrl;
+        $employee->active = $request->active;
 
         $employee->save();
 
@@ -72,6 +106,7 @@ class EmployeesController extends Controller
             $employee_store_week = new EmployeeStoreWeek();
             $employee_store_week->employee_id = $employee_id;
             $employee_store_week->store_week_id = $sw->id;
+            $employee_store_week->activate = $employee->active;
             $employee_store_week->save();
         }
 

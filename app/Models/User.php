@@ -113,4 +113,16 @@ class User extends Authenticatable implements JWTSubject
         return false;
     }
 
+    public function if_email($email)
+    {
+        $user = DB::table('users')
+            ->where('users.email', $email)
+            ->first();
+
+        if (!$user)
+            return false;
+
+        return true;
+    }
+
 }

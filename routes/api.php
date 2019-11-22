@@ -116,6 +116,10 @@ Route::prefix('category')->group(function () {
     Route::get('all', 'CategoriesController@index');
 });
 
+Route::prefix('statu')->group(function () {
+    Route::get('all', 'StatusController@index');
+});
+
 Route::prefix('work_man_comp')->group(function () {
     Route::get('all', 'WorkMansCompController@index');
 });

@@ -20,6 +20,8 @@ class CreateEmployeesTable extends Migration
             $table->bigInteger('work_man_comp_id')->unsigned();
             $table->bigInteger('user_id')->unsigned()->nullable(true);
             $table->string('name');
+            $table->string('phone_number');
+            $table->string('image');
             $table->boolean('overtimeelegible');
             $table->decimal('hourlypayrate',4,2);
             $table->timestamps();
