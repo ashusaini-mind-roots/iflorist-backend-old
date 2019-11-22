@@ -20,6 +20,17 @@ class Employee extends Model
         return  $employs;
     }
 
+    static function findByStore($store_id)
+    {
+        $employs = DB::table('employees')
+            ->join('categories', 'categories.id', '=', 'employees.category_id')
+            ->select('employees.*','categories.name as categorie_name')
+            ->where('store_id',$store_id)
+            ->where('active',1)
+            ->get();
+        return  $employs;
+    }
+
     /**
      * @param $store_id
      * @param int $omit_cat_col
