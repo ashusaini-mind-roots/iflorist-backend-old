@@ -20,8 +20,11 @@ class ScheduleController extends Controller
     public function schedule_week($store_id, $week_id)
     {
         $store_week_id = StoreWeek::storeWeekId($store_id,$week_id);
+        //$employee_store_week = EmployeeStoreWeek::findByStoreWeekId($store_week_id);
         $employee_store_week_id = -1;
-       
+        // if($employee_store_week)
+        //     $employee_store_week_id = $employee_store_week->id;
+//        $schedules = Schedule::findByEmployeeStoreWeekId($employee_store_week->id);
 
         $categories = Category::all();
         $response = [];
@@ -47,14 +50,17 @@ class ScheduleController extends Controller
                         'hourly_pay_rate' => $employee->hourlypayrate,
                         'over_time_elegible' => $employee->overtimeelegible,
                         'category_name' => $category->name,
-                        'employees_total' => count($employees),
+                        'category_id' => $category->id,
+                        'employees_array_length_at_this_category' => count($employees),
                     ];
                 }
             }
             $response[] = ['id' => $category->id, 'category_name' => $category->name,'employees' => $employees_response,
-                'emplotest'=>$employees,
-                'scheduletest' =>$schedules,
-                'employeestoreweektest' => $employee_store_week];
+
+//                'emplotest'=>$employees,
+//                'scheduletest' =>$schedules,
+//                'employeestoreweektest' => $employee_store_week
+            ];
         }
         return response()->json(['categories_schedules' => $response], 200);
     }
@@ -104,41 +110,41 @@ class ScheduleController extends Controller
         $temp_new = [];
         if(is_array($schedule_days))
         {
-           foreach ($schedule_days as $sche)
-           {
-               if(isset($sche->time_in) && isset($sche->time_out) && isset($sche->employee_store_week_id))
-               {
-                   if($sche->id==-1)
-                   {
-                       $chedule = new Schedule();
-                       $chedule->employee_store_week_id = $sche->employee_store_week_id;
-                       $chedule->time_in = Carbon::parse($sche->time_in)->format('Y-m-d H:i:s');
-                       $chedule->time_out = Carbon::parse($sche->time_out)->format('Y-m-d H:i:s');
-                       $chedule->break_time = !isset($sche->break_time) ? 0 : $sche->break_time;
-                       $dimdate = DateDim::findBy_($year, $sche->day_of_week, $week_number);
-                       $arrayre[] =$dimdate;
-                       $chedule->dates_dim_date = $dimdate->date;
-                       //$chedule->dates_dim_date = date('Y-m-d');
-                       $chedule->save();
-                       $sche->id = $chedule->id;
-                       $sche->dates_dim_date = $dimdate->date;
-                       $temp_new[] = $sche;
-                   }
-                   else
-                   {
-                       $chedule = Schedule::findOrFail($sche->id);
-                       $chedule->employee_store_week_id = $sche->employee_store_week_id;
-                       $chedule->time_in = Carbon::parse($sche->time_in)->format('Y-m-d H:i:s');
-                       $chedule->time_out = Carbon::parse($sche->time_out)->format('Y-m-d H:i:s');
-                       $chedule->break_time = !isset($sche->break_time) ? $chedule->break_time : $sche->break_time;
-                       $dimdate = DateDim::findBy_($year, $sche->day_of_week, $week_number);
-                       $arrayre[] = $dimdate;
-                       $chedule->dates_dim_date =  $dimdate->date;
-                       //$chedule->dates_dim_date = date('Y-m-d');
-                       $chedule->update();
+            foreach ($schedule_days as $sche)
+            {
+                if(isset($sche->time_in) && isset($sche->time_out) && isset($sche->employee_store_week_id))
+                {
+                    if($sche->id==-1)
+                    {
+                        $chedule = new Schedule();
+                        $chedule->employee_store_week_id = $sche->employee_store_week_id;
+                        $chedule->time_in = Carbon::parse($sche->time_in)->format('Y-m-d H:i:s');
+                        $chedule->time_out = Carbon::parse($sche->time_out)->format('Y-m-d H:i:s');
+                        $chedule->break_time = !isset($sche->break_time) ? 0 : $sche->break_time;
+                        $dimdate = DateDim::findBy_($year, $sche->day_of_week, $week_number);
+                        $arrayre[] =$dimdate;
+                        $chedule->dates_dim_date = $dimdate->date;
+                        //$chedule->dates_dim_date = date('Y-m-d');
+                        $chedule->save();
+                        $sche->id = $chedule->id;
+                        $sche->dates_dim_date = $dimdate->date;
+                        $temp_new[] = $sche;
+                    }
+                    else
+                    {
+                        $chedule = Schedule::findOrFail($sche->id);
+                        $chedule->employee_store_week_id = $sche->employee_store_week_id;
+                        $chedule->time_in = Carbon::parse($sche->time_in)->format('Y-m-d H:i:s');
+                        $chedule->time_out = Carbon::parse($sche->time_out)->format('Y-m-d H:i:s');
+                        $chedule->break_time = !isset($sche->break_time) ? $chedule->break_time : $sche->break_time;
+                        $dimdate = DateDim::findBy_($year, $sche->day_of_week, $week_number);
+                        $arrayre[] = $dimdate;
+                        $chedule->dates_dim_date =  $dimdate->date;
+                        //$chedule->dates_dim_date = date('Y-m-d');
+                        $chedule->update();
 
-                   }
-               }
+                    }
+                }
 
             }
 

@@ -1,6 +1,6 @@
 <?php
 use Illuminate\Database\Seeder;
-use App\Models\Statu;
+use App\Models\Status;
 
 class StatusTableSeeder extends Seeder
 {
@@ -11,7 +11,7 @@ class StatusTableSeeder extends Seeder
      */
     public function run()
     {
-        Statu::create(['name' => 'Director','code' => 'director']);
-        Statu::create(['name' => 'Sub Contractor','code' => 'subcontractor']);
+        Status::create(['name' => 'Director','code' => 'director']);
+        Status::create(['name' => 'Sub Contractor','code' => 'subcontractor']);
     }
 }

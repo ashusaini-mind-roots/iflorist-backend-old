@@ -31,6 +31,11 @@ class Employee extends Model
         return  $employs;
     }
 
+    static function findByIdCustom($employee_id)
+    {
+        return 1;
+    }
+
     /**
      * @param $store_id
      * @param int $omit_cat_col

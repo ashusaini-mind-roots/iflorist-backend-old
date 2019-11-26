@@ -11,6 +11,7 @@ Use App\Models\EmployeeStoreWeek;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use App\Models\TaxPercentCalculator;
+use Illuminate\Support\Facades\Storage;
 
 
 class EmployeesController extends Controller
@@ -29,7 +30,38 @@ class EmployeesController extends Controller
 
     public function getById($id)
     {
-        return response()->json(['employee' => Employee::find($id)], 200);
+        $employee = Employee::find($id);
+        $data = array();
+        $data['employee'] = $employee;
+        if($employee->system_account=='1')
+        {
+            $user = User::find($employee->user_id);
+            $data['user'] = $user;
+        }
+        else
+        {
+            $data['user'] = null;
+        }
+
+        return response()->json(['employee' => $data], 200);
+    }
+
+    public function getImageById($id)
+    {
+        $employee = Employee::find($id);
+        
+        if($employee->image!='default')
+        {
+            //$file = Storage::get('employee/'+$employee->image);
+            $path = $employee->image;
+            $path = str_replace('/',"\\",$path);
+            $path = 'app/'.$path;
+            return response()->file(storage_path($path));
+        }
+        else
+        {
+            return response()->file(storage_path('app\employee\default.jpg'));
+        }
     }
 
     public function create(Request $request)
@@ -39,25 +71,12 @@ class EmployeesController extends Controller
         if($request->has('image') && $request->file('image')!=null)
            $fileUrl = $request->file('image')->store('employee');
         
-        //return response()->json(['status' => $fileUrl], 200);
-
-        $user = new User();
-
-        if($user->if_email($request->email))
-        {
-            return response()->json([
-                'status' => 'error',
-                'error' => 'The email already exist !'
-            ], 200);
-        }
-
-        $v = Validator::make($request->all(), [
+           $v = Validator::make($request->all(), [
             'store_id' => 'required',
             'category_id' => 'required',
             'status_id' => 'required',
             'work_man_comp_id' => 'required',
             'name' => 'required',
-            'email' => 'required',
             'phone_number' => 'required',
             'active' => 'required',
             'overtimeelegible' => 'required',
@@ -71,13 +90,28 @@ class EmployeesController extends Controller
             ], 422);
         }
 
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->role_id = 2;
-        $user->password = '123456789';
-        $user->activated_account = $request->activate;
+        if($request->system_account=='1')
+        {
+            $user = new User();
 
-        $user->save();
+            if($user->if_email($request->email))
+            {
+                return response()->json([
+                    'status' => 'error',
+                    'error' => 'The email already exist !'
+                ], 200);
+            }
+            
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->role_id = 2;
+            $user->password = '123456789';
+            $user->activated_account = $request->active;
+
+            $user->save();
+        }
+        
+        
 
         $employee = new Employee();
 
@@ -85,13 +119,17 @@ class EmployeesController extends Controller
         $employee->category_id = $request->category_id;
         $employee->status_id = $request->status_id;
         $employee->work_man_comp_id = $request->work_man_comp_id;
-        $employee->user_id = $user->id;
+        if($request->system_account=='1')
+            $employee->user_id = $user->id;
         $employee->name = $request->name;
         $employee->phone_number = $request->phone_number;
         $employee->overtimeelegible = $request->overtimeelegible;
         $employee->hourlypayrate = $request->hourlypayrate;
         $employee->image = $fileUrl;
         $employee->active = $request->active;
+        $employee->year_pay = $request->year_pay;
+        $employee->system_account = $request->system_account;
+        
 
         $employee->save();
 
@@ -113,16 +151,22 @@ class EmployeesController extends Controller
         return response()->json(['status' => 'success'], 200);
     }
 
+    
+
     public function update(Request $request, $id)
     {
+        $fileUrl = $request->file('image')->store('employee');
+        
         $v = Validator::make($request->all(), [
-            'store_id' => 'required',
-            'category_id' => 'required',
-            'work_man_comp_id' => 'required',
-            'name' => 'required',
-            'overtimeelegible' => 'required',
-            'hourlypayrate' => 'required',
-            'active' => 'required',
+        /*'store_id' => 'required',*/
+        'category_id' => 'required',
+        'status_id' => 'required',
+        'work_man_comp_id' => 'required',
+        'name' => 'required',
+        'phone_number' => 'required',
+        'active' => 'required',
+        'overtimeelegible' => 'required',
+        'hourlypayrate' => 'required',
         ]);
 
         if ($v->fails()) {
@@ -134,7 +178,7 @@ class EmployeesController extends Controller
 
         $employee = Employee::findOrFail($id);
 
-        $store_week = StoreWeek::where('store_id',$employee->store_id)->get();
+        /*$store_week = StoreWeek::where('store_id',$employee->store_id)->get();
 
         if($employee->store_id!=$request->store_id)
         {
@@ -144,19 +188,61 @@ class EmployeesController extends Controller
                 $employee_store_week->activate = false;
                 $employee_store_week->update();
             }
-        }
+        }*/
 
-        $employee->store_id = $request->store_id;
+        /*$employee->store_id = $request->store_id;*/
         $employee->category_id = $request->category_id;
+        $employee->status_id = $request->status_id;
         $employee->work_man_comp_id = $request->work_man_comp_id;
+        if($request->system_account=='1')
+        {
+            if($employee->user_id==null)
+            {
+                $user = new User();
+                if($user->if_email($request->email))
+                {
+                    return response()->json([
+                        'status' => 'error',
+                        'error' => 'The email already exist !'
+                    ], 200);
+                }
+                $user->name = $request->name;
+                $user->email = $request->email;
+                $user->role_id = 2;
+                $user->password = '123456789';
+                $user->activated_account = $request->active;
+                $user->save();
+                $employee->user_id = $user->id;
+            }
+            else
+            {
+                $user = User::findOrFail($employee->user_id);
+                $user->activated_account = '1';
+                $user->email = $request->email;
+                $user->update();
+            }
+        }
+        else
+        {
+            if($employee->user_id!=null)
+            {
+                $user = User::findOrFail($employee->user_id);
+                $user->activated_account = '0';
+                $user->update();
+            }
+        }
         $employee->name = $request->name;
+        $employee->phone_number = $request->phone_number;
         $employee->overtimeelegible = $request->overtimeelegible;
         $employee->hourlypayrate = $request->hourlypayrate;
+        $employee->image = $fileUrl;
         $employee->active = $request->active;
+        $employee->year_pay = $request->year_pay;
+        /*$employee->system_account = $request->system_account;*/
 
         $employee->update();
 
-        $store_week = StoreWeek::where('store_id',$request->store_id)->get();
+        /*$store_week = StoreWeek::where('store_id',$request->store_id)->get();
         foreach ($store_week as $sw)
         {
             $employee_store_week = EmployeeStoreWeek::where('store_week_id',$sw->id)->where('employee_id',$id)->first();
@@ -171,7 +257,7 @@ class EmployeesController extends Controller
                 $employee_store_week->store_week_id = $sw->id;
                 $employee_store_week->save();
             }
-        }
+        }*/
 
         return response()->json(['status' => 'success'], 200);
     }
