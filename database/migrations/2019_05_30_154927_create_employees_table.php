@@ -23,7 +23,9 @@ class CreateEmployeesTable extends Migration
             $table->string('phone_number');
             $table->string('image');
             $table->boolean('overtimeelegible');
-            $table->decimal('hourlypayrate',4,2);
+            $table->decimal('hourlypayrate',10,2);
+            $table->boolean('system_account');
+            $table->boolean('year_pay');
             $table->timestamps();
 
             $table->foreign('category_id')->references('id')->on('categories');

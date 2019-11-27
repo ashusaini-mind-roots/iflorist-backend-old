@@ -108,8 +108,10 @@ Route::prefix('master_overview_weekly')->group(function () {
 Route::prefix('employee')->group(function () {
     Route::get('all/{store_id}', 'EmployeesController@getAll');
     Route::post('create', 'EmployeesController@create');
-    Route::put('update/{id}', 'EmployeesController@update');
+    Route::post('update/{id}', 'EmployeesController@update');
     Route::get('getById/{id}', 'EmployeesController@getById');
+    Route::get('getImageById/{id}', 'EmployeesController@getImageById');
+    
 });
 
 Route::prefix('category')->group(function () {
