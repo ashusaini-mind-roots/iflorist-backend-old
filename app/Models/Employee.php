@@ -91,7 +91,7 @@ class Employee extends Model
             ->where('employees.active',1)
             ->where('employees.store_id', '=', $store_id)
             ->select('employees.*','work_mans_comp.name as work_man_comp','work_mans_comp.rate as work_man_comp_rate','stores.store_name as store','categories.name as category',
-                'status.name as status_name', 'status.code as status_code')
+                'status.name as status_name', 'status.code as status_code','employees.user_id as employees_user_id')
             ->get();
 
         return $employees;
