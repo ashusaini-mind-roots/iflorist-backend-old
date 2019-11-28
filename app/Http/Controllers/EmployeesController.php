@@ -73,7 +73,7 @@ class EmployeesController extends Controller
         }
         else
         {
-            return response()->file(storage_path('app\employee\default.jpg'));
+            return response()->file(storage_path('app/employee/default.jpg'));
         }
     }
 
