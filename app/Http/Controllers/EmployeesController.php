@@ -61,7 +61,7 @@ class EmployeesController extends Controller
 
     public function getImageById($id)
     {
-        /*$employee = Employee::find($id);
+        $employee = Employee::find($id);
         
         if($employee->image!='default')
         {
@@ -74,8 +74,8 @@ class EmployeesController extends Controller
         else
         {
             return response()->file(storage_path('app/employee/default.jpg'));
-        }*/
-        return response()->file(storage_path('app/test.jpg'));
+        }
+        //return response()->file(storage_path('app/test.jpg'));
     }
 
     public function create(Request $request)
