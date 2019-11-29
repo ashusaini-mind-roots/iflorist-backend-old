@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use App\Models\TaxPercentCalculator;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Week;
 
 
 class EmployeesController extends Controller
@@ -149,18 +150,18 @@ class EmployeesController extends Controller
 
         $employee_id = $employee->id;
 
-        $store_week = StoreWeek::where('store_id',$request->store_id)->get();
+        $lastWeek = Week::lastWeek();
+
+        $store_week = StoreWeek::where('store_id',$request->store_id)->where('week_id',$lastWeek->id)->first();
 
         //return response()->json(['status' => $store_week], 200);
 
-        foreach ($store_week as $sw)
-        {
-            $employee_store_week = new EmployeeStoreWeek();
-            $employee_store_week->employee_id = $employee_id;
-            $employee_store_week->store_week_id = $sw->id;
-            $employee_store_week->activate = $employee->active;
-            $employee_store_week->save();
-        }
+        $employee_store_week = new EmployeeStoreWeek();
+        $employee_store_week->employee_id = $employee_id;
+        $employee_store_week->store_week_id = $store_week->id;
+        $employee_store_week->activate = $employee->active;
+        $employee_store_week->save();
+
 
         return response()->json(['status' => 'success'], 200);
     }

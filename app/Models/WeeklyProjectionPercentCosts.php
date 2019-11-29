@@ -13,10 +13,22 @@ class WeeklyProjectionPercentCosts extends Model
     {
 //        $target = DB::table('weekly_projection_percent_costs')
 //            ->get();
+        $data = parent::all()->first();
         if($cost_of == 'goods')
-            return parent::all()->first()->target_cog;
+        {
+            if($data)
+                return $data->target_cog;
+            else
+                return null;
+        }
         else  if($cost_of == 'fresh')
-            return parent::all()->first()->target_cof;
+        {
+            if($data)
+                return $data->target_cof;
+            else
+                return null;
+        }
+
     }
 
 }

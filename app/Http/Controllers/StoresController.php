@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Store;
 use App\Models\Role;
 use App\Models\User;
+use App\Models\Week;
+use App\Models\StoreWeek;
 use App\Models\Company;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -155,6 +157,13 @@ class StoresController extends Controller
         $Store->address = $request->address;
         $Store->company_id = $company->id;
         $Store->save();
+
+        $lastWeek = Week::lastWeek();
+
+        $storeWeek = new StoreWeek();
+        $storeWeek->store_id = $Store->id;
+        $storeWeek->week_id = $lastWeek->id;
+        $storeWeek->save();
 
         return response()->json(['status' => 'success'], 200);
     }
