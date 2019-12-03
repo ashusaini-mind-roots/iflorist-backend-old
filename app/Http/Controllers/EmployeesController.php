@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use App\Models\TaxPercentCalculator;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Week;
 
 
 class EmployeesController extends Controller
@@ -21,9 +22,22 @@ class EmployeesController extends Controller
         $employees = Employee::getAllActiveEmployees($store_id);
 
         for($i = 0 ; $i < count($employees) ; $i++){
+            $emailTemp = '';
             $taxes = $this->getEmployeeTaxes($employees[$i]->hourlypayrate,$employees[$i]->work_man_comp_rate);
             $employees[$i]->hourly_gross_pay =  $taxes + $employees[$i]->hourlypayrate ;
             $employees[$i]->overtime_gross_pay = $taxes + ($employees[$i]->hourlypayrate * 1.5) ;
+            $userIdTemp = $employees[$i]->employees_user_id;
+            if($userIdTemp != null)
+            {
+                $user = User::find($userIdTemp);
+                //$emailTemp = $employees[$i]->employees_user_id;
+                if($user->activated_account=='1')
+                {
+                    $emailTemp = $user->email;
+                }
+            }
+
+            $employees[$i]->email = $emailTemp;
         }
         return response()->json(['employees' => $employees], 200);
     }
@@ -60,8 +74,9 @@ class EmployeesController extends Controller
         }
         else
         {
-            return response()->file(storage_path('app\employee\default.jpg'));
+            return response()->file(storage_path('app/employee/default.jpg'));
         }
+        //return response()->file(storage_path('app/test.jpg'));
     }
 
     public function create(Request $request)
@@ -135,18 +150,18 @@ class EmployeesController extends Controller
 
         $employee_id = $employee->id;
 
-        $store_week = StoreWeek::where('store_id',$request->store_id)->get();
+        $lastWeek = Week::lastWeek();
+
+        $store_week = StoreWeek::where('store_id',$request->store_id)->where('week_id',$lastWeek->id)->first();
 
         //return response()->json(['status' => $store_week], 200);
 
-        foreach ($store_week as $sw)
-        {
-            $employee_store_week = new EmployeeStoreWeek();
-            $employee_store_week->employee_id = $employee_id;
-            $employee_store_week->store_week_id = $sw->id;
-            $employee_store_week->activate = $employee->active;
-            $employee_store_week->save();
-        }
+        $employee_store_week = new EmployeeStoreWeek();
+        $employee_store_week->employee_id = $employee_id;
+        $employee_store_week->store_week_id = $store_week->id;
+        $employee_store_week->activate = $employee->active;
+        $employee_store_week->save();
+
 
         return response()->json(['status' => 'success'], 200);
     }

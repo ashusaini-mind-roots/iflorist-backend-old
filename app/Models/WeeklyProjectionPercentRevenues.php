@@ -4,6 +4,7 @@ namespace App\Models;
 use Illuminate\Support\Facades\DB;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\DateDim;
 
 class WeeklyProjectionPercentRevenues extends Model
 {
@@ -37,7 +38,7 @@ class WeeklyProjectionPercentRevenues extends Model
 
         foreach($weeklyProjectionPercentRevenues as $w)
         {
-            $week = DB::table('weeks')
+            /*$week = DB::table('weeks')
             ->where('weeks.number', $w->week_number)
             ->where('weeks.year', $w->year_proyection)
             ->select('weeks.id')
@@ -47,13 +48,13 @@ class WeeklyProjectionPercentRevenues extends Model
             ->where('store_week.store_id', $w->store_id)
             ->where('store_week.week_id', $week->id)
             ->select('store_week.id')
-            ->first();
+            ->first();*/
 
-            $dailyRevenues = DB::table('daily_revenues')
+            /*$dailyRevenues = DB::table('daily_revenues')
             ->Join('dates_dim','dates_dim.date','=','daily_revenues.dates_dim_date')
             ->where('daily_revenues.store_week_id', $store_week->id)
             ->select('dates_dim.*')
-            ->get();
+            ->get();*/
 
             $weeklyProjectionPercentRevenueReference = DB::table('weekly_projection_percent_revenues')
                 ->where('weekly_projection_percent_revenues.week_number', $w->week_number)
@@ -68,11 +69,13 @@ class WeeklyProjectionPercentRevenues extends Model
             {
                 $amtTotalReference = $weeklyProjectionPercentRevenueReference->amt_total;
             }
+
+            $dateDims = DateDim::where('week_starting_monday',$w->week_number)->where('year',$w->year_proyection)->get();
             
             $row['id'] = $w->id;
             $row['amt_total'] = $w->amt_total;
             $row['reference_amt_total'] = $amtTotalReference;
-            $row['week'] = $dailyRevenues[0]->month.' '.$dailyRevenues[0]->month_day.' - '.$dailyRevenues[6]->month.' '.$dailyRevenues[6]->month_day;
+            $row['week'] = $dateDims[0]->month_day.' '.$dateDims[0]->month.' - '.$dateDims[6]->month_day.' '.$dateDims[6]->month;
             $row['adjust'] = $w->percent;
             
             $result[] = $row;

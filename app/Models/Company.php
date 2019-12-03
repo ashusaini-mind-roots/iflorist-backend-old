@@ -22,7 +22,7 @@ class Company extends Model
         return  $stores;
     }
 
-    public function getUserByCopany($companyId)
+    public function getUserByCompany($companyId)
     {
         $userId = DB::table('company')
             ->where('company.id', $companyId)

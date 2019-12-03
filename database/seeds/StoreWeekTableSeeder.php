@@ -12,7 +12,7 @@ class StoreWeekTableSeeder extends Seeder
      */
     public function run()
     {
-        $sql = "
+        /*$sql = "
             insert into store_week(store_id,week_id,created_at,updated_at)
             SELECT 
                 s.id,w.id,now(),now()
@@ -21,7 +21,7 @@ class StoreWeekTableSeeder extends Seeder
                 cross join stores s ;
     ";
 
-        DB::unprepared($sql);
+        DB::unprepared($sql);*/
     }
 
 

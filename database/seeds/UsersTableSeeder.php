@@ -14,21 +14,24 @@ class UsersTableSeeder extends Seeder
             'name' => 'Admin',
             'email' => 'admin@test.com',
             'password' => Hash::make('test'),
-            'role_id' => 1
+            'role_id' => 1,
+            'activated_account' => '1'
         ]);
 
         User::create([
             'name' => 'Manager',
             'email' => 'manager@test.com',
             'password' => Hash::make('test'),
-            'role_id' => 2
+            'role_id' => 2,
+            'activated_account' => '1'
         ]);
 
         User::create([
             'name' => 'User',
             'email' => 'User@test.com',
             'password' => Hash::make('test'),
-            'role_id' => 3
+            'role_id' => 3,
+            'activated_account' => '1'
         ]);
     }
 }
