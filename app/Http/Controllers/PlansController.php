@@ -53,8 +53,8 @@ class PlansController extends Controller
 
     public function modulesbyuser($user_id)
     {
-        $plan = new Plan();
-        return response()->json(['modules' => $plan->modulesbyuser($user_id)], 200);
+        //$plan = new Plan();
+        return response()->json(['modules' => Plan::modulesbyuser($user_id)], 200);
     }
 
 }
