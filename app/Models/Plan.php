@@ -9,7 +9,7 @@ class Plan extends Model
 {
     protected $table = 'plans';
 
-    public function modulesbyuser($user_id)
+    static function modulesbyuser($user_id)
     {
         $company = DB::table('company')
         ->where('company.user_id',$user_id)
@@ -23,6 +23,7 @@ class Plan extends Model
         ->leftjoin('company_plan','company_plan.plan_id','=','plans.id')
         ->where('company_plan.company_id',$company->id)
         ->groupby('modules.id')
+        ->orderBy('modules.number','ASC')
         ->get();
 
         return $modules;
