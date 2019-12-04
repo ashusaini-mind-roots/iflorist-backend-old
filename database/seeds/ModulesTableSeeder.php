@@ -12,11 +12,11 @@ class ModulesTableSeeder extends Seeder
      */
     public function run()
     {
-        Module::create(['name' => 'Sales','number' => 1, 'icono'=> 'default','action'=> '/sales']);
-        Module::create(['name' => 'Cost of Fresh','number' => 2, 'icono'=> 'default','action'=> '/cost-of/fresh']);
-        Module::create(['name' => 'Cost of Hard Goods','number' => 3, 'icono'=> 'default','action'=> '/cost-of/goods']);
-        Module::create(['name' => 'Sheduler','number' => 4, 'icono'=> 'default','action'=> '/scheduler']);
-        Module::create(['name' => 'Bloomview','number' => 5, 'icono'=> 'default','action'=> '#']);
-        Module::create(['name' => 'Projections','number' => 6, 'icono'=> 'default','action'=> '/projections']);
+        Module::create(['name' => 'Sales','number' => 1, 'icono'=> 'sales-icon','action'=> '/sales']);
+        Module::create(['name' => 'Cost of Fresh','number' => 2, 'icono'=> 'costoffresh-icon','action'=> '/cost-of/fresh']);
+        Module::create(['name' => 'Cost of Hard Goods','number' => 3, 'icono'=> 'costofgoods-icon','action'=> '/cost-of/goods']);
+        Module::create(['name' => 'Sheduler','number' => 4, 'icono'=> 'scheduler-icon','action'=> '/scheduler']);
+        Module::create(['name' => 'Bloomview','number' => 5, 'icono'=> 'bloomview-icon','action'=> '#']);
+        Module::create(['name' => 'Projections','number' => 6, 'icono'=> 'projections-icon','action'=> '/projections']);
     }
 }
