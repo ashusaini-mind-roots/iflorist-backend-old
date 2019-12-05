@@ -91,7 +91,7 @@ class MasterOverviewWeeklyController extends Controller
             if ($weekly_cog_total == 0) {
                 $total = 0;
             } else {
-                $total = $weekly_cog_total * 100 / $actual_weekly_revenue;
+                $total = $weekly_cog_total * 100 / ($actual_weekly_revenue <= 0) ? 1 : $actual_weekly_revenue;
             }
 
             $target = WeeklyProjectionPercentCosts::target($cost_of);
