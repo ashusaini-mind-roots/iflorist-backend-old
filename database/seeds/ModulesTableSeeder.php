@@ -16,7 +16,7 @@ class ModulesTableSeeder extends Seeder
         Module::create(['name' => 'Cost of Fresh','number' => 2, 'icono'=> 'costoffresh-icon','action'=> '/cost-of/fresh']);
         Module::create(['name' => 'Cost of Hard Goods','number' => 3, 'icono'=> 'costofgoods-icon','action'=> '/cost-of/goods']);
         Module::create(['name' => 'Sheduler','number' => 4, 'icono'=> 'scheduler-icon','action'=> '/scheduler']);
-        Module::create(['name' => 'Bloomview','number' => 5, 'icono'=> 'scheduler-icon','action'=> '#']);
-        Module::create(['name' => 'Projections','number' => 6, 'icono'=> 'scheduler-icon','action'=> '/projections']);
+        Module::create(['name' => 'Bloomview','number' => 5, 'icono'=> 'bloomview-icon','action'=> '#']);
+        Module::create(['name' => 'Projections','number' => 6, 'icono'=> 'projections-icon','action'=> '/projections']);
     }
 }
