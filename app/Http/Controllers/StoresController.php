@@ -149,8 +149,14 @@ class StoresController extends Controller
         $userId = auth()->user()->id;
         $company = Company::where('user_id',$userId)->first();
 
+        $fileUrl = 'default';
+
+        if($request->has('image') && $request->file('image')!=null)
+            $fileUrl = $request->file('image')->store('store');
+
         $Store = new Store;
         $Store->store_name = $request->store_name;
+        $Store->image = $fileUrl;
         $Store->contact_email = $request->contact_email;
         $Store->contact_phone = $request->contact_phone;
         $Store->zip_code = $request->zip_code;

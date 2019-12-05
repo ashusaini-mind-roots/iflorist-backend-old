@@ -24,6 +24,7 @@ class CreateStoresTable extends Migration
             $table->string('zip_code')->nullable();
             $table->string('state', 2)->nullable();
             $table->string('main_contact')->nullable();
+            $table->string('image');
             $table->timestamps();
         });
     }
