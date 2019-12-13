@@ -123,6 +123,8 @@ Route::prefix('employee')->group(function () {
     Route::post('update/{id}', 'EmployeesController@update');
     Route::get('getById/{id}', 'EmployeesController@getById');
     Route::get('getImageById/{id}', 'EmployeesController@getImageById');
+    Route::get('getEmployeesByStore/{store_id}', 'EmployeesController@getEmployeesByStore');
+    Route::delete('delete/{id}', 'EmployeesController@delete');
     
 });
 

@@ -42,6 +42,19 @@ class EmployeesController extends Controller
         return response()->json(['employees' => $employees], 200);
     }
 
+    public function getEmployeesByStore($store_id)
+	{
+		return response()->json(['employees' => Employee::where('store_id',$store_id)->get()], 200);
+    }
+    
+    public function delete($id)
+	{
+        $employee = Employee::findOrFail($id);
+        $employee->active = '0';
+        $employee->update();
+        return response()->json(['status' => 'success'], 200);
+	}
+
     public function getById($id)
     {
         $employee = Employee::find($id);
