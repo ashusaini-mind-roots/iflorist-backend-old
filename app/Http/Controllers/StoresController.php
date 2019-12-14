@@ -131,8 +131,8 @@ class StoresController extends Controller
     {
         return response()->json(['store' => Store::find($id)], 200);
     }
-
-    public function create(Request $request)
+	
+	public function create(Request $request)
     {
         $v = Validator::make($request->all(), [
             'store_name' => 'required',
@@ -194,6 +194,8 @@ class StoresController extends Controller
         $Store->contact_phone = $request->contact_phone;
         $Store->zip_code = $request->zip_code;
         $Store->address = $request->address;
+		$Store->city = $request->city;
+		$Store->state = $request->state;
 //        $Store->company_id = $request->company_id;
         $Store->update();
 
