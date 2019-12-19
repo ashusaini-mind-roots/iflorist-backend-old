@@ -138,8 +138,6 @@ class EmployeesController extends Controller
 
             $user->save();
         }
-        
-        
 
         $employee = new Employee();
 

@@ -104,8 +104,7 @@ class AuthController extends Controller
 //        if($user->if_active(auth()->user()->id)==true)
 //            return response()->json(['error'=>'Company canceled'],200);
 
-        //return $this->respondWithToken($token);
-        return $this->resposeWithToken($token);
+        return $this->responseWithToken($token);
     }
 
     public function send_mail($email,$text)
@@ -167,13 +166,16 @@ class AuthController extends Controller
         return response()->json(['role' => Role::findOrFail($rol_id)],200);
     }
 
-    protected function resposeWithToken($token)
+    protected function responseWithToken($token)
     {
+        $company = Company::where('user_id',auth()->user()->id)->first();
         return response()->json([
+            'userid' => auth()->user()->id,
             'access_token' => $token,
             'token_type' => 'bearer',
             'expires_in' => auth()->factory()->getTTL() * 8760,
             'user' => auth()->user(),
+            'company' => $company
         ]);
     }
 

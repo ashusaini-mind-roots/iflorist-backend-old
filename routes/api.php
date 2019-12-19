@@ -166,3 +166,8 @@ Route::prefix('company')->group(function () {
     });
 });
 
+Route::prefix('companyemployee')->group(function () {
+    Route::get('all/{company_id}', 'CompanyEmployeeController@getAll');
+    Route::post('create', 'CompanyEmployeeController@create');
+});
+
