@@ -28,14 +28,14 @@ class WeeklyProjectionPercentCostsRevenuesController extends Controller
                 ->where('week_number', $week->number)
                 ->first();
             if($wppRevenues && $wppRevenues->year_reference){
-                $year_reference = $wppRevenues->year_reference;
-                $percent = $wppRevenues->percent;
+                $year_reference = $wppRevenues->year_reference;//2018
+                $percent = $wppRevenues->percent;//5
 
-                $week_number = $week->number;
-                $week_reference = Week::findByNumberYear($week_number, $year_reference);
-                $store_week_id_reference = StoreWeek::storeWeekId($store_id,$week_reference->id);
+                $week_number = $week->number;//52
+                //$week_reference = Week::findByNumberYear($week_number, $year_reference);
+                //$store_week_id_reference = StoreWeek::storeWeekId($store_id,$week_reference->id);
 //                $wppRevenues_reference = WeeklyProjectionPercentRevenues::where('store_week_id',$store_week_id_reference)->first();
-                $wppRevenues_reference = WeeklyProjectionPercentRevenues::getByStoreIdYearWeekNumber($store_id,$year_reference,$week_reference->number)->first();
+                $wppRevenues_reference = WeeklyProjectionPercentRevenues::getByStoreIdYearWeekNumber($store_id,$year_reference,/*$week_reference->number*/$week_number)->first();
 
 //                $week_number = week::find($week_id)->number;
                // if($week_number != null) {

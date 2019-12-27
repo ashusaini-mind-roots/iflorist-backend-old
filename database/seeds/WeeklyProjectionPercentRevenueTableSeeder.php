@@ -20,7 +20,7 @@ class WeeklyProjectionPercentRevenueTableSeeder extends Seeder
             'amt_total' => 10,
             'percent' => 5,
             'store_id' => 1,
-            'week_number' => '01'
+            'week_number' => '52'
         ]);
 
         WeeklyProjectionPercentRevenues::create([
@@ -29,7 +29,7 @@ class WeeklyProjectionPercentRevenueTableSeeder extends Seeder
             'amt_total' => 15,
             'percent' => 5,
             'store_id' => 1,
-            'week_number' => '01'
+            'week_number' => '52'
         ]);
 
         WeeklyProjectionPercentRevenues::create([
@@ -38,7 +38,7 @@ class WeeklyProjectionPercentRevenueTableSeeder extends Seeder
             'amt_total' => 20,
             'percent' => 5,
             'store_id' => 1,
-            'week_number' => '01'
+            'week_number' => '52'
         ]);
 
     }

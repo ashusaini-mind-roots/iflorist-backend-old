@@ -293,7 +293,7 @@ class MasterOverviewWeeklyController extends Controller
             }
         }
 
-        return response()->json(['scheduled_payroll' => $scheduled_payroll], 200);
+        return response()->json(['scheduled_payroll' => $scheduled_payroll/*, 'employees_general_data' => $employees_general_data*/], 200);
     }
 
 
