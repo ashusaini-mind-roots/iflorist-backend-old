@@ -186,7 +186,7 @@
                                                     {{--<td ng-repeat-start="schedule_day in employee.schedule_days">--}}
                                                     <td ng-repeat-start="x in [].constructor(7) track by $index" >
                                                         <input type="time" ng-model="employee.schedule_days[$index].time_in" placeholder="HH:mm" >
-                                                    </td>
+                                                        </td>
                                                         <td>
                                                             <input type="number" style="max-width:60px;" ng-model="employee.schedule_days[$index].break_time" placeholder="min" >
                                                             min</td>
