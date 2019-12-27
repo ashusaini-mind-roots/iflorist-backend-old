@@ -95,4 +95,18 @@ class Employee extends Model
 
         return $employees;
     }
+	
+	static function getAllActiveAndInactiveEmployees($store_id){
+        $employees = DB::table('employees')
+            ->leftjoin('stores','employees.store_id','=','stores.id')
+            ->leftjoin('categories','employees.category_id','=','categories.id')
+            ->leftjoin('work_mans_comp','employees.work_man_comp_id','=','work_mans_comp.id')
+            ->leftjoin('status','employees.status_id','=','status.id')
+            ->where('employees.store_id', '=', $store_id)
+            ->select('employees.*','work_mans_comp.name as work_man_comp','work_mans_comp.rate as work_man_comp_rate','stores.store_name as store','categories.name as category',
+                'status.name as status_name', 'status.code as status_code','employees.user_id as employees_user_id')
+            ->get();
+
+        return $employees;
+    }
 }

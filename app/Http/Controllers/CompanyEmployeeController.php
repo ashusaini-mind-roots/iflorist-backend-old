@@ -243,11 +243,11 @@ class CompanyEmployeeController extends Controller
         return response()->json(['employee' => $data], 200);
     }
 
-    public function getImageById1111($id)
+    public function getImageById($id)
     {
         $employee = CompanyEmployee::find($id);
 
-        return response()->json(['employee' => 'oka'], 200);
+        //return response()->json(['employee' => 'oka'], 200);
 
         if($employee->image!='default')
         {
