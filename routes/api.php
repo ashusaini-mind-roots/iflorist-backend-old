@@ -119,6 +119,7 @@ Route::prefix('master_overview_weekly')->group(function () {
 
 Route::prefix('employee')->group(function () {
     Route::get('all/{store_id}', 'EmployeesController@getAll');
+	Route::get('allActiveAndInactive/{store_id}', 'EmployeesController@getAllActiveAndInactive');
     Route::post('create', 'EmployeesController@create');
     Route::post('update/{id}', 'EmployeesController@update');
     Route::get('getById/{id}', 'EmployeesController@getById');

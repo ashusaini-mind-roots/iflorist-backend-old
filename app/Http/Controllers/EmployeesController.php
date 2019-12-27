@@ -41,6 +41,31 @@ class EmployeesController extends Controller
         }
         return response()->json(['employees' => $employees], 200);
     }
+	
+	public function getAllActiveAndInactive($store_id)
+    {
+        $employees = Employee::getAllActiveAndInactiveEmployees($store_id);
+
+        for($i = 0 ; $i < count($employees) ; $i++){
+            $emailTemp = '';
+            $taxes = $this->getEmployeeTaxes($employees[$i]->hourlypayrate,$employees[$i]->work_man_comp_rate);
+            $employees[$i]->hourly_gross_pay =  $taxes + $employees[$i]->hourlypayrate ;
+            $employees[$i]->overtime_gross_pay = $taxes + ($employees[$i]->hourlypayrate * 1.5) ;
+            $userIdTemp = $employees[$i]->employees_user_id;
+            if($userIdTemp != null)
+            {
+                $user = User::find($userIdTemp);
+                //$emailTemp = $employees[$i]->employees_user_id;
+                if($user->activated_account=='1')
+                {
+                    $emailTemp = $user->email;
+                }
+            }
+
+            $employees[$i]->email = $emailTemp;
+        }
+        return response()->json(['employees' => $employees], 200);
+    }
 
     public function getEmployeesByStore($store_id)
 	{
@@ -76,6 +101,9 @@ class EmployeesController extends Controller
     public function getImageById($id)
     {
         $employee = Employee::find($id);
+		
+		//return response()->file(storage_path('app/employee/oka.jpg'));
+		//return response()->json(['employee' => $employee], 200);
         
         if($employee->image!='default')
         {
@@ -87,7 +115,7 @@ class EmployeesController extends Controller
         }
         else
         {
-            return response()->file(storage_path('app/employee/default.jpg'));
+            //return response()->file(storage_path('app/employee/default.jpg'));
         }
         //return response()->file(storage_path('app/test.jpg'));
     }
