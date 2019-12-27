@@ -169,5 +169,9 @@ Route::prefix('company')->group(function () {
 Route::prefix('companyemployee')->group(function () {
     Route::get('all/{company_id}', 'CompanyEmployeeController@getAll');
     Route::post('create', 'CompanyEmployeeController@create');
+    Route::get('getById/{id}', 'CompanyEmployeeController@getById');
+    Route::get('getImageById/{id}', 'CompanyEmployeeController@getImageById');
+    Route::delete('delete/{id}', 'CompanyEmployeeController@delete');
+    Route::post('update/{id}', 'CompanyEmployeeController@update');
 });
 

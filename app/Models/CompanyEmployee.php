@@ -12,8 +12,9 @@ class CompanyEmployee extends Model
     static function getAll($company_id){
         $employees = DB::table('companyemployee')
             ->leftjoin('company','companyemployee.company_id','=','company.id')
+            ->leftjoin('status', 'status.id', '=', 'companyemployee.status_id')
             ->where('companyemployee.company_id',$company_id)
-            ->select('companyemployee.*','company.name as company_name')
+            ->select('companyemployee.*','company.name as company_name','status.name as status_name','companyemployee.user_id as employees_user_id')
             ->get();
 
         return $employees;
