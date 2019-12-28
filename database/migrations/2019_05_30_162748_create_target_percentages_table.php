@@ -16,7 +16,7 @@ class CreateTargetPercentagesTable extends Migration
         Schema::create('target_percentages', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('store_week_id')->unsigned();
-            $table->decimal('target_percentage',3,1);
+            $table->decimal('target_percentage',5,2);
             $table->timestamps();
 
             $table->foreign('store_week_id')->references('id')->on('store_week');
