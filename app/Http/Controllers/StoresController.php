@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Week;
 use App\Models\StoreWeek;
 use App\Models\Company;
+use App\Models\TargetPercentageDefault;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
@@ -129,13 +130,19 @@ class StoresController extends Controller
 
     public function getById($id)
     {
-        return response()->json(['store' => Store::find($id)], 200);
+		$store = DB::table('stores')
+                ->leftjoin('target_percentage_default', 'target_percentage_default.store_id', '=', 'stores.id')
+                ->select('stores.*','target_percentage_default.target_percentage_default')
+                ->where('stores.id',$id)
+                ->first();
+        return response()->json(['store' => $store], 200);
     }
 	
 	public function create(Request $request)
     {
         $v = Validator::make($request->all(), [
             'store_name' => 'required',
+			'target_percentage' => 'required',
             /*'contact_email' => 'required|email'*/
         ]);
 
@@ -163,13 +170,18 @@ class StoresController extends Controller
         $Store->address = $request->address;
         $Store->company_id = $company->id;
         $Store->save();
-
-        $lastWeek = Week::lastWeek();
+		
+		$lastWeek = Week::lastWeek();
 
         $storeWeek = new StoreWeek();
         $storeWeek->store_id = $Store->id;
         $storeWeek->week_id = $lastWeek->id;
         $storeWeek->save();
+		
+		$targetPercentage = new TargetPercentageDefault();
+        $targetPercentage->store_id = $Store->id;
+        $targetPercentage->target_percentage_default = $request->target_percentage;
+        $targetPercentage->save();
 
         return response()->json(['status' => 'success'], 200);
     }
@@ -198,6 +210,10 @@ class StoresController extends Controller
 		$Store->state = $request->state;
 //        $Store->company_id = $request->company_id;
         $Store->update();
+		
+		$targetPercentage = TargetPercentageDefault::where('store_id',$id)->first();
+        $targetPercentage->target_percentage_default = $request->target_percentage;
+        $targetPercentage->update();
 
         return response()->json(['status' => 'success'], 200);
     }
