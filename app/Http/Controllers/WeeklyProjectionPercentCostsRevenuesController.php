@@ -21,11 +21,20 @@ class WeeklyProjectionPercentCostsRevenuesController extends Controller
      * Projected Sales
      */
     public function projWeeklyRevenueByQuarter($store_id, $year, $quarter){
+        $left = 1;
+        $rigth = 52;
+        if($quarter != null){
+            $left = ($quarter - 1) * 13 + 1;
+            $rigth = $quarter * 13;
+        }
+
         $weeks = Week::where('year', $year)
+            ->where('number','>=', $left)
+            ->where('number','<=', $rigth)
             ->orderBy('number')
             ->get();
         $weeks = $weeks->toArray();
-        $weeks = array_slice($weeks,($quarter - 1) * 13,13);
+       // $weeks = array_slice($weeks,($quarter - 1) * 13,13);
 
         $responseValue = 0.00;
 //        for ($i = 0 ;$i < count($weeks) ; $i++){

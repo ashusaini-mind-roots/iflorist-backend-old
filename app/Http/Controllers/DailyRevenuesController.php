@@ -47,7 +47,7 @@ class DailyRevenuesController extends Controller
 
         $user_id = $request->user_id;
         $entered_date = date('Y-m-d H:i:s');
-        $search_replace = [',', '$'];
+//        $search_replace = [',', '$'];
         foreach ($daily_revenues as $dr) {
             $daily_revenue = DailyRevenue::findOrFail($dr->id);
             $daily_revenue->amt = Utils::money2Float($dr->amt_formatted);
