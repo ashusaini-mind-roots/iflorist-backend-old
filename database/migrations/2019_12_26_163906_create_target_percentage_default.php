@@ -16,7 +16,7 @@ class CreateTargetPercentageDefault extends Migration
         Schema::create('target_percentage_default', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('store_id')->unsigned();
-            $table->decimal('target_percentage_default',3,1);
+            $table->decimal('target_percentage_default',5,2);
             $table->timestamps();
 
             $table->foreign('store_id')->references('id')->on('stores');

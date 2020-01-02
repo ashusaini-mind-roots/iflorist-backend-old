@@ -12,6 +12,9 @@ use App\Models\Company;
 use App\Models\Employee;
 Use App\Models\EmployeeStoreWeek;
 use Illuminate\Support\Facades\DB;
+use App\Models\TargetPercentageDefault;
+use App\Models\TargetPercentage;
+
 
 class GenerateWeekData extends Command
 {
@@ -131,6 +134,12 @@ class GenerateWeekData extends Command
                     $storeWeek->week_id = $week->id;
                     $storeWeek->save();
 
+					$storeTargetPercent = TargetPercentageDefault::where('store_id',$store->id)->first()->target_percentage_default;
+					
+					$targetPercentage = new TargetPercentage();
+					$targetPercentage->store_week_id = $storeWeek->id;
+					$targetPercentage->target_percentage = $storeTargetPercent;
+					$targetPercentage->save();
 
                     foreach($daysText as $text)
                     {
