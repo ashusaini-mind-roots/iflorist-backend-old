@@ -21,6 +21,9 @@ class WeeklyProjectionPercentCostsRevenuesController extends Controller
      * Projected Sales
      */
     public function projWeeklyRevenueByQuarter($store_id, $year, $quarter){
+
+        $allProjectedSales = [0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00];
+
         $left = 1;
         $rigth = 52;
         if($quarter != null){
@@ -39,9 +42,12 @@ class WeeklyProjectionPercentCostsRevenuesController extends Controller
         $responseValue = 0.00;
 //        for ($i = 0 ;$i < count($weeks) ; $i++){
         foreach ($weeks as $week) {
-            $responseValue += $this->getProjWeeklyRevenue($store_id,$week);
+            $value = $this->getProjWeeklyRevenue($store_id,$week);
+            $responseValue += $value;
+            $allProjectedSales[($week['number'] - (13 * ($quarter - 1)))-1] = $value;
+
         }
-        return response()->json(['proj_weekly_rev_quarter' => $responseValue], 200);
+        return response()->json(['proj_weekly_rev_quarter' => $responseValue, 'all_projected_sales' => $allProjectedSales], 200);
     }
 
     public function projWeeklyRevenue($store_id,$week_id)
