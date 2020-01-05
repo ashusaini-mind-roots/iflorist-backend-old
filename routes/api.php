@@ -65,6 +65,7 @@ Route::prefix('store')->group(function () {
     Route::delete('delete/{id}', 'StoresController@delete');
     Route::put('update/{id}', 'StoresController@update');
     Route::get('stores_employees_tax_percent_calculators/{user_id}', 'StoresController@storesEmployeesTaxPercentCalculators');
+	Route::post('setWeeklyProjectionPercentRevenues', 'StoresController@setWeeklyProjectionPercentRevenues');
 });
 
 Route::prefix('week')->group(function () {
