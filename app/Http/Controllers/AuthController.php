@@ -169,13 +169,19 @@ class AuthController extends Controller
     protected function responseWithToken($token)
     {
         $company = Company::where('user_id',auth()->user()->id)->first();
+		$roles = DB::table('roles')
+            ->leftjoin('user_role','user_role.role_id','=','roles.id')
+            ->where('user_role.user_id',auth()->user()->id)
+            ->select('roles.name')
+            ->get();
         return response()->json([
             'userid' => auth()->user()->id,
             'access_token' => $token,
             'token_type' => 'bearer',
             'expires_in' => auth()->factory()->getTTL() * 8760,
             'user' => auth()->user(),
-            'company' => $company
+            'company' => $company,
+			'roles' => $roles
         ]);
     }
 
