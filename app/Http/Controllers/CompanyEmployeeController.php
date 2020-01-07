@@ -79,7 +79,7 @@ class CompanyEmployeeController extends Controller
 
             $user->name = $request->name;
             $user->email = $request->email;
-            $user->role_id = 2;
+            //$user->role_id = 2;
             $user->password = '123456789';
             $user->activated_account = $request->active;
 
@@ -166,7 +166,7 @@ class CompanyEmployeeController extends Controller
                 }
                 $user->name = $request->name;
                 $user->email = $request->email;
-                $user->role_id = 2;
+                //$user->role_id = 2;
                 $user->password = '123456789';
                 $user->activated_account = $request->active;
                 $user->save();
