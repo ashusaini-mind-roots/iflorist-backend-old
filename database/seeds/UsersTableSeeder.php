@@ -30,5 +30,12 @@ class UsersTableSeeder extends Seeder
             'password' => Hash::make('test'),
             'activated_account' => '1'
         ]);
+
+        User::create([
+            'name' => 'App',
+            'email' => 'app@test.com',
+            'password' => Hash::make('test'),
+            'activated_account' => '1'
+        ]);
     }
 }

@@ -107,6 +107,18 @@ class AuthController extends Controller
         return $this->responseWithToken($token);
     }
 
+    public function loginApp()
+    {
+        $credentials = request(['email', 'password']);
+
+        if(!$token = auth()->attempt($credentials))
+        {
+            return response()->json(['error'=>'Unauthorized'],401);
+        }
+
+        return $this->responseAppWithToken($token);
+    }
+
     public function send_mail($email,$text)
     {
 
@@ -158,8 +170,6 @@ class AuthController extends Controller
         //return response()->json($users);
     }
 
-
-
     public function user_rol()
     {
         $rol_id = auth()->user()->role_id;
@@ -182,6 +192,30 @@ class AuthController extends Controller
             'user' => auth()->user(),
             'company' => $company,
 			'roles' => $roles
+        ]);
+    }
+
+    protected function responseAppWithToken($token)
+    {
+        $company = Company::where('user_id',auth()->user()->id)->first();
+        $stores = DB::table('stores')
+            ->leftjoin('app_user','app_user.store_id','=','stores.id')
+            ->where('app_user.user_id',auth()->user()->id)
+            ->select('stores.*')
+            ->get();
+        $roles = DB::table('roles')
+            ->leftjoin('user_role','user_role.role_id','=','roles.id')
+            ->where('user_role.user_id',auth()->user()->id)
+            ->select('roles.name')
+            ->get();
+        return response()->json([
+            'userid' => auth()->user()->id,
+            'access_token' => $token,
+            'token_type' => 'bearer',
+            'user' => auth()->user(),
+            'roles' => $roles,
+            'stores' => $stores,
+            'company' => $company,
         ]);
     }
 

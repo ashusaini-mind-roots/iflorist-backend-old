@@ -30,6 +30,7 @@ Route::prefix('auth')->group(function () {
 
     Route::post('register', 'AuthController@register');
     Route::post('login', 'AuthController@login');
+    Route::post('loginApp', 'AuthController@loginApp');
     Route::post('refresh', 'AuthController@refresh');
     Route::post('logout', 'AuthController@logout');
     Route::post('exis_user', 'AuthController@exis_user');
