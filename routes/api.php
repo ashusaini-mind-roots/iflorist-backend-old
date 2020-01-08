@@ -58,14 +58,14 @@ Route::prefix('role')->group(function () {
 });
 
 Route::prefix('store')->group(function () {
-	Route::get('all', ['middleware' => 'auth.role:Empresa,AdminStore', 'uses' => 'StoresController@all']);
-	Route::get('stores_by_user/{user_id}', ['middleware' => 'auth.role:Empresa,AdminStore', 'uses' => 'StoresController@storesByUser']);
-    Route::post('create', ['middleware' => 'auth.role:Empresa,AdminStore', 'uses' => 'StoresController@create']);
-	Route::get('getById/{id}', ['middleware' => 'auth.role:Empresa,AdminStore', 'uses' => 'StoresController@getById']);
-	Route::delete('delete/{id}', ['middleware' => 'auth.role:Empresa,AdminStore', 'uses' => 'StoresController@delete']);
-	Route::put('update/{id}', ['middleware' => 'auth.role:Empresa,AdminStore', 'uses' => 'StoresController@update']);
-	Route::get('stores_employees_tax_percent_calculators/{user_id}', ['middleware' => 'auth.role:Empresa', 'uses' => 'StoresController@storesEmployeesTaxPercentCalculators']);
-	Route::post('setWeeklyProjectionPercentRevenues', ['middleware' => 'auth.role:Empresa', 'uses' => 'StoresController@setWeeklyProjectionPercentRevenues']);
+	Route::get('all', ['middleware' => 'auth.role:COMPANYADMIN,STOREMANAGER', 'uses' => 'StoresController@all']);
+	Route::get('stores_by_user/{user_id}', ['middleware' => 'auth.role:COMPANYADMIN,STOREMANAGER', 'uses' => 'StoresController@storesByUser']);
+    Route::post('create', ['middleware' => 'auth.role:COMPANYADMIN,STOREMANAGER', 'uses' => 'StoresController@create']);
+	Route::get('getById/{id}', ['middleware' => 'auth.role:COMPANYADMIN,STOREMANAGER', 'uses' => 'StoresController@getById']);
+	Route::delete('delete/{id}', ['middleware' => 'auth.role:COMPANYADMIN,STOREMANAGER', 'uses' => 'StoresController@delete']);
+	Route::put('update/{id}', ['middleware' => 'auth.role:COMPANYADMIN,STOREMANAGER', 'uses' => 'StoresController@update']);
+	Route::get('stores_employees_tax_percent_calculators/{user_id}', ['middleware' => 'auth.role:COMPANYADMIN', 'uses' => 'StoresController@storesEmployeesTaxPercentCalculators']);
+	Route::post('setWeeklyProjectionPercentRevenues', ['middleware' => 'auth.role:COMPANYADMIN', 'uses' => 'StoresController@setWeeklyProjectionPercentRevenues']);
 	//Route::get('all/{user_id}/{rol_name}', 'StoresController@index');
     //Route::get('all', 'StoresController@all');
     /*Route::get('stores_by_user/{user_id}', 'StoresController@storesByUser');
