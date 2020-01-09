@@ -45,7 +45,6 @@ class RoleAuthorization
 				}
 			}
 		}
-		
 		return $this->unauthorized();
 	}
 
