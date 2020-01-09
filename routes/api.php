@@ -58,15 +58,23 @@ Route::prefix('role')->group(function () {
 });
 
 Route::prefix('store')->group(function () {
-    Route::get('all/{user_id}/{rol_name}', 'StoresController@index');
-    Route::get('all', 'StoresController@all');
-    Route::get('stores_by_user/{user_id}', 'StoresController@storesByUser');
+	Route::get('all', ['middleware' => 'auth.role:Empresa,AdminStore', 'uses' => 'StoresController@all']);
+	Route::get('stores_by_user/{user_id}', ['middleware' => 'auth.role:Empresa,AdminStore', 'uses' => 'StoresController@storesByUser']);
+    Route::post('create', ['middleware' => 'auth.role:Empresa,AdminStore', 'uses' => 'StoresController@create']);
+	Route::get('getById/{id}', ['middleware' => 'auth.role:Empresa,AdminStore', 'uses' => 'StoresController@getById']);
+	Route::delete('delete/{id}', ['middleware' => 'auth.role:Empresa,AdminStore', 'uses' => 'StoresController@delete']);
+	Route::put('update/{id}', ['middleware' => 'auth.role:Empresa,AdminStore', 'uses' => 'StoresController@update']);
+	Route::get('stores_employees_tax_percent_calculators/{user_id}', ['middleware' => 'auth.role:Empresa', 'uses' => 'StoresController@storesEmployeesTaxPercentCalculators']);
+	Route::post('setWeeklyProjectionPercentRevenues', ['middleware' => 'auth.role:Empresa', 'uses' => 'StoresController@setWeeklyProjectionPercentRevenues']);
+	//Route::get('all/{user_id}/{rol_name}', 'StoresController@index');
+    //Route::get('all', 'StoresController@all');
+    /*Route::get('stores_by_user/{user_id}', 'StoresController@storesByUser');
     Route::post('create', 'StoresController@create');
     Route::get('getById/{id}', 'StoresController@getById');
     Route::delete('delete/{id}', 'StoresController@delete');
     Route::put('update/{id}', 'StoresController@update');
     Route::get('stores_employees_tax_percent_calculators/{user_id}', 'StoresController@storesEmployeesTaxPercentCalculators');
-	Route::post('setWeeklyProjectionPercentRevenues', 'StoresController@setWeeklyProjectionPercentRevenues');
+	Route::post('setWeeklyProjectionPercentRevenues', 'StoresController@setWeeklyProjectionPercentRevenues');*/
 });
 
 Route::prefix('week')->group(function () {

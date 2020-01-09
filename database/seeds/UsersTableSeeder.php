@@ -18,8 +18,8 @@ class UsersTableSeeder extends Seeder
         ]);
 
         User::create([
-            'name' => 'Manager',
-            'email' => 'manager@test.com',
+            'name' => 'Admin Store',
+            'email' => 'adminstore@test.com',
             'password' => Hash::make('test'),
             'activated_account' => '1'
         ]);

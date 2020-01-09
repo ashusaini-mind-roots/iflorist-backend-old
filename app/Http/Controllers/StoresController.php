@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Employee;
 use App\Models\TaxPercentCalculator;
 use App\Models\WeeklyProjectionPercentRevenues;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class StoresController extends Controller
 {
@@ -27,7 +28,7 @@ class StoresController extends Controller
             $stores = DB::table('users')
                 ->leftjoin('stores','users.store_id','=','stores.id')
                 ->select('stores.*')
-                ->where('users.id',$user_id)
+                ->where('users.id',auth()->user()->id)
                 ->get();
             //return response()->json(['stores' => $stores], 200);
         }
@@ -44,28 +45,28 @@ class StoresController extends Controller
 		
     }
 
-    public function storesByUser($user_id)
+    public function storesByUser()
     {
-        $rol = User::find($user_id)->role;
+        $rol = User::find(auth()->user()->id)->role;
         $role_name = $rol['name'];
         if($role_name=="Admin")
             return response()->json(['stores' => Store::all()], 200);
         else
         {
-            $stores = User::find($user_id)->store;
+            $stores = User::find(auth()->user()->id)->store;
             return response()->json(['stores' => $stores], 200);
         }
     }
 
-    public function storesEmployeesTaxPercentCalculators($user_id)
+    public function storesEmployeesTaxPercentCalculators()
     {
-        $rol = User::find($user_id)->role;
+        $rol = User::find(auth()->user()->id)->role;
         $role_name = $rol['name'];
         if($role_name=="Admin")
             $stores = Store::all();
         else
         {
-            $store = User::find($user_id)->store;
+            $store = User::find(auth()->user()->id)->store;
 
             $stores [] = $store;
         }
@@ -124,9 +125,34 @@ class StoresController extends Controller
         return response()->json(['stores_employees_tax_percent_calculators_array' => $stores_employees_tax_percent_calculators_array], 200);
     }
 
-    public function all()
+    public function all(Request $request)
     {
-        return response()->json(['stores' => Store::all()], 200);
+		foreach($request->auth_roles as $role)
+		{
+			if($role->name=='Empresa')
+			{
+				$stores = DB::table('stores')
+                ->leftjoin('company', 'company.id', '=', 'stores.company_id')
+                ->select('stores.*')
+                ->where('company.user_id',auth()->user()->id)
+                ->get();
+				return response()->json(['stores' => $stores], 200);
+			}
+			else if($role->name=='AdminStore')
+			{
+				$stores = DB::table('employees')
+                ->leftjoin('stores', 'stores.id', '=', 'employees.store_id')
+				->leftjoin('company', 'company.id', '=', 'stores.company_id')
+                ->select('stores.*')
+                ->where('company.user_id',auth()->user()->id)
+                ->get();
+				return response()->json(['stores' => $stores], 200);
+			}
+		}
+        return response()->json([
+			'message' => $message ? $message : 'You are unauthorized to access this resource',
+			'success' => false
+		], 200);
     }
 
     public function getById($id)
