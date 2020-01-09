@@ -129,7 +129,7 @@ class StoresController extends Controller
     {
 		foreach($request->auth_roles as $role)
 		{
-			if($role->name=='Empresa')
+			if($role->name=='COMPANYADMIN')
 			{
 				$stores = DB::table('stores')
                 ->leftjoin('company', 'company.id', '=', 'stores.company_id')
@@ -138,7 +138,7 @@ class StoresController extends Controller
                 ->get();
 				return response()->json(['stores' => $stores], 200);
 			}
-			else if($role->name=='AdminStore')
+			else if($role->name=='STOREMANAGER')
 			{
 				$stores = DB::table('employees')
                 ->leftjoin('stores', 'stores.id', '=', 'employees.store_id')
