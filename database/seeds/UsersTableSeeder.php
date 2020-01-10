@@ -11,22 +11,22 @@ class UsersTableSeeder extends Seeder
        // User::truncate();
 
         User::create([
-            'name' => 'Admin',
-            'email' => 'admin@test.com',
+            'name' => 'Company Admin',
+            'email' => 'companyadmin@test.com',
             'password' => Hash::make('test'),
             'activated_account' => '1'
         ]);
 
         User::create([
-            'name' => 'Admin Store',
-            'email' => 'adminstore@test.com',
+            'name' => 'Store Manager',
+            'email' => 'storemanager@test.com',
             'password' => Hash::make('test'),
             'activated_account' => '1'
         ]);
 
         User::create([
-            'name' => 'User',
-            'email' => 'User@test.com',
+            'name' => 'Root',
+            'email' => 'root@test.com',
             'password' => Hash::make('test'),
             'activated_account' => '1'
         ]);

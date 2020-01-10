@@ -36,7 +36,17 @@ class RoleAuthorization
             ->where('user_role.user_id',$user->id)
             ->select('roles.name')
             ->get();
-			
+
+			if($roles[0] == 'ALL_GRANTED')
+            {
+                foreach($userRoles as $role)
+                {
+                   //if (in_array($role->name,$roles)) {
+                        $request->merge(['auth_roles' => $userRoles]);
+                        return $next($request);
+                }
+            }
+            else
 			foreach($userRoles as $role)
 			{
 				if (in_array($role->name,$roles)) {
