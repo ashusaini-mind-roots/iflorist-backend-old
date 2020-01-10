@@ -260,34 +260,42 @@ class StoresController extends Controller
 	public function setWeeklyProjectionPercentRevenues(Request $request)
 	{
 		$path = $request->file('file')->store('weekly_projection_cvs');
+		$header = false;
 		
 		$handle = fopen(storage_path("app/".$path),"r");
-		$header = true;
+		//$header = true;
 		
-		while($csvLine = fgetcsv($handle,1000,","))
+		while($csvLine = fgetcsv($handle,1000,";"))
 		{
-			if($csvLine[0] && $csvLine[4])
+			if($header==true)
 			{
-				$weeklyProjectionPercentRevenues = WeeklyProjectionPercentRevenues::where('year_proyection',$csvLine[0])->where('week_number',$csvLine[4])->where('store_id',$request->store_id)->first();
-				if($weeklyProjectionPercentRevenues)
+				if($csvLine[0] && $csvLine[4])
 				{
-					$weeklyProjectionPercentRevenues = WeeklyProjectionPercentRevenues::findOrFail($weeklyProjectionPercentRevenues->id);
-					$weeklyProjectionPercentRevenues->year_reference = $csvLine[1];
-					$weeklyProjectionPercentRevenues->amt_total = $csvLine[2];
-					$weeklyProjectionPercentRevenues->percent = $csvLine[3];
-					$weeklyProjectionPercentRevenues->update();
+					$weeklyProjectionPercentRevenues = WeeklyProjectionPercentRevenues::where('year_proyection',$csvLine[0])->where('week_number',$csvLine[4])->where('store_id',$request->store_id)->first();
+					if($weeklyProjectionPercentRevenues)
+					{
+						$weeklyProjectionPercentRevenues = WeeklyProjectionPercentRevenues::findOrFail($weeklyProjectionPercentRevenues->id);
+						$weeklyProjectionPercentRevenues->year_reference = $csvLine[1];
+						$weeklyProjectionPercentRevenues->amt_total = $csvLine[2];
+						$weeklyProjectionPercentRevenues->percent = $csvLine[3];
+						$weeklyProjectionPercentRevenues->update();
+					}
+					else
+					{
+						$weeklyProjectionPercentRevenues = new WeeklyProjectionPercentRevenues();
+						$weeklyProjectionPercentRevenues->year_proyection = $csvLine[0];
+						$weeklyProjectionPercentRevenues->year_reference = $csvLine[1];
+						$weeklyProjectionPercentRevenues->amt_total = $csvLine[2];
+						$weeklyProjectionPercentRevenues->percent = $csvLine[3];
+						$weeklyProjectionPercentRevenues->week_number = $csvLine[4];
+						$weeklyProjectionPercentRevenues->store_id = $request->store_id;
+						$weeklyProjectionPercentRevenues->save();
+					}
 				}
-				else
-				{
-					$weeklyProjectionPercentRevenues = new WeeklyProjectionPercentRevenues();
-					$weeklyProjectionPercentRevenues->year_proyection = $csvLine[0];
-					$weeklyProjectionPercentRevenues->year_reference = $csvLine[1];
-					$weeklyProjectionPercentRevenues->amt_total = $csvLine[2];
-					$weeklyProjectionPercentRevenues->percent = $csvLine[3];
-					$weeklyProjectionPercentRevenues->week_number = $csvLine[4];
-					$weeklyProjectionPercentRevenues->store_id = $request->store_id;
-					$weeklyProjectionPercentRevenues->save();
-				}
+			}
+			else
+			{
+				$header = true;
 			}
 		}
 		return response()->json(['status' => 'success'], 200);
