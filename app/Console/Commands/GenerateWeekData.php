@@ -63,59 +63,8 @@ class GenerateWeekData extends Command
             $weekSave = true;
             $week->save();
         }
-
-        /*$week = new Week();
-        $result = Week::lastWeek();
-
-        $weekSave = false;
-        
-        if($result)
-        {
-            $number = $result->number;
-            $year = $result->year;
-            
-            if($number>=52)
-            {
-                $year = $year + 1;
-                $number = '01';
-
-                $week->number = $number;
-                $week->year = $year;
-                $week->save();
-                $weekSave = true;
-
-            }
-            else
-            {
-                $number = $number + 1;
-                $number = $number < 10 ? '0' . $number : $number;
-                //$week = new Week();
-            }
-
-            $week->number = $number;
-            $week->year = $year;
-            if(!Week::where('number',$week->number)->where('year',$week->year)->first())
-            {
-                $week->save();
-                $weekSave = true;
-            }
-
-        }
-        else
-        {
-            
-            
-            $date = DateDim::where('date',date('Y-m-d'))->first();
-            $number = $date->week_starting_monday;
-            $year = date('Y');
-            $week = new Week();
-            $week->number = $number;
-            $week->year = $year;
-            $weekSave = true;
-            $week->save();
-        }*/
-
-        if($weekSave)
+		
+		if($weekSave)
         {
             try {
                 $stores = Store::all();
@@ -155,15 +104,16 @@ class GenerateWeekData extends Command
                         $dailyRevenue->save();
                     }
                 }
-
-                $employees = Employee::all();
-                foreach ($employees as $employee)
+				
+				$employees = Employee::all();
+				
+				foreach ($employees as $employee)
                 {
-                    $store_week = StoreWeek::storeWeekId($employee->store_id,$week->id);
-
+					$store_week_id = StoreWeek::storeWeekId($employee->store_id,$week->id);
+					
                     $employee_store_week = new EmployeeStoreWeek();
                     $employee_store_week->employee_id = $employee->id;
-                    $employee_store_week->store_week_id = $store_week->id;
+                    $employee_store_week->store_week_id = $store_week_id;
                     $employee_store_week->activate = $employee->active;
                     $employee_store_week->save();
                 }

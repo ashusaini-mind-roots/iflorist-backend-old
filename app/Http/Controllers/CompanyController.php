@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Auth;
 
 class CompanyController extends Controller
 {
+	
+	
     public function create(Request $request)
     {
 

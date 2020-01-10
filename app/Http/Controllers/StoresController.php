@@ -19,6 +19,9 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 
 class StoresController extends Controller
 {
+	
+	
+	
     public function index($user_id,$role_name)
     {
 //        if($role_name=="Admin")
