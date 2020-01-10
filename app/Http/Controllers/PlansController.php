@@ -7,6 +7,7 @@ use App\Models\Plan;
 use App\Models\User;
 use App\Models\Module;
 use Illuminate\Support\Facades\DB;
+use App\Helpers\Utils;
 
 class PlansController extends Controller
 {
@@ -56,7 +57,11 @@ class PlansController extends Controller
         $modules_return = array();
         $user_roles = $request->auth_roles->toArray();
 
-        $modules = Plan::modulesbyuser(/*$user_id*/auth()->user()->id);
+        if(Utils::hasRole('ROOT',$user_roles)){
+            $modules = Module::allModules();
+        }
+        else
+            $modules = Plan::modulesbyuser(/*$user_id*/auth()->user()->id);
         foreach ($modules as $module){
             $found = false;
             if($module->roles != null){

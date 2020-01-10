@@ -36,7 +36,7 @@ class Plan extends Model
                 ->leftjoin('plan_module', 'plan_module.module_id', '=', 'modules.id')
                 ->leftjoin('plans', 'plans.id', '=', 'plan_module.plan_id')
                 ->leftjoin('company_plan', 'company_plan.plan_id', '=', 'plans.id')
-                ->where('company_plan.company_id', /*$company->id*/1)
+                ->where('company_plan.company_id', $company->id)
                 ->groupby('modules.id')
                 ->orderBy('modules.number', 'ASC')
                 ->get();
