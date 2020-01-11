@@ -263,7 +263,7 @@ class StoresController extends Controller
 		$header = false;
 		
 		$handle = fopen(storage_path("app/".$path),"r");
-		$header = true;
+		//$header = true;
 		
 		while($csvLine = fgetcsv($handle,1000,";"))
 		{
