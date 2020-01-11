@@ -264,11 +264,13 @@ class StoresController extends Controller
 		
 		$handle = fopen(storage_path("app/".$path),"r");
 		//$header = true;
-		
+
+        $pepe = [];
 		while($csvLine = fgetcsv($handle,1000,";"))
 		{
 			if($header==true)
 			{
+                $pepe[] = [$csvLine[0],$csvLine[4]];
 				if($csvLine[0] && $csvLine[4])
 				{
 					$weeklyProjectionPercentRevenues = WeeklyProjectionPercentRevenues::where('year_proyection',$csvLine[0])->where('week_number',$csvLine[4])->where('store_id',$request->store_id)->first();
@@ -298,6 +300,6 @@ class StoresController extends Controller
 				$header = true;
 			}
 		}
-		return response()->json(['status' => 'success'], 200);
+		return response()->json(['status' => 'success','lines'=>$pepe], 200);
 	}
 }

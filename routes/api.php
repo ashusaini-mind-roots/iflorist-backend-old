@@ -65,7 +65,7 @@ Route::prefix('store')->group(function () {
 	Route::delete('delete/{id}', ['middleware' => 'auth.role:COMPANYADMIN,STOREMANAGER', 'uses' => 'StoresController@delete']);
 	Route::put('update/{id}', ['middleware' => 'auth.role:COMPANYADMIN,STOREMANAGER', 'uses' => 'StoresController@update']);
 	Route::get('stores_employees_tax_percent_calculators/{user_id}', ['middleware' => 'auth.role:COMPANYADMIN', 'uses' => 'StoresController@storesEmployeesTaxPercentCalculators']);
-	Route::post('setWeeklyProjectionPercentRevenues', ['middleware' => 'auth.role:COMPANYADMIN', 'uses' => 'StoresController@setWeeklyProjectionPercentRevenues']);
+	Route::post('setWeeklyProjectionPercentRevenues', ['middleware' => 'auth.role:COMPANYADMIN,STOREMANAGER', 'uses' => 'StoresController@setWeeklyProjectionPercentRevenues']);
 	//Route::get('all/{user_id}/{rol_name}', 'StoresController@index');
     //Route::get('all', 'StoresController@all');
     /*Route::get('stores_by_user/{user_id}', 'StoresController@storesByUser');
