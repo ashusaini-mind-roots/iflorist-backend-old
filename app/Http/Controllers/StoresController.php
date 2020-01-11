@@ -24,48 +24,46 @@ class StoresController extends Controller
 	
     public function index($user_id,$role_name)
     {
-        if($role_name=="Admin")
-            $stores = response()->json(['stores' => Store::all()], 200);
-        else
-        {
-            $stores = DB::table('users')
-                ->leftjoin('stores','users.store_id','=','stores.id')
-                ->select('stores.*')
-                ->where('users.id',auth()->user()->id)
-                ->get();
-            //return response()->json(['stores' => $stores], 200);
-        }
-		
-		$result = array();
-        foreach ($stores as $store)
-        {
-            $store_data = array();
-            $store_data['store'] = $store;
-            $result[] = $store_data;
-        }
-		
-		return response()->json(['stores' => $result], 200);
+//        if($role_name=="Admin")
+//            $stores = response()->json(['stores' => Store::all()], 200);
+//        else
+//        {
+//            $stores = DB::table('users')
+//                ->leftjoin('stores','users.store_id','=','stores.id')
+//                ->select('stores.*')
+//                ->where('users.id',auth()->user()->id)
+//                ->get();
+//            //return response()->json(['stores' => $stores], 200);
+//        }
+//
+//		$result = array();
+//        foreach ($stores as $store)
+//        {
+//            $store_data = array();
+//            $store_data['store'] = $store;
+//            $result[] = $store_data;
+//        }
+//
+//		return response()->json(['stores' => $result], 200);
 		
     }
 
     public function storesByUser()
     {
-        $rol = User::find(auth()->user()->id)->role;
-        $role_name = $rol['name'];
-        if($role_name=="Admin")
-            return response()->json(['stores' => Store::all()], 200);
-        else
-        {
-            $stores = User::find(auth()->user()->id)->store;
-            return response()->json(['stores' => $stores], 200);
-        }
+        $stores = DB::table('stores')
+            ->leftjoin('employees', 'employees.store_id', '=', 'stores.id')
+            ->leftjoin('users', 'users.id', '=', 'employees.user_id')
+            ->select('stores.*')
+            ->where('users.id',auth()->user()->id)
+            ->get();
+        return response()->json(['stores' => $stores], 200);
     }
 
     public function storesEmployeesTaxPercentCalculators()
     {
         $rol = User::find(auth()->user()->id)->role;
         $role_name = $rol['name'];
-        if($role_name=="Admin")
+        if($role_name=="ROOT")
             $stores = Store::all();
         else
         {
@@ -132,7 +130,11 @@ class StoresController extends Controller
     {
 		foreach($request->auth_roles as $role)
 		{
-			if($role->name=='COMPANYADMIN')
+            if($role->name=='ROOT')
+            {
+                return response()->json(['stores' => Store::all()], 200);
+            }else
+            if($role->name=='COMPANYADMIN')
 			{
 				$stores = DB::table('stores')
                 ->leftjoin('company', 'company.id', '=', 'stores.company_id')
@@ -141,19 +143,18 @@ class StoresController extends Controller
                 ->get();
 				return response()->json(['stores' => $stores], 200);
 			}
-			else if($role->name=='STOREMANAGER')
-			{
-				$stores = DB::table('employees')
-                ->leftjoin('stores', 'stores.id', '=', 'employees.store_id')
-				->leftjoin('company', 'company.id', '=', 'stores.company_id')
-                ->select('stores.*')
-                ->where('company.user_id',auth()->user()->id)
-                ->get();
-				return response()->json(['stores' => $stores], 200);
-			}
+			else
+			if($role->name=='STOREMANAGER' || $role->name=='EMPLOYEE')    {
+                return $this->storesByUser();
+            }
+			else
+                return response()->json([
+                    'message' => 'You are unauthorized to access this resource',
+                    'success' => false
+                ], 200);
 		}
         return response()->json([
-			'message' => $message ? $message : 'You are unauthorized to access this resource',
+			'message' => 'You are unauthorized to access this resource',
 			'success' => false
 		], 200);
     }

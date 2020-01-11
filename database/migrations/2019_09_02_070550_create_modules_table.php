@@ -19,6 +19,7 @@ class CreateModulesTable extends Migration
             $table->integer('number')->unsigned();
             $table->string('icono');
             $table->string('action');
+            $table->string('roles'); //list of roles separated by comma
             $table->timestamps();
         });
     }
