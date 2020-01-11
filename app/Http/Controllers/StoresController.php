@@ -270,15 +270,18 @@ class StoresController extends Controller
 		{
 			if($header==true)
 			{
-                $pepe[] = [$csvLine[0],$csvLine[4]];
 				if($csvLine[0] && $csvLine[4])
 				{
+				    $weeknumber = $csvLine[4];
+                    if(strlen($csvLine[4]) == 1)
+                        $weeknumber = '0'.$csvLine[4];
+
 					$weeklyProjectionPercentRevenues = WeeklyProjectionPercentRevenues::where(
 					    'year_proyection',$csvLine[0])
                         ->where('year_reference',$csvLine[1])
                         ->where('amt_total',$csvLine[2])
                         ->where('percent',$csvLine[3])
-                        ->where('week_number',$csvLine[4])
+                        ->where('week_number',$weeknumber)
                         ->where('store_id',$request->store_id)
                         ->first();
 					if($weeklyProjectionPercentRevenues)
@@ -288,7 +291,7 @@ class StoresController extends Controller
                         $weeklyProjectionPercentRevenues->year_reference = $csvLine[1];
                         $weeklyProjectionPercentRevenues->amt_total = $csvLine[2];
                         $weeklyProjectionPercentRevenues->percent = $csvLine[3];
-                        $weeklyProjectionPercentRevenues->week_number = $csvLine[4];
+                        $weeklyProjectionPercentRevenues->week_number = $weeknumber;
                         $weeklyProjectionPercentRevenues->store_id = $request->store_id;
 						$weeklyProjectionPercentRevenues->update();
 					}
@@ -299,7 +302,7 @@ class StoresController extends Controller
 						$weeklyProjectionPercentRevenues->year_reference = $csvLine[1];
 						$weeklyProjectionPercentRevenues->amt_total = $csvLine[2];
 						$weeklyProjectionPercentRevenues->percent = $csvLine[3];
-						$weeklyProjectionPercentRevenues->week_number = $csvLine[4];
+						$weeklyProjectionPercentRevenues->week_number = $weeknumber;
 						$weeklyProjectionPercentRevenues->store_id = $request->store_id;
 						$weeklyProjectionPercentRevenues->save();
 					}

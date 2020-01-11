@@ -44,11 +44,14 @@ class MasterOverviewWeeklyController extends Controller
             ->where('number','<=', $rigth)
             ->orderBy('number')
             ->get();
-        $weeks = $weeks->toArray();
+ //       $weeks = $weeks->toArray();
 //        $weeks = array_slice($weeks,($quarter - 1) * 13,13);
 
         $master_overview_weekly = array();
         $year_reference = $year;
+        $amtTotalFromProjection = 0.00;
+        $projectionsRev = null;
+
 
 //        foreach ($weeks as $w) {
         for ($i = 0 ;$i < count($weeks) ; $i++){
@@ -74,15 +77,16 @@ class MasterOverviewWeeklyController extends Controller
 
                 //$week_reference = Week::findByNumberYear($week_number, $year_reference);
 
-                $week_reference_id = Week::findByNumberYear($week_number, $year_reference)->id;
+                //$week_reference_number = Week::findByNumberYear($week_number, $year_reference)->number;
 
-                $amtTotal = DailyRevenue::totalAmtWeek($store_id, $week_reference_id);
+                $projectionsRev = WeeklyProjectionPercentRevenues::getByYearProyectionAndWeekNumber($year_reference,$week_number);
 
-//                $wppRevenues_reference = WeeklyProjectionPercentRevenues::where('store_id', $store_id)
-//                    ->where('year_proyection', $wppRevenues->year_reference)
-//                    ->where('week_number', $w->number)
-//                    ->first();
-                //$amtTotal = $wppRevenues_reference->amt_total;
+                if($projectionsRev)
+                    $amtTotalFromProjection = $projectionsRev->amt_total;
+
+                //$a = DailyRevenue::sevenDaysWeek($store_id, $week_reference_id);
+                $amtTotal = $amtTotalFromProjection;
+
                 $responseValue = $amtTotal - ($percent * $amtTotal / 100);
             }
             else{
@@ -91,21 +95,23 @@ class MasterOverviewWeeklyController extends Controller
                 $responseValue = $amtTotal;
             }
 
-
             $day = DailyRevenue::lastDayWeek($store_id, $wid);
 
-            $actual_weekly_revenue = DailyRevenue::totalAmtWeek($store_id, $wid);
+            $a = DailyRevenue::sevenDaysWeek($store_id, $wid);
+            $actual_weekly_revenue = DailyRevenue::amtTotal($a);
             $weekly_cog_total = Invoice::total($store_id, $wid);
 
             if ($weekly_cog_total == 0) {
                 $total = 0;
             } else {
-                $total = $weekly_cog_total * 100 / ($actual_weekly_revenue <= 0) ? 1 : $actual_weekly_revenue;
+                $total = $weekly_cog_total * 100 / (($actual_weekly_revenue <= 0) ? 1 : $actual_weekly_revenue);
             }
 
             $target = WeeklyProjectionPercentCosts::target($cost_of);
 
             $arrayDatos = array(
+                'a' => ''.(int)$week_number,
+                'b' => $projectionsRev,
                 'week_id' => $wid,
                 'week_ending_date' => $day->date,
                 'week_ending' => Carbon::parse($day->date)->format('M-d'),//$day->month.'-'.$day->month_day,

@@ -23,6 +23,14 @@ class WeeklyProjectionPercentRevenues extends Model
         return $weeklyProjectionPercentRevenues;
     }
 
+    static function getByYearProyectionAndWeekNumber($year_proyection, $week_number){
+        $weeklyProjectionPercentRevenues = DB::table('weekly_projection_percent_revenues')
+        ->where('weekly_projection_percent_revenues.year_proyection', $year_proyection)
+            ->where('weekly_projection_percent_revenues.week_number', $week_number)
+            ->first();
+        return $weeklyProjectionPercentRevenues;
+    }
+
     static function getWeeklyProjectionPercentRevenues($store_id,$year)
     {
         $weeklyProjectionPercentRevenues = DB::table('weekly_projection_percent_revenues')
