@@ -78,7 +78,7 @@ Route::prefix('store')->group(function () {
 });
 
 Route::prefix('week')->group(function () {
-    Route::get('week_by_year/{year}', 'WeeksController@weekByYear');
+    Route::get('week_by_year/{year}', ['middleware' => 'auth.role:COMPANYADMIN,STOREMANAGER,EMPLOYEE', 'uses' => 'WeeksController@weekByYear']);
     Route::post('create', 'WeeksController@taskWeek');
 });
 
