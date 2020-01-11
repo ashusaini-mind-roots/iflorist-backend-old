@@ -58,7 +58,7 @@ Route::prefix('role')->group(function () {
 });
 
 Route::prefix('store')->group(function () {
-	Route::get('all', ['middleware' => 'auth.role:COMPANYADMIN,STOREMANAGER', 'uses' => 'StoresController@all']);
+	Route::get('all', ['middleware' => 'auth.role:COMPANYADMIN,STOREMANAGER,EMPLOYEE', 'uses' => 'StoresController@all']);
 	Route::get('stores_by_user/{user_id}', ['middleware' => 'auth.role:COMPANYADMIN,STOREMANAGER', 'uses' => 'StoresController@storesByUser']);
     Route::post('create', ['middleware' => 'auth.role:COMPANYADMIN,STOREMANAGER', 'uses' => 'StoresController@create']);
 	Route::get('getById/{id}', ['middleware' => 'auth.role:COMPANYADMIN,STOREMANAGER', 'uses' => 'StoresController@getById']);
