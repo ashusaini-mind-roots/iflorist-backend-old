@@ -273,13 +273,23 @@ class StoresController extends Controller
                 $pepe[] = [$csvLine[0],$csvLine[4]];
 				if($csvLine[0] && $csvLine[4])
 				{
-					$weeklyProjectionPercentRevenues = WeeklyProjectionPercentRevenues::where('year_proyection',$csvLine[0])->where('week_number',$csvLine[4])->where('store_id',$request->store_id)->first();
+					$weeklyProjectionPercentRevenues = WeeklyProjectionPercentRevenues::where(
+					    'year_proyection',$csvLine[0])
+                        ->where('year_reference',$csvLine[1])
+                        ->where('amt_total',$csvLine[2])
+                        ->where('percent',$csvLine[3])
+                        ->where('week_number',$csvLine[4])
+                        ->where('store_id',$request->store_id)
+                        ->first();
 					if($weeklyProjectionPercentRevenues)
 					{
 						$weeklyProjectionPercentRevenues = WeeklyProjectionPercentRevenues::findOrFail($weeklyProjectionPercentRevenues->id);
-						$weeklyProjectionPercentRevenues->year_reference = $csvLine[1];
-						$weeklyProjectionPercentRevenues->amt_total = $csvLine[2];
-						$weeklyProjectionPercentRevenues->percent = $csvLine[3];
+                        $weeklyProjectionPercentRevenues->year_proyection = $csvLine[0];
+                        $weeklyProjectionPercentRevenues->year_reference = $csvLine[1];
+                        $weeklyProjectionPercentRevenues->amt_total = $csvLine[2];
+                        $weeklyProjectionPercentRevenues->percent = $csvLine[3];
+                        $weeklyProjectionPercentRevenues->week_number = $csvLine[4];
+                        $weeklyProjectionPercentRevenues->store_id = $request->store_id;
 						$weeklyProjectionPercentRevenues->update();
 					}
 					else
