@@ -169,6 +169,25 @@ class StoresController extends Controller
         return response()->json(['store' => $store], 200);
     }
 	
+	public function getImageById($id)
+    {
+        $store = Store::find($id);
+		
+		if($store->image!='default')
+        {
+            //$file = Storage::get('employee/'+$employee->image);
+            $path = $store->image;
+            $path = str_replace('/',"\\",$path);
+            $path = 'app/'.$path;
+            return response()->file(storage_path($path));
+        }
+        /*else
+        {
+            return response()->file(storage_path('app/store/default.jpg'));
+        }*/
+        //return response()->file(storage_path('app/test.jpg'));
+    }
+	
 	public function create(Request $request)
     {
         $v = Validator::make($request->all(), [
@@ -230,9 +249,15 @@ class StoresController extends Controller
                 'errors' => $v->errors()
             ], 422);
         }
+		
+		$fileUrl = 'default';
+
+        if($request->has('image') && $request->file('image')!=null)
+            $fileUrl = $request->file('image')->store('store');
 
         $Store = Store::findOrFail($id);
         $Store->store_name = $request->store_name;
+		$Store->image = $fileUrl;
         $Store->contact_email = $request->contact_email;
         $Store->contact_phone = $request->contact_phone;
         $Store->zip_code = $request->zip_code;
