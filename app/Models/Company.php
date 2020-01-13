@@ -22,7 +22,7 @@ class Company extends Model
         return  $stores;
     }
 	
-	public function hasStore($store_id,$user_id)
+	public static function hasStore($store_id,$user_id)
     {
         $stores = DB::table('company')
             ->Join('stores','stores.company_id','=','company.id')
