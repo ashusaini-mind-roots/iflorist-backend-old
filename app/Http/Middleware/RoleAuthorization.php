@@ -43,7 +43,7 @@ class RoleAuthorization
             ->select('roles.name')
             ->get();
 			
-			/*Check valid by store by user*/
+			/*Check valid store by user*/
 			if($request->route('store_id'))
 			{
 				$store_id = $request->route('store_id');
@@ -52,13 +52,13 @@ class RoleAuthorization
 				{
 					$stores = Company::hasStore($store_id,$user->id);
 					if(sizeof($stores)==0)
-						return response()->json(['message' => 'You dont have acces to store data ','success'=>false], 401);
+						return response()->json(['message' => 'You have no access to store data ','success'=>false], 401);
 				}
-				else if(in_array("EMPLOYEE",$userRolesParse))
+				else if(in_array("EMPLOYEE",$userRolesParse) || in_array("STOREMANAGER",$userRolesParse))
 				{
 					$employees = Employee::findByStore($store_id);
 					if(sizeof($employees)==0)
-						return response()->json(['message' => 'You dont have acces to store data ','success'=>false], 401);
+						return response()->json(['message' => 'You have no access to store data ','success'=>false], 401);
 				}
 			}
 			/*----------------------------------*/
