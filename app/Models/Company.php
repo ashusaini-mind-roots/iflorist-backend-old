@@ -21,6 +21,18 @@ class Company extends Model
 
         return  $stores;
     }
+	
+	public function hasStore($store_id,$user_id)
+    {
+        $stores = DB::table('company')
+            ->Join('stores','stores.company_id','=','company.id')
+            ->where('company.user_id', $user_id)
+			->where('stores.id', $store_id)
+            ->select('stores.*')
+            ->get();
+
+        return  $stores;
+    }
 
     public function getUserByCompany($companyId)
     {

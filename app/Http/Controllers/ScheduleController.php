@@ -17,20 +17,28 @@ use Illuminate\Support\Carbon;
 
 class ScheduleController extends Controller
 {
-    public function schedule_week($store_id, $week_id)
+    public function schedule_week(Request $request, $store_id, $week_id)
     {
-        $store_week_id = StoreWeek::storeWeekId($store_id,$week_id);
+		$store_week_id = StoreWeek::storeWeekId($store_id,$week_id);
         //$employee_store_week = EmployeeStoreWeek::findByStoreWeekId($store_week_id);
         $employee_store_week_id = -1;
         // if($employee_store_week)
         //     $employee_store_week_id = $employee_store_week->id;
 //        $schedules = Schedule::findByEmployeeStoreWeekId($employee_store_week->id);
-
+		
         $categories = Category::all();
         $response = [];
-
-        foreach ($categories as $category) {
-            $employees = Employee::findByCategoryStore($category->id,$store_id);
+		foreach ($categories as $category) {
+			$roles = $request->auth_roles_parse;
+			if(in_array("COMPANYADMIN",$roles))
+			{
+				$employees = Employee::findByCategoryStore($category->id,$store_id);
+			}
+			else if(in_array("EMPLOYEE",$roles))
+			{
+				$employees = Employee::findByCategoryUser($category->id,auth()->user()->id);
+			}
+            
             $employees_response = [];//employees at this category
             foreach ($employees as $employee) {
                 $schedules = Schedule::findByEmployeeAndStoreWeekIds($employee->id,$store_week_id);//those are 7 days of this employee;

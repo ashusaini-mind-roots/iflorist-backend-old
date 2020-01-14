@@ -18,6 +18,16 @@ class Employee extends Model
             ->get();
         return  $employs;
     }
+	
+	static function findByCategoryUser($category_id,$user_id)
+    {
+        $employs = DB::table('employees')
+            ->where('category_id',$category_id)
+            ->where('user_id',$user_id)
+            ->where('active',1)
+            ->get();
+        return  $employs;
+    }
 
     static function findByStore($store_id)
     {

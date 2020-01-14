@@ -73,7 +73,7 @@ class AuthController extends Controller
 
     public function login()
     {
-        $credentials = request(['email', 'password']);
+		$credentials = request(['email', 'password']);
 
         if(!$token = auth()->attempt($credentials))
         {
