@@ -30,7 +30,6 @@ class StoresTableSeeder extends Seeder
 		TargetPercentageDefault::create(['store_id' => '5','target_percentage_default' => '70.5']);
         TargetPercentageDefault::create(['store_id' => '6','target_percentage_default' => '90.5']);
 
-        AppUser::create(['user_id' => '4','store_id' => '6']);
 	
 	}
 }

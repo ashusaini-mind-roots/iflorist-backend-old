@@ -44,6 +44,15 @@ class Company extends Model
         return  $userId;
     }
 
+    public static function getCompanyAppUser($user_id){
+        $company = DB::table('company')
+            ->Join('stores','stores.company_id','=','company.id')
+            ->leftJoin('app_user','app_user.store_id','=','stores.id')
+            ->where('app_user.user_id', $user_id)
+            ->get()->first();
+        return $company;
+    }
+
 
 
 

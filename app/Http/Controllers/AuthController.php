@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use App\Models\Company;
+use App\Models\Store;
 use Illuminate\Support\Str;
 
 
@@ -197,24 +198,21 @@ class AuthController extends Controller
 
     protected function responseAppWithToken($token)
     {
-        $company = Company::where('user_id',auth()->user()->id)->first();
-        $stores = DB::table('stores')
-            ->leftjoin('app_user','app_user.store_id','=','stores.id')
-            ->where('app_user.user_id',auth()->user()->id)
-            ->select('stores.*')
-            ->get();
-        $roles = DB::table('roles')
-            ->leftjoin('user_role','user_role.role_id','=','roles.id')
-            ->where('user_role.user_id',auth()->user()->id)
-            ->select('roles.name')
-            ->get();
+        $user_id = auth()->user()->id;
+        $company = Company::getCompanyAppUser($user_id);
+        $store = Store::getStoreAppUser($user_id);
+//        $roles = DB::table('roles')
+//            ->leftjoin('user_role','user_role.role_id','=','roles.id')
+//            ->where('user_role.user_id',auth()->user()->id)
+//            ->select('roles.name')
+//            ->get();
         return response()->json([
             'userid' => auth()->user()->id,
             'access_token' => $token,
             'token_type' => 'bearer',
             'user' => auth()->user(),
-            'roles' => $roles,
-            'stores' => $stores,
+//            'roles' => $roles,
+            'store' => $store,
             'company' => $company,
         ]);
     }

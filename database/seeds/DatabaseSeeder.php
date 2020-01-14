@@ -33,6 +33,7 @@ class DatabaseSeeder extends Seeder
         $this->call(StatusTableSeeder::class);
         $this->call(CompanyPlanTableSeeder::class);
 		$this->call(EmployeeTableSeeder::class);
+        $this->call(AppUserStoreRelationSeeder::class);
         $this->command->info('****Seeds were properly seeded, these guys are the best !!!****');
     }
 }
