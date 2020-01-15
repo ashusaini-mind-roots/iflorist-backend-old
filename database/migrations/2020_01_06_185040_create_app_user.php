@@ -16,6 +16,8 @@ class CreateAppUser extends Migration
         Schema::create('app_user', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->timestamps();
+			
+			$table->boolean('activate');
 
             $table->bigInteger('store_id')->unsigned();
             $table->bigInteger('user_id')->unsigned()->nullable(true);
