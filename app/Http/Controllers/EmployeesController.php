@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\DB;
 use App\Models\TaxPercentCalculator;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Week;
+use Illuminate\Support\Facades\Hash;
+use App\Models\UserRole;
 
 
 class EmployeesController extends Controller
@@ -112,6 +114,7 @@ class EmployeesController extends Controller
             $path = str_replace('/',"\\",$path);
             $path = 'app/'.$path;
             return response()->file(storage_path($path));
+			//return response()->json(['status' => storage_path($path)], 200);
         }
         else
         {
@@ -161,10 +164,15 @@ class EmployeesController extends Controller
             $user->name = $request->name;
             $user->email = $request->email;
             //$user->role_id = 2;
-            $user->password = '123456789';
+            $user->password = Hash::make('123456789');
             $user->activated_account = $request->active;
 
             $user->save();
+			
+			$userRole = new UserRole();
+			$userRole->user_id = $user->id;
+			$userRole->role_id = 2;//Rol EMPLOYEE
+			$userRole->save();
         }
 
         $employee = new Employee();
@@ -263,15 +271,31 @@ class EmployeesController extends Controller
                 $user->name = $request->name;
                 $user->email = $request->email;
                 //$user->role_id = 2;
-                $user->password = '123456789';
+                $user->password = Hash::make('123456789');
                 $user->activated_account = $request->active;
                 $user->save();
                 $employee->user_id = $user->id;
+				
+				$userRole = new UserRole();
+				$userRole->user_id = $user->id;
+				$userRole->role_id = 2;//Rol EMPLOYEE
+				$userRole->save();
             }
             else
             {
                 $user = User::findOrFail($employee->user_id);
                 $user->activated_account = '1';
+				$user->name = $request->name;
+				if($user->email!=$request->email)
+				{
+					if($user->if_email($request->email))
+					{
+						return response()->json([
+							'status' => 'error',
+							'error' => 'The email already exist !'
+						], 200);
+					}
+				}
                 $user->email = $request->email;
                 $user->update();
             }
@@ -292,7 +316,7 @@ class EmployeesController extends Controller
         $employee->image = $fileUrl;
         $employee->active = $request->active;
         $employee->year_pay = $request->year_pay;
-        /*$employee->system_account = $request->system_account;*/
+        
 
         $employee->update();
 
