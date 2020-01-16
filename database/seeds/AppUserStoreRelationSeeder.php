@@ -12,7 +12,7 @@ class AppUserStoreRelationSeeder extends Seeder
      */
     public function run()
     {
-        AppUser::create(['user_id' => '4','store_id' => '6','activate'=>'1']);
+        AppUser::create(['user_id' => '4','store_id' => '2','activate'=>'1']);
         AppUser::create(['user_id' => '6','store_id' => '1','activate'=>'1']);
 	}
 }
