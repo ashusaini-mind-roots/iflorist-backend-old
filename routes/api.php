@@ -181,6 +181,9 @@ Route::prefix('companyemployee')->group(function () {
 
 Route::prefix('app_user')->group(function () {
 	Route::get('all/{store_id}', ['middleware' => 'auth.role:COMPANYADMIN,STOREMANAGER,APPUSER', 'uses' => 'AppUserController@all']);
+	Route::post('create', ['middleware' => 'auth.role:COMPANYADMIN,STOREMANAGER,APPUSER', 'uses' => 'AppUserController@create']);
+	Route::post('update/{id}', ['middleware' => 'auth.role:COMPANYADMIN,STOREMANAGER,APPUSER', 'uses' => 'AppUserController@update']);
+	Route::get('getAppUser/{id}', ['middleware' => 'auth.role:COMPANYADMIN,STOREMANAGER,APPUSER', 'uses' => 'AppUserController@getById']);
 	/*Route::get('stores_by_user/{user_id}', ['middleware' => 'auth.role:COMPANYADMIN,STOREMANAGER', 'uses' => 'StoresController@storesByUser']);
     Route::post('create', ['middleware' => 'auth.role:COMPANYADMIN,STOREMANAGER', 'uses' => 'StoresController@create']);
 	Route::get('getById/{id}', ['middleware' => 'auth.role:COMPANYADMIN,STOREMANAGER', 'uses' => 'StoresController@getById']);
