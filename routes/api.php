@@ -145,7 +145,7 @@ Route::prefix('work_man_comp')->group(function () {
 });
 
 Route::prefix('schedule')->group(function () {
-    Route::post('update_or_add', ['middleware' => 'auth.role:COMPANYADMIN,EMPLOYEE', 'uses' => 'ScheduleController@updateoradd']);
+    Route::post('update_or_add', ['middleware' => 'auth.role:COMPANYADMIN,STOREMANAGER,EMPLOYEE', 'uses' => 'ScheduleController@updateoradd']);
     Route::get('all/{store_id}/{week_id}', ['middleware' => 'auth.role:COMPANYADMIN,STOREMANAGER,EMPLOYEE', 'uses' => 'ScheduleController@schedule_week']);
 });
 

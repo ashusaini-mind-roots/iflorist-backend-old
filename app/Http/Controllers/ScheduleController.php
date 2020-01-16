@@ -150,13 +150,10 @@ class ScheduleController extends Controller
                         $chedule->dates_dim_date =  $dimdate->date;
                         //$chedule->dates_dim_date = date('Y-m-d');
                         $chedule->update();
-
                     }
                 }
-
             }
-
-            return response()->json(['status' => 'success','weeknumber'=>$week_number, "year"=>$year,'arrayre'=>$arrayre,'scheduleds_added'=>$temp_new], 200);
+            return response()->json(['status' => 'success','weeknumber'=>$week_number, "year"=>$year,'days_information'=>$arrayre,'schedules_added'=>$temp_new], 200);
         }
 
         return response()->json([
