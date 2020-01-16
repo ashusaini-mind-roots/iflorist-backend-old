@@ -86,11 +86,23 @@ class AppUserController extends Controller
         }
 		
 		$appUser = AppUser::findOrFail($id);
+		$user = User::findOrFail($appUser->user_id);
+		
+		if($user->email != $request->email)
+		{
+			if($user->if_email($request->email))
+			{
+				return response()->json([
+					'status' => 'error',
+					'error' => 'The email already exist !'
+				], 200);
+			}
+		}
+		
 		$appUser->store_id = $request->store_id;
         $appUser->activate = $request->active;
 		$appUser->save();
 		
-		$user = User::findOrFail($appUser->user_id);
 		$user->name = $request->name;
 		$user->email = $request->email;
 		$user->password = Hash::make('123456789');
