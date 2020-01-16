@@ -51,7 +51,7 @@ class AppUserController extends Controller
 		
 		$user->name = $request->name;
 		$user->email = $request->email;
-		$user->password = Hash::make('123456789');
+		$user->password = Hash::make('test');
 		$user->activated_account = $request->active;
 		$user->save();
 		
@@ -105,7 +105,7 @@ class AppUserController extends Controller
 		
 		$user->name = $request->name;
 		$user->email = $request->email;
-		$user->password = Hash::make('123456789');
+		//$user->password = Hash::make('123456789');
 		$user->activated_account = $request->active;
 		$user->update();
 		
