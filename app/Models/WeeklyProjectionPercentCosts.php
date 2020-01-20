@@ -11,8 +11,7 @@ class WeeklyProjectionPercentCosts extends Model
 
     static function target($cost_of)
     {
-//        $target = DB::table('weekly_projection_percent_costs')
-//            ->get();
+
         $data = parent::all()->first();
         if($cost_of == 'goods')
         {
