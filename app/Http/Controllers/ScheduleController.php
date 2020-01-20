@@ -30,7 +30,7 @@ class ScheduleController extends Controller
         $response = [];
 		foreach ($categories as $category) {
 			$roles = $request->auth_roles_parse;
-			if(in_array("COMPANYADMIN",$roles)  )
+			if(in_array("COMPANYADMIN",$roles) || in_array("STOREMANAGER",$roles) )
 			{
 				$employees = Employee::findByCategoryStore($category->id,$store_id);
 			}
