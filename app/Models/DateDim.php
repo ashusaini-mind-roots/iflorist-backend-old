@@ -25,4 +25,12 @@ class DateDim extends Model
         $daysText = array('Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday');
         return $daysText;
     }
+	
+	static public function findDaysNumber($number, $year)
+    {
+        return $week = DB::table('dates_dim')
+			->where('week_starting_monday',$number)
+            ->where('year',$year)
+            ->get();
+    }
 }

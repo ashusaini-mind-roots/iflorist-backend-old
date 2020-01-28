@@ -121,6 +121,13 @@ class ScheduleController extends Controller
         }
         return ['schedules_to_send' => $schedules_to_send, 'total_minutes' => $total_minutes];
     }
+	
+	public function seven_days_number($week_id)
+	{
+		$week = Week::find($week_id);
+		$daysNumber = DateDim::findDaysNumber($week->number,$week->year);
+		return response()->json(['status' => 'success','days_number'=>$daysNumber], 200);
+	}
 
     public function updateoradd(Request $request)
     {
