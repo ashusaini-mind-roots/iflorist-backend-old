@@ -25,7 +25,11 @@ class ScheduleController extends Controller
         // if($employee_store_week)
         //     $employee_store_week_id = $employee_store_week->id;
 //        $schedules = Schedule::findByEmployeeStoreWeekId($employee_store_week->id);
-		
+
+        $week = week::find($week_id);
+        if($week)
+            $firsDayMonday = DateDim::findBy_($week->year,'Monday',$week->number);
+
         $categories = Category::all();
         $response = [];
 		foreach ($categories as $category) {
@@ -63,14 +67,25 @@ class ScheduleController extends Controller
                     ];
                 }
             }
-            $response[] = ['id' => $category->id, 'category_name' => $category->name,'employees' => $employees_response,
 
+
+            $response[] = ['id' => $category->id, 'category_name' => $category->name,'employees' => $employees_response,
+//'daymonday'=>$date->addDays(1)
 //                'emplotest'=>$employees,
 //                'scheduletest' =>$schedules,
 //                'employeestoreweektest' => $employee_store_week
             ];
         }
-        return response()->json(['categories_schedules' => $response], 200);
+
+		$dates_of_week = [];
+        $date = Carbon::createFromFormat('Y-m-d', $firsDayMonday->date);
+        $dates_of_week[] = $date->format('m/d/Y');
+        for($i = 0 ; $i < 6 ; $i++){
+            $added = $date->addDay(1);
+            $dates_of_week[] = $added->format('m/d/Y');
+        }
+
+        return response()->json(['categories_schedules' => $response,'dates_of_week'=>$dates_of_week], 200);
     }
 
     private function conformSchedulesToSend($schedulesFromDatabase, $employee_store_week_id)
