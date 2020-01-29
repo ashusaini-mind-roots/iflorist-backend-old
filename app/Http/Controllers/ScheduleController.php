@@ -157,13 +157,10 @@ class ScheduleController extends Controller
                         $chedule->dates_dim_date =  $dimdate->date;
                         //$chedule->dates_dim_date = date('Y-m-d');
                         $chedule->update();
-
                     }
                 }
-
             }
-
-            return response()->json(['status' => 'success','weeknumber'=>$week_number, "year"=>$year,'arrayre'=>$arrayre,'scheduleds_added'=>$temp_new], 200);
+            return response()->json(['status' => 'success','weeknumber'=>$week_number, "year"=>$year,'days_information'=>$arrayre,'schedules_added'=>$temp_new], 200);
         }
 
         return response()->json([
@@ -171,4 +168,24 @@ class ScheduleController extends Controller
             'errors' => 'Schedule array invalid'
         ], 422);
     }
+
+
+    public function categoryEmployeeList(Request $request,$store_id){
+        $categories_response = [];
+        $categories = Category::all();
+
+//        $employees = [];
+        foreach ($categories as $category) {
+            $employees = [];
+            $roles = $request->auth_roles_parse;
+            if (in_array("COMPANYADMIN", $roles) || in_array("STOREMANAGER", $roles)) {
+                $employees = Employee::findByCategoryStore($category->id, $store_id);
+            } else if (in_array("EMPLOYEE", $roles)) {
+                $employees = Employee::findByCategoryUser($category->id, auth()->user()->id);
+            }
+            $categories_response[] = ['id'=>$category->id, 'name' => $category->name, 'employees' => $employees];
+        }
+        return response()->json(['categories_employees' => $categories_response], 200);
+    }
+
 }
