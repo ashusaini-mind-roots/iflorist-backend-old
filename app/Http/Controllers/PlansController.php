@@ -62,7 +62,7 @@ class PlansController extends Controller
         }
         else
             $modules = Plan::modulesbyuser(/*$user_id*/auth()->user()->id);
-        foreach ($modules as $module){
+		foreach ($modules as $module){
             $found = false;
             if($module->roles != null){
                 $module_roles = explode (",", $module->roles);

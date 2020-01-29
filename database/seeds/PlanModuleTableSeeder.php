@@ -20,5 +20,6 @@ class PlanModuleTableSeeder extends Seeder
         PlanModule::create(['plan_id' => 2,'module_id' => 5]);
         
         PlanModule::create(['plan_id' => 3,'module_id' => 6]);
+		PlanModule::create(['plan_id' => 3,'module_id' => 7]);
     }
 }
