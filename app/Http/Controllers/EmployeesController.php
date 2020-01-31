@@ -126,7 +126,7 @@ class EmployeesController extends Controller
         }
         else
         {
-            //return response()->file(storage_path('app/employee/default.jpg'));
+            return response()->file(storage_path('app/employee/default.svg'));
         }
         //return response()->file(storage_path('app/test.jpg'));
     }
@@ -137,6 +137,8 @@ class EmployeesController extends Controller
 		$store_id = $request->store_id;
 		
 		$employeeRole = Employee::findEmployeeRole($employee_id,$store_id);
+		if(!$employeeRole)
+			return response()->json(['error' => 'Could not set this employee as Store Manager beacuse it should be set as a System User. Go to edit page and change this employee to a System User !'], 200);
 		$user_role = UserRole::find($employeeRole->user_role_id);
 		$user_role->role_id = 5;
 		
