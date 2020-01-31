@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\User;
+use App\Models\UserRole;
 use App\Models\Employee;
 use App\Models\StoreWeek;
 Use App\Models\EmployeeStoreWeek;
@@ -14,7 +15,7 @@ use App\Models\TaxPercentCalculator;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Week;
 use Illuminate\Support\Facades\Hash;
-use App\Models\UserRole;
+
 
 
 class EmployeesController extends Controller
@@ -63,7 +64,14 @@ class EmployeesController extends Controller
                     $emailTemp = $user->email;
                 }
             }
-
+			if(Employee::employeeIsStoreAdmin($employees[$i]->id,$store_id))
+			{
+				$employees[$i]->store_admin = true;
+			}
+			else
+			{
+				$employees[$i]->store_admin = false;
+			}
             $employees[$i]->email = $emailTemp;
         }
         return response()->json(['employees' => $employees], 200);
@@ -122,6 +130,32 @@ class EmployeesController extends Controller
         }
         //return response()->file(storage_path('app/test.jpg'));
     }
+	
+	public function changeStoreAdmin(Request $request)
+	{
+		$employee_id = $request->employee_id;
+		$store_id = $request->store_id;
+		
+		$employeeRole = Employee::findEmployeeRole($employee_id,$store_id);
+		$user_role = UserRole::find($employeeRole->user_role_id);
+		$user_role->role_id = 5;
+		
+		$storeAdmin = Employee::findStoreAdmin($store_id);
+		
+		if($storeAdmin)
+		{
+			//return response()->json(['status' => 'akiiiiiiiiiii'], 200);
+			$user_role_store_admin = UserRole::find($storeAdmin->user_role_id);
+			$user_role_store_admin->role_id = 2;
+			$user_role_store_admin->update();
+		}
+		
+		
+		$user_role->update();
+		
+		return response()->json(['status' => 'success'], 200);
+	}
+	
 
     public function create(Request $request)
     {

@@ -19,6 +19,42 @@ class Employee extends Model
         return  $employs;
     }
 	
+	static function employeeIsStoreAdmin($employee_id,$store_id)
+    {
+        $employe = DB::table('employees')
+			->join('user_role', 'user_role.user_id', '=', 'employees.user_id')
+			->select('employees.*','user_role.id as user_role_id')
+            ->where('employees.id',$employee_id)
+            ->where('employees.store_id',$store_id)
+            ->where('employees.active',1)
+			->where('user_role.role_id',5)
+            ->first();
+        return  $employe;
+    }
+	
+	static function findStoreAdmin($store_id)
+    {
+        $employe = DB::table('employees')
+			->join('user_role', 'user_role.user_id', '=', 'employees.user_id')
+			->select('employees.*','user_role.id as user_role_id')
+            ->where('employees.store_id',$store_id)
+            ->where('employees.active',1)
+			->where('user_role.role_id',5)
+            ->first();
+        return  $employe;
+    }
+	
+	static function findEmployeeRole($employee_id,$store_id)
+    {
+        $employe = DB::table('employees')
+			->join('user_role', 'user_role.user_id', '=', 'employees.user_id')
+			->select('employees.*','user_role.id as user_role_id')
+            ->where('employees.id',$employee_id)
+            ->where('employees.active',1)
+			->first();
+        return  $employe;
+    }
+	
 	static function findByCategoryUser($category_id,$user_id)
     {
         $employs = DB::table('employees')

@@ -125,6 +125,7 @@ Route::prefix('employee')->group(function () {
 	Route::get('allActiveAndInactive/{store_id}', 'EmployeesController@getAllActiveAndInactive');
     Route::post('create', 'EmployeesController@create');
     Route::post('update/{id}', 'EmployeesController@update');
+	Route::post('changeAdminStore', ['middleware' => 'auth.role:COMPANYADMIN', 'uses' => 'EmployeesController@changeStoreAdmin']);
     Route::get('getById/{id}', 'EmployeesController@getById');
     Route::get('getImageById/{id}', 'EmployeesController@getImageById');
     Route::get('getEmployeesByStore/{store_id}', 'EmployeesController@getEmployeesByStore');
