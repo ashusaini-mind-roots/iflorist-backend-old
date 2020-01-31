@@ -99,7 +99,7 @@ class MasterOverviewWeeklyController extends Controller
 
             $a = DailyRevenue::sevenDaysWeek($store_id, $wid);
             $actual_weekly_revenue = DailyRevenue::amtTotal($a);
-            $weekly_cog_total = Invoice::total($store_id, $wid);
+            $weekly_cog_total = Invoice::total($store_id, $wid, $cost_of);
 
             if ($weekly_cog_total == 0) {
                 $total = 0;
