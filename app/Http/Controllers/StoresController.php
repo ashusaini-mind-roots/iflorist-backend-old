@@ -181,10 +181,10 @@ class StoresController extends Controller
             $path = 'app/'.$path;
             return response()->file(storage_path($path));
         }
-        /*else
+        else
         {
-            return response()->file(storage_path('app/store/default.jpg'));
-        }*/
+            return response()->file(storage_path('app/employee/default.svg'));
+        }
         //return response()->file(storage_path('app/test.jpg'));
     }
 	
