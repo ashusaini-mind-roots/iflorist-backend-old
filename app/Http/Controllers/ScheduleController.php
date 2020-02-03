@@ -54,6 +54,7 @@ class ScheduleController extends Controller
                     $schedules_to_send = $to_send['schedules_to_send'];
                     $employees_response[] = [
                         'name' => $employee->name,
+                        'employee_id' => $employee->id,
                         'id' => ''.$employee->id . "" . $category->id,
                         'active' =>$employee->active,
                         'schedule_days' => $schedules_to_send,
@@ -134,6 +135,7 @@ class ScheduleController extends Controller
         $schedule_days = json_decode($request->schedule_days);
         $week_number = week::find($request->week_id)->number;
         $year = $request->year;
+        $employee_id = $request->employee_id;
 
         $arrayre = [];
 
@@ -175,7 +177,7 @@ class ScheduleController extends Controller
                     }
                 }
             }
-            return response()->json(['status' => 'success','weeknumber'=>$week_number, "year"=>$year,'days_information'=>$arrayre,'schedules_added'=>$temp_new], 200);
+            return response()->json(['status' => 'success','weeknumber'=>$week_number, "year"=>$year,'days_information'=>$arrayre,'schedules_added'=>$temp_new, 'employee_id'=>$employee_id], 200);
         }
 
         return response()->json([
