@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Company;
 use App\Models\User;
+use App\Models\UserRole;
 use App\Models\CompanyPlan;
 use \Exception;
 use Illuminate\Support\Str;
@@ -89,7 +90,13 @@ class CompanyController extends Controller
             $user->activation_code = Str::random(16);
             $user->password = bcrypt($request->password);
             $user->save();
-            $text = config('app.api_url_activation_company') . '/' . $user->user_id . '-' . $user->activation_code;
+			
+			$userRole = new UserRole();
+			$userRole->user_id = $user->id;
+			$userRole->role_id = 4;
+			$userRole->save();
+			
+            $text = config('app.api_url_activation_company') . '/' . $user->id . '-' . $user->activation_code;
             $emailResponse = $this->send_activation_mail($user->email, $text);
         } catch (\Exception $e) {
 //            $Merchant->deleteCustomer($CustomerMerchant->id);
@@ -107,7 +114,7 @@ class CompanyController extends Controller
             $company->ba_zip_code = $request->ba_zip_code;
             $company->card_holder_name = $request->card_holder_name;
             $company->canceled_account = 0;
-//            $company->external_customer_id = $CustomerMerchant->id;
+//          $company->external_customer_id = $CustomerMerchant->id;
             $company->external_customer_id = "customermarchantid";
             $company->user_id = $user->id;
             $company->save();
