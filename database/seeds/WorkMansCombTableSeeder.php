@@ -13,6 +13,6 @@ class WorkMansCombTableSeeder extends Seeder
     public function run()
     {
         WorkManComp::create(['name' => 'Florist & Driver','code' => '8001','rate' => '4.18']);
-        WorkManComp::create(['name' => 'Sales & Crerical','code' => '8810','rate' => '0.18']);
+        WorkManComp::create(['name' => 'Sales & Clerical','code' => '8810','rate' => '0.18']);
     }
 }

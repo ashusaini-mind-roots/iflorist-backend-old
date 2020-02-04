@@ -16,6 +16,7 @@ use App\Models\Employee;
 use App\Models\TaxPercentCalculator;
 use App\Models\WeeklyProjectionPercentRevenues;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use App\Models\WeeklyProjectionPercentCosts;
 
 class StoresController extends Controller
 {
@@ -163,7 +164,9 @@ class StoresController extends Controller
     {
 		$store = DB::table('stores')
                 ->leftjoin('target_percentage_default', 'target_percentage_default.store_id', '=', 'stores.id')
-                ->select('stores.*','target_percentage_default.target_percentage_default')
+                ->leftjoin('weekly_projection_percent_costs', 'stores.id', '=', 'weekly_projection_percent_costs.store_id')
+                ->select('stores.*','target_percentage_default.target_percentage_default',
+                    'weekly_projection_percent_costs.*')
                 ->where('stores.id',$id)
                 ->first();
         return response()->json(['store' => $store], 200);
@@ -270,6 +273,11 @@ class StoresController extends Controller
 		$targetPercentage = TargetPercentageDefault::where('store_id',$id)->first();
         $targetPercentage->target_percentage_default = $request->target_percentage;
         $targetPercentage->update();
+
+        $wppc = WeeklyProjectionPercentCosts::where('store_id',$id )->first();
+        $wppc->target_cog = $request->target_costof_goods;
+        $wppc->target_cof = $request->target_costof_fresh;
+        $wppc->update();
 
         return response()->json(['status' => 'success'], 200);
     }

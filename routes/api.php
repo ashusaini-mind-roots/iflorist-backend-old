@@ -100,7 +100,7 @@ Route::prefix('diff_projection_percent')->group(function () {
 });
 
 Route::prefix('weekly_projection_percent_costs')->group(function () {
-    Route::get('target/{cost_of}', 'WeeklyProjectionPercentCostsController@target');
+    Route::get('target/{cost_of}/{store_id}', 'WeeklyProjectionPercentCostsController@target');
     Route::put('update_target_cog/{store_id}/{week_id}', 'WeeklyProjectionPercentCostsController@updateTargetCog');
 });
 

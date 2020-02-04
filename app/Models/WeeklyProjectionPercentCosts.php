@@ -9,9 +9,9 @@ class WeeklyProjectionPercentCosts extends Model
 {
     protected $table = 'weekly_projection_percent_costs';
 
-    static function target($cost_of)
+    static function target($cost_of,$store_id)
     {
-        $data = parent::all()->first();
+        $data = parent::where('store_id',$store_id)->first();
         if($cost_of == 'goods')
         {
             if($data)

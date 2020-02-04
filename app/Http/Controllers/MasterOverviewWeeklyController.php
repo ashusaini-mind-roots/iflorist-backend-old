@@ -107,7 +107,7 @@ class MasterOverviewWeeklyController extends Controller
                 $total = $weekly_cog_total * 100 / (($actual_weekly_revenue <= 0) ? 1 : $actual_weekly_revenue);
             }
 
-            $target = WeeklyProjectionPercentCosts::target($cost_of);
+            $target = WeeklyProjectionPercentCosts::target($cost_of,$store_id);
 
             $arrayDatos = array(
                 'a' => ''.(int)$week_number,
