@@ -213,7 +213,7 @@ class MasterOverviewWeeklyController extends Controller
                 $employee_schedules = Schedule::findByEmployeeAndStoreWeekIds($employee->employee_id,$store_week_id);//those are 7 days of this employee or less days;
                 $employees_with_schedules[] = ['employee'=>$employee,'schedules'=>$employee_schedules];
             }
-            $employees_general_data = $this->getEmployeeGeneralData($employees_with_schedules);
+            $employees_general_data = $this->getEmployeeGeneralData($employees_with_schedules, $store_id);
 
 
             $scheduled_payroll = 0;
@@ -251,9 +251,9 @@ class MasterOverviewWeeklyController extends Controller
         return response()->json(['projection_col' => $master_overview_weekly], 200);
     }
 
-    public function getEmployeeGeneralData($employees_with_schedules)
+    public function getEmployeeGeneralData($employees_with_schedules,$store_id)
     {
-        $tax_perccent_calculator = TaxPercentCalculator::first();
+        $tax_perccent_calculator = TaxPercentCalculator::where('store_id',$store_id)->first();
         $total_minutess_separated = [];
         for($i = 0 ; $i < count($employees_with_schedules) ; $i++){
             $total_minutess_separated = [];
@@ -295,7 +295,7 @@ class MasterOverviewWeeklyController extends Controller
             $employee_schedules = Schedule::findByEmployeeAndStoreWeekIds($employee->employee_id,$store_week_id);//those are 7 days of this employee or less days;
             $employees_with_schedules[] = ['employee'=>$employee,'schedules'=>$employee_schedules];
         }
-        $employees_general_data = $this->getEmployeeGeneralData($employees_with_schedules);
+        $employees_general_data = $this->getEmployeeGeneralData($employees_with_schedules, $store_id);
 
         $scheduled_payroll = 0.00;
         foreach ($employees_general_data as $emp_data) {

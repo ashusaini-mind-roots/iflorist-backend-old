@@ -26,7 +26,7 @@ class EmployeesController extends Controller
 
         for($i = 0 ; $i < count($employees) ; $i++){
             $emailTemp = '';
-            $taxes = $this->getEmployeeTaxes($employees[$i]->hourlypayrate,$employees[$i]->work_man_comp_rate);
+            $taxes = $this->getEmployeeTaxes($employees[$i]->hourlypayrate,$employees[$i]->work_man_comp_rate,$store_id);
             $employees[$i]->hourly_gross_pay =  $taxes + $employees[$i]->hourlypayrate ;
             $employees[$i]->overtime_gross_pay = $taxes + ($employees[$i]->hourlypayrate * 1.5) ;
             $userIdTemp = $employees[$i]->employees_user_id;
@@ -51,7 +51,7 @@ class EmployeesController extends Controller
 
         for($i = 0 ; $i < count($employees) ; $i++){
             $emailTemp = '';
-            $taxes = $this->getEmployeeTaxes($employees[$i]->hourlypayrate,$employees[$i]->work_man_comp_rate);
+            $taxes = $this->getEmployeeTaxes($employees[$i]->hourlypayrate,$employees[$i]->work_man_comp_rate,$store_id);
             $employees[$i]->hourly_gross_pay =  $taxes + $employees[$i]->hourlypayrate ;
             $employees[$i]->overtime_gross_pay = $taxes + ($employees[$i]->hourlypayrate * 1.5) ;
             $userIdTemp = $employees[$i]->employees_user_id;
@@ -376,8 +376,8 @@ class EmployeesController extends Controller
         return response()->json(['status' => 'success'], 200);
     }
 
-    public function getEmployeeTaxes($employee_hourlypayrate,$workmans_rate){
-        $tax_perccent_calculator = TaxPercentCalculator::first();
+    public function getEmployeeTaxes($employee_hourlypayrate,$workmans_rate, $store_id){
+        $tax_perccent_calculator = TaxPercentCalculator::where('store_id',$store_id)->first();
 
         $sui = round($employee_hourlypayrate * $tax_perccent_calculator->sui/100,2);
         $futa = round($employee_hourlypayrate * $tax_perccent_calculator->futa/100,2);
