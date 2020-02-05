@@ -203,9 +203,18 @@ class StoresController extends Controller
         if ($v->fails()) {
             return response()->json([
                 'status' => 'error',
-                'errors' => $v->errors()
-            ], 422);
+                'error' => $v->errors()
+            ], 500);
         }
+		
+		if(Store::where('store_name',$request->store_name)->first())
+		{
+			return response()->json([
+                'status' => 'error',
+                'errors' => 'There is a store with the same store name'
+            ], 200);
+		}
+			
 
         $userId = auth()->user()->id;
         $company = Company::where('user_id',$userId)->first();
@@ -236,6 +245,20 @@ class StoresController extends Controller
         $targetPercentage->store_id = $Store->id;
         $targetPercentage->target_percentage_default = $request->target_percentage;
         $targetPercentage->save();
+		
+		$wppc = new WeeklyProjectionPercentCosts();
+		$wppc->store_id = $Store->id;
+        $wppc->target_cog = $request->target_costof_goods;
+        $wppc->target_cof = $request->target_costof_fresh;
+        $wppc->save();
+
+        $tpc = new TaxPercentCalculator();
+		$tpc->store_id = $Store->id;
+        $tpc->sui = $request->sui;
+        $tpc->futa = $request->futa;
+        $tpc->social_security = $request->social_security;
+        $tpc->medicare = $request->medicare;
+        $tpc->save();
 
         return response()->json(['status' => 'success'], 200);
     }
@@ -253,6 +276,14 @@ class StoresController extends Controller
                 'errors' => $v->errors()
             ], 422);
         }
+		
+		if(Store::findOrFail($id)->store_name!=$request->store_name && Store::where('store_name',$request->store_name)->first())
+		{
+			return response()->json([
+                'status' => 'error',
+                'errors' => 'There is a store with the same store name'
+            ], 200);
+		}
 		
 		$fileUrl = 'default';
 
