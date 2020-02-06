@@ -15,7 +15,7 @@ class CreateStoresTable extends Migration
     {
         Schema::create('stores', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('store_name')->unique();
+            $table->string('store_name');
             $table->string('contact_phone', 10)->nullable();
             $table->string('contact_email')->nullable();
             $table->string('address')->nullable();

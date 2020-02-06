@@ -207,13 +207,13 @@ class StoresController extends Controller
             ], 500);
         }
 		
-		if(Store::where('store_name',$request->store_name)->first())
+		/*if(Store::where('store_name',$request->store_name)->first())
 		{
 			return response()->json([
                 'status' => 'error',
                 'errors' => 'There is a store with the same store name'
             ], 200);
-		}
+		}*/
 			
 
         $userId = auth()->user()->id;
@@ -227,10 +227,18 @@ class StoresController extends Controller
         $Store = new Store;
         $Store->store_name = $request->store_name;
         $Store->image = $fileUrl;
-        $Store->contact_email = $request->contact_email;
-        $Store->contact_phone = $request->contact_phone;
-        $Store->zip_code = $request->zip_code;
-        $Store->address = $request->address;
+		if($request->has('contact_email'))
+			$Store->contact_email = $request->contact_email;
+        if($request->has('contact_phone'))
+			$Store->contact_phone = $request->contact_phone;
+        if($request->has('zip_code'))
+			$Store->zip_code = $request->zip_code;
+		if($request->has('address'))
+			$Store->address = $request->address;
+		if($request->has('city'))
+			$Store->city = $request->city;
+		if($request->has('state'))
+			$Store->state = $request->state;
         $Store->company_id = $company->id;
         $Store->save();
 		
@@ -277,13 +285,13 @@ class StoresController extends Controller
             ], 422);
         }
 		
-		if(Store::findOrFail($id)->store_name!=$request->store_name && Store::where('store_name',$request->store_name)->first())
+		/*if(Store::findOrFail($id)->store_name!=$request->store_name && Store::where('store_name',$request->store_name)->first())
 		{
 			return response()->json([
                 'status' => 'error',
                 'errors' => 'There is a store with the same store name'
             ], 200);
-		}
+		}*/
 		
 		$fileUrl = 'default';
 
@@ -293,12 +301,18 @@ class StoresController extends Controller
         $Store = Store::findOrFail($id);
         $Store->store_name = $request->store_name;
 		$Store->image = $fileUrl;
-        $Store->contact_email = $request->contact_email;
-        $Store->contact_phone = $request->contact_phone;
-        $Store->zip_code = $request->zip_code;
-        $Store->address = $request->address;
-		$Store->city = $request->city;
-		$Store->state = $request->state;
+        if($request->has('contact_email'))
+			$Store->contact_email = $request->contact_email;
+        if($request->has('contact_phone'))
+			$Store->contact_phone = $request->contact_phone;
+        if($request->has('zip_code'))
+			$Store->zip_code = $request->zip_code;
+		if($request->has('address'))
+			$Store->address = $request->address;
+		if($request->has('city'))
+			$Store->city = $request->city;
+		if($request->has('state'))
+			$Store->state = $request->state;
 //        $Store->company_id = $request->company_id;
         $Store->update();
 		
