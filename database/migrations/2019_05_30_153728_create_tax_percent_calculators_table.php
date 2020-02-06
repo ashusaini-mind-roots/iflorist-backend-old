@@ -16,10 +16,10 @@ class CreateTaxPercentCalculatorsTable extends Migration
         Schema::create('tax_percent_calculators', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('store_id')->unsigned();
-            $table->decimal('sui',3,1);
-            $table->decimal('futa',3,1);
-            $table->decimal('social_security',3,1);
-            $table->decimal('medicare',3,1);
+            $table->decimal('sui',3,2);
+            $table->decimal('futa',3,2);
+            $table->decimal('social_security',3,2);
+            $table->decimal('medicare',3,2);
             $table->timestamps();
 
             $table->foreign('store_id')->references('id')->on('stores');
