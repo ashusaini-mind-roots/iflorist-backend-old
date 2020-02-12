@@ -130,7 +130,7 @@ Route::prefix('employee')->group(function () {
     Route::get('getImageById/{id}', 'EmployeesController@getImageById');
     Route::get('getEmployeesByStore/{store_id}', 'EmployeesController@getEmployeesByStore');
     Route::delete('delete/{id}', 'EmployeesController@delete');
-    
+	Route::get('getImageByUserId/{id}', 'EmployeesController@getImageByUserId');
 });
 
 Route::prefix('category')->group(function () {

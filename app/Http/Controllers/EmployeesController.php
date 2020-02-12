@@ -131,6 +131,29 @@ class EmployeesController extends Controller
         //return response()->file(storage_path('app/test.jpg'));
     }
 	
+	public function getImageByUserId($id)
+    {
+        $employee = Employee::where('user_id',$id)->first();
+		
+		//return response()->file(storage_path('app/employee/oka.jpg'));
+		//return response()->json(['employee' => $employee], 200);
+        
+        if($employee->image!='default')
+        {
+            //$file = Storage::get('employee/'+$employee->image);
+            $path = $employee->image;
+            $path = str_replace('/',"\\",$path);
+            $path = 'app/'.$path;
+            return response()->file(storage_path($path));
+			//return response()->json(['status' => storage_path($path)], 200);
+        }
+        else
+        {
+            return response()->file(storage_path('app/employee/default.svg'));
+        }
+        //return response()->file(storage_path('app/test.jpg'));
+    }
+	
 	public function changeStoreAdmin(Request $request)
 	{
 		$employee_id = $request->employee_id;
