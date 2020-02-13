@@ -26,6 +26,9 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
+		/*$schedule->command('command:generateweekdata')->dailyAt('23:00');*/
+		/*$schedule->command('command:generateweekdata')->weeklyOn(5,'12:01');*/
+		$schedule->command('command:generateweekdata')->everyMinute();
     }
 
     /**
