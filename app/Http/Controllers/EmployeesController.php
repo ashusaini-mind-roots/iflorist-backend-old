@@ -119,7 +119,7 @@ class EmployeesController extends Controller
         {
             //$file = Storage::get('employee/'+$employee->image);
             $path = $employee->image;
-            $path = str_replace('/',"\\",$path);
+            //$path = str_replace('/',"\\",$path);
             $path = 'app/'.$path;
             return response()->file(storage_path($path));
 			//return response()->json(['status' => storage_path($path)], 200);
@@ -142,7 +142,7 @@ class EmployeesController extends Controller
         {
             //$file = Storage::get('employee/'+$employee->image);
             $path = $employee->image;
-            $path = str_replace('/',"\\",$path);
+            //$path = str_replace('/',"\\",$path);
             $path = 'app/'.$path;
             return response()->file(storage_path($path));
 			//return response()->json(['status' => storage_path($path)], 200);
