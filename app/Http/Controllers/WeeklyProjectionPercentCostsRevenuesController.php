@@ -82,7 +82,7 @@ class WeeklyProjectionPercentCostsRevenuesController extends Controller
 
             $week_number = $week['number'];//52
             $wppRevenues_reference = WeeklyProjectionPercentRevenues::getByStoreIdYearWeekNumber($store_id,$year_reference,/*$week_reference->number*/$week_number)->first();
-            $amtTotal = $wppRevenues_reference->amt_total/*$this->amtTotal($seven_days_week)*/;
+            $amtTotal = ($wppRevenues_reference) ? $wppRevenues_reference->amt_total : 0.00/*$this->amtTotal($seven_days_week)*/;
 
             $responseValue = $amtTotal - ($percent * $amtTotal / 100);
         }
