@@ -12,6 +12,6 @@ class EmployeeStoreWeekTableSeeder extends Seeder
      */
     public function run()
     {
-        EmployeeStoreWeek::create(['employee_id' => 1,'store_week_id' => 781,'activate' => 1]);
+      //  EmployeeStoreWeek::create(['employee_id' => 1,'store_week_id' => 781,'activate' => 1]);
     }
 }

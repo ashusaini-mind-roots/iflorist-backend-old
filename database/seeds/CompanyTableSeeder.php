@@ -12,26 +12,26 @@ class CompanyTableSeeder extends Seeder
      */
     public function run()
     {
-        Company::create([
-            'name' => 'Company Red',
-            'ba_street' => 'ba_street ',
-            'ba_city' => 'ba_city ',
-            'ba_state' => 'ba_state',
-            'ba_zip_code' => '123',
-            'card_holder_name' => 'card_holder_name',
-            'canceled_account' => '0',
-            'user_id' => '1',
-        ]);
-
-        Company::create([
-            'name' => 'Company App Red',
-            'ba_street' => 'ba_street ',
-            'ba_city' => 'ba_city ',
-            'ba_state' => 'ba_state',
-            'ba_zip_code' => '123',
-            'card_holder_name' => 'card_holder_name',
-            'canceled_account' => '0',
-            'user_id' => '4',
-        ]);
+//        Company::create([
+//            'name' => 'Company Red',
+//            'ba_street' => 'ba_street ',
+//            'ba_city' => 'ba_city ',
+//            'ba_state' => 'ba_state',
+//            'ba_zip_code' => '123',
+//            'card_holder_name' => 'card_holder_name',
+//            'canceled_account' => '0',
+//            'user_id' => '1',
+//        ]);
+//
+//        Company::create([
+//            'name' => 'Company App Red',
+//            'ba_street' => 'ba_street ',
+//            'ba_city' => 'ba_city ',
+//            'ba_state' => 'ba_state',
+//            'ba_zip_code' => '123',
+//            'card_holder_name' => 'card_holder_name',
+//            'canceled_account' => '0',
+//            'user_id' => '4',
+//        ]);
     }
 }
