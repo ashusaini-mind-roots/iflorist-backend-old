@@ -97,8 +97,8 @@ class User extends Authenticatable implements JWTSubject
         $user = DB::table('users')
             ->where('users.id', $user_id)
             ->first();
-
-        if (!$user)
+			
+		if (!$user)
             return false;
         //dd( $user->activation_code_expired_date);
         $activation_core_expired_date = Carbon::createFromFormat('Y-m-d H:i:s', $user->activation_code_expired_date);
