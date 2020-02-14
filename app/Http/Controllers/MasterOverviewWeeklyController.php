@@ -95,7 +95,7 @@ class MasterOverviewWeeklyController extends Controller
                 $responseValue = $amtTotal;
             }
 
-            $day = DailyRevenue::lastDayWeek($store_id, $wid);
+            $day = DailyRevenue::lastDayWeek($week_number, $w['year']);
 
             $a = DailyRevenue::sevenDaysWeek($store_id, $wid);
             $actual_weekly_revenue = DailyRevenue::amtTotal($a);
@@ -109,6 +109,8 @@ class MasterOverviewWeeklyController extends Controller
 
             $target = WeeklyProjectionPercentCosts::target($cost_of,$store_id);
 
+//            $arrayDatos = null;
+//            if($day)
             $arrayDatos = array(
                 'a' => ''.(int)$week_number,
                 'b' => $projectionsRev,
@@ -128,6 +130,7 @@ class MasterOverviewWeeklyController extends Controller
                 'week_number' => $week_number
             );
 
+//            if($arrayDatos != null)
             $master_overview_weekly [] = $arrayDatos;
         }
 
@@ -142,7 +145,7 @@ class MasterOverviewWeeklyController extends Controller
         $master_overview_weekly = array();
 
         foreach ($weeks as $w) {
-            $day = DailyRevenue::lastDayWeek($store_id, $w->id);
+            $day = DailyRevenue::lastDayWeek($w->number, $w->year);
 
             $responseValue = 0.00;
             $amtTotal = 0.00;
@@ -201,7 +204,7 @@ class MasterOverviewWeeklyController extends Controller
             $week_reference_id = Week::findByNumberYear($week_number, $year_reference)->id;
             $amtTotal = DailyRevenue::totalAmtWeek($store_id, $week_reference_id);
             $responseValue = $amtTotal - ($percent * $amtTotal / 100);
-            $day = DailyRevenue::lastDayWeek($store_id, $w->id);
+            $day = DailyRevenue::lastDayWeek($w->number, $w->year);
             $target_percentage = TargetPercentage::where('store_week_id', $store_week_id)->first();
             $projection_total_hours_allowed = number_format((float)($responseValue * $target_percentage->target_percentage / 100), 2, '.', '');
             //$amtTotal = DailyRevenue::totalAmtWeek($store_id, $week_reference_id);
