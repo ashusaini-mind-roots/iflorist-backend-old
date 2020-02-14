@@ -180,6 +180,15 @@ class AuthController extends Controller
     protected function responseWithToken($token)
     {
         $company = Company::where('user_id',auth()->user()->id)->first();
+		if($company==null)
+		{
+			$company = DB::table('company')
+            ->leftjoin('stores','stores.company_id','=','company.id')
+			->leftjoin('employees','employees.store_id','=','stores.id')
+            ->where('employees.user_id',auth()->user()->id)
+            ->select('company.*')
+            ->first();
+		}
 		$roles = DB::table('roles')
             ->leftjoin('user_role','user_role.role_id','=','roles.id')
             ->where('user_role.user_id',auth()->user()->id)
