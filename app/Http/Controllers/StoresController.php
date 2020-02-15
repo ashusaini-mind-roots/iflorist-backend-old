@@ -17,6 +17,8 @@ use App\Models\TaxPercentCalculator;
 use App\Models\WeeklyProjectionPercentRevenues;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Models\WeeklyProjectionPercentCosts;
+use App\Models\DateDim;
+use App\Models\DailyRevenue;
 
 class StoresController extends Controller
 {
@@ -248,6 +250,28 @@ class StoresController extends Controller
         $storeWeek->store_id = $Store->id;
         $storeWeek->week_id = $lastWeek->id;
         $storeWeek->save();
+		
+		$date = DateDim::where('date',date('Y-m-d'))->first();
+        $number = $date->week_starting_monday;
+        $year = date('Y');
+		$week = Week::where('number',$number)->where('year',$year)->first();
+        $dateDim = new DateDim();
+		$daysText = $dateDim->allDaysText();
+
+		foreach($daysText as $text)
+		{
+			$dailyRevenue = new DailyRevenue();
+			$dailyRevenue->store_week_id = $storeWeek->id;
+			//return response()->json(['status' => $company->getUserByCopany($store->company_id)], 200);
+			$dailyRevenue->dates_dim_date = $dateDim->findBy_($week->year,$text,$week->number)->date;
+			$dailyRevenue->user_id = $company->getUserByCompany($Store->company_id);
+			$dailyRevenue->merchandise = 0;
+			$dailyRevenue->wire = 0;
+			$dailyRevenue->delivery = 0;
+			$dailyRevenue->entered_date = date('Y-m-d H:i:s');
+			$dailyRevenue->save();
+		}
+		
 		
 		$targetPercentage = new TargetPercentageDefault();
         $targetPercentage->store_id = $Store->id;
