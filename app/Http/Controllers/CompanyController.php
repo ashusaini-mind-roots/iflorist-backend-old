@@ -179,7 +179,7 @@ class CompanyController extends Controller
     public function send_activation_mail($email, $text)
     {
         $_email = new EmailServices();
-        $html = '<h1>Activation Email</h1><p>' . $text . '</p>';
+        $html = '<h1>Activation Email</h1><p>Go to this link to finish your registration process.</p><p><a>' . $text . '</a></p>';
         try {
             return $_email->sendSimpleEmail($email, $html, 'Activation Email ');
         } catch (Exception $e) {
