@@ -257,6 +257,8 @@ class StoresController extends Controller
 		$week = Week::where('number',$number)->where('year',$year)->first();
         $dateDim = new DateDim();
 		$daysText = $dateDim->allDaysText();
+		
+		return response()->json(['status' => $week], 200);
 
 		foreach($daysText as $text)
 		{
@@ -375,7 +377,7 @@ class StoresController extends Controller
 		$handle = fopen(storage_path("app/".$path),"r");
 		//$header = true;
 
-        $pepe = [];
+        //$pepe = [];
 		while($csvLine = fgetcsv($handle,1000,";"))
 		{
 			if($header==true)
@@ -398,7 +400,8 @@ class StoresController extends Controller
 					{
 						$weeklyProjectionPercentRevenues = WeeklyProjectionPercentRevenues::findOrFail($weeklyProjectionPercentRevenues->id);
                         $weeklyProjectionPercentRevenues->year_proyection = $csvLine[0];
-                        $weeklyProjectionPercentRevenues->year_reference = $csvLine[1];
+                        if($csvLine[1])
+							$weeklyProjectionPercentRevenues->year_reference = $csvLine[1];
                         $weeklyProjectionPercentRevenues->amt_total = $csvLine[2];
                         $weeklyProjectionPercentRevenues->percent = $csvLine[3];
                         $weeklyProjectionPercentRevenues->week_number = $weeknumber;
@@ -407,9 +410,11 @@ class StoresController extends Controller
 					}
 					else
 					{
+						//return response()->json(['status' => $csvLine], 200);
 						$weeklyProjectionPercentRevenues = new WeeklyProjectionPercentRevenues();
 						$weeklyProjectionPercentRevenues->year_proyection = $csvLine[0];
-						$weeklyProjectionPercentRevenues->year_reference = $csvLine[1];
+						if($csvLine[1])
+							$weeklyProjectionPercentRevenues->year_reference = $csvLine[1];
 						$weeklyProjectionPercentRevenues->amt_total = $csvLine[2];
 						$weeklyProjectionPercentRevenues->percent = $csvLine[3];
 						$weeklyProjectionPercentRevenues->week_number = $weeknumber;
@@ -423,6 +428,6 @@ class StoresController extends Controller
 				$header = true;
 			}
 		}
-		return response()->json(['status' => 'success','lines'=>$pepe], 200);
+		return response()->json(['status' => 'success'], 200);
 	}
 }
