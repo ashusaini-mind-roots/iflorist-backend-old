@@ -10,19 +10,19 @@ class UsersTableSeeder extends Seeder
     {
        // User::truncate();
 
-        User::create([
-            'name' => 'Company Admin',
-            'email' => 'companyadmin@test.com',
-            'password' => Hash::make('test'),
-            'activated_account' => '1'
-        ]);
-
-        User::create([
-            'name' => 'Store Manager',
-            'email' => 'storemanager@test.com',
-            'password' => Hash::make('test'),
-            'activated_account' => '1'
-        ]);
+//        User::create([
+//            'name' => 'Company Admin',
+//            'email' => 'companyadmin@test.com',
+//            'password' => Hash::make('test'),
+//            'activated_account' => '1'
+//        ]);
+//
+//        User::create([
+//            'name' => 'Store Manager',
+//            'email' => 'storemanager@test.com',
+//            'password' => Hash::make('test'),
+//            'activated_account' => '1'
+//        ]);
 
         User::create([
             'name' => 'Root',
@@ -39,18 +39,18 @@ class UsersTableSeeder extends Seeder
         ]);
 
 
-		User::create([
-            'name' => 'Employee',
-            'email' => 'employee1@test.com',
-            'password' => Hash::make('test'),
-            'activated_account' => '1'
-        ]);
-
-        User::create([
-            'name' => 'App1',
-            'email' => 'app1@test.com',
-            'password' => Hash::make('test'),
-            'activated_account' => '1'
-        ]);
+//		User::create([
+//            'name' => 'Employee',
+//            'email' => 'employee1@test.com',
+//            'password' => Hash::make('test'),
+//            'activated_account' => '1'
+//        ]);
+//
+//        User::create([
+//            'name' => 'App1',
+//            'email' => 'app1@test.com',
+//            'password' => Hash::make('test'),
+//            'activated_account' => '1'
+//        ]);
     }
 }

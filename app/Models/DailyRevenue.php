@@ -26,17 +26,24 @@ class DailyRevenue extends Model
         return  $seven_days_week;
     }
 
-    static function lastDayWeek($store_id,$week_id)
+    static function lastDayWeek($week_number,$week_year)
     {
-        $seven_days_week = DB::table('daily_revenues')
-            ->leftjoin('store_week','store_week.id','=','daily_revenues.store_week_id')
-            ->leftjoin('dates_dim','dates_dim.date','=','daily_revenues.dates_dim_date')
-            ->select('daily_revenues.*','dates_dim.*')
-            ->where('store_week.store_id',$store_id)
-            ->where('store_week.week_id',$week_id)
-            ->orderBy('dates_dim_date','desc')
+        $day_week = DB::table('dates_dim')
+            ->where('dates_dim.week_starting_monday',$week_number)
+            ->where('dates_dim.year',$week_year)
+            ->where('dates_dim.day_of_week','Sunday')
             ->first();
-        return  $seven_days_week;
+        return $day_week;
+
+//        $seven_days_week = DB::table('daily_revenues')
+//            ->leftjoin('store_week','store_week.id','=','daily_revenues.store_week_id')
+//            ->leftjoin('dates_dim','dates_dim.date','=','daily_revenues.dates_dim_date')
+//            ->select('daily_revenues.*','dates_dim.*')
+//            ->where('store_week.store_id',$store_id)
+//            ->where('store_week.week_id',$week_id)
+//            ->orderBy('dates_dim_date','desc')
+//            ->first();
+//        return  $seven_days_week;
     }
 
     static function totalAmtWeek($store_id,$week_id)
