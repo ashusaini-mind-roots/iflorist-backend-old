@@ -275,10 +275,15 @@ class StoresController extends Controller
 		}
 		
 		
-		$targetPercentage = new TargetPercentageDefault();
-        $targetPercentage->store_id = $Store->id;
-        $targetPercentage->target_percentage_default = $request->target_percentage;
-        $targetPercentage->save();
+		$targetPercentageDefault = new TargetPercentageDefault();
+        $targetPercentageDefault->store_id = $Store->id;
+        $targetPercentageDefault->target_percentage_default = $request->target_percentage;
+        $targetPercentageDefault->save();
+		
+		$targetPercentage = new TargetPercentage();
+		$targetPercentage->store_week_id = $storeWeek->id;
+		$targetPercentage->target_percentage = $targetPercentageDefault->target_percentage_default;
+		$targetPercentage->save();
 		
 		$wppc = new WeeklyProjectionPercentCosts();
 		$wppc->store_id = $Store->id;
