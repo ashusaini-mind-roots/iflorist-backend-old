@@ -9,6 +9,7 @@ use App\Models\Week;
 use App\Models\StoreWeek;
 use App\Models\Company;
 use App\Models\TargetPercentageDefault;
+use App\Models\TargetPercentage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
