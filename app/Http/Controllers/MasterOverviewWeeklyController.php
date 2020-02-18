@@ -320,5 +320,19 @@ class MasterOverviewWeeklyController extends Controller
         return response()->json(['scheduled_payroll' => $scheduled_payroll, 'employees_general_data' => $employees_general_data], 200);
     }
 
+    public function get_scheduleds_payroll_by_quarter($year,$store_id,$quarter){
+        $left = 1;
+        $rigth = 52;
+        if($quarter != null){
+            $left = ($quarter - 1) * 13 + 1;
+            $rigth = $quarter * 13;
+        }
+
+        $weeks = Week::where('year', $year)
+            ->where('number','>=', $left)
+            ->where('number','<=', $rigth)
+            ->orderBy('number')
+            ->get();
+    }
 
 }
