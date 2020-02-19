@@ -295,6 +295,11 @@ class MasterOverviewWeeklyController extends Controller
 
     public function get_scheduled_payroll_col($store_id,$week_id)
     {
+        $toreturn = $this->get_scheduled_payroll_col_aux($store_id,$week_id);
+        return response()->json(['scheduled_payroll' => $toreturn['scheduled_payroll'], 'employees_general_data' => $toreturn['employees_general_data']], 200);
+    }
+
+    public function get_scheduled_payroll_col_aux($store_id,$week_id){
         $employees = Employee::getEmployeesByStoreId($store_id,1);//omit employees from Driver Category because drivers doesn't take part on money
 
         $employees_with_schedules = [];
@@ -316,8 +321,7 @@ class MasterOverviewWeeklyController extends Controller
                 $scheduled_payroll += $emp_data['hourly_cost'] * 40 + ($emp_data['hourly_cost'] * 1.5 * ($hours - 40));
             }
         }
-
-        return response()->json(['scheduled_payroll' => $scheduled_payroll, 'employees_general_data' => $employees_general_data], 200);
+        return ['scheduled_payroll' => $scheduled_payroll, 'employees_general_data'=>$employees_general_data];
     }
 
     public function get_scheduleds_payroll_by_quarter($year,$store_id,$quarter){
@@ -328,11 +332,27 @@ class MasterOverviewWeeklyController extends Controller
             $rigth = $quarter * 13;
         }
 
+        $scheduled_payroll_array = [];
         $weeks = Week::where('year', $year)
             ->where('number','>=', $left)
             ->where('number','<=', $rigth)
             ->orderBy('number')
             ->get();
+
+
+        for ($i = 0 ;$i < count($weeks) ; $i++){
+            $w = $weeks[$i];
+            $scheduled_payroll_col = $this->get_scheduled_payroll_col_aux($store_id,$w['id']);
+            $scheduled_payroll_return_item = [
+                'week_number' => $w['number'],
+                'week_id' => $w['id'],
+                'scheduled_payroll' => $scheduled_payroll_col['scheduled_payroll'],
+                'quarter' => $quarter,
+                'store_id' => $store_id,
+            ];
+            $scheduled_payroll_array[] = $scheduled_payroll_return_item;
+        }
+        return response()->json(['scheduled_payroll_array' => $scheduled_payroll_array], 200);
     }
 
 }

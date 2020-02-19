@@ -118,6 +118,7 @@ Route::prefix('master_overview_weekly')->group(function () {
     Route::get('projection_col/{store_id}/{year}', 'MasterOverviewWeeklyController@ProjectionCol');
     Route::get('get_weekly_revenue/{store_id}/{week_nbr}/{year_reference_selected}', 'MasterOverviewWeeklyController@getDataStoreWeekYear');
     Route::get('scheduled_payroll_col/{store_id}/{week_id}', 'MasterOverviewWeeklyController@get_scheduled_payroll_col');
+    Route::get('scheduled_payroll_by_quarter/{year}/{store_id}/{week_id}', 'MasterOverviewWeeklyController@get_scheduleds_payroll_by_quarter');
 });
 
 Route::prefix('employee')->group(function () {
