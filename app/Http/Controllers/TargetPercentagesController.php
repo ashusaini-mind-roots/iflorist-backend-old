@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\TargetPercentageDefault;
 use Illuminate\Http\Request;
 use App\Models\StoreWeek;
 use App\Models\TargetPercentage;
@@ -73,7 +74,12 @@ class TargetPercentagesController extends Controller
         if($tperc)
             return response()->json(['target_percentage' => $tperc->target_percentage], 200);
         else
-            return null;
+        {
+            $tpercD = TargetPercentageDefault::where('store_id',$store_id)->first();
+            if($tpercD)
+                return response()->json(['target_percentage' => $tpercD->target_percentage_default], 200);
+        }
+        return null;
     }
 
 

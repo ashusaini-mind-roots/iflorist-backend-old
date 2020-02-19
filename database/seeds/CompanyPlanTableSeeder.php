@@ -12,7 +12,7 @@ class CompanyPlanTableSeeder extends Seeder
      */
     public function run()
     {
-//        CompanyPlan::create(['company_id' => 1,'plan_id' => 1]);
+        CompanyPlan::create(['company_id' => 1,'plan_id' => 1]);
 //        CompanyPlan::create(['company_id' => 1,'plan_id' => 2]);
 //        CompanyPlan::create(['company_id' => 1,'plan_id' => 3]);
     }

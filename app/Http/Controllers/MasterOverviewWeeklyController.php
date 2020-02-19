@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Employee;
+use App\Models\TargetPercentageDefault;
 use Illuminate\Http\Request;
 use App\Models\Week;
 use App\Models\DailyRevenue;
@@ -206,7 +207,12 @@ class MasterOverviewWeeklyController extends Controller
             $responseValue = $amtTotal - ($percent * $amtTotal / 100);
             $day = DailyRevenue::lastDayWeek($w->number, $w->year);
             $target_percentage = TargetPercentage::where('store_week_id', $store_week_id)->first();
-            $projection_total_hours_allowed = number_format((float)($responseValue * $target_percentage->target_percentage / 100), 2, '.', '');
+            if($target_percentage)
+                $projection_total_hours_allowed = number_format((float)($responseValue * $target_percentage->target_percentage / 100), 2, '.', '');
+            else {
+                $target_percentage = TargetPercentageDefault::where('store_id', $store_id)->first();
+                $projection_total_hours_allowed = number_format((float)($responseValue * $target_percentage->target_percentage / 100), 2, '.', '');
+            }
             //$amtTotal = DailyRevenue::totalAmtWeek($store_id, $week_reference_id);
 
             $actual_sales = DailyRevenue::totalAmtWeek($store_id,$w->id);
