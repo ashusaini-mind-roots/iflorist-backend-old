@@ -258,7 +258,7 @@ class StoresController extends Controller
         $dateDim = new DateDim();
 		$daysText = $dateDim->allDaysText();
 		
-		return response()->json(['status' => $week], 200);
+		//return response()->json(['status' => $week], 200);
 
 		foreach($daysText as $text)
 		{
