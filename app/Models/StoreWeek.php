@@ -16,10 +16,13 @@ class StoreWeek extends Model
 
     static function storeWeekId($store_id,$week_id)
     {
-        return $store_week = DB::table('store_week')
+
+       $store_week = DB::table('store_week')
             ->where('store_id',$store_id)
             ->where('week_id',$week_id)
-            ->first()->id;
+            ->first();
+       if($store_week ) return $store_week->id;
+       else return null;
     }
 
     static function getAllStoreWeeksByStoreAndYear($store_id, $year, $quarter = null)
