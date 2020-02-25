@@ -210,16 +210,22 @@ class StoresController extends Controller
             ], 500);
         }
 		
-		/*if(Store::where('store_name',$request->store_name)->first())
+		$date = DateDim::where('date',date('Y-m-d'))->first();
+        $number = $date->week_starting_monday;
+        $year = date('Y');
+		$week = Week::where('number',$number)->where('year',$year)->first();
+        $dateDim = new DateDim();
+		$daysText = $dateDim->allDaysText();
+		
+		if($week==null)
 		{
 			return response()->json([
                 'status' => 'error',
-                'errors' => 'There is a store with the same store name'
+                'error' => 'There are not a valid week, contact with your Admin !'
             ], 200);
-		}*/
-			
-
-        $userId = auth()->user()->id;
+		}
+		
+		$userId = auth()->user()->id;
         $company = Company::where('user_id',$userId)->first();
 
         $fileUrl = 'default';
@@ -251,13 +257,6 @@ class StoresController extends Controller
         $storeWeek->store_id = $Store->id;
         $storeWeek->week_id = $lastWeek->id;
         $storeWeek->save();
-		
-		$date = DateDim::where('date',date('Y-m-d'))->first();
-        $number = $date->week_starting_monday;
-        $year = date('Y');
-		$week = Week::where('number',$number)->where('year',$year)->first();
-        $dateDim = new DateDim();
-		$daysText = $dateDim->allDaysText();
 		
 		//return response()->json(['status' => $week], 200);
 
@@ -388,9 +387,43 @@ class StoresController extends Controller
 		{
 			if($header==true)
 			{
-				if($csvLine[0] && $csvLine[4])
+				if($csvLine[0] && $csvLine[3]>=0)
 				{
-				    $weeknumber = $csvLine[4];
+					$date = $csvLine[0];
+					$dateDim = DateDim::where('date',$date)->first();
+					$number = $dateDim->week_starting_monday;
+					$year = $dateDim->year;
+					$week = Week::where('number',$number)->where('year',$year)->first();
+					if(!$week)
+					{
+						$week = new Week();
+						$week->number = $number;
+						$week->year = $year;
+						$week->save();
+					}
+					$storeWeek = StoreWeek::where('store_id',$request->store_id)->where('week_id',$week->id)->first();
+					if(!$storeWeek)
+					{
+						$storeWeek = new StoreWeek();
+						$storeWeek->store_id = $request->store_id;
+						$storeWeek->week_id = $week->id;
+						$storeWeek->save();
+					}
+					$dailyRevenue = DailyRevenue::where('store_week_id',$storeWeek->id)->where('dates_dim_date',$dateDim->date)->first();
+					if(!$dailyRevenue){
+						$dailyRevenue = new DailyRevenue();
+						$dailyRevenue->store_week_id = $storeWeek->id;
+						$dailyRevenue->dates_dim_date = $date;
+						$dailyRevenue->user_id = auth()->user()->id;
+                        $dailyRevenue->merchandise = $csvLine[1];
+                        $dailyRevenue->wire = $csvLine[2];
+                        $dailyRevenue->delivery = $csvLine[3];
+						$dailyRevenue->entered_date = date('Y-m-d H:i:s');
+                        $dailyRevenue->save();
+					}
+					
+					
+				    /*$weeknumber = $csvLine[4];
                     if(strlen($csvLine[4]) == 1)
                         $weeknumber = '0'.$csvLine[4];
 
@@ -426,7 +459,7 @@ class StoresController extends Controller
 						$weeklyProjectionPercentRevenues->week_number = $weeknumber;
 						$weeklyProjectionPercentRevenues->store_id = $request->store_id;
 						$weeklyProjectionPercentRevenues->save();
-					}
+					}*/
 				}
 			}
 			else
