@@ -18,7 +18,7 @@ class CreateDiffProjectionPercentTable extends Migration
             //$table->bigInteger('store_week_id')->unsigned();;
             $table->year('year_proyection');
             $table->year('year_reference')->nullable();
-//            $table->decimal('amt_total',10,2)->default(0.00);
+            $table->decimal('amt_total',10,2)->default(0.00);
             $table->decimal('percent',10,2)->default(00.0);
             
             $table->timestamps();

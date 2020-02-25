@@ -159,7 +159,7 @@ class WeeklyProjectionPercentCostsRevenuesController extends Controller
     public function update(Request $request,$proyection_id)
     {
         $weeklyProjectionPercentRevenues = WeeklyProjectionPercentRevenues::findOrFail($proyection_id);
-        $weeklyProjectionPercentRevenues->amt_total = $request->amt_total;
+//        $weeklyProjectionPercentRevenues->amt_total = $request->amt_total;
         $weeklyProjectionPercentRevenues->percent = $request->adjust;
 
 //        $Store->company_id = $request->company_id;

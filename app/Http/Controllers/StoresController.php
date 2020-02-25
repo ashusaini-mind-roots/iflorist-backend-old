@@ -20,6 +20,8 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Models\WeeklyProjectionPercentCosts;
 use App\Models\DateDim;
 use App\Models\DailyRevenue;
+use App\Models\ProjectionPercentageDefault;
+use App\Models\ProjectionPercentage;
 
 class StoresController extends Controller
 {
@@ -279,12 +281,22 @@ class StoresController extends Controller
         $targetPercentageDefault->store_id = $Store->id;
         $targetPercentageDefault->target_percentage_default = $request->target_percentage;
         $targetPercentageDefault->save();
-		
-		$targetPercentage = new TargetPercentage();
-		$targetPercentage->store_week_id = $storeWeek->id;
-		$targetPercentage->target_percentage = $targetPercentageDefault->target_percentage_default;
-		$targetPercentage->save();
-		
+
+        $targetPercentage = new TargetPercentage();
+        $targetPercentage->store_week_id = $storeWeek->id;
+        $targetPercentage->target_percentage = $targetPercentageDefault->target_percentage_default;
+        $targetPercentage->save();
+
+        $projectionPercentageDefault = new ProjectionPercentageDefault();
+        $projectionPercentageDefault->store_id = $Store->id;
+        $projectionPercentageDefault->projection_percentage_default = $request->projection_percentage;
+        $projectionPercentageDefault->save();
+
+        $projectionPercentage = new ProjectionPercentage();
+        $projectionPercentage->store_week_id = $storeWeek->id;
+        $projectionPercentage->projection_percentage = $projectionPercentageDefault->projection_percentage_default;
+        $projectionPercentage->save();
+
 		$wppc = new WeeklyProjectionPercentCosts();
 		$wppc->store_id = $Store->id;
         $wppc->target_cog = $request->target_costof_goods;
@@ -378,11 +390,14 @@ class StoresController extends Controller
 	{
 		$path = $request->file('file')->store('weekly_projection_cvs');
 		$header = false;
-		
+		$week_number_temp = -1;
+        $number = -1;
+        $amt_weekly_total = 0;
 		$handle = fopen(storage_path("app/".$path),"r");
 		//$header = true;
 
         //$pepe = [];
+        $i = 0 ;
 		while($csvLine = fgetcsv($handle,1000,";"))
 		{
 			if($header==true)
@@ -394,6 +409,15 @@ class StoresController extends Controller
 					$number = $dateDim->week_starting_monday;
 					$year = $dateDim->year;
 					$week = Week::where('number',$number)->where('year',$year)->first();
+                    $merchandise = ($csvLine[1])?$csvLine[1]:0;
+                    $wire = ($csvLine[2])? $csvLine[2]: 0 ;
+                    $delivery = ($csvLine[3])?$csvLine[3]:0;
+
+                    if($i == 0){
+                        $week_number_temp = $number;//3
+                        $i++;//1
+                    }
+
 					if(!$week)
 					{
 						$week = new Week();
@@ -415,9 +439,9 @@ class StoresController extends Controller
 						$dailyRevenue->store_week_id = $storeWeek->id;
 						$dailyRevenue->dates_dim_date = $date;
 						$dailyRevenue->user_id = auth()->user()->id;
-                        $dailyRevenue->merchandise = $csvLine[1];
-                        $dailyRevenue->wire = $csvLine[2];
-                        $dailyRevenue->delivery = $csvLine[3];
+                        $dailyRevenue->merchandise = $merchandise;
+                        $dailyRevenue->wire = $wire ;
+                        $dailyRevenue->delivery = $delivery;
 						$dailyRevenue->entered_date = date('Y-m-d H:i:s');
                         $dailyRevenue->save();
 					}
@@ -427,9 +451,8 @@ class StoresController extends Controller
                         ->where('week_number',$number)
                         ->where('store_id',$request->store_id)
                         ->first();
-						
-						
-					if($weeklyProjectionPercentRevenues)
+
+                    if($weeklyProjectionPercentRevenues)
 					{
 						$weeklyProjectionPercentRevenues = WeeklyProjectionPercentRevenues::findOrFail($weeklyProjectionPercentRevenues->id);
                         $weeklyProjectionPercentRevenues->percent = $request->target_percentage;
@@ -445,6 +468,17 @@ class StoresController extends Controller
 						$weeklyProjectionPercentRevenues->store_id = $request->store_id;
 						$weeklyProjectionPercentRevenues->save();
 					}
+                    if($number == $week_number_temp){
+                        $amt_weekly_total += $merchandise + $wire + $delivery;
+                        $weeklyProjectionPercentRevenues->amt_total = $amt_weekly_total;
+                        $weeklyProjectionPercentRevenues->update();
+                    }else
+                    {
+                        $weeklyProjectionPercentRevenues->amt_total = $merchandise + $wire + $delivery;
+                        $weeklyProjectionPercentRevenues->update();
+                        $amt_weekly_total = 0;
+                    }
+                    $week_number_temp = $number;
 				}
 			}
 			else

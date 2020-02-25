@@ -63,7 +63,7 @@ class WeeklyProjectionPercentRevenues extends Model
 //            $dateDims = DateDim::where('week_starting_monday',$w->week_number)->where('year',$w->year_proyection)->get();
 //
             $row['id'] = $w->id;
-            $row['amt_total'] = $w->amt_total;
+//            $row['amt_total'] = $w->amt_total;
             $row['reference_amt_total'] = ($weeklyProjectionPercentRevenueReference) ? $weeklyProjectionPercentRevenueReference->amt_total : 0;
             $row['week'] = "1 junio"/*$dateDims[0]->month_day.' '.$dateDims[0]->month.' - '.$dateDims[6]->month_day.' '.$dateDims[6]->month*/;
             $row['adjust'] = $w->percent;
