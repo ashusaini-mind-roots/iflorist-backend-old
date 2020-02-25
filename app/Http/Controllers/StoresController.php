@@ -422,44 +422,29 @@ class StoresController extends Controller
                         $dailyRevenue->save();
 					}
 					
-					
-				    /*$weeknumber = $csvLine[4];
-                    if(strlen($csvLine[4]) == 1)
-                        $weeknumber = '0'.$csvLine[4];
-
 					$weeklyProjectionPercentRevenues = WeeklyProjectionPercentRevenues::where(
-					    'year_proyection',$csvLine[0])
-                        ->where('year_reference',$csvLine[1])
-                        ->where('amt_total',$csvLine[2])
-                        ->where('percent',$csvLine[3])
-                        ->where('week_number',$weeknumber)
+					    'year_proyection',$year)
+                        ->where('week_number',$number)
                         ->where('store_id',$request->store_id)
                         ->first();
+						
+						
 					if($weeklyProjectionPercentRevenues)
 					{
 						$weeklyProjectionPercentRevenues = WeeklyProjectionPercentRevenues::findOrFail($weeklyProjectionPercentRevenues->id);
-                        $weeklyProjectionPercentRevenues->year_proyection = $csvLine[0];
-                        if($csvLine[1])
-							$weeklyProjectionPercentRevenues->year_reference = $csvLine[1];
-                        $weeklyProjectionPercentRevenues->amt_total = $csvLine[2];
-                        $weeklyProjectionPercentRevenues->percent = $csvLine[3];
-                        $weeklyProjectionPercentRevenues->week_number = $weeknumber;
-                        $weeklyProjectionPercentRevenues->store_id = $request->store_id;
-						$weeklyProjectionPercentRevenues->update();
+                        $weeklyProjectionPercentRevenues->percent = $request->target_percentage;
+                        $weeklyProjectionPercentRevenues->update();
 					}
 					else
 					{
-						//return response()->json(['status' => $csvLine], 200);
 						$weeklyProjectionPercentRevenues = new WeeklyProjectionPercentRevenues();
-						$weeklyProjectionPercentRevenues->year_proyection = $csvLine[0];
-						if($csvLine[1])
-							$weeklyProjectionPercentRevenues->year_reference = $csvLine[1];
-						$weeklyProjectionPercentRevenues->amt_total = $csvLine[2];
-						$weeklyProjectionPercentRevenues->percent = $csvLine[3];
-						$weeklyProjectionPercentRevenues->week_number = $weeknumber;
+						$weeklyProjectionPercentRevenues->year_proyection = $year;
+						$weeklyProjectionPercentRevenues->year_reference = $year-1;
+						$weeklyProjectionPercentRevenues->percent = $request->target_percentage;
+						$weeklyProjectionPercentRevenues->week_number = $number;
 						$weeklyProjectionPercentRevenues->store_id = $request->store_id;
 						$weeklyProjectionPercentRevenues->save();
-					}*/
+					}
 				}
 			}
 			else
