@@ -59,7 +59,7 @@ class WeeklyProjectionPercentCostsRevenuesController extends Controller
             $responseValue = $this->getProjWeeklyRevenue($store_id,$week);
         }
         catch (Exception $e) {
-            return response()->json(['ProjWeeklyRev' => $responseValue,'error'=>$e], 500);
+            return response()->json(['proj_weekly_rev' => $responseValue,'error'=>$e], 500);
         }
         return response()->json(['proj_weekly_rev' => $responseValue/*,'amt_total'=>$amtTotal,'week_number'=>$week_number*/], 200);
     }
@@ -81,8 +81,11 @@ class WeeklyProjectionPercentCostsRevenuesController extends Controller
             $percent = $wppRevenues->percent;//5
 
             $week_number = $week['number'];//52
-            $wppRevenues_reference = WeeklyProjectionPercentRevenues::getByStoreIdYearWeekNumber($store_id,$year_reference,/*$week_reference->number*/$week_number)->first();
-            $amtTotal = ($wppRevenues_reference) ? $wppRevenues_reference->amt_total : 0.00/*$this->amtTotal($seven_days_week)*/;
+           // $wppRevenues_reference = WeeklyProjectionPercentRevenues::getByStoreIdYearWeekNumber($store_id,$year_reference,/*$week_reference->number*/$week_number)->first();
+           // $amtTotal = ($wppRevenues_reference) ? $wppRevenues_reference->amt_total : 0.00/*$this->amtTotal($seven_days_week)*/;
+
+            $seven_days_week = DailyRevenue::sevenDaysWeekByWeekNumberYear($store_id,$week_number,$year_reference)/*sevenDaysWeek($store_id, $week['id'])*/;
+            $amtTotal = DailyRevenue::amtTotal($seven_days_week);
 
             $responseValue = $amtTotal - ($percent * $amtTotal / 100);
         }
@@ -92,6 +95,33 @@ class WeeklyProjectionPercentCostsRevenuesController extends Controller
             $responseValue = $amtTotal;
         }
         return $responseValue;
+     //   return response()->json(['proj_weekly_rev'=>$responseValue,'reve'=>$wppRevenues]);
+//        $responseValue = 0.00;
+//        $amtTotal = 0.00;
+//        $week = $week_;
+//        $week_number = -1;
+//        $week_id = $week['id'];
+//
+//        $wppRevenues = WeeklyProjectionPercentRevenues::where('store_id', $store_id)
+//            ->where('year_proyection', $week['year'])
+//            ->where('week_number', $week['number'])
+//            ->first();
+//        if($wppRevenues && $wppRevenues->year_reference){
+//            $year_reference = $wppRevenues->year_reference;//2018
+//            $percent = $wppRevenues->percent;//5
+//
+//            $week_number = $week['number'];//52
+//            $wppRevenues_reference = WeeklyProjectionPercentRevenues::getByStoreIdYearWeekNumber($store_id,$year_reference,/*$week_reference->number*/$week_number)->first();
+//            $amtTotal = ($wppRevenues_reference) ? $wppRevenues_reference->amt_total : 0.00/*$this->amtTotal($seven_days_week)*/;
+//
+//            $responseValue = $amtTotal - ($percent * $amtTotal / 100);
+//        }
+//        else {
+//            $seven_days_week = DailyRevenue::sevenDaysWeek($store_id, $week['id']);
+//            $amtTotal = DailyRevenue::amtTotal($seven_days_week);
+//            $responseValue = $amtTotal;
+//        }
+//        return $responseValue;
     }
 
     public function updateWeeklyProjectionPercentValue(Request $request,$store_id,$week_id)

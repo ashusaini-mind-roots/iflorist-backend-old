@@ -25,6 +25,19 @@ class DailyRevenue extends Model
             ->get();
         return  $seven_days_week;
     }
+    static function sevenDaysWeekByWeekNumberYear($store_id,$week_number,$year)
+    {
+        $seven_days_week = DB::table('daily_revenues')
+            ->leftjoin('store_week','store_week.id','=','daily_revenues.store_week_id')
+            ->leftjoin('weeks','store_week.week_id','=','weeks.id')
+            ->leftjoin('dates_dim','dates_dim.date','=','daily_revenues.dates_dim_date')
+            ->select('daily_revenues.*','dates_dim.day_of_week')
+            ->where('store_week.store_id',$store_id)
+            ->where('weeks.number',$week_number)
+            ->where('weeks.year',$year)
+            ->get();
+        return  $seven_days_week;
+    }
 
     static function lastDayWeek($week_number,$week_year)
     {

@@ -68,7 +68,6 @@ class TargetPercentagesController extends Controller
     public function get_target($store_id,$week_id)
     {
         $store_week_id = StoreWeek::storeWeekId($store_id,$week_id);
-
         $tperc = TargetPercentage::where('store_week_id', $store_week_id)->first();
 
         if($tperc)
