@@ -399,9 +399,7 @@ class StoresController extends Controller
         $number = -1;
         $amt_weekly_total = 0;
 		$handle = fopen(storage_path("app/".$path),"r");
-		//$header = true;
-
-        //$pepe = [];
+        $numbers = [];
         $i = 0 ;
 		while($csvLine = fgetcsv($handle,1000,";"))
 		{
@@ -411,7 +409,7 @@ class StoresController extends Controller
 				{
 					$date = $csvLine[0];
 					$dateDim = DateDim::where('date',$date)->first();
-					$number = $dateDim->week_starting_monday;
+					$number = $dateDim->week_starting_monday;//06
 					$year = $dateDim->year;
 					$week = Week::where('number',$number)->where('year',$year)->first();
                     $merchandise = ($csvLine[1])?$csvLine[1]:0;
@@ -473,17 +471,32 @@ class StoresController extends Controller
 						$weeklyProjectionPercentRevenues->store_id = $request->store_id;
 						$weeklyProjectionPercentRevenues->save();
 					}
+					$numbers[] = [$number,$week_number_temp];
                     if($number == $week_number_temp){
                         $amt_weekly_total += $merchandise + $wire + $delivery;
                         $weeklyProjectionPercentRevenues->amt_total = $amt_weekly_total;
                         $weeklyProjectionPercentRevenues->update();
                     }else
                     {
-                        $weeklyProjectionPercentRevenues->amt_total = $merchandise + $wire + $delivery;
-                        $weeklyProjectionPercentRevenues->update();
                         $amt_weekly_total = 0;
+                        $amt_weekly_total += $merchandise + $wire + $delivery;
+                        $weeklyProjectionPercentRevenues->amt_total = $amt_weekly_total;
+                        $weeklyProjectionPercentRevenues->update();
                     }
                     $week_number_temp = $number;
+
+                    $projectionPercentage = ProjectionPercentage::where('store_week_id',$storeWeek->id)->first();
+                    if($projectionPercentage)
+                    {
+                        $projectionPercentage->projection_percentage = $request->target_percentage;
+                        $projectionPercentage->update();
+                    }
+                    else {
+                        $projectionPercentage = new ProjectionPercentage();
+                        $projectionPercentage->store_week_id = $storeWeek->id;
+                        $projectionPercentage->projection_percentage = $request->target_percentage;
+                        $projectionPercentage->save();
+                    }
 				}
 			}
 			else
@@ -491,6 +504,6 @@ class StoresController extends Controller
 				$header = true;
 			}
 		}
-		return response()->json(['status' => 'success'], 200);
+		return response()->json(['status' => 'success','numbers'=>$numbers], 200);
 	}
 }
