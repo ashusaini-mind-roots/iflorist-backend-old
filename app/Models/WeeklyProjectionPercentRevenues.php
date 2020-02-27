@@ -31,7 +31,7 @@ class WeeklyProjectionPercentRevenues extends Model
         return $weeklyProjectionPercentRevenues;
     }
 
-    static function getWeeklyProjectionPercentRevenues($store_id,$year)
+    /*static function getWeeklyProjectionPercentRevenues($store_id,$year)
     {
         $weeklyProjectionPercentRevenues = DB::table('weekly_projection_percent_revenues')
             //->Join('stores','stores.id','=','store_week.store_id')
@@ -65,12 +65,28 @@ class WeeklyProjectionPercentRevenues extends Model
             $row['id'] = $w->id;
 //            $row['amt_total'] = $w->amt_total;
             $row['reference_amt_total'] = ($weeklyProjectionPercentRevenueReference) ? $weeklyProjectionPercentRevenueReference->amt_total : 0;
-            $row['week'] = "1 junio"/*$dateDims[0]->month_day.' '.$dateDims[0]->month.' - '.$dateDims[6]->month_day.' '.$dateDims[6]->month*/;
-            $row['adjust'] = $w->percent;
+            $row['week'] = "1 junio"*//*$dateDims[0]->month_day.' '.$dateDims[0]->month.' - '.$dateDims[6]->month_day.' '.$dateDims[6]->month;*/
+            /*$row['adjust'] = $w->percent;
             
             $result[] = $row;
         }
 
         return  $result;
+    }*/
+	
+	static function getWeeklyProjectionPercentRevenues($store_id,$year)
+    {
+        $weeklyProjectionPercentRevenues = DB::table('weekly_projection_percent_revenues')
+            //->Join('stores','stores.id','=','store_week.store_id')
+            //->Join('store_week','store_week.id','=','weekly_projection_percent_revenues.store_week_id')
+            
+        ->where('weekly_projection_percent_revenues.store_id', $store_id)
+        ->where('weekly_projection_percent_revenues.year_proyection', $year)
+        ->select('weekly_projection_percent_revenues.*')
+        ->get();
+
+        
+
+        return  $weeklyProjectionPercentRevenues;
     }
 }
