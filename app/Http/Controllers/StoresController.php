@@ -399,9 +399,7 @@ class StoresController extends Controller
         $number = -1;
         $amt_weekly_total = 0;
 		$handle = fopen(storage_path("app/".$path),"r");
-		//$header = true;
-
-        //$pepe = [];
+        $numbers = [];
         $i = 0 ;
 		while($csvLine = fgetcsv($handle,1000,";"))
 		{
@@ -411,86 +409,92 @@ class StoresController extends Controller
 				{
 					$date = $csvLine[0];
 					$dateDim = DateDim::where('date',$date)->first();
-					if($dateDim)
-					{
-						$number = $dateDim->week_starting_monday;
-						$year = $dateDim->year;
-						$week = Week::where('number',$number)->where('year',$year)->first();
-						$merchandise = ($csvLine[1])?$csvLine[1]:0;
-						$wire = ($csvLine[2])? $csvLine[2]: 0 ;
-						$delivery = ($csvLine[3])?$csvLine[3]:0;
+                    if($dateDim) {
+                        $number = $dateDim->week_starting_monday;
+                        $year = $dateDim->year;
+                        $week = Week::where('number', $number)->where('year', $year)->first();
+                        $merchandise = ($csvLine[1]) ? $csvLine[1] : 0;
+                        $wire = ($csvLine[2]) ? $csvLine[2] : 0;
+                        $delivery = ($csvLine[3]) ? $csvLine[3] : 0;
 
-						if($i == 0){
-							$week_number_temp = $number;//3
-							$i++;//1
-						}
+                        if ($i == 0) {
+                            $week_number_temp = $number;//3
+                            $i++;//1
+                        }
 
-						if(!$week)
-						{
-							$week = new Week();
-							$week->number = $number;
-							$week->year = $year;
-							$week->save();
-						}
-						$storeWeek = StoreWeek::where('store_id',$request->store_id)->where('week_id',$week->id)->first();
-						if(!$storeWeek)
-						{
-							$storeWeek = new StoreWeek();
-							$storeWeek->store_id = $request->store_id;
-							$storeWeek->week_id = $week->id;
-							$storeWeek->save();
-						}
-						$dailyRevenue = DailyRevenue::where('store_week_id',$storeWeek->id)->where('dates_dim_date',$dateDim->date)->first();
-						if(!$dailyRevenue){
-							$dailyRevenue = new DailyRevenue();
-							$dailyRevenue->store_week_id = $storeWeek->id;
-							$dailyRevenue->dates_dim_date = $date;
-							$dailyRevenue->user_id = auth()->user()->id;
-							$dailyRevenue->merchandise = $merchandise;
-							$dailyRevenue->wire = $wire ;
-							$dailyRevenue->delivery = $delivery;
-							$dailyRevenue->entered_date = date('Y-m-d H:i:s');
-							$dailyRevenue->save();
-						}
-						
-						$weeklyProjectionPercentRevenues = WeeklyProjectionPercentRevenues::where(
-							'year_proyection',$year)
-							->where('week_number',$number)
-							->where('store_id',$request->store_id)
-							->first();
+                        if (!$week) {
+                            $week = new Week();
+                            $week->number = $number;
+                            $week->year = $year;
+                            $week->save();
+                        }
+                        $storeWeek = StoreWeek::where('store_id', $request->store_id)->where('week_id', $week->id)->first();
+                        if (!$storeWeek) {
+                            $storeWeek = new StoreWeek();
+                            $storeWeek->store_id = $request->store_id;
+                            $storeWeek->week_id = $week->id;
+                            $storeWeek->save();
+                        }
+                        $dailyRevenue = DailyRevenue::where('store_week_id', $storeWeek->id)->where('dates_dim_date', $dateDim->date)->first();
+                        if (!$dailyRevenue) {
+                            $dailyRevenue = new DailyRevenue();
+                            $dailyRevenue->store_week_id = $storeWeek->id;
+                            $dailyRevenue->dates_dim_date = $date;
+                            $dailyRevenue->user_id = auth()->user()->id;
+                            $dailyRevenue->merchandise = $merchandise;
+                            $dailyRevenue->wire = $wire;
+                            $dailyRevenue->delivery = $delivery;
+                            $dailyRevenue->entered_date = date('Y-m-d H:i:s');
+                            $dailyRevenue->save();
+                        }
 
-						if($weeklyProjectionPercentRevenues)
-						{
-							$weeklyProjectionPercentRevenues = WeeklyProjectionPercentRevenues::findOrFail($weeklyProjectionPercentRevenues->id);
-							$weeklyProjectionPercentRevenues->percent = $request->target_percentage;
-							$weeklyProjectionPercentRevenues->update();
-						}
-						else
-						{
-							$weeklyProjectionPercentRevenues = new WeeklyProjectionPercentRevenues();
-							$weeklyProjectionPercentRevenues->year_proyection = $year;
-							$weeklyProjectionPercentRevenues->year_reference = $year-1;
-							$weeklyProjectionPercentRevenues->percent = $request->target_percentage;
-							$weeklyProjectionPercentRevenues->week_number = $number;
-							$weeklyProjectionPercentRevenues->store_id = $request->store_id;
-							$weeklyProjectionPercentRevenues->save();
-						}
-						if($number == $week_number_temp){
-							$amt_weekly_total += $merchandise + $wire + $delivery;
-							$weeklyProjectionPercentRevenues->amt_total = $amt_weekly_total;
-							$weeklyProjectionPercentRevenues->update();
-						}else
-						{
-							$weeklyProjectionPercentRevenues->amt_total = $merchandise + $wire + $delivery;
-							$weeklyProjectionPercentRevenues->update();
-							$amt_weekly_total = 0;
-						}
-						$week_number_temp = $number;
-					}
-					else
-					{
-						return response()->json(['status' => 'errors','error'=>'There are some lines in the CSV file with invalid date format !'], 200);
-					}
+                        $weeklyProjectionPercentRevenues = WeeklyProjectionPercentRevenues::where(
+                            'year_proyection', $year)
+                            ->where('week_number', $number)
+                            ->where('store_id', $request->store_id)
+                            ->first();
+
+                        if ($weeklyProjectionPercentRevenues) {
+                            $weeklyProjectionPercentRevenues = WeeklyProjectionPercentRevenues::findOrFail($weeklyProjectionPercentRevenues->id);
+                            $weeklyProjectionPercentRevenues->percent = $request->target_percentage;
+                            $weeklyProjectionPercentRevenues->update();
+                        } else {
+                            $weeklyProjectionPercentRevenues = new WeeklyProjectionPercentRevenues();
+                            $weeklyProjectionPercentRevenues->year_proyection = $year;
+                            $weeklyProjectionPercentRevenues->year_reference = $year - 1;
+                            $weeklyProjectionPercentRevenues->percent = $request->target_percentage;
+                            $weeklyProjectionPercentRevenues->week_number = $number;
+                            $weeklyProjectionPercentRevenues->store_id = $request->store_id;
+                            $weeklyProjectionPercentRevenues->save();
+                        }
+                        $numbers[] = [$number, $week_number_temp];
+                        if ($number == $week_number_temp) {
+                            $amt_weekly_total += $merchandise + $wire + $delivery;
+                            $weeklyProjectionPercentRevenues->amt_total = $amt_weekly_total;
+                            $weeklyProjectionPercentRevenues->update();
+                        } else {
+                            $amt_weekly_total = 0;
+                            $amt_weekly_total += $merchandise + $wire + $delivery;
+                            $weeklyProjectionPercentRevenues->amt_total = $amt_weekly_total;
+                            $weeklyProjectionPercentRevenues->update();
+                        }
+                        $week_number_temp = $number;
+
+                        $projectionPercentage = ProjectionPercentage::where('store_week_id', $storeWeek->id)->first();
+                        if ($projectionPercentage) {
+                            $projectionPercentage->projection_percentage = $request->target_percentage;
+                            $projectionPercentage->update();
+                        } else {
+                            $projectionPercentage = new ProjectionPercentage();
+                            $projectionPercentage->store_week_id = $storeWeek->id;
+                            $projectionPercentage->projection_percentage = $request->target_percentage;
+                            $projectionPercentage->save();
+                        }
+                    }
+                    else
+                    {
+                        return response()->json(['status' => 'errors','error'=>'There are some lines in the CSV file with invalid date format !'], 200);
+                    }
 				}
 			}
 			else
@@ -498,6 +502,6 @@ class StoresController extends Controller
 				$header = true;
 			}
 		}
-		return response()->json(['status' => 'success'], 200);
+		return response()->json(['status' => 'success','numbers'=>$numbers], 200);
 	}
 }

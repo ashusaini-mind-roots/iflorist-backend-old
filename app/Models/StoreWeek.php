@@ -16,7 +16,6 @@ class StoreWeek extends Model
 
     static function storeWeekId($store_id,$week_id)
     {
-
        $store_week = DB::table('store_week')
             ->where('store_id',$store_id)
             ->where('week_id',$week_id)
