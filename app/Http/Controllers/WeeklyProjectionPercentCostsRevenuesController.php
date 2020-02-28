@@ -161,8 +161,7 @@ class WeeklyProjectionPercentCostsRevenuesController extends Controller
         $weeklyProjectionPercentRevenues = WeeklyProjectionPercentRevenues::findOrFail($proyection_id);
 //        $weeklyProjectionPercentRevenues->amt_total = $request->amt_total;
         $weeklyProjectionPercentRevenues->amt_total = $request->amt_total;
-		$weeklyProjectionPercentRevenues->year_proyection = $request->year_proyection;
-		$weeklyProjectionPercentRevenues->year_reference = $request->year_proyection-1;
+		$weeklyProjectionPercentRevenues->year_reference = $request->year_reference;
 
 //        $Store->company_id = $request->company_id;
         $weeklyProjectionPercentRevenues->update();
