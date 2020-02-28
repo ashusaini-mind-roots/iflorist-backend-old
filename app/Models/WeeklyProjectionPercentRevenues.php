@@ -88,7 +88,7 @@ class WeeklyProjectionPercentRevenues extends Model
         foreach($weeklyProjectionPercentRevenues as $w)
 		{
 			$dateDims = DateDim::where('week_starting_monday',$w->week_number)->where('year',$w->year_proyection)->get();
-			$w->week_number = $dateDims[0]->month_day.' '.$dateDims[0]->month.' - '.$dateDims[6]->month_day.' '.$dateDims[6]->month;
+			$w->week_number = $dateDims[0]->month.' '.$dateDims[0]->month_day.' - '.$dateDims[6]->month.' '.$dateDims[6]->month_day;
 		}
 
         return  $weeklyProjectionPercentRevenues;
