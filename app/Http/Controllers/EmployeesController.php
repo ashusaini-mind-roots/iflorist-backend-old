@@ -416,4 +416,14 @@ class EmployeesController extends Controller
             ,2);
         return $total_taxes;
     }
+	
+	public function show_imagen($imagen)
+	{
+		$path = 'app/employee/'.$imagen;
+		
+		/*if(env("APP_ENV","somedefaultvalue")=="local1")
+			$path = str_replace('/',"\\",$path);*/
+		
+		return response()->file(storage_path($path));
+	}
 }
