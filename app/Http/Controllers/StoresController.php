@@ -456,13 +456,13 @@ class StoresController extends Controller
 
                         if ($weeklyProjectionPercentRevenues) {
                             $weeklyProjectionPercentRevenues = WeeklyProjectionPercentRevenues::findOrFail($weeklyProjectionPercentRevenues->id);
-                            $weeklyProjectionPercentRevenues->percent = $request->target_percentage;
+//                            $weeklyProjectionPercentRevenues->percent = $request->target_percentage;
                             $weeklyProjectionPercentRevenues->update();
                         } else {
                             $weeklyProjectionPercentRevenues = new WeeklyProjectionPercentRevenues();
                             $weeklyProjectionPercentRevenues->year_proyection = $year;
                             $weeklyProjectionPercentRevenues->year_reference = $year - 1;
-                            $weeklyProjectionPercentRevenues->percent = $request->target_percentage;
+//                            $weeklyProjectionPercentRevenues->percent = $request->target_percentage;
                             $weeklyProjectionPercentRevenues->week_number = $number;
                             $weeklyProjectionPercentRevenues->store_id = $request->store_id;
                             $weeklyProjectionPercentRevenues->save();

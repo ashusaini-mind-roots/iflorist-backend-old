@@ -44,6 +44,9 @@ class ScheduleController extends Controller
 			}
             
             $employees_response = [];//employees at this category
+            $probando = [];
+            if($category->id == 2)
+                $probando = $employees;
             foreach ($employees as $employee) {
                 $schedules = Schedule::findByEmployeeAndStoreWeekIds($employee->id,$store_week_id);//those are 7 days of this employee;
 
@@ -70,7 +73,7 @@ class ScheduleController extends Controller
             }
 
 
-            $response[] = ['id' => $category->id, 'category_name' => $category->name,'employees' => $employees_response,
+            $response[] = ['probando'=>$probando,'id' => $category->id, 'category_name' => $category->name,'employees' => $employees_response,
 //'daymonday'=>$date->addDays(1)
 //                'emplotest'=>$employees,
 //                'scheduletest' =>$schedules,
