@@ -184,6 +184,7 @@ Route::prefix('companyemployee')->group(function () {
     Route::get('getImageById/{id}', 'CompanyEmployeeController@getImageById');
     Route::delete('delete/{id}', 'CompanyEmployeeController@delete');
     Route::post('update/{id}', 'CompanyEmployeeController@update');
+	Route::get('/show_imagen/companyemployee/{imagen}', 'CompanyEmployeeController@show_imagen');
 });
 
 Route::prefix('app_user')->group(function () {

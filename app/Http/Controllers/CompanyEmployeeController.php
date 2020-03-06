@@ -263,6 +263,16 @@ class CompanyEmployeeController extends Controller
         }
         //return response()->file(storage_path('app/test.jpg'));
     }
+	
+	public function show_imagen($imagen)
+	{
+		$path = 'app/companyemployee/'.$imagen;
+		
+		/*if(env("APP_ENV","somedefaultvalue")=="local1")
+			$path = str_replace('/',"\\",$path);*/
+		
+		return response()->file(storage_path($path));
+	}
 
 //    public function getEmployeesByStore($store_id)
 //	{
