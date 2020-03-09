@@ -408,6 +408,8 @@ class StoresController extends Controller
 				if($csvLine[0] && $csvLine[3]>=0)
 				{
 					$date = $csvLine[0];
+					$array = explode('/',$date);
+					$date = $array[2].'-'.$array[0].'-'.$array[1];
 					$dateDim = DateDim::where('date',$date)->first();
                     if($dateDim) {
                         $number = $dateDim->week_starting_monday;
