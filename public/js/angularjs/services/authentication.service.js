@@ -60,7 +60,6 @@ function Service($http, $localStorage, API_URL) {
             url: API_URL + 'auth/logout',
         }).
         then(function successCallback(response) {
-            //console.log("pepelogout")
             // remove user from local storage and clear http auth header
                 delete $localStorage.currentUser;
                 $http.defaults.headers.common.Authorization = '';
