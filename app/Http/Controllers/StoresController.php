@@ -451,7 +451,7 @@ class StoresController extends Controller
                         }
 
                         $weeklyProjectionPercentRevenues = WeeklyProjectionPercentRevenues::where(
-                            'year_proyection', $year)
+                            'year_reference', $year)
                             ->where('week_number', $number)
                             ->where('store_id', $request->store_id)
                             ->first();
@@ -462,8 +462,10 @@ class StoresController extends Controller
                             $weeklyProjectionPercentRevenues->update();
                         } else {
                             $weeklyProjectionPercentRevenues = new WeeklyProjectionPercentRevenues();
-                            $weeklyProjectionPercentRevenues->year_proyection = $year;
-                            $weeklyProjectionPercentRevenues->year_reference = $year - 1;
+                            $weeklyProjectionPercentRevenues->year_proyection = $year + 1;
+//                            $weeklyProjectionPercentRevenues->year_proyection = $year;
+                            $weeklyProjectionPercentRevenues->year_reference = $year;
+//                            $weeklyProjectionPercentRevenues->year_reference = $year - 1;
 //                            $weeklyProjectionPercentRevenues->percent = $request->target_percentage;
                             $weeklyProjectionPercentRevenues->week_number = $number;
                             $weeklyProjectionPercentRevenues->store_id = $request->store_id;
@@ -473,11 +475,13 @@ class StoresController extends Controller
                         if ($number == $week_number_temp) {
                             $amt_weekly_total += $merchandise + $wire + $delivery;
                             $weeklyProjectionPercentRevenues->amt_total = $amt_weekly_total;
+                            $weeklyProjectionPercentRevenues->projected_value = $amt_weekly_total + ($request->target_percentage * $amt_weekly_total / 100);
                             $weeklyProjectionPercentRevenues->update();
                         } else {
                             $amt_weekly_total = 0;
                             $amt_weekly_total += $merchandise + $wire + $delivery;
                             $weeklyProjectionPercentRevenues->amt_total = $amt_weekly_total;
+                            $weeklyProjectionPercentRevenues->projected_value = $amt_weekly_total + ($request->target_percentage * $amt_weekly_total / 100);
                             $weeklyProjectionPercentRevenues->update();
                         }
                         $week_number_temp = $number;

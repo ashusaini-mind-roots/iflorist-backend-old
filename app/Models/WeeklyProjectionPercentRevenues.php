@@ -79,22 +79,45 @@ class WeeklyProjectionPercentRevenues extends Model
         $weeklyProjectionPercentRevenues = DB::table('weekly_projection_percent_revenues')
             //->Join('stores','stores.id','=','store_week.store_id')
             //->Join('store_week','store_week.id','=','weekly_projection_percent_revenues.store_week_id')
-            
-        ->where('weekly_projection_percent_revenues.store_id', $store_id)
-        ->where('weekly_projection_percent_revenues.year_proyection', $year)
-        ->select('weekly_projection_percent_revenues.*','weekly_projection_percent_revenues.week_number as number')
-        ->get();
-		
+
+            ->where('weekly_projection_percent_revenues.store_id', $store_id)
+            ->where('weekly_projection_percent_revenues.year_reference', $year)
+            ->select('weekly_projection_percent_revenues.*','weekly_projection_percent_revenues.week_number as number')
+            ->get();
+
         foreach($weeklyProjectionPercentRevenues as $w)
-		{
-			/*if($w->number<10)
-				$w->number = '0'.$w->number;*/
-			
-			$dateDims = DateDim::where('week_starting_monday',$w->week_number)->where('year',$w->year_proyection)->get();
-			$w->week_number = $dateDims[0]->month.' '.$dateDims[0]->month_day.' - '.$dateDims[6]->month.' '.$dateDims[6]->month_day;
-			
-		}
+        {
+            /*if($w->number<10)
+                $w->number = '0'.$w->number;*/
+
+            $dateDims = DateDim::where('week_starting_monday',$w->week_number)->where('year',$w->year_reference)->get();
+            $w->week_number = substr($dateDims[0]->month, 0, 3) .' '.$dateDims[0]->month_day.' - '.substr($dateDims[6]->month,0,3).' '.$dateDims[6]->month_day;
+
+        }
 
         return  $weeklyProjectionPercentRevenues;
+
+
+
+//        $weeklyProjectionPercentRevenues = DB::table('weekly_projection_percent_revenues')
+//            //->Join('stores','stores.id','=','store_week.store_id')
+//            //->Join('store_week','store_week.id','=','weekly_projection_percent_revenues.store_week_id')
+//
+//        ->where('weekly_projection_percent_revenues.store_id', $store_id)
+//        ->where('weekly_projection_percent_revenues.year_proyection', $year)
+//        ->select('weekly_projection_percent_revenues.*','weekly_projection_percent_revenues.week_number as number')
+//        ->get();
+//
+//        foreach($weeklyProjectionPercentRevenues as $w)
+//		{
+//			/*if($w->number<10)
+//				$w->number = '0'.$w->number;*/
+//
+//			$dateDims = DateDim::where('week_starting_monday',$w->week_number)->where('year',$w->year_proyection)->get();
+//			$w->week_number = $dateDims[0]->month.' '.$dateDims[0]->month_day.' - '.$dateDims[6]->month.' '.$dateDims[6]->month_day;
+//
+//		}
+//
+//        return  $weeklyProjectionPercentRevenues;
     }
 }
