@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Utils;
 use App\Models\ProjectionPercentage;
 use App\Models\ProjectionPercentageDefault;
 use Illuminate\Http\Request;
@@ -12,6 +13,7 @@ use App\Models\DailyRevenue;
 use League\Flysystem\Exception;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use App\Models\DateDim;
 
 class WeeklyProjectionPercentCostsRevenuesController extends Controller
 {
@@ -63,7 +65,7 @@ class WeeklyProjectionPercentCostsRevenuesController extends Controller
         catch (Exception $e) {
             return response()->json(['proj_weekly_rev' => $responseValue,'error'=>$e], 500);
         }
-        return response()->json(['proj_weekly_rev' => $responseValue/*,'amt_total'=>$amtTotal,'week_number'=>$week_number*/], 200);
+        return response()->json(['proj_weekly_rev' => $responseValue,'week'=>$week,'store'=>$store_id/*'week_number'=>$week_number*/], 200);
     }
 
     private function getProjWeeklyRevenue($store_id,$week_)
@@ -93,19 +95,20 @@ class WeeklyProjectionPercentCostsRevenuesController extends Controller
         }
 
         if($wppRevenues && $wppRevenues->year_reference){
-            $year_reference = $wppRevenues->year_reference;//2018
-            $percent = $wppRevenues->percent;//5
-
-            $wppRevenues_reference = WeeklyProjectionPercentRevenues::getByStoreIdYearWeekNumber($store_id,$year_reference,/*$week_reference->number*/$week_number)->first();
-            if($wppRevenues_reference)//getting amt_total from projections table
-            {
-                $amtTotal = ($wppRevenues_reference) ? $wppRevenues_reference->amt_total : 0.00/*$this->amtTotal($seven_days_week)*/;
-
-//            $seven_days_week = DailyRevenue::sevenDaysWeekByWeekNumberYear($store_id,$week_number,$year_reference)/*sevenDaysWeek($store_id, $week['id'])*/;
-//            $amtTotal = DailyRevenue::amtTotal($seven_days_week);
-
-            $responseValue = $amtTotal - ($percent * $amtTotal / 100);
-            }else $lookInDailyRevenues = true;
+//            $year_reference = $wppRevenues->year_reference;//2018
+//            $percent = $wppRevenues->percent;//5
+//
+//            $wppRevenues_reference = WeeklyProjectionPercentRevenues::getByStoreIdYearWeekNumber($store_id,$year_reference,/*$week_reference->number*/$week_number)->first();
+//            if($wppRevenues_reference)//getting amt_total from projections table
+//            {
+//                $amtTotal = ($wppRevenues_reference) ? $wppRevenues_reference->amt_total : 0.00/*$this->amtTotal($seven_days_week)*/;
+//
+////            $seven_days_week = DailyRevenue::sevenDaysWeekByWeekNumberYear($store_id,$week_number,$year_reference)/*sevenDaysWeek($store_id, $week['id'])*/;
+////            $amtTotal = DailyRevenue::amtTotal($seven_days_week);
+//
+//            $responseValue = $amtTotal - ($percent * $amtTotal / 100);
+            $responseValue = $wppRevenues->projected_value;
+//            }else $lookInDailyRevenues = true;
         }
         else {
             $lookInDailyRevenues = true;
@@ -115,11 +118,11 @@ class WeeklyProjectionPercentCostsRevenuesController extends Controller
             if($seven_days_week && count($seven_days_week) > 0)
             {
                 $amtTotal = DailyRevenue::amtTotal($seven_days_week);
-                $responseValue = $amtTotal  - ($percent * $amtTotal / 100);
+                $responseValue = $amtTotal  + ($percent * $amtTotal / 100);
             }else{
                 $seven_days_week = DailyRevenue::sevenDaysWeekByWeekNumberYear($store_id,$week_number,$week['year']);
                 $amtTotal = DailyRevenue::amtTotal($seven_days_week);
-                $responseValue = $amtTotal  - ($percent * $amtTotal / 100);
+                $responseValue = $amtTotal /* + ($percent * $amtTotal / 100)*/;
             }
 
 //            $seven_days_week = DailyRevenue::sevenDaysWeek($store_id, $week['id']);
@@ -185,7 +188,74 @@ class WeeklyProjectionPercentCostsRevenuesController extends Controller
     public function projections($store_id,$year)
     {
         $projections = WeeklyProjectionPercentRevenues::getWeeklyProjectionPercentRevenues($store_id,$year);
-        return response()->json(['projections' => $projections], 200);
+
+        //getting the rest of information in case of all weeks are not in projections table, get from daily revenues
+        $lastnumber = 90;
+        $projcount = count($projections);
+        if($projcount > 0 && $projcount < 52){
+            $lastnumber = intval($projections[$projcount - 1]->number);
+
+            $projection_percentaje_default = 0;
+            $ppd = ProjectionPercentageDefault::where('store_id',$store_id)->get()->first();
+            if($ppd)
+                $projection_percentaje_default = $ppd->projection_percentage_default;
+
+            for($i = $lastnumber + 1 ; $i < 53 ; $i++){
+                $week_number = Utils::addleftzero($i);
+                $dateDims = DateDim::where('week_starting_monday',$week_number)->where('year',$year)->get();
+                if(count($dateDims) > 0){
+
+
+                    $date_range = substr($dateDims[0]->month, 0, 3) .' '.$dateDims[0]->month_day.' - '.substr($dateDims[6]->month,0,3).' '.$dateDims[6]->month_day;
+
+                    $seven_days_week = DailyRevenue::sevenDaysWeekByWeekNumberYear($store_id,$week_number,$year);
+                    if($seven_days_week && count($seven_days_week) > 0){//if this week exist
+                        $amtTotal = DailyRevenue::amtTotal($seven_days_week);
+
+                        $projections[] = [
+                            'id'=> -1,
+                            'year_proyection'=> $year + 1,
+                            'year_reference'=> $year,
+                            'amt_total'=> $amtTotal,
+                            'projected_value'=> "2943.6330",
+    //                    'created_at'=> "2020-03-23 20:02:03",
+    //                    'updated_at'=> "2020-03-23 20:02:03",
+                            'store_id'=> $store_id,
+                            'week_number'=> $date_range,
+                            'number'=> $week_number,
+                            'from_projections_table'=> false,
+                            'adjust'=> $projection_percentaje_default,
+                        ];
+
+                    }else{
+                        $projections[] = [
+                            'id'=> -1,
+                            'year_proyection'=> $year + 1,
+                            'year_reference'=> $year,
+                            'amt_total'=> 0,
+                            'projected_value'=> 0,
+                            //                    'created_at'=> "2020-03-23 20:02:03",
+                            //                    'updated_at'=> "2020-03-23 20:02:03",
+                            'store_id'=> $store_id,
+                            'week_number'=> $date_range,
+                            'number'=> $week_number,
+                            'from_projections_table'=> false,
+                            'adjust'=> $projection_percentaje_default,
+                        ];
+                    }
+                }
+//                $amtTotal = DailyRevenue::amtTotal($seven_days_week);
+//                $responseValue = $amtTotal /* + ($percent * $amtTotal / 100)*/;
+
+
+            }
+        }
+
+//        $seven_days_week = DailyRevenue::sevenDaysWeekByWeekNumberYear($store_id,$week_number,$week['year']);
+//        $amtTotal = DailyRevenue::amtTotal($seven_days_week);
+//        $responseValue = $amtTotal /* + ($percent * $amtTotal / 100)*/;
+
+        return response()->json(['projections' => $projections, 'lastnumber'=>Utils::addleftzero(3)], 200);
     }
 
     public function update(Request $request,$proyection_id)

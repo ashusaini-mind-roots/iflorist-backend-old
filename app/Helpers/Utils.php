@@ -18,4 +18,7 @@ class Utils
         }
         return false;
     }
+    public static function addleftzero($number){
+        return str_pad((string)$number, 2, "0", STR_PAD_LEFT);
+    }
 }

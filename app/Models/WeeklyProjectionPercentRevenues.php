@@ -92,7 +92,7 @@ class WeeklyProjectionPercentRevenues extends Model
 
             $dateDims = DateDim::where('week_starting_monday',$w->week_number)->where('year',$w->year_reference)->get();
             $w->week_number = substr($dateDims[0]->month, 0, 3) .' '.$dateDims[0]->month_day.' - '.substr($dateDims[6]->month,0,3).' '.$dateDims[6]->month_day;
-
+            $w->from_projections_table = true;
         }
 
         return  $weeklyProjectionPercentRevenues;
