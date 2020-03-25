@@ -243,7 +243,11 @@ class EmployeesController extends Controller
         if($request->system_account=='1')
             $employee->user_id = $user->id;
         $employee->name = $request->name;
-        $employee->phone_number = $request->phone_number;
+        $replace1 = str_replace('(','',$request->phone_number);
+		$replace2 = str_replace(')','',$replace1);
+		$replace3 = str_replace(' ','',$replace2);
+		$replace4 = str_replace('-','',$replace3);
+        $employee->phone_number = $replace4;
         $employee->overtimeelegible = $request->overtimeelegible;
         $employee->hourlypayrate = $request->hourlypayrate;
         $employee->image = $fileUrl;
@@ -369,7 +373,11 @@ class EmployeesController extends Controller
             }
         }
         $employee->name = $request->name;
-        $employee->phone_number = $request->phone_number;
+        $replace1 = str_replace('(','',$request->phone_number);
+		$replace2 = str_replace(')','',$replace1);
+		$replace3 = str_replace(' ','',$replace2);
+		$replace4 = str_replace('-','',$replace3);
+        $employee->phone_number = $replace4;
         $employee->overtimeelegible = $request->overtimeelegible;
         $employee->hourlypayrate = $request->hourlypayrate;
         $employee->image = $fileUrl;
