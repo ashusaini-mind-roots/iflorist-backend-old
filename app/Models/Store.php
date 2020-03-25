@@ -13,7 +13,8 @@ class Store extends Model
         'zip_code',
         'contact_email',
         'address',
-        'city'
+        'city',
+        'state'
     ];
 
     public function weeks()
