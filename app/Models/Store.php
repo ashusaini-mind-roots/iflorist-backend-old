@@ -13,6 +13,8 @@ class Store extends Model
         'zip_code',
         'contact_email',
         'address',
+        'city',
+        'state'
     ];
 
     public function weeks()
@@ -28,5 +30,5 @@ class Store extends Model
         return $store;
     }
 
-    //public function 
+    //public function
 }

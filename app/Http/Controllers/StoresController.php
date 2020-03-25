@@ -242,8 +242,14 @@ class StoresController extends Controller
 		if($request->has('contact_email'))
 			$Store->contact_email = $request->contact_email;
         if($request->has('contact_phone'))
-			$Store->contact_phone = $request->contact_phone;
-        if($request->has('zip_code'))
+		{
+			$replace1 = str_replace('(','',$request->contact_phone);
+			$replace2 = str_replace(')','',$replace1);
+			$replace3 = str_replace(' ','',$replace2);
+			$replace4 = str_replace('-','',$replace3);
+			$Store->contact_phone = $replace4;
+		}
+		if($request->has('zip_code'))
 			$Store->zip_code = $request->zip_code;
 		if($request->has('address'))
 			$Store->address = $request->address;
@@ -348,7 +354,13 @@ class StoresController extends Controller
         if($request->has('contact_email'))
 			$Store->contact_email = $request->contact_email;
         if($request->has('contact_phone'))
-			$Store->contact_phone = $request->contact_phone;
+		{
+			$replace1 = str_replace('(','',$request->contact_phone);
+			$replace2 = str_replace(')','',$replace1);
+			$replace3 = str_replace(' ','',$replace2);
+			$replace4 = str_replace('-','',$replace3);
+			$Store->contact_phone = $replace4;
+		}
         if($request->has('zip_code'))
 			$Store->zip_code = $request->zip_code;
 		if($request->has('address'))
