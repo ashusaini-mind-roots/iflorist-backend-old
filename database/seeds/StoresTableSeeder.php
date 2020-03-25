@@ -15,7 +15,7 @@ class StoresTableSeeder extends Seeder
     public function run()
     {
         // Store::truncate();
-        Store::create(['store_name' => 'Flowermart','company_id' => '1','contact_phone'=>'54789856','contact_email'=>'flowermart@gmail.com','address'=>'address','zip_code'=>'12345','image'=>'default']);
+        Store::create(['store_name' => 'Miami Gardens Florist','company_id' => '1','contact_phone'=>'3059323600','contact_email'=>'info@miamigardensflorist.com','address'=>'18500 W Dixie Hwy','city'=>'Miami','zip_code'=>'33180','image'=>'default']);
 //        Store::create(['store_name' => 'Flowers of Fort Lauderdale','company_id' => '1','contact_phone'=>'54789856','contact_email'=>'flowersLauderdale@gmail.com','address'=>'address','zip_code'=>'12345','image'=>'default']);
 //        Store::create(['store_name' => 'Driftwood','company_id' => '1','contact_phone'=>'54789856','contact_email'=>'Driftwood@gmail.com','address'=>'address','zip_code'=>'12345','image'=>'default']);
 //        Store::create(['store_name' => 'Miami Gardens Florist','company_id' => '1','contact_phone'=>'54789856','contact_email'=>'miami@gmail.com','address'=>'address','zip_code'=>'12345','image'=>'default']);
@@ -30,6 +30,6 @@ class StoresTableSeeder extends Seeder
 //		TargetPercentageDefault::create(['store_id' => '5','target_percentage_default' => '70.5']);
 //        TargetPercentageDefault::create(['store_id' => '6','target_percentage_default' => '90.5']);
 
-	
+
 	}
 }
