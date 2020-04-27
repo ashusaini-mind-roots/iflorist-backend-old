@@ -20,10 +20,12 @@ die();*/
 
 define('LARAVEL_START', microtime(true));
 
-header('Access-Control-Allow-Origin: *');
-header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Authorization");
-header('Access-Control-Allow-Methods: GET, PUT, DELETE, POST, OPTIONS');
-header('Access-Control-Allow-Credentials: true');
+//header('Access-Control-Allow-Origin: *');
+//header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Authorization,Access-Control-Request-Method, Access-Control-Request-Headers,X-Access-Token,XKey,Authorization");
+//header('Access-Control-Allow-Methods: GET, PUT, DELETE, POST, OPTIONS, PATCH');
+//header('Access-Control-Allow-Credentials: true');
+
+
 
 
 /*

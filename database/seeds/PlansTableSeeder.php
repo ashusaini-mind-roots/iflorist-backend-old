@@ -14,7 +14,7 @@ class PlansTableSeeder extends Seeder
     public function run()
     {
         Plan::create(['name' => 'Plan 1','cost' => 199.99,'special' => 0]);
-        Plan::create(['name' => 'Plan 2','cost' => 115.00,'special' => 0]);
-        Plan::create(['name' => 'Plan 3','cost' => 299.85,'special' => 1]);
+//        Plan::create(['name' => 'Plan 2','cost' => 115.00,'special' => 0]);
+//        Plan::create(['name' => 'Plan 3','cost' => 299.85,'special' => 1]);
     }
 }

@@ -10,25 +10,47 @@ class UsersTableSeeder extends Seeder
     {
        // User::truncate();
 
+//        User::create([
+//            'name' => 'Company Admin',
+//            'email' => 'companyadmin@test.com',
+//            'password' => Hash::make('test'),
+//            'activated_account' => '1'
+//        ]);
+//
+//        User::create([
+//            'name' => 'Store Manager',
+//            'email' => 'storemanager@test.com',
+//            'password' => Hash::make('test'),
+//            'activated_account' => '1'
+//        ]);
+
         User::create([
-            'name' => 'Admin',
-            'email' => 'admin@test.com',
+            'name' => 'Root',
+            'email' => 'root@test.com',
             'password' => Hash::make('test'),
-            'role_id' => 1
+            'activated_account' => '1'
         ]);
 
         User::create([
-            'name' => 'Manager',
-            'email' => 'manager@test.com',
+            'name' => 'App',
+            'email' => 'app@test.com',
             'password' => Hash::make('test'),
-            'role_id' => 2
+            'activated_account' => '1'
         ]);
 
-        User::create([
-            'name' => 'User',
-            'email' => 'User@test.com',
-            'password' => Hash::make('test'),
-            'role_id' => 3
-        ]);
+
+//		User::create([
+//            'name' => 'Employee',
+//            'email' => 'employee1@test.com',
+//            'password' => Hash::make('test'),
+//            'activated_account' => '1'
+//        ]);
+//
+//        User::create([
+//            'name' => 'App1',
+//            'email' => 'app1@test.com',
+//            'password' => Hash::make('test'),
+//            'activated_account' => '1'
+//        ]);
     }
 }

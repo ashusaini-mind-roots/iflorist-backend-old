@@ -12,7 +12,7 @@ class DailyRevenuesTableSeeder extends Seeder
      */
     public function run()
     {
-        $sql = <<<EOT
+        /*$sql = <<<EOT
         
 insert into daily_revenues(store_week_id,dates_dim_date,user_id,merchandise,wire,delivery,entered_date,created_at,updated_at)
 SELECT 
@@ -684,6 +684,6 @@ DROP TABLE `daily_revenue_temp`;
     
 EOT;
         DB::unprepared($sql);
-
+*/
     }
 }

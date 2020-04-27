@@ -25,18 +25,38 @@ class DailyRevenue extends Model
             ->get();
         return  $seven_days_week;
     }
-
-    static function lastDayWeek($store_id,$week_id)
+    static function sevenDaysWeekByWeekNumberYear($store_id,$week_number,$year)
     {
         $seven_days_week = DB::table('daily_revenues')
             ->leftjoin('store_week','store_week.id','=','daily_revenues.store_week_id')
+            ->leftjoin('weeks','store_week.week_id','=','weeks.id')
             ->leftjoin('dates_dim','dates_dim.date','=','daily_revenues.dates_dim_date')
-            ->select('daily_revenues.*','dates_dim.*')
+            ->select('daily_revenues.*','dates_dim.day_of_week')
             ->where('store_week.store_id',$store_id)
-            ->where('store_week.week_id',$week_id)
-            ->orderBy('dates_dim_date','desc')
-            ->first();
+            ->where('weeks.number',$week_number)
+            ->where('weeks.year',$year)
+            ->get();
         return  $seven_days_week;
+    }
+
+    static function lastDayWeek($week_number,$week_year)
+    {
+        $day_week = DB::table('dates_dim')
+            ->where('dates_dim.week_starting_monday',$week_number)
+            ->where('dates_dim.year',$week_year)
+            ->where('dates_dim.day_of_week','Sunday')
+            ->first();
+        return $day_week;
+
+//        $seven_days_week = DB::table('daily_revenues')
+//            ->leftjoin('store_week','store_week.id','=','daily_revenues.store_week_id')
+//            ->leftjoin('dates_dim','dates_dim.date','=','daily_revenues.dates_dim_date')
+//            ->select('daily_revenues.*','dates_dim.*')
+//            ->where('store_week.store_id',$store_id)
+//            ->where('store_week.week_id',$week_id)
+//            ->orderBy('dates_dim_date','desc')
+//            ->first();
+//        return  $seven_days_week;
     }
 
     static function totalAmtWeek($store_id,$week_id)
@@ -47,7 +67,7 @@ class DailyRevenue extends Model
             ->select('daily_revenues.*','dates_dim.*',DB::raw('merchandise + wire + delivery as amt_total'))
             ->where('store_week.store_id',$store_id)
             ->where('store_week.week_id',$week_id)
-            ->get()->sum(DB::raw('wire + delivery + merchandise'))
+            ->get()/*->sum(DB::raw('daily_revenues.wire + daily_revenues.delivery + daily_revenues.merchandise'))*/
             ;
         return  $total_amt_week;
     }

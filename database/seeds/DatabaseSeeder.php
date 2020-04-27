@@ -12,7 +12,9 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call(UsersTableSeeder::class);
+        $this->call(CompanyTableSeeder::class);
         $this->call(RolesTableSeeder::class);
+		$this->call(UserRoleTableSeeder::class);
         $this->call(StoresTableSeeder::class);
         $this->call(DatesDimTableSeeder::class);
         $this->call(WeeksTableSeeder::class);
@@ -28,6 +30,10 @@ class DatabaseSeeder extends Seeder
         $this->call(ModulesTableSeeder::class);
         $this->call(PlansTableSeeder::class);
         $this->call(PlanModuleTableSeeder::class);
-        $this->command->info('****Vaya salvaje corrieron los migrations sin bateo :) !!!****');
+        $this->call(StatusTableSeeder::class);
+        $this->call(CompanyPlanTableSeeder::class);
+		$this->call(EmployeeTableSeeder::class);
+        $this->call(AppUserStoreRelationSeeder::class);
+        $this->command->info('****Seeds were properly seeded, these guys are the best !!!****');
     }
 }

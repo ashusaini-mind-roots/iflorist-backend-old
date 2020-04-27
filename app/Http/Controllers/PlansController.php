@@ -7,6 +7,7 @@ use App\Models\Plan;
 use App\Models\User;
 use App\Models\Module;
 use Illuminate\Support\Facades\DB;
+use App\Helpers\Utils;
 
 class PlansController extends Controller
 {
@@ -51,10 +52,46 @@ class PlansController extends Controller
     }
 
 
-    public function modulesbyuser($user_id)
+    public function modulesbyuser(Request $request)
     {
-        $plan = new Plan();
-        return response()->json(['modules' => $plan->modulesbyuser($user_id)], 200);
+        $modules_return = array();
+        $user_roles = $request->auth_roles->toArray();
+
+        if(Utils::hasRole('ROOT',$user_roles)){
+            $modules = Module::allModules();
+        }
+        else
+            $modules = Plan::modulesbyuser(/*$user_id*/auth()->user()->id);
+		foreach ($modules as $module){
+            $found = false;
+            if($module->roles != null){
+                $module_roles = explode (",", $module->roles);
+                foreach ($module_roles as $module_role){
+                    foreach ($user_roles as $user_role){
+                        if(trim($user_role->name) == trim($module_role)){
+                            $found = true;
+                            break;
+                        }
+                    }
+                    if($found) break;
+                }
+            }
+            if($found == true) $modules_return[] = $module;
+        }
+
+
+//        $company = DB::table('company')
+//            ->leftjoin('stores', 'stores.company_id', '=', 'company.id')
+//            ->leftjoin('employees', 'employees.store_id', '=', 'stores.id')
+//            ->leftjoin('users', 'users.id', '=', 'employees.user_id')
+//            ->where('users.id',/*$user_id*/2)
+//            ->select('company.id as id')
+//            ->first();
+
+
+
+
+        return response()->json(['modules' => $modules_return/*,'test'=>$company*/], 200);
     }
 
 }

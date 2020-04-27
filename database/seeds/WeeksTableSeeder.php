@@ -12,7 +12,7 @@ class WeeksTableSeeder extends Seeder
      */
     public function run()
     {
-        $from = 2016;
+        /*$from = 2016;
         $to = 2030;
         $sql = 'INSERT INTO `weeks` (`number`,`year`,created_at,updated_at)values';
         for ($y = $from; $y <= $to; $y++) {
@@ -21,6 +21,6 @@ class WeeksTableSeeder extends Seeder
                 $sql .= $y == $to && $w == 52 ? "('$w',$y,now(),now());" : "('$w',$y,now(),now()),";
             }
         }
-        DB::unprepared($sql);
+        DB::unprepared($sql);*/
     }
 }

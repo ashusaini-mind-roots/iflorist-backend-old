@@ -16,6 +16,10 @@ class CreateModulesTable extends Migration
         Schema::create('modules', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
+            $table->integer('number')->unsigned();
+            $table->string('icono');
+            $table->string('action');
+            $table->string('roles'); //list of roles separated by comma
             $table->timestamps();
         });
     }

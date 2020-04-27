@@ -12,10 +12,12 @@ class ModulesTableSeeder extends Seeder
      */
     public function run()
     {
-        Module::create(['name' => 'Cost of Good']);
-        Module::create(['name' => 'Cost of Labor']);
-        Module::create(['name' => 'Module 3']);
-        Module::create(['name' => 'Module 4']);
-        Module::create(['name' => 'Module 5']);
+        Module::create(['name' => 'Dashboard','number' => 1, 'icono'=> 'dashboard-icon','action'=> '/home', 'roles'=>'ROOT,COMPANYADMIN,STOREMANAGER']);
+        Module::create(['name' => 'Sales','number' => 2, 'icono'=> 'sales-icon','action'=> '/sales', 'roles'=>'ROOT,COMPANYADMIN,STOREMANAGER']);
+        Module::create(['name' => 'Cost of Fresh','number' => 3, 'icono'=> 'costoffresh-icon','action'=> '/cost-of/fresh', 'roles'=>'ROOT,COMPANYADMIN,STOREMANAGER']);
+        Module::create(['name' => 'Cost of Hard Goods','number' => 4, 'icono'=> 'costofgoods-icon','action'=> '/cost-of/goods', 'roles'=>'ROOT,COMPANYADMIN,STOREMANAGER']);
+        Module::create(['name' => 'Sheduler','number' => 5, 'icono'=> 'scheduler-icon','action'=> '/scheduler', 'roles'=>'ROOT,COMPANYADMIN,EMPLOYEE,STOREMANAGER']);
+//        Module::create(['name' => 'Bloomview','number' => 6, 'icono'=> 'bloomview-icon','action'=> '#', 'roles'=>'ROOT,COMPANYADMIN,STOREMANAGER']);
+        Module::create(['name' => 'Projections','number' => 6, 'icono'=> 'projections-icon','action'=> '/weeklyprojections', 'roles'=>'ROOT,COMPANYADMIN,STOREMANAGER']);
     }
 }

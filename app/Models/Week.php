@@ -28,8 +28,8 @@ class Week extends Model
             ->where('year',$year)
             ->first();
     }
-
-    public function lastWeek()
+	
+	static function lastWeek()
     {
         $week = DB::table('weeks')
             ->orderby('id','desc')

@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use App\Models\Company;
+use App\Models\Store;
 use Illuminate\Support\Str;
 
 
@@ -73,7 +74,7 @@ class AuthController extends Controller
 
     public function login()
     {
-        $credentials = request(['email', 'password']);
+		$credentials = request(['email', 'password']);
 
         if(!$token = auth()->attempt($credentials))
         {
@@ -104,8 +105,19 @@ class AuthController extends Controller
 //        if($user->if_active(auth()->user()->id)==true)
 //            return response()->json(['error'=>'Company canceled'],200);
 
-        //return $this->respondWithToken($token);
-        return $this->resposeWithToken($token);
+        return $this->responseWithToken($token);
+    }
+
+    public function loginApp()
+    {
+        $credentials = request(['email', 'password']);
+
+        if(!$token = auth()->attempt($credentials))
+        {
+            return response()->json(['error'=>'Unauthorized'],401);
+        }
+
+        return $this->responseAppWithToken($token);
     }
 
     public function send_mail($email,$text)
@@ -143,7 +155,7 @@ class AuthController extends Controller
             {
                 $new_activation_code = Str::random(16);
                 $texto = config('app.api_url_activation_company').'/'.$user->id.'-'.$new_activation_code;
-                $this->send_mail($user->email, $texto);
+                //$this->send_mail($user->email, $texto);
 //                $companyFind = Company::where('user_id',$user->id);
                 $_user->activation_code = $new_activation_code;
                 $_user->activation_code_expired_date = date('Y-m-d H-i-s');
@@ -159,21 +171,58 @@ class AuthController extends Controller
         //return response()->json($users);
     }
 
-
-
     public function user_rol()
     {
         $rol_id = auth()->user()->role_id;
         return response()->json(['role' => Role::findOrFail($rol_id)],200);
     }
 
-    protected function resposeWithToken($token)
+    protected function responseWithToken($token)
     {
+        $company = Company::where('user_id',auth()->user()->id)->first();
+		if($company==null)
+		{
+			$company = DB::table('company')
+            ->leftjoin('stores','stores.company_id','=','company.id')
+			->leftjoin('employees','employees.store_id','=','stores.id')
+            ->where('employees.user_id',auth()->user()->id)
+            ->select('company.*')
+            ->first();
+		}
+		$roles = DB::table('roles')
+            ->leftjoin('user_role','user_role.role_id','=','roles.id')
+            ->where('user_role.user_id',auth()->user()->id)
+            ->select('roles.name')
+            ->get();
         return response()->json([
+            'userid' => auth()->user()->id,
             'access_token' => $token,
             'token_type' => 'bearer',
             'expires_in' => auth()->factory()->getTTL() * 8760,
             'user' => auth()->user(),
+            'company' => $company,
+			'roles' => $roles
+        ]);
+    }
+
+    protected function responseAppWithToken($token)
+    {
+        $user_id = auth()->user()->id;
+        $company = Company::getCompanyAppUser($user_id);
+        $store = Store::getStoreAppUser($user_id);
+//        $roles = DB::table('roles')
+//            ->leftjoin('user_role','user_role.role_id','=','roles.id')
+//            ->where('user_role.user_id',auth()->user()->id)
+//            ->select('roles.name')
+//            ->get();
+        return response()->json([
+            'userid' => auth()->user()->id,
+            'access_token' => $token,
+            'token_type' => 'bearer',
+            'user' => auth()->user(),
+//            'roles' => $roles,
+            'store' => $store,
+            'company' => $company,
         ]);
     }
 

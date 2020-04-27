@@ -12,6 +12,14 @@ class TaxPercentCalculatorsTableSeeder extends Seeder
      */
     public function run()
     {
-        TaxPercentCalculator::create(['sui' => '0.10','futa' => '1.0','social_security' => '6.20','medicare' => '1.45']);
+//        for ($i = 1 ; $i < 7 ; $i++) {
+//            TaxPercentCalculator::create([
+//                'store_id' => $i,
+//                'sui' => '0.10',
+//                'futa' => '1.0',
+//                'social_security' => '6.20',
+//                'medicare' => '1.45'
+//            ]);
+//        }
     }
 }

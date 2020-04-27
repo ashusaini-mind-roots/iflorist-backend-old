@@ -13,7 +13,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        Commands\WeekDailyRevenues::class,
+        Commands\GenerateWeekData::class,
     ];
 
     /**
@@ -26,6 +26,10 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
+		//$schedule->command('command:generateweekdata')->hourly();
+		//$schedule->command('command:generateweekdata')->weeklyOn(1,'00:05');
+		/*$schedule->command('command:generateweekdata')->everyMinute();*/
+		$schedule->command('command:generateweekdata')->hourlyAt(1);
     }
 
     /**

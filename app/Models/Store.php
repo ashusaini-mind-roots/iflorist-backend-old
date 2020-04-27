@@ -13,6 +13,8 @@ class Store extends Model
         'zip_code',
         'contact_email',
         'address',
+        'city',
+        'state'
     ];
 
     public function weeks()
@@ -20,5 +22,13 @@ class Store extends Model
         return $this->belongsToMany('App\Models\Week');
     }
 
-    //public function 
+        public static function getStoreAppUser($user_id){
+        $store = DB::table('stores')
+            ->Join('app_user','app_user.store_id','=','stores.id')
+            ->where('app_user.user_id', $user_id)
+            ->get()->first();
+        return $store;
+    }
+
+    //public function
 }

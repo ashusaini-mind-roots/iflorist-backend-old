@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Company;
 use App\Models\User;
+use App\Models\UserRole;
 use App\Models\CompanyPlan;
 use \Exception;
 use Illuminate\Support\Str;
@@ -16,6 +17,8 @@ use Illuminate\Support\Facades\Auth;
 
 class CompanyController extends Controller
 {
+	
+	
     public function create(Request $request)
     {
 
@@ -80,14 +83,20 @@ class CompanyController extends Controller
             $user = new User;
             $user->name = $request->name;
             $user->email = $request->email;
-            $user->role_id = '2';
+            //$user->role_id = '2';
             //$user->store_id = '2';
             $user->activated_account = 0;
             $user->activation_code_expired_date = date('Y-m-d H:i:s');
             $user->activation_code = Str::random(16);
             $user->password = bcrypt($request->password);
             $user->save();
-            $text = config('app.api_url_activation_company') . '/' . $user->user_id . '-' . $user->activation_code;
+			
+			$userRole = new UserRole();
+			$userRole->user_id = $user->id;
+			$userRole->role_id = 4;
+			$userRole->save();
+			
+            $text = config('app.api_url_activation_company') . '/' . $user->id . '-' . $user->activation_code;
             $emailResponse = $this->send_activation_mail($user->email, $text);
         } catch (\Exception $e) {
 //            $Merchant->deleteCustomer($CustomerMerchant->id);
@@ -105,7 +114,7 @@ class CompanyController extends Controller
             $company->ba_zip_code = $request->ba_zip_code;
             $company->card_holder_name = $request->card_holder_name;
             $company->canceled_account = 0;
-//            $company->external_customer_id = $CustomerMerchant->id;
+//          $company->external_customer_id = $CustomerMerchant->id;
             $company->external_customer_id = "customermarchantid";
             $company->user_id = $user->id;
             $company->save();
@@ -170,7 +179,7 @@ class CompanyController extends Controller
     public function send_activation_mail($email, $text)
     {
         $_email = new EmailServices();
-        $html = '<h1>Activation Email</h1><p>' . $text . '</p>';
+        $html = '<h1>Activation Email</h1><p>Go to this link to finish your registration process.</p><p><a>' . $text . '</a></p>';
         try {
             return $_email->sendSimpleEmail($email, $html, 'Activation Email ');
         } catch (Exception $e) {

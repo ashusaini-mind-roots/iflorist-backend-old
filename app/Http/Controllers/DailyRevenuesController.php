@@ -47,7 +47,7 @@ class DailyRevenuesController extends Controller
 
         $user_id = $request->user_id;
         $entered_date = date('Y-m-d H:i:s');
-        $search_replace = [',', '$'];
+//        $search_replace = [',', '$'];
         foreach ($daily_revenues as $dr) {
             $daily_revenue = DailyRevenue::findOrFail($dr->id);
             $daily_revenue->amt = Utils::money2Float($dr->amt_formatted);
@@ -112,17 +112,18 @@ class DailyRevenuesController extends Controller
                     $totalWire = $totalWire + $d->wire;
                     $totalDelivery = $totalDelivery + $d->delivery;
                 }
-                $weeks_return[] = [
-                    'number'=>$store_weeks[$i]->number,
-                    'id'=>$store_weeks[$i]->id,
-                    'year'=>$store_weeks[$i]->year,
-                    'days'=>$seven_days,
-                    'week' => $dailyRevenues[0]->month.' '.$dailyRevenues[0]->month_day.' - '.$dailyRevenues[6]->month.' '.$dailyRevenues[6]->month_day,
-                    'totalMerchandise' => $totalMerchandise,
-                    'totalWire' => $totalWire,
-                    'totalDelivery' => $totalDelivery
-                    //'store_week' => $store_weeks
-                ];
+                if(count($dailyRevenues) > 0)
+                    $weeks_return[] = [
+                        'number'=>$store_weeks[$i]->number,
+                        'id'=>$store_weeks[$i]->id,
+                        'year'=>$store_weeks[$i]->year,
+                        'days'=>$seven_days,
+                        'week' => $dailyRevenues[0]->month.' '.$dailyRevenues[0]->month_day.' - '.$dailyRevenues[6]->month.' '.$dailyRevenues[6]->month_day,
+                        'totalMerchandise' => $totalMerchandise,
+                        'totalWire' => $totalWire,
+                        'totalDelivery' => $totalDelivery
+                        //'store_week' => $store_weeks
+                    ];
             }
         }
         return response()->json(['weeks' => $weeks_return], 200);

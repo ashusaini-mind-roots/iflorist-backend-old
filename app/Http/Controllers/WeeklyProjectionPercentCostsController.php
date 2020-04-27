@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Validator;
 class WeeklyProjectionPercentCostsController extends Controller
 {
 
-    public function target($cost_of/*$store_id,$week_id*/)
+    public function target($cost_of,$store_id/*,$week_id*/)
     {
         try
         {
@@ -19,9 +19,9 @@ class WeeklyProjectionPercentCostsController extends Controller
             $targetCof = '';
 
             if($cost_of == 'goods')
-                $targetCog = WeeklyProjectionPercentCosts::all()->first()->target_cog;
+                $targetCog = WeeklyProjectionPercentCosts::where('store_id',$store_id )->first()->target_cog;
             else
-                $targetCof = WeeklyProjectionPercentCosts::all()->first()->target_cof;
+                $targetCof = WeeklyProjectionPercentCosts::where('store_id',$store_id )->first()->target_cof;
 
             return response()->json(['target_cog' => $targetCog, 'target_cof' => $targetCof], 200);
         }

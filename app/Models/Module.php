@@ -19,4 +19,13 @@ class Module extends Model
             ->get();
         return $plans;
     }
+    public static function allModules(){
+        $modules = DB::table('modules')
+            ->leftjoin('plan_module', 'plan_module.module_id', '=', 'modules.id')
+            ->leftjoin('plans', 'plans.id', '=', 'plan_module.plan_id')
+            ->select('modules.*')
+//            ->where('plans.id',$plan_id)
+            ->get();
+        return $modules;
+    }
 }
